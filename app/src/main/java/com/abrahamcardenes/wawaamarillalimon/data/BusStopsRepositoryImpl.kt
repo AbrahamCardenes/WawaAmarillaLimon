@@ -11,7 +11,9 @@ class BusStopsRepositoryImpl(
 ) : BusStopsRepository {
     override suspend fun getStops(): List<BusStop> {
         return try {
-            api.getParadas().toDomain()
+            val originalBusStops = api.getParadas().toMutableList()
+            originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
+            originalBusStops.toDomain()
         } catch (e: Exception) {
             println(e.stackTraceToString())
             emptyList()

@@ -11,12 +11,3 @@ data class BusStopDto(
     @field:Json(name = "numero")
     val stopNumber: String
 )
-
-fun List<BusStopDto>.toDomain(): List<BusStop> {
-    return this.map {
-        BusStop(
-            addressName = it.addressName,
-            stopNumber = it.stopNumber
-        )
-    }
-}

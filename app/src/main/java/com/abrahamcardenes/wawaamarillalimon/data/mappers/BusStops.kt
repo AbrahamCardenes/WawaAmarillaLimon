@@ -7,7 +7,7 @@ fun List<BusStopDto>.toDomain(): List<BusStop> {
     return this.map {
         BusStop(
             addressName = it.addressName,
-            stopNumber = it.stopNumber
+            stopNumber = it.stopNumber.toInt()
         )
     }
 }

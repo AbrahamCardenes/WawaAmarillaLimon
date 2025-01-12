@@ -38,7 +38,7 @@ fun BusStopsScreenPreview() {
         BusStopsScreen(
             uiState = BusStopsUiState().copy(
                 busStops = listOf(
-                    BusStop(addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)", stopNumber = "79")
+                    BusStop(addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)", stopNumber = 79)
                 )
             )
         )

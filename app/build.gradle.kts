@@ -15,7 +15,7 @@ val localProperties = Properties().apply {
     }
 }
 
-val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: "https://default.api.com"
+val apiParadas: String = localProperties.getProperty("API_PARADAS")
 
 
 android {

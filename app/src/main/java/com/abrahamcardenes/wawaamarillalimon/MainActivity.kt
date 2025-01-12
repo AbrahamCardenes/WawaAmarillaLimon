@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             WawaAmarillaLimonTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = BuildConfig.API_PARADAS,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

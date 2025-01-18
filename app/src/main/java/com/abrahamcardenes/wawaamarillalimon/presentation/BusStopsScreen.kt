@@ -1,6 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,7 +47,12 @@ private fun BusStopsScreen(
                     onBusStopClick(it.stopNumber)
                 }, modifier = Modifier
                     .fillMaxWidth()
-                    .animateContentSize()
+                    .animateContentSize(
+                        animationSpec = spring(
+                            stiffness = Spring.StiffnessLow,
+                            dampingRatio = Spring.DampingRatioLowBouncy,
+                        )
+                    )
             )
         }
     }

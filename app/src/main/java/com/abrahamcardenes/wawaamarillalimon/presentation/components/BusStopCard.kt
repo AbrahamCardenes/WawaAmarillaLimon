@@ -1,9 +1,10 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.components
 
-import android.widget.Space
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,13 +42,17 @@ fun BusStopCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Card(
-        onClick = {
-            onClick()
-        },
         shape = MaterialTheme.shapes.small,
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
+                onClick()
+            }
             .animateContentSize(),
         colors = CardDefaults
             .cardColors(),

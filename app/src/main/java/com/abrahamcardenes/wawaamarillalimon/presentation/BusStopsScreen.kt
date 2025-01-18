@@ -1,19 +1,16 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.BusStopCard
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
@@ -46,7 +43,9 @@ private fun BusStopsScreen(
                 busStop = it,
                 onClick = {
                     onBusStopClick(it.stopNumber)
-                }, modifier = Modifier.fillMaxWidth()
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
             )
         }
     }

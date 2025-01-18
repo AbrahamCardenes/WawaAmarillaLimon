@@ -52,8 +52,7 @@ fun BusStopCard(
                 indication = null
             ) {
                 onClick()
-            }
-            .animateContentSize(),
+            },
         colors = CardDefaults
             .cardColors(),
     ) {

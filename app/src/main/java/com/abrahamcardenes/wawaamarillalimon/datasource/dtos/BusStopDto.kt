@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.dtos
 
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

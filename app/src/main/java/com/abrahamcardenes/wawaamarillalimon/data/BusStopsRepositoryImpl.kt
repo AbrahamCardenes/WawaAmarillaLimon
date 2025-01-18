@@ -2,8 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.data
 
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.datasource.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 
 class BusStopsRepositoryImpl(

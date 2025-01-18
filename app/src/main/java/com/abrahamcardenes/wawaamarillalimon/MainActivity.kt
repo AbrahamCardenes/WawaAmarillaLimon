@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.presentation.BusStopsScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,9 +21,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             WawaAmarillaLimonTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    BusStopsScreenRoot(modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding))
+                    BusStopsScreenRoot(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(horizontal = 16.dp)
+                    )
                 }
             }
         }

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetAllBusStops @Inject constructor(private val repository: BusStopsRepository) {
     suspend operator fun invoke(): List<BusStop> {
-        return repository.getStops()
+        return repository.getBusStops()
             .distinctBy { it.stopNumber }
             .sortedBy { it.stopNumber }
     }

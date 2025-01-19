@@ -2,9 +2,11 @@ package com.abrahamcardenes.wawaamarillalimon.domain
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
+import kotlinx.coroutines.flow.Flow
 
 interface BusStopsRepository {
-    suspend fun getStops(): List<BusStop>
-    suspend fun getStopByNumber(stopNumber: String): BusStopDetail
+    suspend fun getBusStops(): List<BusStop>
+    fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?>
 //    suspend fun saveStops(stops: List<BusStop>)
 }

@@ -41,7 +41,7 @@ class BusStopsRepositoryImplTest {
             ServerMocks.enqueue(
                 code = 200, body = originalResponseFromApiParadas, mockWebServer = mockWebServer
             )
-            val response = repository.getStops()
+            val response = repository.getBusStops()
             assertThat(response.size).isEqualTo(3422)
             assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
         }
@@ -67,7 +67,7 @@ class BusStopsRepositoryImplTest {
             ServerMocks.enqueue(
                 code = 200, body = mockedBusStops, mockWebServer = mockWebServer
             )
-            val response = repository.getStops()
+            val response = repository.getBusStops()
             assertThat(response.size).isEqualTo(3)
             assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
             assertThat(response).isEqualTo(expected)

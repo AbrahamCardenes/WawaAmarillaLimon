@@ -44,7 +44,7 @@ class GetAllBusStopsTest {
             )
 
             coEvery {
-                repository.getStops()
+                repository.getBusStops()
             } returns listOf(
                 BusStop(
                     addressName = "TEATRO",

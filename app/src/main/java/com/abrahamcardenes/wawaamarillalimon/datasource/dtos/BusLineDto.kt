@@ -4,9 +4,11 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class BusStopDto(
-    @field:Json(name = "nombre")
-    val addressName: String,
+data class BusLineDto(
     @field:Json(name = "numero")
-    val stopNumber: String
+    val number: String,
+    @field:Json(name = "llegada")
+    val arrivalTimeIn: String,
+    @field:Json(name = "destino")
+    val destination: String
 )

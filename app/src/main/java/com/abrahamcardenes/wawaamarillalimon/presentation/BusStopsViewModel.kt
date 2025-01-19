@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetAllBusStops
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetBusDetailUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.wawaamarillalimon.presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -66,15 +64,14 @@ class BusStopsViewModel @Inject constructor(
                 return@launch
             }
 
-            getBusDetailUseCase(stopNumber).collectLatest { it ->
-                updateBusStopDetail(
-                    originalBusStop = fetchedStop,
-                    availableBusLines = it?.availableBusLines,
-                    isExpanded = isExpanded
-                )
-            }
-
-
+            getBusDetailUseCase(stopNumber)
+                .onEach {
+                    updateBusStopDetail(
+                        originalBusStop = fetchedStop,
+                        availableBusLines = it?.availableBusLines,
+                        isExpanded = isExpanded
+                    )
+                }.collect()
         }
     }
 

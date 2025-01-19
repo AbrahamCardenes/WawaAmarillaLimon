@@ -60,7 +60,6 @@ class BusStopsViewModel @Inject constructor(
             if (!isExpanded) {
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
-                    stopNumber = fetchedStop.stopNumber,
                     availableBusLines = fetchedStop.availableBusLines,
                     isExpanded = isExpanded
                 )
@@ -70,7 +69,6 @@ class BusStopsViewModel @Inject constructor(
             getBusDetailUseCase(stopNumber).collectLatest { it ->
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
-                    stopNumber = fetchedStop.stopNumber,
                     availableBusLines = it?.availableBusLines,
                     isExpanded = isExpanded
                 )
@@ -81,15 +79,13 @@ class BusStopsViewModel @Inject constructor(
     }
 
 
-
     private fun updateBusStopDetail(
         originalBusStop: UiBusStopDetail,
-        stopNumber: BusStopNumber,
         availableBusLines: List<BusLine>?,
         isExpanded: Boolean
     ) {
         val updatedList = _uiState.value.busStops.toMutableList()
-        val index = updatedList.indexOfFirst { stopNumber == it.stopNumber }
+        val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
         updatedList[index] = originalBusStop.copy(
             isExpanded = isExpanded,
             availableBusLines = availableBusLines

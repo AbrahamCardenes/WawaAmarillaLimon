@@ -3,12 +3,11 @@ package com.abrahamcardenes.wawaamarillalimon.data
 import android.util.Log
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.datasource.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow

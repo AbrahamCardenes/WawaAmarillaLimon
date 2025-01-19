@@ -4,4 +4,5 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDeta
 
 data class BusStopsUiState(
     val busStops: List<UiBusStopDetail> = emptyList(),
+    val userInput: String = ""
 )

@@ -38,6 +38,7 @@ android {
 
         release {
             isMinifyEnabled = true
+            manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

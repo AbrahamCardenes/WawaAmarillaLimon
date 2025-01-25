@@ -47,10 +47,13 @@ class BusStopsViewModel @Inject constructor(
     private var detailJob: Job? = null
 
     private fun getBusStops() {
+        _uiState.update {
+            it.copy(isLoading = true)
+        }
         viewModelScope.launch {
             val currentBusStops = getAllBusStopsUseCase()
             _uiState.update {
-                it.copy(busStops = currentBusStops.toUiStopDetail())
+                it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
             }
         }
     }

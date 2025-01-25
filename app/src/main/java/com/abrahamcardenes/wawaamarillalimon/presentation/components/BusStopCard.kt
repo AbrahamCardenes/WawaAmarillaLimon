@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -86,7 +88,7 @@ fun BusStopCard(
                 }
 
                 IconButton(onClick = {}, modifier = Modifier) {
-                    Icon(imageVector = Icons.Outlined.Star, contentDescription = null)
+                    Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = null)
                 }
             }
 

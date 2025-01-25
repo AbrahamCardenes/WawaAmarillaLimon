@@ -1,12 +1,12 @@
-package com.abrahamcardenes.wawaamarillalimon.datasource.dtos
+package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class BusStopDetailDto(
+data class BusStopDto(
     @field:Json(name = "nombre")
     val addressName: String,
-    @field:Json(name = "lineas")
-    val lines: List<BusLineDto>
+    @field:Json(name = "numero")
+    val stopNumber: String
 )

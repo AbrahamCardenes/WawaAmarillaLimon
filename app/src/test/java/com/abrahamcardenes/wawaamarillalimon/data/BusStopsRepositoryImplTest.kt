@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
-import com.abrahamcardenes.wawaamarillalimon.datasource.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStops
 import com.abrahamcardenes.wawaamarillalimon.jsons.originalResponseFromApiParadas

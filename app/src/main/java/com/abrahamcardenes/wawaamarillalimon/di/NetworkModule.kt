@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.di
 
 import com.abrahamcardenes.wawaamarillalimon.BuildConfig
-import com.abrahamcardenes.wawaamarillalimon.datasource.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.datasource.dtos
+package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

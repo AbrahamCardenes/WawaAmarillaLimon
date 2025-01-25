@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon
 
-import com.abrahamcardenes.wawaamarillalimon.datasource.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse

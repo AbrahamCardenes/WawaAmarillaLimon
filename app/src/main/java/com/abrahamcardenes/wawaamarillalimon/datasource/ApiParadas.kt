@@ -6,7 +6,6 @@ import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-
 interface ApiParadas {
     @GET("paradas")
     suspend fun getParadas(): List<BusStopDto>
@@ -14,4 +13,3 @@ interface ApiParadas {
     @GET("parada/{busStopNumber}")
     suspend fun getBusStopDetail(@Path("busStopNumber") busStopNumber: BusStopNumber): BusStopDetailDto
 }
-

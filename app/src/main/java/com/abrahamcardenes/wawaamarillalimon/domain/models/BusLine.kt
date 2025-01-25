@@ -1,9 +1,9 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.models
 
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusNumber
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusLineNumber
 
 data class BusLine(
-    val number: BusNumber,
+    val number: BusLineNumber,
     val arrivalTimeIn: String,
     val destination: String
 )

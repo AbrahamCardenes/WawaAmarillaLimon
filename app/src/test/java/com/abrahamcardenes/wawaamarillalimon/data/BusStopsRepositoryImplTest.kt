@@ -13,7 +13,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 class BusStopsRepositoryImplTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var apiParadas: ApiParadas
@@ -23,9 +22,10 @@ class BusStopsRepositoryImplTest {
     fun setup() {
         mockWebServer = MockWebServer()
         apiParadas = ServerMocks.buildApiParadasService(mockWebServer = mockWebServer)
-        repository = BusStopsRepositoryImpl(
-            api = apiParadas
-        )
+        repository =
+            BusStopsRepositoryImpl(
+                api = apiParadas
+            )
     }
 
     @After
@@ -34,23 +34,22 @@ class BusStopsRepositoryImplTest {
         mockWebServer.shutdown()
     }
 
+    @Test
+    fun `Given the original response it should remove the incorrect Bus Stop with addressName NOMBRE and number PAR`() = runTest {
+        ServerMocks.enqueue(
+            code = 200,
+            body = originalResponseFromApiParadas,
+            mockWebServer = mockWebServer
+        )
+        val response = repository.getBusStops()
+        assertThat(response.size).isEqualTo(3422)
+        assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
+    }
 
     @Test
-    fun `Given the original response it should remove the incorrect Bus Stop with addressName NOMBRE and number PAR`() =
-        runTest {
-            ServerMocks.enqueue(
-                code = 200, body = originalResponseFromApiParadas, mockWebServer = mockWebServer
-            )
-            val response = repository.getBusStops()
-            assertThat(response.size).isEqualTo(3422)
-            assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
-        }
-
-
-    @Test
-    fun `Given the mocked response it should be mapped correctly to a list of BusStops`() =
-        runTest {
-            val expected = listOf(
+    fun `Given the mocked response it should be mapped correctly to a list of BusStops`() = runTest {
+        val expected =
+            listOf(
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1
@@ -64,15 +63,14 @@ class BusStopsRepositoryImplTest {
                     stopNumber = 1
                 )
             )
-            ServerMocks.enqueue(
-                code = 200, body = mockedBusStops, mockWebServer = mockWebServer
-            )
-            val response = repository.getBusStops()
-            assertThat(response.size).isEqualTo(3)
-            assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
-            assertThat(response).isEqualTo(expected)
-        }
-
+        ServerMocks.enqueue(
+            code = 200,
+            body = mockedBusStops,
+            mockWebServer = mockWebServer
+        )
+        val response = repository.getBusStops()
+        assertThat(response.size).isEqualTo(3)
+        assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
+        assertThat(response).isEqualTo(expected)
+    }
 }
-
-

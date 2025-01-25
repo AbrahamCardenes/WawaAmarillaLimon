@@ -26,9 +26,9 @@ class GetAllBusStopsTest {
     }
 
     @Test
-    fun `Given a call to repository it should return bus stops with not repeated stops and sorted by stopNumber`() =
-        runTest {
-            val expected = listOf(
+    fun `Given a call to repository it should return bus stops with not repeated stops and sorted by stopNumber`() = runTest {
+        val expected =
+            listOf(
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1
@@ -40,12 +40,13 @@ class GetAllBusStopsTest {
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79
-                ),
+                )
             )
 
-            coEvery {
-                repository.getBusStops()
-            } returns listOf(
+        coEvery {
+            repository.getBusStops()
+        } returns
+            listOf(
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1
@@ -64,6 +65,6 @@ class GetAllBusStopsTest {
                 )
             )
 
-            assertThat(getAllBusStopsUseCase()).isEqualTo(expected)
-        }
+        assertThat(getAllBusStopsUseCase()).isEqualTo(expected)
+    }
 }

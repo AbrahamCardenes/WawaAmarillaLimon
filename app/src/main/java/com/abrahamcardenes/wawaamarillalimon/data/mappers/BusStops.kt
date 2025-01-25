@@ -7,28 +7,22 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 
-fun List<BusStopDto>.toDomain(): List<BusStop> {
-    return this.map {
-        BusStop(
-            addressName = it.addressName,
-            stopNumber = it.stopNumber.toInt()
-        )
-    }
-}
-
-fun BusStopDetailDto.toDomain(): BusStopDetail {
-    return BusStopDetail(
-        addressName = this.addressName,
-        availableBusLines = this.lines.linesToDomain()
+fun List<BusStopDto>.toDomain(): List<BusStop> = this.map {
+    BusStop(
+        addressName = it.addressName,
+        stopNumber = it.stopNumber.toInt()
     )
 }
 
-fun List<BusLineDto>.linesToDomain(): List<BusLine> {
-    return this.map {
-        BusLine(
-            number = it.number.toInt(),
-            arrivalTimeIn = it.arrivalTimeIn,
-            destination = it.destination
-        )
-    }
+fun BusStopDetailDto.toDomain(): BusStopDetail = BusStopDetail(
+    addressName = this.addressName,
+    availableBusLines = this.lines.linesToDomain()
+)
+
+fun List<BusLineDto>.linesToDomain(): List<BusLine> = this.map {
+    BusLine(
+        number = it.number.toInt(),
+        arrivalTimeIn = it.arrivalTimeIn,
+        destination = it.destination
+    )
 }

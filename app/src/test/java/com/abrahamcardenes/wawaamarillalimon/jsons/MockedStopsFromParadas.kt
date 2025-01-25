@@ -3,7 +3,8 @@ package com.abrahamcardenes.wawaamarillalimon.jsons
 /*
 The original API returns not only a wrong busStop but also repeated bus stops, usually 4 times the same stop.
  */
-val mockedBusStops = """
+val mockedBusStops =
+    """
     [
       {
         "nombre": "NOMBRE",
@@ -22,4 +23,4 @@ val mockedBusStops = """
         "numero": "1"
       }
     ]
-""".trimIndent()
+    """.trimIndent()

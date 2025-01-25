@@ -9,15 +9,15 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-val localProperties = Properties().apply {
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        load(localPropertiesFile.inputStream())
+val localProperties =
+    Properties().apply {
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            load(localPropertiesFile.inputStream())
+        }
     }
-}
 
 val apiParadas: String = localProperties.getProperty("API_PARADAS")
-
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
@@ -36,7 +36,6 @@ android {
 
     buildTypes {
 
-
         release {
             isMinifyEnabled = true
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
@@ -44,7 +43,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
 
         debug {
@@ -53,7 +51,6 @@ android {
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
             applicationIdSuffix = ".dev"
         }
-
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -91,7 +88,7 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.moshi)
-    implementation (libs.converter.moshi)
+    implementation(libs.converter.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
     implementation(platform(libs.okhttp.bom))
@@ -116,13 +113,5 @@ dependencies {
     androidTestImplementation(libs.androidx.room.testing)
 
     // LOTTIE
-    implementation (libs.lottie)
-
-
-
-
-
-
-
-
+    implementation(libs.lottie)
 }

@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.jsons
 
-val originalResponseFromApiParadas = """
+val originalResponseFromApiParadas =
+    """
     [
       {
         "nombre": "NOMBRE",
@@ -13707,4 +13708,4 @@ val originalResponseFromApiParadas = """
         "numero": "542"
       }
     ]
-""".trimIndent()
+    """.trimIndent()

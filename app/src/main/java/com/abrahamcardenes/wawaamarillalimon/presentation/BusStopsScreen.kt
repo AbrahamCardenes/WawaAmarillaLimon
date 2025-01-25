@@ -44,10 +44,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.launch
 
 @Composable
-fun BusStopsScreenRoot(
-    busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(),
-    modifier: Modifier = Modifier
-) {
+fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(), modifier: Modifier = Modifier) {
     val uiState = busStopsViewModel.uiState.collectAsStateWithLifecycle()
     BusStopsScreen(
         uiState = uiState.value,
@@ -57,7 +54,6 @@ fun BusStopsScreenRoot(
         onUserInput = busStopsViewModel::updateUserInput,
         modifier = modifier.padding(16.dp)
     )
-
 }
 
 @Composable
@@ -89,7 +85,8 @@ private fun BusStopsScreen(
     ) { isLoading ->
         if (isLoading) {
             Box(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxSize()
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
@@ -102,7 +99,8 @@ private fun BusStopsScreen(
             }
         } else {
             Column(
-                modifier = modifier
+                modifier =
+                modifier
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -113,7 +111,8 @@ private fun BusStopsScreen(
                 ) {
                     itemsIndexed(
                         items = uiState.busStops,
-                        key = { _, busStopDetail -> busStopDetail.stopNumber }) { index, busStopDetail ->
+                        key = { _, busStopDetail -> busStopDetail.stopNumber }
+                    ) { index, busStopDetail ->
                         BusStopCard(
                             busStop = busStopDetail,
                             onClick = {
@@ -121,12 +120,15 @@ private fun BusStopsScreen(
                                 coroutineScope.launch {
                                     lazyListState.animateScrollToItem(index)
                                 }
-                            }, modifier = Modifier
+                            },
+                            modifier =
+                            Modifier
                                 .fillMaxWidth()
                                 .animateContentSize(
-                                    animationSpec = spring(
+                                    animationSpec =
+                                    spring(
                                         stiffness = Spring.StiffnessLow,
-                                        dampingRatio = Spring.DampingRatioLowBouncy,
+                                        dampingRatio = Spring.DampingRatioLowBouncy
                                     )
                                 )
                         )
@@ -151,32 +153,32 @@ private fun BusStopsScreen(
                     trailingIcon = {
                         Icon(imageVector = Icons.Outlined.Search, contentDescription = null)
                     },
-                    modifier = Modifier
+                    modifier =
+                    Modifier
                         .fillMaxWidth()
                         .windowInsetsPadding(WindowInsets.ime)
                 )
             }
         }
     }
-
-
 }
-
 
 @Composable()
 @PreviewLightDark
 fun BusStopsScreenPreview() {
     WawaAmarillaLimonTheme {
         BusStopsScreen(
-            uiState = BusStopsUiState().copy(
-                busStops = listOf(
+            uiState =
+            BusStopsUiState().copy(
+                busStops =
+                listOf(
                     UiBusStopDetail(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
                         availableBusLines = emptyList(),
                         isExpanded = false
                     )
-                ),
+                )
             ),
             onUserInput = {},
             onBusStopClick = {}

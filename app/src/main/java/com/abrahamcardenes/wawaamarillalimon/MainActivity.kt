@@ -31,19 +31,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.abrahamcardenes.wawaamarillalimon.presentation.BusStopsScreenRoot
+import com.abrahamcardenes.wawaamarillalimon.presentation.components.lottie.LottieComponent
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusLines
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.BusStopsScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.components.lottie.LottieComponent
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
             WawaAmarillaLimonTheme {
                 Scaffold(
                     bottomBar = {
-                        NavigationBar() {
+                        NavigationBar {
                             items.forEachIndexed { index, item ->
                                 NavigationBarItem(
                                     icon = {
@@ -86,13 +85,15 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = BusStops,
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .padding(innerPadding)
                             .consumeWindowInsets(innerPadding)
                     ) {
                         composable<BusStops> {
                             BusStopsScreenRoot(
-                                modifier = Modifier
+                                modifier =
+                                Modifier
                                     .fillMaxSize()
                             )
                         }
@@ -111,7 +112,8 @@ class MainActivity : ComponentActivity() {
                                 useCompositionFrameRate = true
                             )
                             Box(
-                                modifier = Modifier
+                                modifier =
+                                Modifier
                                     .fillMaxSize()
                                     .padding(16.dp),
                                 contentAlignment = Alignment.Center
@@ -126,17 +128,16 @@ class MainActivity : ComponentActivity() {
 
                         composable<BusLines> {
                             Box(
-                                modifier = Modifier
+                                modifier =
+                                Modifier
                                     .fillMaxSize()
                                     .padding(16.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text("Listado de guaguas")
                             }
-                            
                         }
                     }
-
                 }
             }
         }

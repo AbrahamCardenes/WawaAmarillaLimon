@@ -1,7 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,9 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -39,15 +36,12 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDeta
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun BusStopCard(
-    busStop: UiBusStopDetail,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val interactionSource = remember { MutableInteractionSource() }
     Card(
         shape = MaterialTheme.shapes.small,
-        modifier = modifier
+        modifier =
+        modifier
             .clip(MaterialTheme.shapes.small)
             .clickable(
                 interactionSource = interactionSource,
@@ -55,35 +49,39 @@ fun BusStopCard(
             ) {
                 onClick()
             },
-        colors = CardDefaults
-            .cardColors(),
+        colors =
+        CardDefaults
+            .cardColors()
     ) {
         Column(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .wrapContentSize()
                 .padding(12.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(
+                horizontalArrangement =
+                Arrangement.spacedBy(
                     space = 6.dp
                 ),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(
+                    horizontalArrangement =
+                    Arrangement.spacedBy(
                         space = 6.dp,
                         alignment = Alignment.Start
                     ),
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
+                    modifier =
+                    Modifier
                         .weight(1f)
                 ) {
                     Text(
                         text = busStop.stopNumber.toString() + " - ",
-                        style = MaterialTheme.typography.titleLarge,
-
-                        )
+                        style = MaterialTheme.typography.titleLarge
+                    )
                     Text(text = busStop.addressName, style = MaterialTheme.typography.bodyLarge)
                 }
 
@@ -98,14 +96,14 @@ fun BusStopCard(
                         Spacer(modifier = Modifier.height(12.dp))
                         busStop.availableBusLines?.forEach {
                             Box(
-                                modifier = Modifier
+                                modifier =
+                                Modifier
                                     .fillMaxWidth()
                                     .border(
                                         width = 1.5.dp,
                                         color = MaterialTheme.colorScheme.outline,
                                         shape = MaterialTheme.shapes.medium
-                                    )
-                                    .padding(12.dp)
+                                    ).padding(12.dp)
                             ) {
                                 Column {
                                     Text("Línea: ${it.number}")
@@ -118,10 +116,7 @@ fun BusStopCard(
                     }
                 }
             }
-
         }
-
-
     }
 }
 
@@ -133,7 +128,9 @@ private fun PreviewBusStopCard() {
             mutableStateOf(
                 UiBusStopDetail(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79, availableBusLines = listOf(
+                    stopNumber = 79,
+                    availableBusLines =
+                    listOf(
                         BusLine(number = 13, arrivalTimeIn = "10min", destination = "TRES PALMAS"),
                         BusLine(number = 13, arrivalTimeIn = "20min", destination = "TRES PALMAS"),
                         BusLine(
@@ -141,7 +138,8 @@ private fun PreviewBusStopCard() {
                             arrivalTimeIn = "20min",
                             destination = "HOYA DE LA PLATA"
                         )
-                    ), isExpanded = true
+                    ),
+                    isExpanded = true
                 )
             )
         }

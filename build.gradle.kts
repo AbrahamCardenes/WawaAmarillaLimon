@@ -6,4 +6,3 @@ plugins {
     alias(libs.plugins.hilt.android.plugin) apply false
     alias(libs.plugins.ksp) version "2.1.0-1.0.29"
 }
-

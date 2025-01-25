@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BusStopsRepository {
     suspend fun getBusStops(): List<BusStop>
+
     fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?>
 //    suspend fun saveStops(stops: List<BusStop>)
 }

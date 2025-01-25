@@ -1,4 +1,3 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.valueObjects
 
-typealias BusStopNumber = Int
-
+typealias BusLineNumber = Int

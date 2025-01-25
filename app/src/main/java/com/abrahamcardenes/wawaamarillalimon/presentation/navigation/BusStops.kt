@@ -13,12 +13,9 @@ object FavoritesBusStops : NavRoutes
 @Serializable
 object BusLines : NavRoutes
 
-
-fun NavRoutes.getLabels(): String {
-    return when (this) {
-        is BusStops -> "Paradas"
-        is FavoritesBusStops -> "Favoritas"
-        is BusLines -> "Lineas"
-        else -> ""
-    }
+fun NavRoutes.getLabels(): String = when (this) {
+    is BusStops -> "Paradas"
+    is FavoritesBusStops -> "Favoritas"
+    is BusLines -> "Lineas"
+    else -> ""
 }

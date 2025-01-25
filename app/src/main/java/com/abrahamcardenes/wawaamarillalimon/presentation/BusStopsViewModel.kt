@@ -10,6 +10,7 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.removeNonSpacingMarks
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,28 +22,33 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
-class BusStopsViewModel @Inject constructor(
+class BusStopsViewModel
+@Inject
+constructor(
     private val getAllBusStopsUseCase: GetAllBusStops,
     private val getBusDetailUseCase: GetBusDetailUseCase
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(BusStopsUiState())
-    val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
-        getBusStops()
-    }.map { currentState ->
-        val userInput = _uiState.value.userInput
-        val filteredBusStops = currentState.busStops.filter { busStop ->
-            busStop.stopNumber.toString()
-                .contains(other = userInput, ignoreCase = true) ||
-                    busStop.addressName.removeNonSpacingMarks().contains(
-                        other = userInput, ignoreCase = true
-                    )
-        }
-        currentState.copy(busStops = filteredBusStops)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
+    val uiState: StateFlow<BusStopsUiState> =
+        _uiState
+            .onStart {
+                getBusStops()
+            }.map { currentState ->
+                val userInput = _uiState.value.userInput
+                val filteredBusStops =
+                    currentState.busStops.filter { busStop ->
+                        busStop.stopNumber
+                            .toString()
+                            .contains(other = userInput, ignoreCase = true) ||
+                            busStop.addressName.removeNonSpacingMarks().contains(
+                                other = userInput,
+                                ignoreCase = true
+                            )
+                    }
+                currentState.copy(busStops = filteredBusStops)
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
 
     private var detailJob: Job? = null
 
@@ -60,36 +66,36 @@ class BusStopsViewModel @Inject constructor(
 
     fun getBusStopDetail(stopNumber: Int) {
         detailJob?.cancel()
-        detailJob = viewModelScope.launch {
+        detailJob =
+            viewModelScope.launch {
+                closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)
 
-            closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)
+                val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
+                if (fetchedStop == null) {
+                    // TODO: Handle error
+                    return@launch
+                }
 
-            val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
-            if (fetchedStop == null) {
-                // TODO: Handle error
-                return@launch
-            }
+                val isExpanded = !fetchedStop.isExpanded
 
-            val isExpanded = !fetchedStop.isExpanded
-
-            if (!isExpanded) {
-                updateBusStopDetail(
-                    originalBusStop = fetchedStop,
-                    availableBusLines = fetchedStop.availableBusLines,
-                    isExpanded = isExpanded
-                )
-                return@launch
-            }
-
-            getBusDetailUseCase(stopNumber)
-                .onEach {
+                if (!isExpanded) {
                     updateBusStopDetail(
                         originalBusStop = fetchedStop,
-                        availableBusLines = it?.availableBusLines,
+                        availableBusLines = fetchedStop.availableBusLines,
                         isExpanded = isExpanded
                     )
-                }.collect()
-        }
+                    return@launch
+                }
+
+                getBusDetailUseCase(stopNumber)
+                    .onEach {
+                        updateBusStopDetail(
+                            originalBusStop = fetchedStop,
+                            availableBusLines = it?.availableBusLines,
+                            isExpanded = isExpanded
+                        )
+                    }.collect()
+            }
     }
 
     private fun closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber: BusStopNumber) {
@@ -104,18 +110,14 @@ class BusStopsViewModel @Inject constructor(
         }
     }
 
-
-    private fun updateBusStopDetail(
-        originalBusStop: UiBusStopDetail,
-        availableBusLines: List<BusLine>?,
-        isExpanded: Boolean
-    ) {
+    private fun updateBusStopDetail(originalBusStop: UiBusStopDetail, availableBusLines: List<BusLine>?, isExpanded: Boolean) {
         val updatedList = _uiState.value.busStops.toMutableList()
         val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
-        updatedList[index] = originalBusStop.copy(
-            isExpanded = isExpanded,
-            availableBusLines = availableBusLines
-        )
+        updatedList[index] =
+            originalBusStop.copy(
+                isExpanded = isExpanded,
+                availableBusLines = availableBusLines
+            )
 
         _uiState.update { state ->
             state.copy(busStops = updatedList)
@@ -128,5 +130,3 @@ class BusStopsViewModel @Inject constructor(
         }
     }
 }
-
-

@@ -6,10 +6,7 @@ import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 
 @Composable
-fun LottieComponent(
-    lottieComposition: LottieComposition?,
-    preLoaderProgress: Float,
-    modifier: Modifier = Modifier) {
+fun LottieComponent(lottieComposition: LottieComposition?, preLoaderProgress: Float, modifier: Modifier = Modifier) {
     LottieAnimation(
         composition = lottieComposition,
         progress = { preLoaderProgress },

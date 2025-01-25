@@ -12,10 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object BusStopsRepositoryModule {
-
     @Provides
     @Singleton
-    fun provideBusStopsRepository(api: ApiParadas): BusStopsRepository {
-        return BusStopsRepositoryImpl(api)
-    }
+    fun provideBusStopsRepository(api: ApiParadas): BusStopsRepository = BusStopsRepositoryImpl(api)
 }

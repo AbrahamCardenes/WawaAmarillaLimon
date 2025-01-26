@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.di
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.roomDb.WawaDatabase
 import dagger.Module
@@ -15,11 +15,15 @@ import javax.inject.Singleton
 object WawaDatabaseProvider {
     @Provides
     @Singleton
-    fun provideWawaDatabase(@ApplicationContext application: Application): WawaDatabase = Room.databaseBuilder(
-        context = application,
+    fun provideWawaDatabase(@ApplicationContext context: Context): WawaDatabase = Room.databaseBuilder(
+        context = context,
         klass = WawaDatabase::class.java,
         name = "wawa_database"
     )
         .fallbackToDestructiveMigration()
         .build()
+
+    @Provides
+    @Singleton
+    fun provideBusStopDao(db: WawaDatabase) = db.busStopDao()
 }

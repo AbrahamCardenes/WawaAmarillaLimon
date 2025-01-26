@@ -15,6 +15,6 @@ interface BusStopDao {
     @Delete
     suspend fun deleteBusStop(busStopEntity: BusStopEntity)
 
-    @Query("SELECT * FROM busstopentity")
+    @Query("SELECT * FROM bus_stop_table")
     fun getBusStops(): Flow<List<BusStopEntity>>
 }

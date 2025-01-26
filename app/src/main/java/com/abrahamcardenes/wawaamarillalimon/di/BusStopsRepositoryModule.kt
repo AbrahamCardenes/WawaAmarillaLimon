@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.di
 
 import com.abrahamcardenes.wawaamarillalimon.data.BusStopsRepositoryImpl
+import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import dagger.Module
@@ -14,5 +15,8 @@ import javax.inject.Singleton
 object BusStopsRepositoryModule {
     @Provides
     @Singleton
-    fun provideBusStopsRepository(api: ApiParadas): BusStopsRepository = BusStopsRepositoryImpl(api)
+    fun provideBusStopsRepository(api: ApiParadas, dao: BusStopDao): BusStopsRepository = BusStopsRepositoryImpl(
+        api = api,
+        busStopDao = dao
+    )
 }

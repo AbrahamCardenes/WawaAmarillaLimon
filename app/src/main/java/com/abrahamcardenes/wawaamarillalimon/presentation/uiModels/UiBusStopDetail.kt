@@ -7,5 +7,6 @@ data class UiBusStopDetail(
     val stopNumber: BusStopNumber,
     val addressName: String,
     val availableBusLines: List<BusLine>? = null,
-    val isExpanded: Boolean
+    val isExpanded: Boolean,
+    val isFavorite: Boolean
 )

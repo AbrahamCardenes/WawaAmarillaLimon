@@ -2,6 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.data
 
 import android.util.Log
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
+import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
+import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
@@ -14,9 +16,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class BusStopsRepositoryImpl(
-    private val api: ApiParadas
+    private val api: ApiParadas,
+    private val busStopDao: BusStopDao
 ) : BusStopsRepository {
     override suspend fun getBusStops(): List<BusStop> = try {
         val originalBusStops = api.getParadas().toMutableList()
@@ -42,5 +46,19 @@ class BusStopsRepositoryImpl(
             println(e.stackTraceToString())
             emit(null)
         }
+    }
+
+    override suspend fun saveStops(busStop: BusStop) {
+        busStopDao.insertBusStop(busStop.toEntity())
+    }
+
+    override fun getAllLocalBusStops(): Flow<List<BusStop>> = busStopDao.getBusStops().map { list ->
+        list.map { entity ->
+            entity.toDomain()
+        }
+    }
+
+    override suspend fun deleteBusStop(busStop: BusStop) {
+        busStopDao.deleteBusStop(busStop.toEntity())
     }
 }

@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.data.mappers
 
+import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusLineDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusStopDetailDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusStopDto
@@ -10,7 +11,8 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 fun List<BusStopDto>.toDomain(): List<BusStop> = this.map {
     BusStop(
         addressName = it.addressName,
-        stopNumber = it.stopNumber.toInt()
+        stopNumber = it.stopNumber.toInt(),
+        isSavedInDb = false
     )
 }
 
@@ -26,3 +28,14 @@ fun List<BusLineDto>.linesToDomain(): List<BusLine> = this.map {
         destination = it.destination
     )
 }
+
+fun BusStop.toEntity(): BusStopEntity = BusStopEntity(
+    addressName = this.addressName,
+    stopNumber = this.stopNumber
+)
+
+fun BusStopEntity.toDomain(): BusStop = BusStop(
+    addressName = this.addressName,
+    stopNumber = this.stopNumber,
+    isSavedInDb = true
+)

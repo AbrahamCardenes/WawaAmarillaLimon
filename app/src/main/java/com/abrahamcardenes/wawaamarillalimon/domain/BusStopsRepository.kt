@@ -9,5 +9,8 @@ interface BusStopsRepository {
     suspend fun getBusStops(): List<BusStop>
 
     fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?>
-//    suspend fun saveStops(stops: List<BusStop>)
+    suspend fun saveStops(busStop: BusStop)
+
+    fun getAllLocalBusStops(): Flow<List<BusStop>>
+    suspend fun deleteBusStop(busStop: BusStop)
 }

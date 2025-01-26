@@ -52,6 +52,7 @@ fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusS
             busStopsViewModel.getBusStopDetail(stopNumber)
         },
         onUserInput = busStopsViewModel::updateUserInput,
+        onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
         modifier = modifier.padding(16.dp)
     )
 }
@@ -61,6 +62,7 @@ private fun BusStopsScreen(
     uiState: BusStopsUiState,
     onBusStopClick: (Int) -> Unit,
     onUserInput: (String) -> Unit,
+    onSaveBusStop: (UiBusStopDetail) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val lazyListState = rememberLazyListState()
@@ -115,6 +117,7 @@ private fun BusStopsScreen(
                     ) { index, busStopDetail ->
                         BusStopCard(
                             busStop = busStopDetail,
+                            onIconClick = onSaveBusStop,
                             onClick = {
                                 onBusStopClick(busStopDetail.stopNumber)
                                 coroutineScope.launch {
@@ -176,12 +179,14 @@ fun BusStopsScreenPreview() {
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
                         availableBusLines = emptyList(),
-                        isExpanded = false
+                        isExpanded = false,
+                        isFavorite = false
                     )
                 )
             ),
+            onBusStopClick = {},
             onUserInput = {},
-            onBusStopClick = {}
+            onSaveBusStop = {}
         )
     }
 }

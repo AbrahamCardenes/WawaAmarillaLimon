@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 
-@Entity
+@Entity(tableName = "bus_stop_table")
 data class BusStopEntity(
     @PrimaryKey(autoGenerate = false)
     val stopNumber: BusStopNumber,

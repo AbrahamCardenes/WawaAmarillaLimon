@@ -32,8 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
@@ -108,27 +111,41 @@ fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiB
 
             AnimatedContent(busStop.isExpanded, label = "") {
                 if (it) {
-                    Column {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        busStop.availableBusLines?.forEach {
-                            Box(
-                                modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .border(
-                                        width = 1.5.dp,
-                                        color = MaterialTheme.colorScheme.outline,
-                                        shape = MaterialTheme.shapes.medium
-                                    )
-                                    .padding(12.dp)
-                            ) {
-                                Column {
-                                    Text("Línea: ${it.number}")
-                                    Text("Destino: ${it.destination}")
-                                    Text("Llegada: ${it.arrivalTimeIn}")
+                    AnimatedContent(
+                        busStop.availableBusLines.isNullOrEmpty(),
+                        label = "available-buses-content"
+                    ) { isEmpty ->
+                        if (isEmpty) {
+                            Text(
+                                text = stringResource(R.string.no_buses_available),
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        } else {
+                            Column {
+                                Spacer(modifier = Modifier.height(12.dp))
+                                busStop.availableBusLines?.forEach {
+                                    Box(
+                                        modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .border(
+                                                width = 1.5.dp,
+                                                color = MaterialTheme.colorScheme.outline,
+                                                shape = MaterialTheme.shapes.medium
+                                            )
+                                            .padding(12.dp)
+                                    ) {
+                                        Column {
+                                            Text("Línea: ${it.number}")
+                                            Text("Destino: ${it.destination}")
+                                            Text("Llegada: ${it.arrivalTimeIn}")
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
                 }

@@ -15,12 +15,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun BusTextField(value: String, onUserInput: (String) -> Unit, modifier: Modifier = Modifier) {
+fun BusTextField(label: String, value: String, onUserInput: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
         value = value,
         onValueChange = { input ->
@@ -29,7 +31,7 @@ fun BusTextField(value: String, onUserInput: (String) -> Unit, modifier: Modifie
         singleLine = true,
         label = {
             Text(
-                "Introduzca el número o dirección de la parada",
+                text = label,
                 style = MaterialTheme.typography.labelLarge
             )
         },
@@ -52,10 +54,12 @@ fun BusTextFieldPreview() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             BusTextField(
+                label = stringResource(R.string.search_bus_stop_textfield),
                 value = "",
                 onUserInput = {}
             )
             BusTextField(
+                label = stringResource(R.string.search_bus_stop_textfield),
                 value = "PASEO DE SAN JOSÉ",
                 onUserInput = {}
             )

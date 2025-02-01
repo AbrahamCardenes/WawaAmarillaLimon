@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WawaAmarillaLimon</string>
+    <string name="search_bus_stop_textfield">Nº/Nombre de la parada</string>
+    <string name="no_buses_available">No hay guaguas disponibles en estos momentos.</string>
 </resources>

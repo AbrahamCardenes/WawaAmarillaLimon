@@ -6,9 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.lottie.LottieComponent
+import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -38,5 +40,13 @@ fun LoadingCircles(modifier: Modifier = Modifier) {
             preLoaderProgress = preloaderProgress,
             modifier = Modifier.size(200.dp)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoadingCirclesPreview() {
+    WawaAmarillaLimonTheme {
+        LoadingCircles()
     }
 }

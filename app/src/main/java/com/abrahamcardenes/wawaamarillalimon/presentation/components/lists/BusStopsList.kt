@@ -2,7 +2,9 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.components.lists
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +15,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.BusStopCard
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.textfields.BusTextField
@@ -29,7 +32,6 @@ fun BusStopsList(
     modifier: Modifier = Modifier
 ) {
     val lazyListState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -49,20 +51,11 @@ fun BusStopsList(
                     onIconClick = onSaveBusStop,
                     onClick = {
                         onBusStopClick(busStopDetail.stopNumber)
-                        coroutineScope.launch {
-                            lazyListState.animateScrollToItem(index)
-                        }
+
                     },
                     modifier =
                     Modifier
                         .fillMaxWidth()
-                        .animateContentSize(
-                            animationSpec =
-                            spring(
-                                stiffness = Spring.StiffnessLow,
-                                dampingRatio = Spring.DampingRatioLowBouncy
-                            )
-                        )
                         .animateItem()
                 )
             }

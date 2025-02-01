@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -19,9 +20,9 @@ fun FavoritesStopsRoot(
     favoritesStopsViewModel: FavoritesStopsViewModel = hiltViewModel<FavoritesStopsViewModel>(),
     modifier: Modifier = Modifier
 ) {
-    val uiState = favoritesStopsViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by favoritesStopsViewModel.uiState.collectAsStateWithLifecycle()
     FavoritesStopsScreen(
-        uiState = uiState.value,
+        uiState = uiState,
         onBusStopClick = { stopNumber ->
             favoritesStopsViewModel.getBusStopDetail(stopNumber)
         },
@@ -70,7 +71,7 @@ fun BusStopsScreenPreview() {
             uiState =
             FavoritesUiState().copy(
                 busStops =
-                listOf(
+                mutableListOf(
                     UiBusStopDetail(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,

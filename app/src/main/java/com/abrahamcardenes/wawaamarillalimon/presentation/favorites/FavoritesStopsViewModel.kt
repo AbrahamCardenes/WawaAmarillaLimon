@@ -109,19 +109,18 @@ class FavoritesStopsViewModel
     }
 
     private fun updateBusStopDetail(originalBusStop: UiBusStopDetail, availableBusLines: List<BusLine>?, isExpanded: Boolean) {
-        val updatedList = _uiState.value.busStops.toMutableList()
-        val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
-        updatedList[index] = originalBusStop.copy(
-            isExpanded = isExpanded,
-            availableBusLines = availableBusLines
-        )
-        val currentExpandedBusStop = if (isExpanded) {
-            updatedList[index]
-        } else {
-            null
-        }
         _uiState.update { state ->
-            state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
+            val updatedBusStops = state.busStops.map { busStop ->
+                if (busStop.stopNumber == originalBusStop.stopNumber) {
+                    busStop.copy(isExpanded = isExpanded, availableBusLines = availableBusLines)
+                } else {
+                    busStop
+                }
+            }
+            state.copy(
+                busStops = updatedBusStops,
+                currentExpandedBusStop = if (isExpanded) updatedBusStops.find { it.stopNumber == originalBusStop.stopNumber } else null
+            )
         }
     }
 

@@ -17,9 +17,9 @@ import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(), modifier: Modifier = Modifier) {
-    val uiState = busStopsViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by busStopsViewModel.uiState.collectAsStateWithLifecycle()
     BusStopsScreen(
-        uiState = uiState.value,
+        uiState = uiState,
         onBusStopClick = { stopNumber ->
             busStopsViewModel.getBusStopDetail(stopNumber)
         },

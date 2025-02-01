@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -31,17 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.abrahamcardenes.wawaamarillalimon.presentation.BusStopsScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.components.lottie.LottieComponent
+import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot
+import com.abrahamcardenes.wawaamarillalimon.presentation.home.BusStopsScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusLines
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -99,31 +94,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<FavoritesBusStops> {
-                            val preloaderLottieComposition by rememberLottieComposition(
-                                LottieCompositionSpec.RawRes(
-                                    R.raw.lottie_loader
-                                )
-                            )
-
-                            val preloaderProgress by animateLottieCompositionAsState(
-                                preloaderLottieComposition,
-                                iterations = LottieConstants.IterateForever,
-                                isPlaying = true,
-                                useCompositionFrameRate = true
-                            )
-                            Box(
+                            FavoritesStopsRoot(
                                 modifier =
                                 Modifier
                                     .fillMaxSize()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LottieComponent(
-                                    lottieComposition = preloaderLottieComposition,
-                                    preLoaderProgress = preloaderProgress,
-                                    modifier = Modifier.size(200.dp)
-                                )
-                            }
+                            )
                         }
 
                         composable<BusLines> {

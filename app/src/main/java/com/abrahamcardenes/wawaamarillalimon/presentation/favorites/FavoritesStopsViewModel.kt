@@ -1,10 +1,10 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation
+package com.abrahamcardenes.wawaamarillalimon.presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetAllBusStops
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetBusDetailUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetFavoriteBusStopsUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.wawaamarillalimon.presentation.mappers.toUiStopDetail
@@ -27,15 +27,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class BusStopsViewModel
+class FavoritesStopsViewModel
 @Inject constructor(
-    private val getAllBusStopsUseCase: GetAllBusStops,
+    private val getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase,
     private val getBusDetailUseCase: GetBusDetailUseCase,
     private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(BusStopsUiState())
-    val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
-        getBusStops()
+    private val _uiState = MutableStateFlow(FavoritesUiState())
+    val uiState: StateFlow<FavoritesUiState> = _uiState.onStart {
+        getOfflineBusStops()
     }.map { currentState ->
         val userInput = _uiState.value.userInput
         val filteredBusStops = currentState.busStops.filter { busStop ->
@@ -46,16 +46,16 @@ class BusStopsViewModel
                 )
         }
         currentState.copy(busStops = filteredBusStops)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), FavoritesUiState())
 
     private var detailJob: Job? = null
 
-    private fun getBusStops() {
+    private fun getOfflineBusStops() {
         _uiState.update {
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            getAllBusStopsUseCase()
+            getFavoriteBusStopsUseCase()
                 .collect { currentBusStops ->
                     _uiState.update {
                         it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)

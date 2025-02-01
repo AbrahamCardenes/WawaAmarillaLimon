@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation
+package com.abrahamcardenes.wawaamarillalimon.presentation.home
 
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 

@@ -8,7 +8,7 @@ import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetailWithLessTime
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStops
@@ -188,19 +188,8 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a busStop number it should return the detail of that stop`() = runTest {
-        val firstExpectedEmission = BusStopDetail(
-            addressName = "Pº SAN JOSÉ (IGLESIA SAN JOSÉ)",
-            availableBusLines = listOf(
-                BusLine(
-                    number = 13,
-                    destination = "TRESPALMAS",
-                    arrivalTimeIn = "15min"
-                )
-            )
-        )
-
-        val secondExpedtedEmission = BusStopDetail(
-            addressName = "Pº SAN JOSÉ (IGLESIA SAN JOSÉ)",
+        val firstExpectedEmission = fakeBusStopDetail()
+        val secondExpectedEmission = fakeBusStopDetail().copy(
             availableBusLines = listOf(
                 BusLine(
                     number = 13,
@@ -223,7 +212,7 @@ class BusStopsRepositoryImplTest {
 
         repository.getBusDetailStop(stopNumber = 79).test {
             assertThat(awaitItem()).isEqualTo(firstExpectedEmission)
-            assertThat(awaitItem()).isEqualTo(secondExpedtedEmission)
+            assertThat(awaitItem()).isEqualTo(secondExpectedEmission)
         }
     }
 

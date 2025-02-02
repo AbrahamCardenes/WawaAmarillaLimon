@@ -24,3 +24,32 @@ val mockedBusStops =
       }
     ]
     """.trimIndent()
+
+
+val mockedBusStopDetail =
+    """
+        {
+          "nombre": "Pº SAN JOSÉ (IGLESIA SAN JOSÉ)",
+          "lineas": [
+            {
+              "numero": "13",
+              "destino": "TRESPALMAS",
+              "llegada": "15min"
+            }
+          ]
+        }
+    """.trimIndent()
+
+val mockedBusStopDetailWithLessTime =
+    """
+        {
+          "nombre": "Pº SAN JOSÉ (IGLESIA SAN JOSÉ)",
+          "lineas": [
+            {
+              "numero": "13",
+              "destino": "TRESPALMAS",
+              "llegada": "2min"
+            }
+          ]
+        }
+    """.trimIndent()

@@ -31,39 +31,46 @@ class GetAllBusStopsTest {
             listOf(
                 BusStop(
                     addressName = "TEATRO",
-                    stopNumber = 1
+                    stopNumber = 1,
+                    isSavedInDb = false
                 ),
                 BusStop(
                     addressName = "C / FRANCISCO GOURIÉ, 103",
-                    stopNumber = 2
+                    stopNumber = 2,
+                    isSavedInDb = false
                 ),
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79
+                    stopNumber = 79,
+                    isSavedInDb = false
                 )
             )
 
         coEvery {
             repository.getBusStops()
         } returns
-            listOf(
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1
-                ),
-                BusStop(
-                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79
-                ),
-                BusStop(
-                    addressName = "C / FRANCISCO GOURIÉ, 103",
-                    stopNumber = 2
-                ),
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    )
                 )
-            )
 
         assertThat(getAllBusStopsUseCase()).isEqualTo(expected)
     }

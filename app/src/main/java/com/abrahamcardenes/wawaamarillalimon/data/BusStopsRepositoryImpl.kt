@@ -27,8 +27,7 @@ class BusStopsRepositoryImpl(
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
         originalBusStops.toDomain()
     } catch (e: Exception) {
-        println(e.stackTraceToString())
-        emptyList()
+        throw e
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?> = flow {
@@ -36,7 +35,6 @@ class BusStopsRepositoryImpl(
             while (true) {
                 coroutineContext.ensureActive()
                 val busStopDetail = api.getBusStopDetail(stopNumber)
-                Log.d("BusStopsRepositoryImpl", "getBusDetailStop: $busStopDetail")
                 emit(busStopDetail.toDomain())
                 delay(20.seconds)
             }

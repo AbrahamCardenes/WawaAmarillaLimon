@@ -58,7 +58,6 @@ class MainActivity : ComponentActivity() {
                     destination.route == it::class.java.name
                 }
                 if (indexSelected != -1) {
-                    println(indexSelected)
                     selectedItem = indexSelected
                 }
             })

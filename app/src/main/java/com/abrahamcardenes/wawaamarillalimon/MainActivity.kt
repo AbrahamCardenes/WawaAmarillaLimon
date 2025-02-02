@@ -53,6 +53,16 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
+            navController.addOnDestinationChangedListener(listener = { controller, destination, arguments ->
+                val indexSelected = items.indexOfFirst {
+                    destination.route == it::class.java.name
+                }
+                if (indexSelected != -1) {
+                    println(indexSelected)
+                    selectedItem = indexSelected
+                }
+            })
+
             WawaAmarillaLimonTheme {
                 Scaffold(
                     bottomBar = {
@@ -78,6 +88,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     NavHost(
+
                         navController = navController,
                         startDestination = BusStops,
                         modifier =

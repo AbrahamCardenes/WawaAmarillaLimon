@@ -1,6 +1,5 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
-import android.util.Log
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao

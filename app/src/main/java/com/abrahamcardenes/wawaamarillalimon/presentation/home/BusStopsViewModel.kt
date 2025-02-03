@@ -76,13 +76,11 @@ class BusStopsViewModel
                 return@launch
             }
 
-            val isExpanded = !fetchedStop.isExpanded
-
-            if (!isExpanded) {
+            if (fetchedStop.isExpanded) {
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
                     availableBusLines = fetchedStop.availableBusLines,
-                    isExpanded = isExpanded
+                    isExpanded = false
                 )
                 return@launch
             }
@@ -91,7 +89,7 @@ class BusStopsViewModel
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
                     availableBusLines = it?.availableBusLines,
-                    isExpanded = isExpanded
+                    isExpanded = true
                 )
             }.collect()
         }

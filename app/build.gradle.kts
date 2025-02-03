@@ -88,7 +88,6 @@ dependencies {
     testImplementation(libs.bundles.testing)
     testImplementation(libs.turbine)
 
-
     implementation(libs.retrofit)
     implementation(libs.moshi)
     implementation(libs.converter.moshi)

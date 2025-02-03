@@ -11,7 +11,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 class SaveOrDeleteBusStopUseCaseTest {
     private val busStopsRepository = mockk<BusStopsRepository>()
     private lateinit var saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
@@ -25,7 +24,6 @@ class SaveOrDeleteBusStopUseCaseTest {
     fun tearDown() {
         clearAllMocks()
     }
-
 
     @Test
     fun `When invoking saveOrDeleteBusStopUseCase and the object is mark as not in DB it should save the bus stop`() = runTest {
@@ -41,7 +39,6 @@ class SaveOrDeleteBusStopUseCaseTest {
 
         saveOrDeleteBusStopUseCase(busStop)
 
-
         coVerify(exactly = 1) {
             busStopsRepository.saveStops(busStop)
         }
@@ -50,7 +47,6 @@ class SaveOrDeleteBusStopUseCaseTest {
             busStopsRepository.deleteBusStop(busStop)
         }
     }
-
 
     @Test
     fun `When invoking saveOrDeleteBusStopUseCase and the object is mark as is in DB it should delete the bus stop`() = runTest {
@@ -72,8 +68,5 @@ class SaveOrDeleteBusStopUseCaseTest {
         coVerify(exactly = 0) {
             busStopsRepository.saveStops(busStop)
         }
-
     }
-
-
 }

@@ -25,7 +25,6 @@ val mockedBusStops =
     ]
     """.trimIndent()
 
-
 val mockedBusStopDetail =
     """
         {

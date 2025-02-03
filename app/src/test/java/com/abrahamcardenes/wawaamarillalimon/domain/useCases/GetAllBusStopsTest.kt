@@ -55,28 +55,28 @@ class GetAllBusStopsTest {
         coEvery {
             repository.getBusStops()
         } returns
-                listOf(
-                    BusStop(
-                        addressName = "TEATRO",
-                        stopNumber = 1,
-                        isSavedInDb = false
-                    ),
-                    BusStop(
-                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                        stopNumber = 79,
-                        isSavedInDb = false
-                    ),
-                    BusStop(
-                        addressName = "C / FRANCISCO GOURIÉ, 103",
-                        stopNumber = 2,
-                        isSavedInDb = false
-                    ),
-                    BusStop(
-                        addressName = "TEATRO",
-                        stopNumber = 1,
-                        isSavedInDb = false
-                    )
+            listOf(
+                BusStop(
+                    addressName = "TEATRO",
+                    stopNumber = 1,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                    stopNumber = 79,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "C / FRANCISCO GOURIÉ, 103",
+                    stopNumber = 2,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "TEATRO",
+                    stopNumber = 1,
+                    isSavedInDb = false
                 )
+            )
 
         assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
     }
@@ -112,7 +112,7 @@ class GetAllBusStopsTest {
                             addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                             stopNumber = 79,
                             isSavedInDb = true
-                        ),
+                        )
                     )
                 )
             }
@@ -120,28 +120,28 @@ class GetAllBusStopsTest {
             coEvery {
                 repository.getBusStops()
             } returns
-                    listOf(
-                        BusStop(
-                            addressName = "TEATRO",
-                            stopNumber = 1,
-                            isSavedInDb = false
-                        ),
-                        BusStop(
-                            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                            stopNumber = 79,
-                            isSavedInDb = false
-                        ),
-                        BusStop(
-                            addressName = "C / FRANCISCO GOURIÉ, 103",
-                            stopNumber = 2,
-                            isSavedInDb = false
-                        ),
-                        BusStop(
-                            addressName = "TEATRO",
-                            stopNumber = 1,
-                            isSavedInDb = false
-                        )
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
                     )
+                )
 
             assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
         }

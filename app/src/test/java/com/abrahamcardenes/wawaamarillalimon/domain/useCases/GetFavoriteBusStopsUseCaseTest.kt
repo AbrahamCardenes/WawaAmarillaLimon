@@ -46,5 +46,4 @@ class GetFavoriteBusStopsUseCaseTest {
         }
         assertThat(getFavoriteBusStopsUseCase().single()).isEqualTo(expected)
     }
-
 }

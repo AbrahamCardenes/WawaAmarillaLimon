@@ -14,12 +14,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 class GetBusDetailUseCaseTest {
 
     private val repository = mockk<BusStopsRepository>(relaxed = true)
     private lateinit var getBusDetailUseCase: GetBusDetailUseCase
-
 
     @Before
     fun setup() {

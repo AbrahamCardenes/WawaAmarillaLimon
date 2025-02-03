@@ -94,7 +94,6 @@ class BusStopsRepositoryImplTest {
         assertThat(response).isEqualTo(expected)
     }
 
-
     @Test
     fun `Given a BusStop model it should be saved in the database`() = runTest {
         val busStop =
@@ -138,7 +137,6 @@ class BusStopsRepositoryImplTest {
             )
         }
     }
-
 
     @Test
     fun `When calling offline bustops it should get all the bus stops from the database`() = runTest {
@@ -185,7 +183,6 @@ class BusStopsRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `Given a busStop number it should return the detail of that stop`() = runTest {
         val firstExpectedEmission = fakeBusStopDetail()
@@ -215,7 +212,6 @@ class BusStopsRepositoryImplTest {
             assertThat(awaitItem()).isEqualTo(secondExpectedEmission)
         }
     }
-
 
     @Test
     fun `Given a 500 error it should return null`() = runTest {

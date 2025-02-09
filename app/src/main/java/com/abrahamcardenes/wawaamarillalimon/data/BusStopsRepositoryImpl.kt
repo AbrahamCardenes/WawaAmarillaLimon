@@ -12,28 +12,26 @@ import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
+import kotlin.coroutines.coroutineContext
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlin.coroutines.coroutineContext
-import kotlin.time.Duration.Companion.seconds
 
 class BusStopsRepositoryImpl(
     private val api: ApiParadas,
     private val busStopDao: BusStopDao
 ) : BusStopsRepository {
 
-    override suspend fun getBusStops(): Result<List<BusStop>, DataError> {
-        return safecall {
-            api.getParadas2()
-        }.map { it ->
-            val originalBusStops = it.toMutableList()
-            originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
-            originalBusStops.toDomain()
-        }
+    override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
+        api.getParadas2()
+    }.map { it ->
+        val originalBusStops = it.toMutableList()
+        originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
+        originalBusStops.toDomain()
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?> = flow {

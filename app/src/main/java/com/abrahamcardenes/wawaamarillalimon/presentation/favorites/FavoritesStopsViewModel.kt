@@ -76,13 +76,11 @@ class FavoritesStopsViewModel
                 return@launch
             }
 
-            val isExpanded = !fetchedStop.isExpanded
-
-            if (!isExpanded) {
+            if (fetchedStop.isExpanded) {
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
                     availableBusLines = fetchedStop.availableBusLines,
-                    isExpanded = isExpanded
+                    isExpanded = false
                 )
                 return@launch
             }
@@ -91,7 +89,7 @@ class FavoritesStopsViewModel
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
                     availableBusLines = it?.availableBusLines,
-                    isExpanded = isExpanded
+                    isExpanded = true
                 )
             }.collect()
         }
@@ -109,18 +107,19 @@ class FavoritesStopsViewModel
     }
 
     private fun updateBusStopDetail(originalBusStop: UiBusStopDetail, availableBusLines: List<BusLine>?, isExpanded: Boolean) {
+        val updatedList = _uiState.value.busStops.toMutableList()
+        val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
+        updatedList[index] = originalBusStop.copy(
+            isExpanded = isExpanded,
+            availableBusLines = availableBusLines
+        )
+        val currentExpandedBusStop = if (isExpanded) {
+            updatedList[index]
+        } else {
+            null
+        }
         _uiState.update { state ->
-            val updatedBusStops = state.busStops.map { busStop ->
-                if (busStop.stopNumber == originalBusStop.stopNumber) {
-                    busStop.copy(isExpanded = isExpanded, availableBusLines = availableBusLines)
-                } else {
-                    busStop
-                }
-            }
-            state.copy(
-                busStops = updatedBusStops,
-                currentExpandedBusStop = if (isExpanded) updatedBusStops.find { it.stopNumber == originalBusStop.stopNumber } else null
-            )
+            state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
         }
     }
 
@@ -130,7 +129,7 @@ class FavoritesStopsViewModel
         }
     }
 
-    fun saveOrDeleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
+    fun deleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             saveOrDeleteBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
         }

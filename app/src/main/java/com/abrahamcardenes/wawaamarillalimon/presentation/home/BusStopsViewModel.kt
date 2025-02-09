@@ -2,6 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.wawaamarillalimon.core.onError
+import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetAllBusStops
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetBusDetailUseCase
@@ -56,11 +58,17 @@ class BusStopsViewModel
         }
         viewModelScope.launch {
             getAllBusStopsUseCase()
-                .collect { currentBusStops ->
-                    _uiState.update {
-                        it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
-                            .keepCurrentExpandedStatus()
-                    }
+                .collect { response ->
+                    response
+                        .onSuccess { currentBusStops ->
+                            _uiState.update {
+                                it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
+                                    .keepCurrentExpandedStatus()
+                            }
+                        }
+                        .onError { it ->
+                            println(it.toString())
+                        }
                 }
         }
     }

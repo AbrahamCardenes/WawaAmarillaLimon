@@ -220,7 +220,6 @@ class BusStopsViewModelTest {
             savedBusStop.value = fakeListBusStopDetail().toUiStopDetail().first().toBusStop()
             busStopsViewModel.saveOrDeleteBusStop(fakeListBusStopDetail().toUiStopDetail().first())
             val secondEmission = awaitItem()
-            println(secondEmission.busStops)
             assertThat(secondEmission.busStops).isEqualTo(
                 emissionExpected
             )

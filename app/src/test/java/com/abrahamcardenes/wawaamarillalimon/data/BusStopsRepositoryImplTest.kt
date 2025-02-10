@@ -2,6 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.data
 
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
+import com.abrahamcardenes.wawaamarillalimon.core.map
+import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
@@ -59,8 +61,10 @@ class BusStopsRepositoryImplTest {
             mockWebServer = mockWebServer
         )
         val response = repository.getBusStops()
-        assertThat(response.size).isEqualTo(3422)
-        assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
+        response.onSuccess {
+            assertThat(it.size).isEqualTo(3422)
+            assertThat(it.find { it.addressName == "NOMBRE" }).isNull()
+        }
     }
 
     @Test
@@ -89,9 +93,11 @@ class BusStopsRepositoryImplTest {
             mockWebServer = mockWebServer
         )
         val response = repository.getBusStops()
-        assertThat(response.size).isEqualTo(3)
-        assertThat(response.find { it.addressName == "NOMBRE" }).isNull()
-        assertThat(response).isEqualTo(expected)
+        response.onSuccess {
+            assertThat(it.size).isEqualTo(3)
+            assertThat(it).isEqualTo(expected)
+            assertThat(it.find { it.addressName == "NOMBRE" }).isNull()
+        }
     }
 
     @Test

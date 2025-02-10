@@ -1,6 +1,9 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.home
 
 import app.cash.turbine.test
+import com.abrahamcardenes.wawaamarillalimon.core.DataError
+import com.abrahamcardenes.wawaamarillalimon.core.Result
+import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
@@ -67,13 +70,13 @@ class BusStopsViewModelTest {
             getAllBusStopsUseCase()
         } returns flow {
             emit(
-                fakeListBusStopDetail()
+                Result.Success(fakeListBusStopDetail())
             )
         }
     }
 
-    private fun firstGetDetailSetup(): Pair<List<BusStop>, List<UiBusStopDetail>> {
-        val emissionExpected = fakeListBusStopDetail()
+    private fun firstGetDetailSetup(): Pair<Result<List<BusStop>, DataError>, List<UiBusStopDetail>> {
+        val emissionExpected = Result.Success(fakeListBusStopDetail())
         val expectedList = fakeListUiBusStopDetail(isExpanded = true, lines = fakeBusStopDetail().availableBusLines)
         return Pair(emissionExpected, expectedList)
     }
@@ -93,7 +96,7 @@ class BusStopsViewModelTest {
             getAllBusStopsUseCase()
         } returns flow {
             emit(
-                listToEmit
+                Result.Success(fakeListBusStopDetail())
             )
         }
 
@@ -115,7 +118,7 @@ class BusStopsViewModelTest {
                 availableBusLines = null
             )
         )
-        val listToEmit = fakeListBusStopDetail()
+        val listToEmit = Result.Success(fakeListBusStopDetail())
         coEvery {
             getAllBusStopsUseCase()
         } returns flow {
@@ -138,7 +141,7 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user inputs some text and there is not matches it should return empty`() = runTest {
-        val listToEmit = fakeListBusStopDetail()
+        val listToEmit = Result.Success(fakeListBusStopDetail())
         coEvery {
             getAllBusStopsUseCase()
         } returns flow {
@@ -167,7 +170,7 @@ class BusStopsViewModelTest {
                 availableBusLines = null
             )
         )
-        val listToEmit = fakeListBusStopDetail()
+        val listToEmit = Result.Success(fakeListBusStopDetail())
         coEvery {
             getAllBusStopsUseCase()
         } returns flow {
@@ -191,21 +194,29 @@ class BusStopsViewModelTest {
     @Test
     fun `When user save into favorites it should be saved`() = runTest {
         val savedBusStop = MutableStateFlow<BusStop?>(null)
-        val emissionExpected = fakeListBusStopDetail(setFirstToFavorite = true).toUiStopDetail()
+        val emissionExpected = Result.Success(fakeListBusStopDetail(setFirstToFavorite = true)).onSuccess {
+            it
+        }
 
         coEvery {
-            saveOrDeleteBusStopUseCase(fakeListBusStopDetail().toUiStopDetail().first().toBusStop())
+            saveOrDeleteBusStopUseCase(
+                BusStop(
+                    addressName = "TEATRO",
+                    stopNumber = 1,
+                    isSavedInDb = false
+                )
+            )
         } returns Unit
 
         coEvery {
             getAllBusStopsUseCase()
         } returns flow {
             emit(
-                fakeListBusStopDetail()
+                Result.Success(fakeListBusStopDetail())
             )
             savedBusStop.collect {
                 if (savedBusStop.value != null) {
-                    emit(fakeListBusStopDetail(setFirstToFavorite = true))
+                    emit(Result.Success(fakeListBusStopDetail(setFirstToFavorite = true)))
                 }
             }
         }
@@ -213,16 +224,17 @@ class BusStopsViewModelTest {
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
             assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                fakeListBusStopDetail().toUiStopDetail()
-            )
-
+            emissionExpected.onSuccess {
+                assertThat(itemProduced.busStops).isEqualTo(fakeListBusStopDetail().toUiStopDetail())
+            }
             savedBusStop.value = fakeListBusStopDetail().toUiStopDetail().first().toBusStop()
             busStopsViewModel.saveOrDeleteBusStop(fakeListBusStopDetail().toUiStopDetail().first())
             val secondEmission = awaitItem()
-            assertThat(secondEmission.busStops).isEqualTo(
-                emissionExpected
-            )
+            emissionExpected.onSuccess {
+                assertThat(secondEmission.busStops).isEqualTo(
+                    it.toUiStopDetail()
+                )
+            }
         }
 
         coVerify(exactly = 1) {
@@ -239,9 +251,9 @@ class BusStopsViewModelTest {
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
             assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
+            emissionExpected.onSuccess {
+                assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
+            }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79)
 
@@ -277,9 +289,10 @@ class BusStopsViewModelTest {
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
             assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
+
+            emissionExpected.onSuccess {
+                assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
+            }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79)
 
@@ -355,9 +368,11 @@ class BusStopsViewModelTest {
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
             assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
+            emissionExpected.onSuccess {
+                assertThat(itemProduced.busStops).isEqualTo(
+                    it.toUiStopDetail()
+                )
+            }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79)
 
@@ -403,21 +418,25 @@ class BusStopsViewModelTest {
             getAllBusStopsUseCase()
         } returns flow {
             emit(
-                fakeListBusStopDetail()
+                Result.Success(
+                    fakeListBusStopDetail()
+                )
             )
             busStopsViewModel.getBusStopDetail(stopNumber = 79)
             emitAgain.collect {
                 if (it) {
                     emit(
-                        fakeListBusStopDetail().toMutableList().apply {
-                            add(
-                                BusStop(
-                                    addressName = "LEÓN Y CASTILLO, 13",
-                                    stopNumber = 6,
-                                    isSavedInDb = false
+                        Result.Success(
+                            fakeListBusStopDetail().toMutableList().apply {
+                                add(
+                                    BusStop(
+                                        addressName = "LEÓN Y CASTILLO, 13",
+                                        stopNumber = 6,
+                                        isSavedInDb = false
+                                    )
                                 )
-                            )
-                        }
+                            }
+                        )
                     )
                 }
             }

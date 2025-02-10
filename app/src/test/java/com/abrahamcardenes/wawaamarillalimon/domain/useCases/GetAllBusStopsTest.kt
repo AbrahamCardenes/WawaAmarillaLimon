@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases
 
+import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.google.common.truth.Truth.assertThat
@@ -30,61 +31,7 @@ class GetAllBusStopsTest {
     @Test
     fun `When there is not local bus stops it should return bus stops with not repeated stops and sorted by stopNumber`() = runTest {
         val expected =
-            listOf(
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "C / FRANCISCO GOURIÉ, 103",
-                    stopNumber = 2,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79,
-                    isSavedInDb = false
-                )
-            )
-
-        coEvery {
-            repository.getAllLocalBusStops()
-        } returns flow { emit(emptyList()) }
-
-        coEvery {
-            repository.getBusStops()
-        } returns
-            listOf(
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "C / FRANCISCO GOURIÉ, 103",
-                    stopNumber = 2,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1,
-                    isSavedInDb = false
-                )
-            )
-
-        assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
-    }
-
-    @Test
-    fun `When there is local bus stops it should return bus stops with not repeated stops and sorted by stopNumber and saved to true`() =
-        runTest {
-            val expected =
+            Result.Success(
                 listOf(
                     BusStop(
                         addressName = "TEATRO",
@@ -99,7 +46,67 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = true
+                        isSavedInDb = false
+                    )
+                )
+            )
+
+        coEvery {
+            repository.getAllLocalBusStops()
+        } returns flow { emit(emptyList()) }
+
+        coEvery {
+            repository.getBusStops()
+        } returns
+            Result.Success(
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    )
+                )
+            )
+
+        assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `When there is local bus stops it should return bus stops with not repeated stops and sorted by stopNumber and saved to true`() =
+        runTest {
+            val expected =
+                Result.Success(
+                    listOf(
+                        BusStop(
+                            addressName = "TEATRO",
+                            stopNumber = 1,
+                            isSavedInDb = false
+                        ),
+                        BusStop(
+                            addressName = "C / FRANCISCO GOURIÉ, 103",
+                            stopNumber = 2,
+                            isSavedInDb = false
+                        ),
+                        BusStop(
+                            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                            stopNumber = 79,
+                            isSavedInDb = true
+                        )
                     )
                 )
 
@@ -119,7 +126,7 @@ class GetAllBusStopsTest {
 
             coEvery {
                 repository.getBusStops()
-            } returns
+            } returns Result.Success(
                 listOf(
                     BusStop(
                         addressName = "TEATRO",
@@ -142,6 +149,7 @@ class GetAllBusStopsTest {
                         isSavedInDb = false
                     )
                 )
+            )
 
             assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
         }

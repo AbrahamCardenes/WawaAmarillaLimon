@@ -1,5 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases
 
+import com.abrahamcardenes.wawaamarillalimon.core.DataError
+import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
@@ -11,5 +13,6 @@ class GetBusDetailUseCase
 constructor(
     private val repository: BusStopsRepository
 ) {
-    operator fun invoke(stopNumber: BusStopNumber): Flow<BusStopDetail?> = repository.getBusDetailStop(stopNumber = stopNumber)
+    operator fun invoke(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> =
+        repository.getBusDetailStop(stopNumber = stopNumber)
 }

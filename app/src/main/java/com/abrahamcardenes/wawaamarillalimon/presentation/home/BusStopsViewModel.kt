@@ -92,13 +92,18 @@ class BusStopsViewModel
                 )
                 return@launch
             }
-
-            getBusDetailUseCase(stopNumber).onEach {
-                updateBusStopDetail(
-                    originalBusStop = fetchedStop,
-                    availableBusLines = it?.availableBusLines,
-                    isExpanded = true
-                )
+            getBusDetailUseCase(stopNumber).onEach { response ->
+                response.onSuccess {
+                    updateBusStopDetail(
+                        originalBusStop = fetchedStop,
+                        availableBusLines = it?.availableBusLines,
+                        isExpanded = true
+                    )
+                }
+                    .onError {
+                        // TODO:
+                        println("Log error")
+                    }
             }.collect()
         }
     }

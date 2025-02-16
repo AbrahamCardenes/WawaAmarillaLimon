@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.favorites
 
 import app.cash.turbine.test
+import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
@@ -63,7 +64,7 @@ class FavoritesStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                fakeBusStopDetail()
+                Result.Success(fakeBusStopDetail())
             )
         }
         coEvery {
@@ -309,9 +310,11 @@ class FavoritesStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 1)
         } returns flow {
             emit(
-                BusStopDetail(
-                    addressName = "TEATRO",
-                    availableBusLines = emptyList()
+                Result.Success(
+                    BusStopDetail(
+                        addressName = "TEATRO",
+                        availableBusLines = emptyList()
+                    )
                 )
             )
         }
@@ -418,7 +421,7 @@ class FavoritesStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                fakeBusStopDetail()
+                Result.Success(fakeBusStopDetail())
             )
         }
         coEvery {

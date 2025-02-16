@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases
 
+import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.google.common.truth.Truth.assertThat
@@ -31,7 +32,7 @@ class GetBusDetailUseCaseTest {
 
     @Test
     fun `When passing a stop number it should return the detail`() = runTest {
-        val expected = fakeBusStopDetail()
+        val expected = Result.Success(fakeBusStopDetail())
         coEvery {
             repository.getBusDetailStop(stopNumber = 79)
         } returns flow { emit(expected) }

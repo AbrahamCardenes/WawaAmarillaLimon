@@ -9,11 +9,8 @@ import retrofit2.http.Path
 
 interface ApiParadas {
     @GET("paradas")
-    suspend fun getParadas(): List<BusStopDto>
-
-    @GET("paradas")
-    suspend fun getParadas2(): Response<List<BusStopDto>>
+    suspend fun getParadas(): Response<List<BusStopDto>>
 
     @GET("parada/{busStopNumber}")
-    suspend fun getBusStopDetail(@Path("busStopNumber") busStopNumber: BusStopNumber): BusStopDetailDto
+    suspend fun getBusStopDetail(@Path("busStopNumber") busStopNumber: BusStopNumber): Response<BusStopDetailDto>
 }

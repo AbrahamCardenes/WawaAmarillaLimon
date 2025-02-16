@@ -63,7 +63,7 @@ class BusStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                fakeBusStopDetail()
+                Result.Success(fakeBusStopDetail())
             )
         }
         coEvery {
@@ -358,9 +358,11 @@ class BusStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 1)
         } returns flow {
             emit(
-                BusStopDetail(
-                    addressName = "TEATRO",
-                    availableBusLines = emptyList()
+                Result.Success(
+                    BusStopDetail(
+                        addressName = "TEATRO",
+                        availableBusLines = emptyList()
+                    )
                 )
             )
         }
@@ -411,7 +413,7 @@ class BusStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                fakeBusStopDetail()
+                Result.Success(fakeBusStopDetail())
             )
         }
         coEvery {

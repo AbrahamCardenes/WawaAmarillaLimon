@@ -2,6 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.wawaamarillalimon.core.onError
+import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetBusDetailUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetFavoriteBusStopsUseCase
@@ -85,12 +87,18 @@ class FavoritesStopsViewModel
                 return@launch
             }
 
-            getBusDetailUseCase(stopNumber).onEach {
-                updateBusStopDetail(
-                    originalBusStop = fetchedStop,
-                    availableBusLines = it?.availableBusLines,
-                    isExpanded = true
-                )
+            getBusDetailUseCase(stopNumber).onEach { response ->
+                response.onSuccess {
+                    updateBusStopDetail(
+                        originalBusStop = fetchedStop,
+                        availableBusLines = it?.availableBusLines,
+                        isExpanded = true
+                    )
+                }
+                    .onError {
+                        // TODO:
+                        println("Log error")
+                    }
             }.collect()
         }
     }

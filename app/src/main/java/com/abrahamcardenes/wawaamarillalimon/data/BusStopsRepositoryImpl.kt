@@ -27,26 +27,27 @@ class BusStopsRepositoryImpl(
 ) : BusStopsRepository {
 
     override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
-        api.getParadas2()
+        api.getParadas()
     }.map { it ->
         val originalBusStops = it.toMutableList()
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
         originalBusStops.toDomain()
     }
 
-    override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<BusStopDetail?> = flow {
+    override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {
         try {
             while (true) {
                 coroutineContext.ensureActive()
-                val busStopDetail = api.getBusStopDetail(stopNumber)
-                emit(busStopDetail.toDomain())
+                emit(
+                    safecall {
+                        api.getBusStopDetail(stopNumber)
+                    }.map { it.toDomain() }
+                )
+
                 delay(20.seconds)
             }
         } catch (e: CancellationException) {
-            emit(null)
-        } catch (e: Exception) {
-            println(e.stackTraceToString())
-            emit(null)
+            emit(Result.Error(DataError.Local.CANCELLED_EXCEPTION))
         }
     }
 

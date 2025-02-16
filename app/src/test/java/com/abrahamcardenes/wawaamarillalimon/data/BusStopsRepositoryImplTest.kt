@@ -2,6 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.data
 
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
+import com.abrahamcardenes.wawaamarillalimon.core.DataError
+import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.core.map
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
@@ -22,7 +24,6 @@ import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -40,11 +41,10 @@ class BusStopsRepositoryImplTest {
         mockWebServer = MockWebServer()
         apiParadas = ServerMocks.buildApiParadasService(mockWebServer = mockWebServer)
         busStopDao = mockk(relaxed = true)
-        repository =
-            BusStopsRepositoryImpl(
-                api = apiParadas,
-                busStopDao = busStopDao
-            )
+        repository = BusStopsRepositoryImpl(
+            api = apiParadas,
+            busStopDao = busStopDao
+        )
     }
 
     @After
@@ -69,24 +69,23 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given the mocked response it should be mapped correctly to a list of BusStops`() = runTest {
-        val expected =
-            listOf(
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "C / FRANCISCO GOURIÉ, 103",
-                    stopNumber = 2,
-                    isSavedInDb = false
-                ),
-                BusStop(
-                    addressName = "TEATRO",
-                    stopNumber = 1,
-                    isSavedInDb = false
-                )
+        val expected = listOf(
+            BusStop(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isSavedInDb = false
+            ),
+            BusStop(
+                addressName = "C / FRANCISCO GOURIÉ, 103",
+                stopNumber = 2,
+                isSavedInDb = false
+            ),
+            BusStop(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isSavedInDb = false
             )
+        )
         ServerMocks.enqueue(
             code = 200,
             body = mockedBusStops,
@@ -102,12 +101,11 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a BusStop model it should be saved in the database`() = runTest {
-        val busStop =
-            BusStop(
-                addressName = "TEATRO",
-                stopNumber = 1,
-                isSavedInDb = false
-            )
+        val busStop = BusStop(
+            addressName = "TEATRO",
+            stopNumber = 1,
+            isSavedInDb = false
+        )
 
         repository.saveStops(busStop)
 
@@ -124,12 +122,11 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a BusStop model it should be deleted in the database`() = runTest {
-        val busStop =
-            BusStop(
-                addressName = "TEATRO",
-                stopNumber = 1,
-                isSavedInDb = false
-            )
+        val busStop = BusStop(
+            addressName = "TEATRO",
+            stopNumber = 1,
+            isSavedInDb = false
+        )
 
         repository.deleteBusStop(busStop)
 
@@ -191,13 +188,15 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a busStop number it should return the detail of that stop`() = runTest {
-        val firstExpectedEmission = fakeBusStopDetail()
-        val secondExpectedEmission = fakeBusStopDetail().copy(
-            availableBusLines = listOf(
-                BusLine(
-                    number = 13,
-                    destination = "TRESPALMAS",
-                    arrivalTimeIn = "2min"
+        val firstExpectedEmission = Result.Success(fakeBusStopDetail())
+        val secondExpectedEmission = Result.Success(
+            fakeBusStopDetail().copy(
+                availableBusLines = listOf(
+                    BusLine(
+                        number = 13,
+                        destination = "TRESPALMAS",
+                        arrivalTimeIn = "2min"
+                    )
                 )
             )
         )
@@ -220,15 +219,32 @@ class BusStopsRepositoryImplTest {
     }
 
     @Test
-    fun `Given a 500 error it should return null`() = runTest {
+    fun `Given a 500 error it should return DataError Remote SERVER`() = runTest {
         ServerMocks.enqueue(
             code = 500,
             body = "",
             mockWebServer = mockWebServer
         )
 
-        val busStopDetailResponse = repository.getBusDetailStop(stopNumber = 79).single()
+        repository.getBusDetailStop(stopNumber = 79).test {
+            val emission = awaitItem()
+            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.SERVER))
+            cancel()
+        }
+    }
 
-        assertThat(busStopDetailResponse).isNull()
+    @Test
+    fun `Given a 400 error it should return null`() = runTest {
+        ServerMocks.enqueue(
+            code = 400,
+            body = "",
+            mockWebServer = mockWebServer
+        )
+
+        repository.getBusDetailStop(stopNumber = 79).test {
+            val emission = awaitItem()
+            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.BAD_REQUEST))
+            cancel()
+        }
     }
 }

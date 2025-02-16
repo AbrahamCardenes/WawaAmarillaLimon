@@ -18,6 +18,7 @@ val localProperties =
     }
 
 val apiParadas: String = localProperties.getProperty("API_PARADAS")
+val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS")
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
@@ -32,6 +33,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
+        buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
     }
 
     buildTypes {

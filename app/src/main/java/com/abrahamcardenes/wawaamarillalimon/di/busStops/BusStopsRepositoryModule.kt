@@ -1,8 +1,8 @@
-package com.abrahamcardenes.wawaamarillalimon.di
+package com.abrahamcardenes.wawaamarillalimon.di.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.data.BusStopsRepositoryImpl
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
 import dagger.Module
 import dagger.Provides

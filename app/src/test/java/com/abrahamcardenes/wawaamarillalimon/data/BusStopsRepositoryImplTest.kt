@@ -4,12 +4,11 @@ import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.core.map
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail

@@ -1,9 +1,9 @@
 package com.abrahamcardenes.wawaamarillalimon.data.mappers
 
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusLineDto
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusStopDetailDto
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.BusStopDto
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusLineDto
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDetailDto
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDto
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail

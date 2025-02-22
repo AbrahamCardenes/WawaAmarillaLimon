@@ -3,6 +3,7 @@ package com.abrahamcardenes.wawaamarillalimon.data
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
 import com.abrahamcardenes.wawaamarillalimon.jsons.concessionsResponse
 import com.google.common.truth.Truth.assertThat
@@ -37,7 +38,14 @@ class TravellersRepositoryImplTest {
     @Test
     fun `Given a 200 OK status it should return a list of concessions`() = runTest {
         val expected = Result.Success(
-            mockedConcessions()
+            mockedConcessions() + listOf(
+                Concession(
+                    busNumber = 63,
+                    name = "TEATRO - TAMARACEITE",
+                    commercialName = "L3",
+                    color = "#BCE4F6"
+                )
+            )
         )
 
         ServerMocks.enqueue(

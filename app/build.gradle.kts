@@ -17,8 +17,8 @@ val localProperties =
         }
     }
 
-val apiParadas: String = localProperties.getProperty("API_PARADAS")
-val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS")
+val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
+val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"

@@ -58,4 +58,4 @@ jobs:
           files: app/build/outputs/apk/release/app-release.apk
           tag_name: v1.0.${{ github.run_number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PIPELINE_BUILDER }}

@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers
 
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -15,20 +16,13 @@ data class LineDto(
     val color: String
 )
 
-@JsonClass(generateAdapter = true)
-data class LineRootDto(
-    @field:Json(name = "Respuesta")
-    val response: LineResponseDto
-)
+fun List<LineDto>.toDomain(): List<Concession> = this.map {
+    it.toDomain()
+}
 
-@JsonClass(generateAdapter = true)
-data class LineResponseDto(
-    @field:Json(name = "Concesiones")
-    val concessions: ConcessionDto
-)
-
-@JsonClass(generateAdapter = true)
-data class ConcessionDto(
-    @field:Json(name = "Concesion")
-    val lines: List<LineDto>
+fun LineDto.toDomain(): Concession = Concession(
+    busNumber = this.busNumber,
+    name = this.name,
+    commercialName = this.commercialName,
+    color = this.color
 )

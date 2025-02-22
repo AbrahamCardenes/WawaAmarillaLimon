@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.LineDto
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,12 +22,17 @@ class TravellersViewModel @Inject constructor(
 
     private val _travellersState = MutableStateFlow(TravellersUiState())
     val travellersState = _travellersState.onStart {
+        getConcessions()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), TravellersUiState())
+
+    private fun getConcessions() {
         viewModelScope.launch {
-            getBusesUseCase().onSuccess { buses ->
-                _travellersState.update {
-                    it.copy(buses = buses.response.concessions.lines)
+            getBusesUseCase()
+                .onSuccess { concessions ->
+                    _travellersState.update {
+                        it.copy(concessions = concessions)
+                    }
                 }
-            }
                 .onError {
                     Log.e(
                         "TravellersException",
@@ -36,9 +40,5 @@ class TravellersViewModel @Inject constructor(
                     )
                 }
         }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), TravellersUiState())
+    }
 }
-
-data class TravellersUiState(
-    val buses: List<LineDto> = emptyList()
-)

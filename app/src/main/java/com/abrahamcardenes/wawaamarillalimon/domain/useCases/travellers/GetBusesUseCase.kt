@@ -2,12 +2,12 @@ package com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers
 
 import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.LineRootDto
 import com.abrahamcardenes.wawaamarillalimon.domain.TravellersRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import javax.inject.Inject
 
 class GetBusesUseCase @Inject constructor(
     private val repository: TravellersRepository
 ) {
-    suspend operator fun invoke(): Result<LineRootDto, DataError> = repository.getBuses()
+    suspend operator fun invoke(): Result<List<Concession>, DataError> = repository.getBuses()
 }

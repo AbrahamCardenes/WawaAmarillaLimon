@@ -6,8 +6,8 @@ import com.abrahamcardenes.wawaamarillalimon.domain.TravellersRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import javax.inject.Inject
 
-class GetBusesUseCase @Inject constructor(
+class GetConcessionsUseCase @Inject constructor(
     private val repository: TravellersRepository
 ) {
-    suspend operator fun invoke(): Result<List<Concession>, DataError> = repository.getBuses()
+    suspend operator fun invoke(): Result<List<Concession>, DataError> = repository.getConcessions()
 }

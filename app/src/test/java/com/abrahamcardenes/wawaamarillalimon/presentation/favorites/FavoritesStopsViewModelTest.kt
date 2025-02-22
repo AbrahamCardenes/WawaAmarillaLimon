@@ -6,9 +6,9 @@ import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetBusDetailUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.GetFavoriteBusStopsUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.SaveOrDeleteBusStopUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetBusDetailUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetFavoriteBusStopsUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeListBusStopDetailOffline

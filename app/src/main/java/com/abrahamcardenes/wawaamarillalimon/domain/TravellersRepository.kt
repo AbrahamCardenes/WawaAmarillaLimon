@@ -5,5 +5,5 @@ import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 
 interface TravellersRepository {
-    suspend fun getBuses(): Result<List<Concession>, DataError>
+    suspend fun getConcessions(): Result<List<Concession>, DataError>
 }

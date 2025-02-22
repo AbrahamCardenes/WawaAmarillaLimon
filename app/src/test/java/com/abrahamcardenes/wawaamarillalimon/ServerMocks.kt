@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon
 
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -32,4 +33,12 @@ object ServerMocks {
         .baseUrl(mockWebServer.url("/"))
         .build()
         .create(ApiParadas::class.java)
+
+    fun buildApiTravellersService(mockWebServer: MockWebServer): ApiTravellers = Retrofit
+        .Builder()
+        .addConverterFactory(MoshiConverterFactory.create())
+        .client(client)
+        .baseUrl(mockWebServer.url("/"))
+        .build()
+        .create(ApiTravellers::class.java)
 }

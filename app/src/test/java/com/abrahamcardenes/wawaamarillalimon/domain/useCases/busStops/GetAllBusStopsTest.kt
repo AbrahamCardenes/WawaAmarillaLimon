@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.domain.useCases
+package com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository

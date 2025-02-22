@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusesUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetConcessionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class TravellersViewModel @Inject constructor(
-    private val getBusesUseCase: GetBusesUseCase
+    private val getConcessionsUseCase: GetConcessionsUseCase
 ) : ViewModel() {
 
     private val _travellersState = MutableStateFlow(TravellersUiState())
@@ -26,11 +26,14 @@ class TravellersViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), TravellersUiState())
 
     private fun getConcessions() {
+        _travellersState.update { state ->
+            state.copy(isLoading = true)
+        }
         viewModelScope.launch {
-            getBusesUseCase()
+            getConcessionsUseCase()
                 .onSuccess { concessions ->
                     _travellersState.update {
-                        it.copy(concessions = concessions)
+                        it.copy(concessions = concessions, isLoading = false)
                     }
                 }
                 .onError {

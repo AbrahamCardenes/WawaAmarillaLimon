@@ -11,7 +11,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 
 class TravellersRepositoryImpl
 (private val api: ApiTravellers) : TravellersRepository {
-    override suspend fun getBuses(): Result<List<Concession>, DataError> = safecall {
+    override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
         api.getBuses()
     }.map {
         it.response.concessions.lines.toDomain()

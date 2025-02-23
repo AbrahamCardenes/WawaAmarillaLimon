@@ -47,7 +47,7 @@ jobs:
         run: ./gradlew clean
 
       - name: Decode Keystore File
-        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > wawa-amarilla-key.jks
+        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > wawa-amarilla-key.jks
 
       - name: Sign apk
         run: |

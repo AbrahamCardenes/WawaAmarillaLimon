@@ -17,8 +17,8 @@ val localProperties =
         }
     }
 
-val apiParadas: String = localProperties.getProperty("API_PARADAS")
-val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS")
+val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
+val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
@@ -36,6 +36,15 @@ android {
         buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("wawa-amarilla-key.jks")
+            storePassword = System.getenv("KEY_PASS") ?: ""
+            keyAlias = System.getenv("KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("KEY_PASS") ?: ""
+        }
+    }
+
     buildTypes {
 
         release {
@@ -45,6 +54,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs["release"]
         }
 
         debug {

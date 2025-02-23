@@ -60,7 +60,7 @@ jobs:
       - name: Sign apk
         run: |
           ./gradlew assembleRelease \
-          -Pandroid.injected.signing.store.file=app/wawa-amarilla-key.jks \
+          -Pandroid.injected.signing.store.file=wawa-amarilla-key.jks \
           -Pandroid.injected.signing.store.password=${{ secrets.KEY_PASS }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
           -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASS }}

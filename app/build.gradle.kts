@@ -38,7 +38,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("app/wawa-amarilla-key.jks")
+            storeFile = file("wawa-amarilla-key.jks")
             storePassword = System.getenv("KEY_PASS") ?: ""
             keyAlias = System.getenv("KEY_ALIAS") ?: ""
             keyPassword = System.getenv("KEY_PASS") ?: ""

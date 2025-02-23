@@ -43,19 +43,34 @@ jobs:
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      - name: Clean Build
+        run: ./gradlew clean
+
+      - name: Decode Keystore File
+        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > wawa-amarilla-key.jks
+
+      - name: Sign apk
+        run: |
+          ./gradlew assembleRelease \
+          -Pandroid.injected.signing.store.file=app/wawa-amarilla-key.jks \
+          -Pandroid.injected.signing.store.password=${{ secrets.KEY_PASS }} \
+          -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+          -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASS }}
+
+      #- name: Build Release APK
+      #  run: ./gradlew assembleRelease
+      # app/build/outputs/apk/release/app-release-unsigned.apk <--- path to no unsigned apk's
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          path: app/build/outputs/apk/release/app-release.apk
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/release/app-release-unsigned.apk
+          files: app/build/outputs/apk/release/app-release.apk
           tag_name: v1.0.${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.PIPELINE_BUILDER }}

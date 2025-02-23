@@ -47,7 +47,7 @@ jobs:
         run: ./gradlew clean
 
       - name: Decode Keystore File
-        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > wawa-amarilla-key.jks
+        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > app/wawa-amarilla-key.jks
 
       - name: List files to check keystore location  # Debug step
         run: ls -al
@@ -55,7 +55,7 @@ jobs:
       - name: Sign apk
         run: |
           ./gradlew assembleRelease \
-          -Pandroid.injected.signing.store.file=wawa-amarilla-key.jks \
+          -Pandroid.injected.signing.store.file=app/wawa-amarilla-key.jks \
           -Pandroid.injected.signing.store.password=${{ secrets.KEY_PASS }} \
           -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
           -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASS }}

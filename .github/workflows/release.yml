@@ -47,10 +47,10 @@ jobs:
         run: ./gradlew clean
 
       - name: Decode Keystore File
-        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > wawa-amarilla-key.jks
+        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > app/wawa-amarilla-key.jks
 
       - name: List files to check keystore location  # Debug step
-        run: ls -al
+        run: ls -al app
 
       - name: Set up signing environment variables
         run: |

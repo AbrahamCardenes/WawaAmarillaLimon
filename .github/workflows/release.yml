@@ -65,7 +65,7 @@ jobs:
 
       - name: Sign apk
         run: |
-          export SIGNING_STORE_FILE=wawa-amarilla-key.jks
+          export SIGNING_STORE_FILE=/home/runner/work/WawaAmarillaLimon/WawaAmarillaLimon/app/wawa-amarilla-key.jks
           export SIGNING_STORE_PASSWORD=${{ secrets.KEY_PASS }}
           export SIGNING_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
           export SIGNING_KEY_PASSWORD=${{ secrets.KEY_PASS }}

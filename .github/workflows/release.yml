@@ -52,6 +52,11 @@ jobs:
       - name: List files to check keystore location  # Debug step
         run: ls -al
 
+      - name: Set up signing environment variables
+        run: |
+          echo "KEY_PASS=${{ secrets.KEY_PASS }}" >> $GITHUB_ENV
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+
       - name: Sign apk
         run: |
           ./gradlew assembleRelease \

@@ -59,8 +59,8 @@ jobs:
         run: |
           echo "KEY_PASS=${{ secrets.KEY_PASS }}" >> $GITHUB_ENV
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
-          echo "API_WAWAS"=${{ secrets.API_WAWAS }}" >> $GITHUB_ENV
-          echo "API_TRAVELLERS"=${{ secrets.API_TRAVELLERS }}" >> $GITHUB_ENV
+          echo "API_WAWAS=\"${{ secrets.API_WAWAS }}\"" >> $GITHUB_ENV
+          echo "API_TRAVELLERS=\"${{ secrets.API_TRAVELLERS }}\"" >> $GITHUB_ENV
 
       - name: Sign release APK build
         run: |

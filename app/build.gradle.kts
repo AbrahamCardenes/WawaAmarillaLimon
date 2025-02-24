@@ -32,8 +32,6 @@ android {
         versionName = "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
-        buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
     }
 
     signingConfigs {
@@ -54,6 +52,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_PARADAS", "\"${System.getenv("API_WAWAS")}\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"${System.getenv("API_TRAVELLERS")}\"")
             signingConfig = signingConfigs["release"]
         }
 
@@ -62,6 +62,8 @@ android {
             isDebuggable = true
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
             applicationIdSuffix = ".dev"
+            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
         }
     }
     compileOptions {

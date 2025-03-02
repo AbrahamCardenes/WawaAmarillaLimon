@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.di.travellers
 
 import com.abrahamcardenes.wawaamarillalimon.BuildConfig
+import com.abrahamcardenes.wawaamarillalimon.annotations.TravellersRetrofit
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -8,18 +9,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
-import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object TravellersModule {
     @Provides
     @Singleton
-    @Named("apiTravellers")
+    @TravellersRetrofit
     fun provideTravellersRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val moshi =
             Moshi
@@ -37,5 +37,5 @@ object TravellersModule {
 
     @Provides
     @Singleton
-    fun provideApiTravellersService(@Named("apiTravellers") retrofit: Retrofit): ApiTravellers = retrofit.create(ApiTravellers::class.java)
+    fun provideApiTravellersService(@TravellersRetrofit retrofit: Retrofit): ApiTravellers = retrofit.create(ApiTravellers::class.java)
 }

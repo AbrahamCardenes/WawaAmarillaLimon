@@ -1,6 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.di.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.BuildConfig
+import com.abrahamcardenes.wawaamarillalimon.annotations.StopsRetrofit
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -15,9 +16,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object BusStopsModule {
     @Provides
     @Singleton
+    @StopsRetrofit
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val moshi =
             Moshi
@@ -35,5 +37,5 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiParadas = retrofit.create(ApiParadas::class.java)
+    fun provideApiService(@StopsRetrofit retrofit: Retrofit): ApiParadas = retrofit.create(ApiParadas::class.java)
 }

@@ -13,6 +13,9 @@ object FavoritesBusStops : NavRoutes
 @Serializable
 object BusLines : NavRoutes
 
+@Serializable
+data class BusTimetable(val busNumber: Int) : NavRoutes
+
 fun NavRoutes.getLabels(): String = when (this) {
     is BusStops -> "Paradas"
     is FavoritesBusStops -> "Favoritas"

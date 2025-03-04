@@ -23,10 +23,13 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorF
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun ConcessionCard(concession: Concession, modifier: Modifier = Modifier) {
+fun ConcessionCard(concession: Concession, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
     val dynamicColor = getComposeColorFromHexHtml(concession.color)
     Card(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        onClick = {
+            onClick(concession.busNumber)
+        }
     ) {
         Row(
             modifier = Modifier
@@ -63,6 +66,7 @@ fun ConcessionCard(concession: Concession, modifier: Modifier = Modifier) {
 fun ConcessionCardPreview() {
     WawaAmarillaLimonTheme {
         ConcessionCard(
+            onClick = {},
             concession = Concession(
                 busNumber = 91,
                 name = "Nombre",

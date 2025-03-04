@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +15,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.ConcessionCard
 
 @Composable
-fun TravellersScreenRoot(travellersViewModel: TravellersViewModel = hiltViewModel<TravellersViewModel>(), modifier: Modifier = Modifier) {
+fun TravellersScreenRoot(
+    onNavigateToTimeTable: (Int) -> Unit,
+    travellersViewModel: TravellersViewModel = hiltViewModel<TravellersViewModel>(),
+    modifier: Modifier = Modifier
+) {
     val uiState by travellersViewModel.travellersState.collectAsStateWithLifecycle()
 
     LazyColumn(
@@ -27,7 +31,7 @@ fun TravellersScreenRoot(travellersViewModel: TravellersViewModel = hiltViewMode
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(uiState.concessions) {
-            ConcessionCard(it)
+            ConcessionCard(concession = it, onClick = onNavigateToTimeTable)
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))

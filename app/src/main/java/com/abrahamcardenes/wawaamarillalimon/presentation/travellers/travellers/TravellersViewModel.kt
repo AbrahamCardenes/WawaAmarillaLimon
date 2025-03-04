@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

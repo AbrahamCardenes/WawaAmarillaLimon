@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.jsons
+package com.abrahamcardenes.wawaamarillalimon.jsons.ogs
 
 val originalResponseFromApiParadas =
     """

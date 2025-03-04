@@ -4,9 +4,9 @@ import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusLineDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDetailDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDto
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
 
 fun List<BusStopDto>.toDomain(): List<BusStop> = this.map {
     BusStop(

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.domain.models
+package com.abrahamcardenes.wawaamarillalimon.domain.models.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusLineNumber
 

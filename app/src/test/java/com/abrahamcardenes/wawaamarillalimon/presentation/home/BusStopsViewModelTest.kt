@@ -5,9 +5,9 @@ import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.SaveOrDeleteBusStopUseCase

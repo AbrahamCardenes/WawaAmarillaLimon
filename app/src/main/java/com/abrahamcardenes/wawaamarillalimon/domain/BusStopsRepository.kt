@@ -2,8 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.domain
 
 import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStopDetail
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import kotlinx.coroutines.flow.Flow
 

@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import javax.inject.Inject
 
 class SaveOrDeleteBusStopUseCase @Inject constructor(private val busStopsRepository: BusStopsRepository) {

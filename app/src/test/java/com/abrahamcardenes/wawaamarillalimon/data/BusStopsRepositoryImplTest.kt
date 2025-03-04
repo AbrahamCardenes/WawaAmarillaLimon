@@ -9,13 +9,13 @@ import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetailWithLessTime
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStops
-import com.abrahamcardenes.wawaamarillalimon.jsons.originalResponseFromApiParadas
+import com.abrahamcardenes.wawaamarillalimon.jsons.ogs.originalResponseFromApiParadas
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery

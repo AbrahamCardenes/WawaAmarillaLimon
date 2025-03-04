@@ -4,7 +4,7 @@ import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.core.map
 import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

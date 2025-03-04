@@ -4,7 +4,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class TimetablesDto(
-    @field:Json(name = "Horarios")
-    val timetable: List<TimetableDto>
+data class ConcessionStopDto(
+    @field:Json(name = "NombreParada")
+    val name: String,
+    @field:Json(name = "Tipo")
+    val type: List<String>
 )

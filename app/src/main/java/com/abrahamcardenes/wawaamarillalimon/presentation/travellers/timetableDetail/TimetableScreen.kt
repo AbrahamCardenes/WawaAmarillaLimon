@@ -2,12 +2,21 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableD
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun TimetableScreenRoot(busNumber: Int, modifier: Modifier = Modifier) {
+fun TimetableScreenRoot(
+    busNumber: Int,
+    timetableViewModel: TimetableViewModel = hiltViewModel<TimetableViewModel>(),
+    modifier: Modifier = Modifier
+) {
+    LaunchedEffect(Unit) {
+        timetableViewModel.getTimetable(busIdNumber = busNumber)
+    }
     TimetableUi(busNumber = busNumber, modifier = modifier)
 }
 

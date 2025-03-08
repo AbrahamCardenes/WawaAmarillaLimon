@@ -3,7 +3,6 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableD
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +40,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.AvailablePaths
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.ConcessionInformationDashboard
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.TimetableTopBar
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
@@ -118,27 +118,25 @@ fun TimetableUi(busNumber: Int, uiState: TimetableUiState, onNavigateBack: () ->
                     }
 
                     item {
-                        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            Text(
-                                "Nota informativa: ${timetableInfo!!.timetables[tabSelected].notes}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                "Aviso: ${timetableInfo.timetables[tabSelected].warning}",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            AvailablePaths(
-                                paths = timetableInfo.timetables[tabSelected].routes
-                            )
-                        }
+                        ConcessionInformationDashboard(
+                            timetableInfo = timetableInfo!!.timetables[tabSelected],
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    item {
+                        AvailablePaths(
+                            paths = timetableInfo!!.timetables[tabSelected].routes,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 
                     items(timetableInfo!!.timetables[tabSelected].concessionStops) {
                         Card(
                             shape = RectangleShape,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
                                 it.name,

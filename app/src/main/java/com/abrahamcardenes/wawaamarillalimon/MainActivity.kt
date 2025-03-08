@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
 
                         composable<BusTimetable> { navBackstackEntry ->
                             val busNumber = navBackstackEntry.arguments?.getInt("busNumber") ?: -1
-                            TimetableScreenRoot(busNumber = busNumber)
+                            TimetableScreenRoot(busNumber = busNumber, onNavigateBack = navController::navigateUp)
                         }
                     }
                 }

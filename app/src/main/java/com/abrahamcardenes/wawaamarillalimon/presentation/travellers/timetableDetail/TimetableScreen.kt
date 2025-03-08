@@ -39,7 +39,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.AvailablePaths
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.AvailableRoutes
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.ConcessionInformationDashboard
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components.TimetableTopBar
@@ -126,11 +126,16 @@ fun TimetableUi(busNumber: Int, uiState: TimetableUiState, onNavigateBack: () ->
                     }
 
                     item {
-                        AvailablePaths(
-                            paths = timetableInfo!!.timetables[tabSelected].routes,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
+                        // TODO: Put this logic inside the use case :D
+                        val routes = timetableInfo!!.timetables[tabSelected].routes.filter {
+                            it.notes.isNotBlank()
+                        }
+                        if (routes.isNotEmpty()) {
+                            AvailableRoutes(
+                                routes = routes
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
                     }
 
                     items(timetableInfo!!.timetables[tabSelected].concessionStops) {

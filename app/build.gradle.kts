@@ -19,6 +19,8 @@ val localProperties =
 
 val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
 val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
+val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
+
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
@@ -54,6 +56,8 @@ android {
             )
             buildConfigField("String", "API_PARADAS", "\"${System.getenv("API_WAWAS")}\"")
             buildConfigField("String", "API_TRAVELLERS", "\"${System.getenv("API_TRAVELLERS")}\"")
+            buildConfigField("String", "API_STATICAPP", "\"${System.getenv("API_STATICAPP")}\"")
+
             signingConfig = signingConfigs["release"]
         }
 
@@ -64,6 +68,7 @@ android {
             applicationIdSuffix = ".dev"
             buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
             buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
+            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
         }
     }
     compileOptions {

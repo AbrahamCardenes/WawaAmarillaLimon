@@ -15,16 +15,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun ConcessionCard(concession: Concession, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun ConcessionCard(concession: Concession, onClick: (Int, HexColorString) -> Unit, modifier: Modifier = Modifier) {
     val dynamicColor = getComposeColorFromHexHtml(concession.color)
     Card(
         modifier = modifier.fillMaxWidth(),
         onClick = {
-            onClick(concession.busNumber)
+            onClick(concession.busNumber, concession.color)
         }
     ) {
         Row(
@@ -56,7 +57,7 @@ fun ConcessionCard(concession: Concession, onClick: (Int) -> Unit, modifier: Mod
 fun ConcessionCardPreview() {
     WawaAmarillaLimonTheme {
         ConcessionCard(
-            onClick = {},
+            onClick = { _, _ -> },
             concession = Concession(
                 busNumber = 91,
                 name = "Nombre",

@@ -121,15 +121,20 @@ class MainActivity : ComponentActivity() {
 
                         composable<BusLines> {
                             TravellersScreenRoot(
-                                onNavigateToTimeTable = { busNumber ->
-                                    navController.navigate(BusTimetable(busNumber = busNumber))
+                                onNavigateToTimeTable = { busNumber, hexColor ->
+                                    navController.navigate(BusTimetable(busNumber = busNumber, hexColorString = hexColor))
                                 }
                             )
                         }
 
                         composable<BusTimetable> { navBackstackEntry ->
                             val busNumber = navBackstackEntry.arguments?.getInt("busNumber") ?: -1
-                            TimetableScreenRoot(busNumber = busNumber, onNavigateBack = navController::navigateUp)
+                            val hexColorString = navBackstackEntry.arguments?.getString("hexColorString") ?: ""
+                            TimetableScreenRoot(
+                                busNumber = busNumber,
+                                hexColorString = hexColorString,
+                                onNavigateBack = navController::navigateUp
+                            )
                         }
                     }
                 }

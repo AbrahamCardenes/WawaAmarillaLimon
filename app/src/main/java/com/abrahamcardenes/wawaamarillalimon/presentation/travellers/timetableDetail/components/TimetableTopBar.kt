@@ -20,17 +20,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.BusLineNumberCircle
+import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimetableTopBar(busNumber: Int, line: String, onNavigateBack: () -> Unit, scrollBehavior: TopAppBarScrollBehavior) {
+fun TimetableTopBar(
+    busNumber: Int,
+    hexColorString: HexColorString,
+    line: String,
+    onNavigateBack: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
     val circleSize by remember {
         derivedStateOf {
             lerp(start = 70.dp, stop = 50.dp, fraction = scrollBehavior.state.collapsedFraction)
@@ -51,7 +58,7 @@ fun TimetableTopBar(busNumber: Int, line: String, onNavigateBack: () -> Unit, sc
 
             ) {
                 BusLineNumberCircle(
-                    dynamicColor = Color.White,
+                    dynamicColor = getComposeColorFromHexHtml(hexColorString),
                     commercialName = busNumber.toString(),
                     modifier = Modifier.size(circleSize)
                 )
@@ -80,6 +87,7 @@ fun TimetableTopBarPreview() {
 
         TimetableTopBar(
             busNumber = 1,
+            hexColorString = "#FFFFF",
             line = "Mercado de Vegueta - Tres Palmas",
             onNavigateBack = { },
             scrollBehavior = scrollBehavior

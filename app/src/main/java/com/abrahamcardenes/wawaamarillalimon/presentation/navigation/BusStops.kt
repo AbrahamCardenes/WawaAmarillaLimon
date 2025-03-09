@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.navigation
 
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import kotlinx.serialization.Serializable
 
 interface NavRoutes
@@ -14,7 +15,7 @@ object FavoritesBusStops : NavRoutes
 object BusLines : NavRoutes
 
 @Serializable
-data class BusTimetable(val busNumber: Int) : NavRoutes
+data class BusTimetable(val busNumber: Int, val hexColorString: HexColorString) : NavRoutes
 
 fun NavRoutes.getLabels(): String = when (this) {
     is BusStops -> "Paradas"

@@ -12,11 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.ConcessionCard
 
 @Composable
 fun TravellersScreenRoot(
-    onNavigateToTimeTable: (Int) -> Unit,
+    onNavigateToTimeTable: (Int, HexColorString) -> Unit,
     travellersViewModel: TravellersViewModel = hiltViewModel<TravellersViewModel>(),
     modifier: Modifier = Modifier
 ) {

@@ -48,6 +48,7 @@ import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 @Composable
 fun TimetableScreenRoot(
     busNumber: Int,
+    hexColorString: String,
     timetableViewModel: TimetableViewModel = hiltViewModel<TimetableViewModel>(),
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -60,6 +61,7 @@ fun TimetableScreenRoot(
 
     TimetableUi(
         busNumber = busNumber,
+        hexColorString = hexColorString,
         uiState = busTimetableUiState,
         onNavigateBack = onNavigateBack,
         modifier = modifier
@@ -69,7 +71,13 @@ fun TimetableScreenRoot(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TimetableUi(busNumber: Int, uiState: TimetableUiState, onNavigateBack: () -> Unit, modifier: Modifier = Modifier) {
+fun TimetableUi(
+    busNumber: Int,
+    hexColorString: String,
+    uiState: TimetableUiState,
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val timetableInfo = uiState.timetableInfo
     val scrollState = rememberLazyListState()
     var tabSelected by remember { mutableIntStateOf(0) }
@@ -90,6 +98,7 @@ fun TimetableUi(busNumber: Int, uiState: TimetableUiState, onNavigateBack: () ->
                 topBar = {
                     TimetableTopBar(
                         busNumber = busNumber,
+                        hexColorString = hexColorString,
                         line = timetableInfo!!.timetables[tabSelected].lineId,
                         onNavigateBack = onNavigateBack,
                         scrollBehavior = scrollBehavior
@@ -167,6 +176,7 @@ fun TimetablePreview() {
     WawaAmarillaLimonTheme {
         TimetableUi(
             busNumber = 10,
+            hexColorString = "#FFFFF",
             onNavigateBack = {},
             uiState = TimetableUiState(
                 isLoading = false,

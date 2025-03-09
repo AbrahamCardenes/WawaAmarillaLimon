@@ -21,9 +21,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -58,12 +55,16 @@ fun TimetableScreenRoot(
     }
 
     val busTimetableUiState by timetableViewModel.uiState.collectAsStateWithLifecycle()
+    val filteredConcessions by timetableViewModel.filteredConcessions.collectAsStateWithLifecycle()
 
     TimetableUi(
         busNumber = busNumber,
         hexColorString = hexColorString,
         uiState = busTimetableUiState,
+        filteredConcessions = filteredConcessions,
         onNavigateBack = onNavigateBack,
+        onRouteSelection = timetableViewModel::onRouteSelection,
+        onTabSelection = timetableViewModel::onIndexSelection,
         modifier = modifier
     )
 }
@@ -75,13 +76,16 @@ fun TimetableUi(
     busNumber: Int,
     hexColorString: String,
     uiState: TimetableUiState,
+    filteredConcessions: List<ConcessionStop>,
     onNavigateBack: () -> Unit,
+    onRouteSelection: (RoutePaths) -> Unit,
+    onTabSelection: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val timetableInfo = uiState.timetableInfo
     val scrollState = rememberLazyListState()
-    var tabSelected by remember { mutableIntStateOf(0) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val tabSelected = uiState.selectedIndex
 
     AnimatedContent(
         targetState = uiState.isLoading,
@@ -118,9 +122,7 @@ fun TimetableUi(
                         ConcessionNodesTabRow(
                             tabSelected = tabSelected,
                             nodes = timetableInfo!!.timetables.map { timetableInfo -> timetableInfo.node },
-                            onTabClick = {
-                                tabSelected = it
-                            },
+                            onTabClick = onTabSelection,
                             modifier = Modifier.zIndex(1f)
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -141,19 +143,21 @@ fun TimetableUi(
                         }
                         if (routes.isNotEmpty()) {
                             AvailableRoutes(
-                                routes = routes
+                                routes = routes,
+                                selectedRoute = uiState.selectedRoute,
+                                onRouteSelection = onRouteSelection
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
 
-                    items(timetableInfo!!.timetables[tabSelected].concessionStops) {
+                    items(filteredConcessions) {
                         Card(
                             shape = RectangleShape,
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                it.name,
+                                text = it.name,
                                 style = MaterialTheme.typography.bodyLarge,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -177,7 +181,6 @@ fun TimetablePreview() {
         TimetableUi(
             busNumber = 10,
             hexColorString = "#FFFFF",
-            onNavigateBack = {},
             uiState = TimetableUiState(
                 isLoading = false,
                 timetableInfo = BusTimetables(
@@ -253,8 +256,17 @@ fun TimetablePreview() {
                             )
                         )
                     )
+                ),
+                selectedRoute = RoutePaths(
+                    type = "A",
+                    hexColor = "#009036",
+                    notes = "Por las Majadillas"
                 )
-            )
+            ),
+            onNavigateBack = {},
+            onRouteSelection = {},
+            onTabSelection = {},
+            filteredConcessions = emptyList()
         )
     }
 }

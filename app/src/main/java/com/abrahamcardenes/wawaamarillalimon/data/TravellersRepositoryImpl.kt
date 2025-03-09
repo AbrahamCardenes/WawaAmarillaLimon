@@ -12,8 +12,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetab
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
 
-class TravellersRepositoryImpl
-(private val api: ApiTravellers) : TravellersRepository {
+class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
         api.getBuses()
     }.map {

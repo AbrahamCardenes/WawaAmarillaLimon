@@ -21,7 +21,6 @@ val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
 val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
 val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
 
-
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
     compileSdk = 35

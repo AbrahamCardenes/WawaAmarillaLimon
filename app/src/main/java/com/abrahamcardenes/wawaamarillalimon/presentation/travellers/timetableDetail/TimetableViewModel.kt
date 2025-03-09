@@ -43,11 +43,11 @@ class TimetableViewModel @Inject constructor(
     fun getTimetable(busIdNumber: BusIdNumber) {
         viewModelScope.launch {
             getTimetableUseCase(busIdNumber = busIdNumber)
-                .onSuccess {
+                .onSuccess { timetableInfo ->
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
-                            timetableInfo = it
+                            timetableInfo = timetableInfo
                         )
                     }
                 }

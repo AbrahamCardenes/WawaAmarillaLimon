@@ -4,7 +4,7 @@ import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.core.safecall
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiStaticApp
-import com.abrahamcardenes.wawaamarillalimon.domain.BusRoutesRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusRoutesRepository
 
 class BusRoutesRepositoryImpl(private val apiService: ApiStaticApp) : BusRoutesRepository {
     override suspend fun getBusRoutes(busNumber: String) {

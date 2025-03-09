@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops
 
 import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks

@@ -2,7 +2,7 @@ package com.abrahamcardenes.wawaamarillalimon.di.busRoutesModules
 
 import com.abrahamcardenes.wawaamarillalimon.BusRoutesRepositoryImpl
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiStaticApp
-import com.abrahamcardenes.wawaamarillalimon.domain.BusRoutesRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusRoutesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

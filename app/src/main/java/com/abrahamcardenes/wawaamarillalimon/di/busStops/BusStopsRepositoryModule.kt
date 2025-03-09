@@ -3,7 +3,7 @@ package com.abrahamcardenes.wawaamarillalimon.di.busStops
 import com.abrahamcardenes.wawaamarillalimon.data.BusStopsRepositoryImpl
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

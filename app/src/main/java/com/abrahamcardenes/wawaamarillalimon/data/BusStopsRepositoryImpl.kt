@@ -8,7 +8,7 @@ import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.BusStopsRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber

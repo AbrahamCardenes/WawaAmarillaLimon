@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers
 
 import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.domain.TravellersRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks

@@ -43,7 +43,6 @@ object ServerMocks {
         .build()
         .create(ApiTravellers::class.java)
 
-
     fun buildApiStaticAppService(mockWebServer: MockWebServer): ApiStaticApp = Retrofit
         .Builder()
         .addConverterFactory(MoshiConverterFactory.create())

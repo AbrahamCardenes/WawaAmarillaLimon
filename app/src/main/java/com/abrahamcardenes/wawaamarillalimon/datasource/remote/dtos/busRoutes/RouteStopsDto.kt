@@ -1,5 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes
 
+import com.abrahamcardenes.wawaamarillalimon.data.mappers.latitudeOrLongitudeToDouble
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -17,4 +19,15 @@ data class RouteStopsDto(
     val node: String,
     @field:Json(name = "variants")
     val variants: List<String>
-)
+) {
+    fun getGpsCoordinates(): GpsCoordinates? {
+        val longitude = longitude.latitudeOrLongitudeToDouble()
+        val latitude = latitude.latitudeOrLongitudeToDouble()
+
+        if (longitude == null || latitude == null) return null
+        return GpsCoordinates(
+            longitude = longitude,
+            latitude = latitude
+        )
+    }
+}

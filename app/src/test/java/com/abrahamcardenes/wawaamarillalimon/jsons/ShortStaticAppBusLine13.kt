@@ -2,7 +2,7 @@
 val shortStaticAppBusLine13 = """
     {
     "line": "13",
-    "name": "Mercado de Vegueta -\nTres Palmas",
+    "name": "Mercado de Vegueta - Tres Palmas",
     "color": "rgb(185, 102, 161)",
     "nodes": [
       "Mercado de Vegueta",
@@ -102,5 +102,42 @@ val shortStaticAppBusLine13 = """
         "color": "rgba(0, 0, 0, 0)"
       }
     ]
+  }
+""".trimIndent()
+
+val emptyLatitudeAndLongitude = """
+    {
+    "line": "13",
+    "name": "Mercado de Vegueta - Tres Palmas",
+    "color": "rgb(185, 102, 161)",
+    "nodes": [
+      "Mercado de Vegueta",
+      "Tres Palmas"
+    ],
+     "variantsGo": [],
+    "variantsBack": [],
+    "stops": [
+      {
+        "number": "993",
+        "name": "Mercado de Vegueta",
+        "longitude": "-15.41300107",
+        "latitude": "",
+        "node": "Mercado de Vegueta",
+        "variants": [
+          "A"
+        ]
+      },
+      {
+        "number": "936",
+        "name": "Tres Palmas",
+        "longitude": "",
+        "latitude": "28.06985503",
+        "node": "Tres Palmas",
+        "variants": [
+          "B"
+        ]
+      }
+    ],
+    "schedule": []
   }
 """.trimIndent()

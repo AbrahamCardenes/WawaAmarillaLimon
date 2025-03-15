@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops
 
-import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

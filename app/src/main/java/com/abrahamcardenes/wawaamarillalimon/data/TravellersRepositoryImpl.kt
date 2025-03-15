@@ -7,9 +7,9 @@ import com.abrahamcardenes.wawaamarillalimon.core.safecall
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.toDomain
-import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
 
 class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {

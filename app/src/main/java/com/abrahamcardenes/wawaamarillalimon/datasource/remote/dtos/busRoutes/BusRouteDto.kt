@@ -1,6 +1,5 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -21,17 +20,3 @@ data class BusRouteDto(
     @field:Json(name = "stops")
     val stops: List<RouteStopsDto>
 )
-
-fun BusRouteDto.toDomain(): BusRoute {
-    return BusRoute(
-        line = line,
-        name = name,
-        color = color,
-        nodes = nodes,
-        variantsGo = variantsGo,
-        variantsBack = variantsBack,
-        stops = stops
-    )
-}
-
-typealias RgbStringColor = String

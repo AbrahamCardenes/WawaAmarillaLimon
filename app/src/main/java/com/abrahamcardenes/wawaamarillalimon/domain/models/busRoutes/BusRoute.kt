@@ -1,11 +1,11 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.RgbStringColor
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 
 data class BusRoute(
     val line: String,
     val name: String,
-    val color: RgbStringColor,
+    val color: RGBAColor,
     val nodes: List<String>,
     val variantsGo: List<Variants>,
     val variantsBack: List<Variants>,

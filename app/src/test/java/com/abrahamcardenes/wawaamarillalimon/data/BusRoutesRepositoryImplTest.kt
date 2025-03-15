@@ -7,6 +7,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.google.common.truth.Truth.assertThat
 import emptyLatitudeAndLongitude
 import io.mockk.clearAllMocks
@@ -43,7 +44,12 @@ class BusRoutesRepositoryImplTest {
             BusRoute(
                 line = "13",
                 name = "Mercado de Vegueta - Tres Palmas",
-                color = "rgb(185, 102, 161)",
+                color = RGBAColor(
+                    red = 185,
+                    green = 102,
+                    blue = 161,
+                    alpha = 1
+                ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = listOf(
                     Variants(
@@ -118,7 +124,12 @@ class BusRoutesRepositoryImplTest {
             BusRoute(
                 line = "13",
                 name = "Mercado de Vegueta - Tres Palmas",
-                color = "rgb(185, 102, 161)",
+                color = RGBAColor(
+                    red = 185,
+                    green = 102,
+                    blue = 161,
+                    alpha = 1
+                ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = emptyList(),
                 variantsBack = emptyList(),

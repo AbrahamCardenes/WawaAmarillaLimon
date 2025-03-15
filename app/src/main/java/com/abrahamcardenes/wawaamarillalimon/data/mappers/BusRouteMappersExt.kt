@@ -6,11 +6,12 @@ import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes.Va
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBColor
 
 fun BusRouteDto.toDomain(): BusRoute = BusRoute(
     line = line,
     name = name,
-    color = color,
+    color = color.toRGBColor(),
     nodes = nodes,
     variantsGo = variantsGo.toVariantsDomain(),
     variantsBack = variantsBack.toVariantsDomain(),

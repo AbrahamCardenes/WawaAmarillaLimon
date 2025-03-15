@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes
 
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.RgbaStringColor
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -10,7 +11,7 @@ data class BusRouteDto(
     @field:Json(name = "name")
     val name: String,
     @field:Json(name = "color")
-    val color: String,
+    val color: RgbaStringColor,
     @field:Json(name = "nodes")
     val nodes: List<String>,
     @field:Json(name = "variantsGo")

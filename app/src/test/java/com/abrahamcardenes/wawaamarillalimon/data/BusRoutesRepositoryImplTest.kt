@@ -55,14 +55,24 @@ class BusRoutesRepositoryImplTest {
                     Variants(
                         type = "A",
                         name = "Mercado de Vegueta - Tres Palmas",
-                        color = "rgb(185, 102, 161)"
+                        color = RGBAColor(
+                            red = 185,
+                            green = 102,
+                            blue = 161,
+                            alpha = 1
+                        )
                     )
                 ),
                 variantsBack = listOf(
                     Variants(
                         type = "B",
                         name = "Tres Palmas - Mercado de Vegueta",
-                        color = "rgb(185, 102, 161)"
+                        color = RGBAColor(
+                            red = 185,
+                            green = 102,
+                            blue = 161,
+                            alpha = 1
+                        )
                     )
                 ),
                 stops = listOf(

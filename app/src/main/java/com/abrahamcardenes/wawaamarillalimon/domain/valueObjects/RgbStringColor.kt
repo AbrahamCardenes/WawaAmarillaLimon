@@ -4,7 +4,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 
 typealias RgbaStringColor = String
 
-fun RgbaStringColor.toRGBColor(): RGBAColor {
+fun RgbaStringColor.toRGBAColor(): RGBAColor {
     val noPrefixAndSuffix = if (this.contains("rgba")) {
         this.removePrefix("rgba(").removeSuffix(")")
     } else {

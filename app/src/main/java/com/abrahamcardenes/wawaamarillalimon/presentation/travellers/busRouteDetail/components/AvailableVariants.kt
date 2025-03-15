@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize

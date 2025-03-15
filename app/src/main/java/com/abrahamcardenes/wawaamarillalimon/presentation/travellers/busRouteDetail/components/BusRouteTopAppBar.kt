@@ -1,8 +1,9 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -31,10 +32,10 @@ import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimetableTopBar(
+fun BusRouteTopAppBar(
     busNumber: Int,
     hexColorString: HexColorString,
-    line: String,
+    title: String,
     onNavigateBack: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
@@ -63,9 +64,11 @@ fun TimetableTopBar(
                     modifier = Modifier.size(circleSize)
                 )
                 Text(
-                    text = line,
+                    text = title,
                     style = MaterialTheme.typography.headlineSmall.copy(fontSize = titleTextSize),
-                    modifier = Modifier.animateContentSize()
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .animateContentSize()
                 )
             }
         },
@@ -85,10 +88,10 @@ fun TimetableTopBarPreview() {
     WawaAmarillaLimonTheme {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-        TimetableTopBar(
+        BusRouteTopAppBar(
             busNumber = 1,
-            hexColorString = "#FFFFF",
-            line = "Mercado de Vegueta - Tres Palmas",
+            hexColorString = "#ffffff",
+            title = "Mercado de Vegueta - Tres Palmas",
             onNavigateBack = { },
             scrollBehavior = scrollBehavior
         )

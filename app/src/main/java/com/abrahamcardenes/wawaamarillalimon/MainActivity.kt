@@ -36,7 +36,7 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.BusRouteScreen
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.BusRouteScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers.TravellersScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
@@ -36,9 +36,9 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components.AvailableRoutes
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components.ConcessionNodesTabRow
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components.TimetableTopBar
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.AvailableRoutes
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
@@ -96,10 +96,10 @@ fun BusRouteUi(
         } else {
             Scaffold(
                 topBar = {
-                    TimetableTopBar(
+                    BusRouteTopAppBar(
                         busNumber = busNumber,
                         hexColorString = hexColorString,
-                        line = busRoute!!.nodes[tabSelected],
+                        title = busRoute!!.name,
                         onNavigateBack = onNavigateBack,
                         scrollBehavior = scrollBehavior
                     )

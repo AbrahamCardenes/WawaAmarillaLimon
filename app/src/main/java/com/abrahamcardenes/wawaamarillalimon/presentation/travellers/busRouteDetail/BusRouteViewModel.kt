@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

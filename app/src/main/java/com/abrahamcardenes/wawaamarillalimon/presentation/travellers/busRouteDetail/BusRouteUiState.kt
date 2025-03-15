@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants

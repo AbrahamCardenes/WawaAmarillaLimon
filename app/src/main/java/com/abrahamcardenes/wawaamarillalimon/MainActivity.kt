@@ -36,7 +36,7 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.TimetableScreenRoot
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.BusRouteScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers.TravellersScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity() {
                         composable<BusTimetable> { navBackstackEntry ->
                             val busNumber = navBackstackEntry.arguments?.getInt("busNumber") ?: -1
                             val hexColorString = navBackstackEntry.arguments?.getString("hexColorString") ?: ""
-                            TimetableScreenRoot(
+                            BusRouteScreen(
                                 busNumber = busNumber,
                                 hexColorString = hexColorString,
                                 onNavigateBack = navController::navigateUp

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

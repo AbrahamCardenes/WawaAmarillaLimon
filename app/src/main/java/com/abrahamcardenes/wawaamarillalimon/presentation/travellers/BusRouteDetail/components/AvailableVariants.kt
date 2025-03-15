@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.timetableDetail.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.BusRouteDetail.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -32,24 +32,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
-import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 fun AvailableRoutes(
-    routes: List<RoutePaths>,
-    selectedRoute: RoutePaths? = null,
-    onRouteSelection: (RoutePaths) -> Unit,
-    modifier: Modifier = Modifier
+    routes: List<Variants>,
+    onRouteSelection: (Variants) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedVariant: Variants? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    println(selectedVariant?.color)
     val backgroundColor = animateColorAsState(
-        targetValue = if (selectedRoute == null) Color.White else getComposeColorFromHexHtml(selectedRoute.hexColor),
+        targetValue = if (selectedVariant == null) Color.White else getComposeColorFromRGBAColor(selectedVariant.color),
         animationSpec = tween(250, 0, LinearEasing)
     )
 
+    println(backgroundColor.value)
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -64,7 +67,7 @@ fun AvailableRoutes(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (selectedRoute != null) {
+            if (selectedVariant != null) {
                 Box(
                     modifier = Modifier
                         .size(20.dp)
@@ -78,7 +81,7 @@ fun AvailableRoutes(
                     .weight(1f)
             ) {
                 Text(
-                    text = selectedRoute?.notes ?: "Selecciona tu ruta",
+                    text = selectedVariant?.name ?: "Selecciona tu ruta",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.animateContentSize()
                 )
@@ -104,12 +107,12 @@ fun AvailableRoutes(
                                 modifier = Modifier
                                     .size(20.dp)
                                     .clip(CircleShape)
-                                    .background(getComposeColorFromHexHtml(route.hexColor).copy(alpha = 0.75f))
+                                    .background(getComposeColorFromRGBAColor(route.color).copy(alpha = 0.75f))
                             )
                             Spacer(modifier = Modifier.width(12.dp))
 
                             Text(
-                                text = route.notes,
+                                text = route.name,
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
@@ -128,21 +131,21 @@ fun AvailableRoutes(
 @Preview(showBackground = true)
 fun AvailablePathsPreview() {
     var selectedRoute by remember {
-        mutableStateOf<RoutePaths?>(null)
+        mutableStateOf<Variants?>(null)
     }
     WawaAmarillaLimonTheme {
         AvailableRoutes(
-            selectedRoute = selectedRoute,
+            selectedVariant = selectedRoute,
             routes = listOf(
-                RoutePaths(
+                Variants(
                     type = "A",
-                    hexColor = "#009ee0",
-                    notes = "Por Tanatorio"
-                ),
-                RoutePaths(
-                    type = "A",
-                    hexColor = "#009036",
-                    notes = "Por las Majadillas"
+                    name = "Mercado de Vegueta - Tres Palmas",
+                    color = RGBAColor(
+                        red = 185,
+                        green = 102,
+                        blue = 161,
+                        alpha = 1
+                    )
                 )
             ),
             onRouteSelection = {

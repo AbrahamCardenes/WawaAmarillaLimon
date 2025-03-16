@@ -44,7 +44,7 @@ fun BusRouteScreen(
     onNavigateBack: () -> Unit
 ) {
     LaunchedEffect(Unit) {
-        busRouteViewModel.getTimetable(busIdNumber = busNumber)
+        busRouteViewModel.getBusRoute(busIdNumber = busNumber)
     }
 
     val busRouteUiState by busRouteViewModel.uiState.collectAsStateWithLifecycle()

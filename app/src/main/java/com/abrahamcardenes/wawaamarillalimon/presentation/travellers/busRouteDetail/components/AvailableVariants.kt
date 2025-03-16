@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
@@ -39,89 +40,89 @@ import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 fun AvailableRoutes(
-    routes: List<Variants>,
+    routes: List<Variants>?,
     onRouteSelection: (Variants) -> Unit,
     modifier: Modifier = Modifier,
     selectedVariant: Variants? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    println(selectedVariant?.color)
     val backgroundColor = animateColorAsState(
         targetValue = if (selectedVariant == null) Color.White else getComposeColorFromRGBAColor(selectedVariant.color),
         animationSpec = tween(250, 0, LinearEasing)
     )
 
-    println(backgroundColor.value)
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
-            .clickable {
-                expanded = true
-            }
-            .fillMaxWidth()
-            .padding(16.dp)
+    AnimatedVisibility(routes != null && routes.size > 1) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .clickable {
+                    expanded = true
+                }
+                .fillMaxWidth()
+                .padding(16.dp)
 
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            if (selectedVariant != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (selectedVariant != null) {
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(CircleShape)
+                            .background(backgroundColor.value)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                }
                 Box(
                     modifier = Modifier
-                        .size(20.dp)
-                        .clip(CircleShape)
-                        .background(backgroundColor.value)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = selectedVariant?.name ?: "Selecciona tu ruta",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.animateContentSize()
+                    )
+                }
+
+                Icon(Icons.Outlined.KeyboardArrowDown, contentDescription = null)
             }
-            Box(
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
             ) {
-                Text(
-                    text = selectedVariant?.name ?: "Selecciona tu ruta",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.animateContentSize()
-                )
-            }
+                routes!!.forEach { route ->
+                    DropdownMenuItem(
+                        text = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(4.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clip(CircleShape)
+                                        .background(getComposeColorFromRGBAColor(route.color).copy(alpha = 0.75f))
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
 
-            Icon(Icons.Outlined.KeyboardArrowDown, contentDescription = null)
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            routes.forEach { route ->
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(4.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(20.dp)
-                                    .clip(CircleShape)
-                                    .background(getComposeColorFromRGBAColor(route.color).copy(alpha = 0.75f))
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-
-                            Text(
-                                text = route.name,
-                                style = MaterialTheme.typography.titleMedium
-                            )
+                                Text(
+                                    text = route.name,
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+                        },
+                        onClick = {
+                            onRouteSelection(route)
+                            expanded = false
                         }
-                    },
-                    onClick = {
-                        onRouteSelection(route)
-                        expanded = false
-                    }
-                )
+                    )
+                }
             }
         }
     }

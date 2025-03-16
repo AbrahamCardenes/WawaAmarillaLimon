@@ -28,29 +28,38 @@ class BusRouteViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val _availableRouteStops = MutableStateFlow<List<ConcessionStop>>(emptyList())
+    private val _availableBackRouteStops = MutableStateFlow<List<ConcessionStop>>(emptyList())
     val availableRouteStops = _availableRouteStops.combine(uiState) { _, state ->
-        val possibleVariants = if (state.selectedIndex == 0) {
-            state.busRoute?.variantsGo
-        } else {
-            state.busRoute?.variantsBack
-        }
-        when {
-            possibleVariants == null -> emptyList()
-            state.selectedVariant == null -> {
-                state.busRoute?.stops?.filter {
-                    it.variants.any { variantLetter ->
-                        possibleVariants.map { defaultVariant -> defaultVariant.type }.contains(variantLetter)
-                    }
-                } ?: emptyList()
-            }
-
-            else -> {
-                state.busRoute?.stops?.filter {
-                    it.variants.contains(state.selectedVariant.type)
-                } ?: emptyList()
-            }
-        }
+        val goVariants = state.busRoute?.variantsGo
+        getAvailableRoutesFor(
+            possibleVariants = goVariants,
+            state = state
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+    val availableBackRouteStops = _availableBackRouteStops.combine(uiState) { _, state ->
+        val backwardVariants = state.busRoute?.variantsBack
+        getAvailableRoutesFor(
+            possibleVariants = backwardVariants,
+            state = state
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+
+    private fun getAvailableRoutesFor(possibleVariants: List<Variants>?, state: BusRouteUiState) = when {
+        possibleVariants == null -> emptyList()
+        state.selectedVariant == null -> {
+            state.busRoute?.stops?.filter {
+                it.variants.any { variantLetter ->
+                    possibleVariants.map { defaultVariant -> defaultVariant.type }.contains(variantLetter)
+                }
+            } ?: emptyList()
+        }
+
+        else -> {
+            state.busRoute?.stops?.filter {
+                it.variants.contains(state.selectedVariant.type)
+            } ?: emptyList()
+        }
+    }
 
     fun getTimetable(busIdNumber: BusIdNumber) {
         viewModelScope.launch {

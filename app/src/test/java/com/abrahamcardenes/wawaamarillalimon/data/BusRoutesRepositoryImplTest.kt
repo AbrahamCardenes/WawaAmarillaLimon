@@ -3,9 +3,9 @@ package com.abrahamcardenes.wawaamarillalimon.data
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiStaticApp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.google.common.truth.Truth.assertThat

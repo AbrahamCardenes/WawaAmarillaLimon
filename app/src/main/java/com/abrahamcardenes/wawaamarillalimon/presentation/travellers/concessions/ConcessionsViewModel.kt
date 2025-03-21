@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -16,23 +16,23 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class TravellersViewModel @Inject constructor(
+class ConcessionsViewModel @Inject constructor(
     private val getConcessionsUseCase: GetConcessionsUseCase
 ) : ViewModel() {
 
-    private val _travellersState = MutableStateFlow(TravellersUiState())
-    val travellersState = _travellersState.onStart {
+    private val _concessionState = MutableStateFlow(ConcessionsUiState())
+    val concessionUiState = _concessionState.onStart {
         getConcessions()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), TravellersUiState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), ConcessionsUiState())
 
     private fun getConcessions() {
-        _travellersState.update { state ->
+        _concessionState.update { state ->
             state.copy(isLoading = true)
         }
         viewModelScope.launch {
             getConcessionsUseCase()
                 .onSuccess { concessions ->
-                    _travellersState.update {
+                    _concessionState.update {
                         it.copy(concessions = concessions, isLoading = false)
                     }
                 }

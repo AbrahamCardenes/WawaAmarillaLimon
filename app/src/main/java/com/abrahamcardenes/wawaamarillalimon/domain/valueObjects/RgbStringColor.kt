@@ -20,3 +20,8 @@ fun RgbaStringColor.toRGBAColor(): RGBAColor {
         alpha = if (colors.size == 4) colors[3].toInt() else 1
     )
 }
+
+
+fun RGBAColor.toRgbStringColor(): RgbaStringColor {
+    return "rgb(${this.red}, ${this.green}, ${this.blue})"
+}

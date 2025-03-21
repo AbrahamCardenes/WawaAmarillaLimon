@@ -29,15 +29,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRgbStringColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot
 import com.abrahamcardenes.wawaamarillalimon.presentation.home.BusStopsScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusLines
+import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.BusRouteScreen
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers.TravellersScreenRoot
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsScreen
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,7 +50,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var selectedItem by remember { mutableIntStateOf(0) }
-            val items = listOf(BusStops, FavoritesBusStops, BusLines)
+            val items = listOf(BusStops, FavoritesBusStops, Concessions)
             val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Info)
             val unselectedIcons =
                 listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Info)
@@ -99,40 +101,45 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = BusStops,
                         modifier =
-                        Modifier
-                            .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding)
+                            Modifier
+                                .padding(innerPadding)
+                                .consumeWindowInsets(innerPadding)
                     ) {
                         composable<BusStops> {
                             BusStopsScreenRoot(
                                 modifier =
-                                Modifier
-                                    .fillMaxSize()
+                                    Modifier
+                                        .fillMaxSize()
                             )
                         }
 
                         composable<FavoritesBusStops> {
                             FavoritesStopsRoot(
                                 modifier =
-                                Modifier
-                                    .fillMaxSize()
+                                    Modifier
+                                        .fillMaxSize()
                             )
                         }
 
-                        composable<BusLines> {
-                            TravellersScreenRoot(
-                                onNavigateToTimeTable = { busNumber, hexColor ->
-                                    navController.navigate(BusTimetable(busNumber = busNumber, hexColorString = hexColor))
+                        composable<Concessions> {
+                            ConcessionsScreen(
+                                onNavigateToTimeTable = { busNumber, rgbaColor ->
+                                    navController.navigate(
+                                        BusTimetable(
+                                            busNumber = busNumber,
+                                            rgbColorString = rgbaColor.toRgbStringColor()
+                                        )
+                                    )
                                 }
                             )
                         }
 
                         composable<BusTimetable> { navBackstackEntry ->
-                            val busNumber = navBackstackEntry.arguments?.getInt("busNumber") ?: -1
-                            val hexColorString = navBackstackEntry.arguments?.getString("hexColorString") ?: ""
+                            val busNumber = navBackstackEntry.arguments?.getString("busNumber") ?: ""
+                            val rgbColorString = navBackstackEntry.arguments?.getString("rgbColorString") ?: ""
                             BusRouteScreen(
                                 busNumber = busNumber,
-                                hexColorString = hexColorString,
+                                rgbaColor = rgbColorString.toRGBAColor(),
                                 onNavigateBack = navController::navigateUp
                             )
                         }

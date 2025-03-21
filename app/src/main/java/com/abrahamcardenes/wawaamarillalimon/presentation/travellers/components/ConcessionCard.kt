@@ -14,18 +14,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
+import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun ConcessionCard(concession: Concession, onClick: (Int, HexColorString) -> Unit, modifier: Modifier = Modifier) {
-    val dynamicColor = getComposeColorFromHexHtml(concession.color)
+fun ConcessionCard(concession: ConcessionDetails, onClick: (String, RGBAColor) -> Unit, modifier: Modifier = Modifier) {
+    val dynamicColor = getComposeColorFromRGBAColor(concession.color)
     Card(
         modifier = modifier.fillMaxWidth(),
         onClick = {
-            onClick(concession.busNumber, concession.color)
+            onClick(
+                concession.commercial,
+                concession.color
+            )
         }
     ) {
         Row(
@@ -37,7 +44,7 @@ fun ConcessionCard(concession: Concession, onClick: (Int, HexColorString) -> Uni
         ) {
             BusLineNumberCircle(
                 dynamicColor = dynamicColor,
-                commercialName = concession.commercialName,
+                commercialName = concession.commercial,
                 modifier = Modifier
                     .size(50.dp)
             )
@@ -58,11 +65,15 @@ fun ConcessionCardPreview() {
     WawaAmarillaLimonTheme {
         ConcessionCard(
             onClick = { _, _ -> },
-            concession = Concession(
-                busNumber = 91,
-                name = "Nombre",
-                commercialName = "L2",
-                color = "#FFFFFF"
+            concession = ConcessionDetails(
+                commercial = "91",
+                name = "Teatro - Tamaraceite",
+                color = RGBAColor(
+                    red = 0,
+                    green = 144,
+                    blue = 54,
+                    alpha = 1
+                )
             )
         )
     }

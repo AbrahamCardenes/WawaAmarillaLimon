@@ -25,16 +25,18 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.BusLineNumberCircle
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
+import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun BusRouteTopAppBar(
-    busNumber: Int,
-    hexColorString: HexColorString,
+    commercial: String,
+    rgbaColor: RGBAColor,
     title: String,
     onNavigateBack: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
@@ -59,8 +61,8 @@ fun BusRouteTopAppBar(
 
             ) {
                 BusLineNumberCircle(
-                    dynamicColor = getComposeColorFromHexHtml(hexColorString),
-                    commercialName = busNumber.toString(),
+                    dynamicColor = getComposeColorFromRGBAColor(rgbaColor),
+                    commercialName = commercial.toString(),
                     modifier = Modifier.size(circleSize)
                 )
                 Text(
@@ -89,8 +91,13 @@ fun TimetableTopBarPreview() {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
         BusRouteTopAppBar(
-            busNumber = 1,
-            hexColorString = "#ffffff",
+            commercial = "1",
+            rgbaColor = RGBAColor(
+                red = 185,
+                green = 102,
+                blue = 161,
+                alpha = 1
+            ),
             title = "Mercado de Vegueta - Tres Palmas",
             onNavigateBack = { },
             scrollBehavior = scrollBehavior

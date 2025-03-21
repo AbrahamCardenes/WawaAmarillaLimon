@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
@@ -38,8 +38,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BusRouteScreen(
-    busNumber: Int,
-    hexColorString: String,
+    busNumber: String,
+    rgbaColor: RGBAColor,
     busRouteViewModel: BusRouteViewModel = hiltViewModel<BusRouteViewModel>(),
     onNavigateBack: () -> Unit
 ) {
@@ -52,8 +52,8 @@ fun BusRouteScreen(
     val availableBackRouteStops by busRouteViewModel.availableBackRouteStops.collectAsStateWithLifecycle()
 
     BusRouteUi(
-        busNumber = busNumber,
-        hexColorString = hexColorString,
+        commercialLine = busNumber,
+        rgbaColor = rgbaColor,
         uiState = busRouteUiState,
         availableGoRouteStops = availableGoRouteStops,
         availableBackRouteStops = availableBackRouteStops,
@@ -67,8 +67,8 @@ fun BusRouteScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BusRouteUi(
-    busNumber: Int,
-    hexColorString: String,
+    commercialLine: String,
+    rgbaColor: RGBAColor,
     uiState: BusRouteUiState,
     availableGoRouteStops: List<RouteStop>,
     availableBackRouteStops: List<RouteStop>,
@@ -114,8 +114,8 @@ fun BusRouteUi(
             Scaffold(
                 topBar = {
                     BusRouteTopAppBar(
-                        busNumber = busNumber,
-                        hexColorString = hexColorString,
+                        commercial = commercialLine,
+                        rgbaColor = rgbaColor,
                         title = busRoute!!.name,
                         onNavigateBack = onNavigateBack,
                         scrollBehavior = scrollBehavior
@@ -161,8 +161,13 @@ fun BusRouteUi(
 private fun TimetablePreview() {
     WawaAmarillaLimonTheme {
         BusRouteUi(
-            busNumber = 10,
-            hexColorString = "#FFFFFF",
+            commercialLine = "10",
+            rgbaColor = RGBAColor(
+                red = 185,
+                green = 102,
+                blue = 161,
+                alpha = 1
+            ),
             uiState = BusRouteUiState(
                 isLoading = false,
                 busRoute = BusRoute(

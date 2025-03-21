@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes
+package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.staticApp.detail
 
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.RgbaStringColor
 import com.squareup.moshi.Json

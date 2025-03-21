@@ -3,10 +3,11 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetConcessionsUseCase
-import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers.TravellersUiState
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers.TravellersViewModel
+import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessionsDetails
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsUiState
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -18,17 +19,17 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class TravellersViewModelTest {
+class ConcessionsViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private lateinit var travellersViewModel: TravellersViewModel
+    private lateinit var concessionsViewModel: ConcessionsViewModel
     private val getConcessionsUseCase = mockk<GetConcessionsUseCase>(relaxed = true)
 
     @Before
     fun setup() {
-        travellersViewModel = TravellersViewModel(getConcessionsUseCase)
+        concessionsViewModel = ConcessionsViewModel(getConcessionsUseCase)
     }
 
     @After
@@ -38,18 +39,18 @@ class TravellersViewModelTest {
 
     @Test
     fun `Given initial status it should be loading and with empty items`() = runTest {
-        assertThat(travellersViewModel.travellersState.value).isEqualTo(TravellersUiState())
+        assertThat(concessionsViewModel.concessionUiState.value).isEqualTo(ConcessionsUiState())
     }
 
     @Test
     fun `Given a call to getConcessions use case it should return the concessions and loading state be false`() = runTest {
         coEvery {
             getConcessionsUseCase()
-        } returns Result.Success(mockedConcessions())
+        } returns Result.Success(Concessions(mockedConcessionsDetails()))
 
-        travellersViewModel.travellersState.test {
+        concessionsViewModel.concessionUiState.test {
             val emission = awaitItem()
-            assertThat(emission.concessions).isEqualTo(mockedConcessions())
+            assertThat(emission.concessions).isEqualTo(Concessions(mockedConcessionsDetails()))
             assertThat(emission.isLoading).isFalse()
         }
     }

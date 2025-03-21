@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -12,16 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.ConcessionCard
 
 @Composable
-fun TravellersScreenRoot(
-    onNavigateToTimeTable: (Int, HexColorString) -> Unit,
-    travellersViewModel: TravellersViewModel = hiltViewModel<TravellersViewModel>(),
+fun ConcessionsScreen(
+    onNavigateToTimeTable: (String, RGBAColor) -> Unit,
+    concessionsViewModel: ConcessionsViewModel = hiltViewModel<ConcessionsViewModel>(),
     modifier: Modifier = Modifier
 ) {
-    val uiState by travellersViewModel.travellersState.collectAsStateWithLifecycle()
+    val uiState by concessionsViewModel.concessionUiState.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = modifier
@@ -31,7 +31,7 @@ fun TravellersScreenRoot(
             .padding(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(uiState.concessions) {
+        items(uiState.concessions.concessions) {
             ConcessionCard(concession = it, onClick = onNavigateToTimeTable)
         }
         item {

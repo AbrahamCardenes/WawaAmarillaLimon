@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
@@ -32,7 +32,7 @@ fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modi
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = routeStop.name,
+                    text = routeStop.number + " - " + routeStop.name,
                     style = MaterialTheme.typography.bodyLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

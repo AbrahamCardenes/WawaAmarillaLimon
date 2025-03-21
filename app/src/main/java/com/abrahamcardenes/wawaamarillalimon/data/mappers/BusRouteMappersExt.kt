@@ -1,11 +1,11 @@
 package com.abrahamcardenes.wawaamarillalimon.data.mappers
 
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes.BusRouteDto
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes.RouteStopsDto
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.busRoutes.VariantsDto
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.staticApp.detail.BusRouteDto
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.staticApp.detail.RouteStopsDto
+import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.staticApp.detail.VariantsDto
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
 
 fun BusRouteDto.toDomain(): BusRoute = BusRoute(

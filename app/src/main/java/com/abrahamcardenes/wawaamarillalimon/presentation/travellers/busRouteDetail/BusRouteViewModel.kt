@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusLineNumber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,7 +67,7 @@ class BusRouteViewModel @Inject constructor(
         }
     }
 
-    fun getBusRoute(busIdNumber: BusIdNumber) {
+    fun getBusRoute(busIdNumber: String) {
         viewModelScope.launch {
             getBusRouteUseCase(busIdNumber = busIdNumber)
                 .onSuccess { busRoute ->

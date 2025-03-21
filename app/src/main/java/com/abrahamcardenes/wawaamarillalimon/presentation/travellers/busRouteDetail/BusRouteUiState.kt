@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 
 data class BusRouteUiState(
     val isLoading: Boolean = true,

@@ -3,8 +3,8 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDe
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
@@ -54,9 +54,9 @@ class BusRouteViewModelTest {
     @Test
     fun `Given a call to getBusRoute it should update the uiState and the available stops`() = runTest {
         coEvery {
-            getBusRouteUseCase(busIdNumber = 50)
+            getBusRouteUseCase(busIdNumber = "50")
         } returns Result.Success(busRouteFake())
-        busRouteViewModel.getBusRoute(busIdNumber = 50)
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
 
         busRouteViewModel.uiState.test {
             val firstEmission = awaitItem()
@@ -76,9 +76,9 @@ class BusRouteViewModelTest {
     @Test
     fun `Given the user selecting a tab it should update the uiState`() = runTest {
         coEvery {
-            getBusRouteUseCase(busIdNumber = 50)
+            getBusRouteUseCase(busIdNumber = "50")
         } returns Result.Success(busRouteFake())
-        busRouteViewModel.getBusRoute(busIdNumber = 50)
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
         busRouteViewModel.onIndexSelection(value = 1)
 
         busRouteViewModel.uiState.test {
@@ -103,10 +103,10 @@ class BusRouteViewModelTest {
         )
 
         coEvery {
-            getBusRouteUseCase(busIdNumber = 50)
+            getBusRouteUseCase(busIdNumber = "50")
         } returns Result.Success(busRouteFake())
 
-        busRouteViewModel.getBusRoute(busIdNumber = 50)
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
         busRouteViewModel.onIndexSelection(value = 1)
 
         busRouteViewModel.uiState.test {
@@ -172,9 +172,9 @@ class BusRouteViewModelTest {
             )
 
             coEvery {
-                getBusRouteUseCase(busIdNumber = 50)
+                getBusRouteUseCase(busIdNumber = "50")
             } returns Result.Success(busRouteFake())
-            busRouteViewModel.getBusRoute(busIdNumber = 50)
+            busRouteViewModel.getBusRoute(busIdNumber = "50")
             busRouteViewModel.onIndexSelection(value = 1)
 
             busRouteViewModel.uiState.test {

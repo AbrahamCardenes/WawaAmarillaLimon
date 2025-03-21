@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.domain.models.busRoutes
+package com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.VariantLetter

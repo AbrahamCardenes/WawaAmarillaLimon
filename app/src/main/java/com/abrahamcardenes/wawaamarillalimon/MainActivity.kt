@@ -33,9 +33,9 @@ import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRgbStringColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot
 import com.abrahamcardenes.wawaamarillalimon.presentation.home.BusStopsScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
+import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.BusRouteScreen
@@ -101,23 +101,23 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = BusStops,
                         modifier =
-                            Modifier
-                                .padding(innerPadding)
-                                .consumeWindowInsets(innerPadding)
+                        Modifier
+                            .padding(innerPadding)
+                            .consumeWindowInsets(innerPadding)
                     ) {
                         composable<BusStops> {
                             BusStopsScreenRoot(
                                 modifier =
-                                    Modifier
-                                        .fillMaxSize()
+                                Modifier
+                                    .fillMaxSize()
                             )
                         }
 
                         composable<FavoritesBusStops> {
                             FavoritesStopsRoot(
                                 modifier =
-                                    Modifier
-                                        .fillMaxSize()
+                                Modifier
+                                    .fillMaxSize()
                             )
                         }
 

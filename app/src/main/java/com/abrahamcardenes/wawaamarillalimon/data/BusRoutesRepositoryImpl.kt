@@ -11,14 +11,10 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusRoutesRepository
 
 class BusRoutesRepositoryImpl(private val apiService: ApiStaticApp) : BusRoutesRepository {
-    override suspend fun getLines(): Result<Concessions, DataError> {
-        return safecall {
-            apiService.getLines()
-        }.map {
-            it.response.concessionsDto.toDomain()
-        }
-
-
+    override suspend fun getLines(): Result<Concessions, DataError> = safecall {
+        apiService.getLines()
+    }.map {
+        it.response.concessionsDto.toDomain()
     }
 
     override suspend fun getBusRoutes(busNumber: String): Result<BusRoute, DataError.Remote> {

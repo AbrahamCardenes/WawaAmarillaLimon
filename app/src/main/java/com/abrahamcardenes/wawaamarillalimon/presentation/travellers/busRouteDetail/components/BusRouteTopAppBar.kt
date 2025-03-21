@@ -26,9 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.BusLineNumberCircle
-import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

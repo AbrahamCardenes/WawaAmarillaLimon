@@ -32,7 +32,6 @@ class RgbaStringColorTest {
         assertThat(rgbaString.toRGBAColor()).isEqualTo(expected)
     }
 
-
     @Test
     fun `Given a RGBColor it should return a Rgba string color`() {
         val expected = "rgb(188, 228, 246)"

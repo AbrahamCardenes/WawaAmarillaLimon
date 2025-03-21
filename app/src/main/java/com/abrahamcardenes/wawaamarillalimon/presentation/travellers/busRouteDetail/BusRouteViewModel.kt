@@ -7,8 +7,6 @@ import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusLineNumber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

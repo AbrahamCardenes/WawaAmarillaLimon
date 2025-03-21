@@ -28,7 +28,6 @@ fun mockedConcessionsDetails() = listOf(
     ConcessionDetails(
         commercial = "13",
         name = "MERCADO DE VEGUETA - TRES PALMAS",
-        color =  RGBAColor(red = 185, green = 102, blue = 161, alpha = 1)
+        color = RGBAColor(red = 185, green = 102, blue = 161, alpha = 1)
     )
 )
-

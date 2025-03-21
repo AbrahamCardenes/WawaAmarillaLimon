@@ -6,16 +6,12 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
 
-fun ConcessionsDto.toDomain(): Concessions {
-    return Concessions(
-        this.concessions.map { it.toDomain() }
-    )
-}
+fun ConcessionsDto.toDomain(): Concessions = Concessions(
+    this.concessions.map { it.toDomain() }
+)
 
-fun ConcessionStaticAppDto.toDomain(): ConcessionDetails {
-    return ConcessionDetails(
-        name = this.name,
-        commercial = this.commercial,
-        color = this.color.toRGBAColor()
-    )
-}
+fun ConcessionStaticAppDto.toDomain(): ConcessionDetails = ConcessionDetails(
+    name = this.name,
+    commercial = this.commercial,
+    color = this.color.toRGBAColor()
+)

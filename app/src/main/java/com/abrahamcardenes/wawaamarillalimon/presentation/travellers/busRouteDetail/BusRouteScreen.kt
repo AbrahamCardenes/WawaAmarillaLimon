@@ -23,11 +23,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
+import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.AvailableRoutes
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar

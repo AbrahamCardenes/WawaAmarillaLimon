@@ -16,10 +16,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.HexColorString
-import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromHexHtml
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

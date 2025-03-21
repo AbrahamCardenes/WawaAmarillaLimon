@@ -3,8 +3,6 @@ package com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusRoutesRepository
-import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
-import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessionsDetails
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks

@@ -3,10 +3,10 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDe
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.core.Result
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.backStopsTypeBD
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake

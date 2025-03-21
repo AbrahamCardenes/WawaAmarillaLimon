@@ -21,7 +21,4 @@ fun RgbaStringColor.toRGBAColor(): RGBAColor {
     )
 }
 
-
-fun RGBAColor.toRgbStringColor(): RgbaStringColor {
-    return "rgb(${this.red}, ${this.green}, ${this.blue})"
-}
+fun RGBAColor.toRgbStringColor(): RgbaStringColor = "rgb(${this.red}, ${this.green}, ${this.blue})"

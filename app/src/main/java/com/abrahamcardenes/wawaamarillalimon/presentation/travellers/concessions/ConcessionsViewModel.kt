@@ -20,19 +20,19 @@ class ConcessionsViewModel @Inject constructor(
     private val getConcessionsUseCase: GetConcessionsUseCase
 ) : ViewModel() {
 
-    private val _concessionState = MutableStateFlow(ConcessionsUiState())
-    val concessionUiState = _concessionState.onStart {
+    private val _concessionUiState = MutableStateFlow(ConcessionsUiState())
+    val concessionUiState = _concessionUiState.onStart {
         getConcessions()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), ConcessionsUiState())
 
     private fun getConcessions() {
-        _concessionState.update { state ->
+        _concessionUiState.update { state ->
             state.copy(isLoading = true)
         }
         viewModelScope.launch {
             getConcessionsUseCase()
                 .onSuccess { concessions ->
-                    _concessionState.update {
+                    _concessionUiState.update {
                         it.copy(concessions = concessions, isLoading = false)
                     }
                 }

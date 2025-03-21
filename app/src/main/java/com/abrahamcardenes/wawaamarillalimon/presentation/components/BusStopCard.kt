@@ -37,7 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.R
-import com.abrahamcardenes.wawaamarillalimon.domain.models.BusLine
+import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

@@ -2,7 +2,7 @@ package com.abrahamcardenes.wawaamarillalimon.di.travellers
 
 import com.abrahamcardenes.wawaamarillalimon.data.TravellersRepositoryImpl
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
-import com.abrahamcardenes.wawaamarillalimon.domain.TravellersRepository
+import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

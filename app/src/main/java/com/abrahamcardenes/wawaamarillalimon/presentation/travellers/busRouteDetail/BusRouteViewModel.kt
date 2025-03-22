@@ -6,7 +6,7 @@ import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusRouteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,7 +67,7 @@ class BusRouteViewModel @Inject constructor(
 
     fun getBusRoute(busIdNumber: String) {
         viewModelScope.launch {
-            getBusRouteUseCase(busIdNumber = busIdNumber)
+            getBusRouteUseCase(concessionId =  busIdNumber)
                 .onSuccess { busRoute ->
                     _uiState.update { state ->
                         state.copy(

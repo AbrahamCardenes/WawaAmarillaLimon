@@ -7,7 +7,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBusRouteUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.backStopsTypeBD
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake
 import com.abrahamcardenes.wawaamarillalimon.fakes.goStopsTypeA
@@ -54,7 +54,7 @@ class BusRouteViewModelTest {
     @Test
     fun `Given a call to getBusRoute it should update the uiState and the available stops`() = runTest {
         coEvery {
-            getBusRouteUseCase(busIdNumber = "50")
+            getBusRouteUseCase(concessionId = "50")
         } returns Result.Success(busRouteFake())
         busRouteViewModel.getBusRoute(busIdNumber = "50")
 
@@ -76,7 +76,7 @@ class BusRouteViewModelTest {
     @Test
     fun `Given the user selecting a tab it should update the uiState`() = runTest {
         coEvery {
-            getBusRouteUseCase(busIdNumber = "50")
+            getBusRouteUseCase(concessionId = "50")
         } returns Result.Success(busRouteFake())
         busRouteViewModel.getBusRoute(busIdNumber = "50")
         busRouteViewModel.onIndexSelection(value = 1)
@@ -103,7 +103,7 @@ class BusRouteViewModelTest {
         )
 
         coEvery {
-            getBusRouteUseCase(busIdNumber = "50")
+            getBusRouteUseCase(concessionId = "50")
         } returns Result.Success(busRouteFake())
 
         busRouteViewModel.getBusRoute(busIdNumber = "50")
@@ -172,7 +172,7 @@ class BusRouteViewModelTest {
             )
 
             coEvery {
-                getBusRouteUseCase(busIdNumber = "50")
+                getBusRouteUseCase(concessionId = "50")
             } returns Result.Success(busRouteFake())
             busRouteViewModel.getBusRoute(busIdNumber = "50")
             busRouteViewModel.onIndexSelection(value = 1)

@@ -8,6 +8,10 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.wawaamarillalimon.jsons.shortStaticAppLinesJson
 import com.google.common.truth.Truth.assertThat
 import emptyLatitudeAndLongitude
 import io.mockk.clearAllMocks
@@ -37,6 +41,55 @@ class BusRoutesRepositoryImplTest {
         clearAllMocks()
         mockWebServer.shutdown()
     }
+
+    @Test
+    fun `Given a call to concessions it should return all bus lines`() = runTest {
+        val expected = Result.Success(
+            Concessions(
+                concessions = listOf(
+                    ConcessionDetails(
+                        name = "Puerto - Hoya de La Plata",
+                        commercial = "12",
+                        color = RGBAColor(
+                            red = 226,
+                            green = 0,
+                            blue = 26,
+                            alpha = 1
+                        )
+                    ),
+                    ConcessionDetails(
+                        name = "Mercado de Vegueta - Tres Palmas",
+                        commercial = "13",
+                        color = RGBAColor(
+                            red = 185,
+                            green = 102,
+                            blue = 161,
+                            alpha = 1
+                        )
+                    ),
+                    ConcessionDetails(
+                        name = "Teatro - Tamaraceite",
+                        commercial = "L3",
+                        color = RGBAColor(
+                            red = 188,
+                            green = 228,
+                            blue = 246,
+                            alpha = 1
+                        )
+                    )
+
+                )
+            )
+        )
+        ServerMocks.enqueue(
+            code = 200,
+            body = shortStaticAppLinesJson,
+            mockWebServer = mockWebServer
+        )
+        val result = repository.getLines()
+        assertThat(result).isEqualTo(expected)
+    }
+
 
     @Test
     fun `Given a call to some route line it should return that BusRouteLine`() = runTest {

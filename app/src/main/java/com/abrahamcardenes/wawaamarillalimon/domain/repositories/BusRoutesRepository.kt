@@ -7,5 +7,5 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions
 
 interface BusRoutesRepository {
     suspend fun getLines(): Result<Concessions, DataError>
-    suspend fun getBusRoutes(busNumber: String): Result<BusRoute, DataError>
+    suspend fun getBusRoutes(concessionId: String): Result<BusRoute, DataError>
 }

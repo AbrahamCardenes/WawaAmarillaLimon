@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers
+package com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions
 
 import com.abrahamcardenes.wawaamarillalimon.core.DataError
 import com.abrahamcardenes.wawaamarillalimon.core.Result

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetConcessionsUseCase
+import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetConcessionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

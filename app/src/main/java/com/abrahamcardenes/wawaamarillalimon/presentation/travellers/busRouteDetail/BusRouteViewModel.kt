@@ -67,7 +67,7 @@ class BusRouteViewModel @Inject constructor(
 
     fun getBusRoute(busIdNumber: String) {
         viewModelScope.launch {
-            getBusRouteUseCase(concessionId =  busIdNumber)
+            getBusRouteUseCase(concessionId = busIdNumber)
                 .onSuccess { busRoute ->
                     _uiState.update { state ->
                         state.copy(

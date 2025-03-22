@@ -10,7 +10,6 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.R
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.jsons.shortStaticAppLinesJson
 import com.google.common.truth.Truth.assertThat
 import emptyLatitudeAndLongitude
@@ -89,7 +88,6 @@ class BusRoutesRepositoryImplTest {
         val result = repository.getLines()
         assertThat(result).isEqualTo(expected)
     }
-
 
     @Test
     fun `Given a call to some route line it should return that BusRouteLine`() = runTest {

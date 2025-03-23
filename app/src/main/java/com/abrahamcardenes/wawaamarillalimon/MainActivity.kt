@@ -25,6 +25,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -37,9 +39,11 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
+import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.WawaBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.BusRouteScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsScreen
+import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.WawaBalanceScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,11 +53,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val cardFilled = ImageVector.vectorResource(R.drawable.card_filled)
+            val cardOutlined = ImageVector.vectorResource(R.drawable.card_outlined)
             var selectedItem by remember { mutableIntStateOf(0) }
-            val items = listOf(BusStops, FavoritesBusStops, Concessions)
-            val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Info)
+            val items = listOf(BusStops, FavoritesBusStops, Concessions, WawaBalance)
+            val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Info, cardFilled)
             val unselectedIcons =
-                listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Info)
+                listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Info, cardOutlined)
 
             val navController = rememberNavController()
 
@@ -142,6 +148,10 @@ class MainActivity : ComponentActivity() {
                                 rgbaColor = rgbColorString.toRGBAColor(),
                                 onNavigateBack = navController::navigateUp
                             )
+                        }
+
+                        composable<WawaBalance> {
+                            WawaBalanceScreenRoot()
                         }
                     }
                 }

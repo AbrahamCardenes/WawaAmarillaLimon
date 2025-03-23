@@ -22,7 +22,13 @@ import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun BusTextField(label: String, value: String, onUserInput: (String) -> Unit, modifier: Modifier = Modifier) {
+fun BusTextField(
+    label: String,
+    value: String,
+    onUserInput: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    trailingIcon: @Composable (() -> Unit)? = { Icon(imageVector = Icons.Outlined.Search, contentDescription = null) }
+) {
     OutlinedTextField(
         value = value,
         onValueChange = { input ->
@@ -35,9 +41,7 @@ fun BusTextField(label: String, value: String, onUserInput: (String) -> Unit, mo
                 style = MaterialTheme.typography.labelLarge
             )
         },
-        trailingIcon = {
-            Icon(imageVector = Icons.Outlined.Search, contentDescription = null)
-        },
+        trailingIcon = trailingIcon,
         modifier =
         modifier
             .fillMaxWidth()

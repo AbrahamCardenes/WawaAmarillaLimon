@@ -9,8 +9,10 @@ import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.t
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
+import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.WawaCardNumber
 
 class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
@@ -21,6 +23,12 @@ class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepos
 
     override suspend fun getTimetables(busNumber: BusIdNumber): Result<BusTimetables, DataError> = safecall {
         api.getTimetable(busIdNumber = busNumber)
+    }.map {
+        it.toDomain()
+    }
+
+    override suspend fun getBalance(cardNumber: WawaCardNumber): Result<WawaCardBalance, DataError> = safecall {
+        api.getBalance(cardNumber = cardNumber)
     }.map {
         it.toDomain()
     }

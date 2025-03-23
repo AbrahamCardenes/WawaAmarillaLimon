@@ -10,7 +10,9 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
+import com.abrahamcardenes.wawaamarillalimon.fakes.mockedWawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.jsons.concessionsResponse
+import com.abrahamcardenes.wawaamarillalimon.jsons.ogs.ogWawaCardBalanceJson
 import com.abrahamcardenes.wawaamarillalimon.jsons.shortLine10Timetable
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
@@ -151,6 +153,23 @@ class TravellersRepositoryImplTest {
         )
 
         val result = repository.getTimetables(busNumber = 10)
+
+        assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `Given a wawa card number it should return the balance`() = runTest {
+        val expected = Result.Success(
+            mockedWawaCardBalance()
+        )
+
+        ServerMocks.enqueue(
+            code = 200,
+            body = ogWawaCardBalanceJson,
+            mockWebServer = mockWebServer
+        )
+
+        val result = repository.getBalance("529491")
 
         assertThat(result).isEqualTo(expected)
     }

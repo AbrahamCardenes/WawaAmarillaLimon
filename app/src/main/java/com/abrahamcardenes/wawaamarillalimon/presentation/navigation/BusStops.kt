@@ -15,11 +15,15 @@ object FavoritesBusStops : NavRoutes
 object Concessions : NavRoutes
 
 @Serializable
+object WawaBalance : NavRoutes
+
+@Serializable
 data class BusTimetable(val busNumber: String, val rgbColorString: RgbaStringColor) : NavRoutes
 
 fun NavRoutes.getLabels(): String = when (this) {
     is BusStops -> "Paradas"
     is FavoritesBusStops -> "Favoritas"
-    is Concessions -> "Concessions"
+    is Concessions -> "Líneas"
+    is WawaBalance -> "Saldo Wawa"
     else -> ""
 }

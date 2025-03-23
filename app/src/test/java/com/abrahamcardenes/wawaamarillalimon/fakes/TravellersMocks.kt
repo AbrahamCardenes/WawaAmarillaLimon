@@ -3,6 +3,7 @@ package com.abrahamcardenes.wawaamarillalimon.fakes
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 
 fun mockedConcessions() = listOf(
     Concession(
@@ -30,4 +31,10 @@ fun mockedConcessionsDetails() = listOf(
         name = "MERCADO DE VEGUETA - TRES PALMAS",
         color = RGBAColor(red = 185, green = 102, blue = 161, alpha = 1)
     )
+)
+
+fun mockedWawaCardBalance(): WawaCardBalance = WawaCardBalance(
+    code = "529491",
+    balance = 6.60,
+    date = "03-02-2025 11:30:21"
 )

@@ -1,18 +1,20 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -20,6 +22,7 @@ import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,14 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.wawaamarillalimon.R
-import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
+import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.textfields.BusTextField
 import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.components.BalanceCard
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewModel()) {
     val uiState by wawaBalanceViewModel.balanceUiState.collectAsStateWithLifecycle()
+
     WawaBalanceContent(
         uiState = uiState,
         onCardNumberChange = wawaBalanceViewModel::onCardNumberChange,
@@ -53,6 +58,14 @@ fun WawaBalanceContent(
     onGetBalance: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val state = rememberLazyListState()
+
+    LaunchedEffect(uiState.wawaCards.size) {
+        if (uiState.wawaCards.isEmpty()) return@LaunchedEffect
+        delay(250)
+        state.animateScrollToItem(0)
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -62,28 +75,27 @@ fun WawaBalanceContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AnimatedContent(uiState.isLoading) { isLoading ->
-            if (isLoading) {
-                LoadingCircles()
-            } else {
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    if (uiState.wawaCardBalance != null) {
-                        item {
-                            BalanceCard(
-                                wawaCardBalance = uiState.wawaCardBalance,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                }
+        LazyColumn(
+            state = state,
+            modifier = Modifier
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
+                BalanceCard(
+                    wawaCardBalance = it,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItem()
+                )
             }
+
+            item { Spacer(Modifier.height(8.dp)) }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Max),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -98,8 +110,12 @@ fun WawaBalanceContent(
             FilledTonalIconButton(
                 onClick = onGetBalance,
                 modifier = Modifier
+                    .offset(y = 3.5.dp)
+                    .height(IntrinsicSize.Max)
+                    .width(IntrinsicSize.Max)
                     .clip(CircleShape)
-                    .aspectRatio(1f)
+                    .align(Alignment.CenterVertically)
+
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Search,
@@ -116,10 +132,19 @@ fun WawaBalanceContent(
 fun WawaBalancePreview() {
     WawaAmarillaLimonTheme {
         WawaBalanceContent(
-            uiState = BalanceUiState(),
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            uiState = BalanceUiState(
+                wawaCards = mutableListOf(
+                    WawaCardBalance(
+                        code = "579997",
+                        balance = 6.60,
+                        date = "03-02-2025 17:18:21"
+                    )
+                )
+            ),
+
+            onCardNumberChange = {},
             onGetBalance = {},
-            onCardNumberChange = {}
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         )
     }
 }

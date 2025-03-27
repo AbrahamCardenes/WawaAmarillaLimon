@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBalanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -19,36 +20,43 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
     private val _balanceUiState = MutableStateFlow(BalanceUiState())
     val balanceUiState = _balanceUiState.asStateFlow()
 
+    init {
+        imTooLazyToTestThisManually()
+    }
+
     fun onCardNumberChange(value: String) {
         _balanceUiState.update {
             it.copy(cardNumber = value)
         }
     }
 
-    fun loadingStatusTo(value: Boolean) {
-        _balanceUiState.update {
-            it.copy(isLoading = value)
-        }
-    }
-
     fun getBalance() {
-        loadingStatusTo(value = true)
         viewModelScope.launch {
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
-                    _balanceUiState.update {
-                        it.copy(wawaCardBalance = wawaBalance, isLoading = false)
+                    _balanceUiState.update { state ->
+                        val auxList = state.wawaCards.toMutableList()
+                        auxList.add(0, wawaBalance)
+                        val cards = (auxList).distinctBy { it.code }
+                        state.copy(wawaCards = cards)
                     }
                 }
                 .onError {
-                    loadingStatusTo(value = false)
                 }
         }
     }
-}
 
-data class BalanceUiState(
-    val cardNumber: String = "",
-    val wawaCardBalance: WawaCardBalance? = null,
-    val isLoading: Boolean = false
-)
+    private fun imTooLazyToTestThisManually() {
+        viewModelScope.launch {
+            var initialCarNumber = 579990
+            repeat(10) {
+                launch {
+                    onCardNumberChange(initialCarNumber.toString())
+                    getBalance()
+                    initialCarNumber++
+                    delay(2.seconds)
+                }.join()
+            }
+        }
+    }
+}

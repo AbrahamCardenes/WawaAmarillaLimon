@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.wawaamarillalimon.R
@@ -51,7 +52,11 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
 
     WawaBalanceContent(
         uiState = uiState,
-        onCardNumberChange = wawaBalanceViewModel::onCardNumberChange,
+        onCardNumberChange = { value ->
+            if (value.isDigitsOnly()) {
+                wawaBalanceViewModel.onCardNumberChange(value)
+            }
+        },
         onGetBalance = wawaBalanceViewModel::getBalance,
         modifier = Modifier
     )

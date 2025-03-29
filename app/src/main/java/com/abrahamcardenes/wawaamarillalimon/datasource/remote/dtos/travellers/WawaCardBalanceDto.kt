@@ -16,6 +16,14 @@ data class WawaCardBalanceDto(
 
 fun WawaCardBalanceDto.toDomain(): WawaCardBalance = WawaCardBalance(
     code = this.code,
-    balance = this.balance.toDouble(),
+    balance = this.balance.balanceToDouble(),
     date = this.date
 )
+
+fun String.balanceToDouble(): Double = try {
+    this.toDouble()
+} catch (
+    e: NumberFormatException
+) {
+    0.0
+}

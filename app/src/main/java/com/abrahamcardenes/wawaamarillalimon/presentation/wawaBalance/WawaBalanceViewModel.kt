@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
@@ -21,11 +22,12 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
     val balanceUiState = _balanceUiState.asStateFlow()
 
     init {
-        imTooLazyToTestThisManually()
+        // imTooLazyToTestThisManually()
     }
 
     fun onCardNumberChange(value: String) {
         _balanceUiState.update {
+            if (!value.isDigitsOnly()) return@update it
             it.copy(cardNumber = value)
         }
     }

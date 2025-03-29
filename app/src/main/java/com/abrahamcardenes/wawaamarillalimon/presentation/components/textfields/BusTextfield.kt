@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
@@ -16,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.R
@@ -27,6 +30,9 @@ fun BusTextField(
     value: String,
     onUserInput: (String) -> Unit,
     modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    isError: Boolean = false,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     trailingIcon: @Composable (() -> Unit)? = { Icon(imageVector = Icons.Outlined.Search, contentDescription = null) }
 ) {
     OutlinedTextField(
@@ -42,6 +48,9 @@ fun BusTextField(
             )
         },
         trailingIcon = trailingIcon,
+        isError = isError,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        keyboardActions = keyboardActions,
         modifier =
         modifier
             .fillMaxWidth()

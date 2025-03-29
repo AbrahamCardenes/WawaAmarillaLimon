@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.wawaamarillalimon.presentation.utils.toLocalCurrency
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 
 @Composable
@@ -30,7 +31,7 @@ fun BalanceCard(wawaCardBalance: WawaCardBalance, modifier: Modifier = Modifier)
             )
             BalanceTextAppended(
                 title = stringResource(R.string.balance_title),
-                value = wawaCardBalance.balance.toString() + "€" // TODO: Convert into proper string format
+                value = wawaCardBalance.balance.toLocalCurrency().plus("€")
             )
         }
     }

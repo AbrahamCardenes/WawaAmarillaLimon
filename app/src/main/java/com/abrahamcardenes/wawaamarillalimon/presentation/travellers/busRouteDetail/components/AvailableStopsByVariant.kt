@@ -26,10 +26,12 @@ fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modi
         state = scrollState,
         modifier = modifier
     ) {
-        items(availableRouteStops) { routeStop ->
+        items(items = availableRouteStops, key = { availableRouteStops -> availableRouteStops.number }) { routeStop ->
             Card(
                 shape = RectangleShape,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateItem()
             ) {
                 Text(
                     text = routeStop.number + " - " + routeStop.name,

@@ -13,3 +13,9 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
 - [RoomDB](https://developer.android.com/training/data-storage/room)
 - [Hilt](https://dagger.dev/hilt/)
 - Love and coffee, specially coffee :yellow_heart: :coffee:
+
+
+### How to setup firebase:
+#### For encoding and decoding google-services.json (on a MacOs system)
+- Encoding: google-services.json: base64 -i google-services.json -o google-services.b64
+- Decoding: base64 -D -i google-services.b64 -o google-services-decode.json

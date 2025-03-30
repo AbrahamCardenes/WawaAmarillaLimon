@@ -52,6 +52,8 @@ captures/
 .cxx/
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+google-services.b64
+google-services-decode.json
 # Freeline
 freeline.py
 freeline/

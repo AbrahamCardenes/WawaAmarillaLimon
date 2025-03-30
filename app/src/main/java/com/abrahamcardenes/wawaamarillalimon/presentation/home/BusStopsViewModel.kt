@@ -74,10 +74,6 @@ class BusStopsViewModel
     }
 
     fun getBusStopDetail(stopNumber: Int) {
-        // TODO: Remove after testing phase :D
-        if (stopNumber == 110) {
-            throw Exception("TEST CRASH")
-        }
         detailJob?.cancel()
         detailJob = viewModelScope.launch {
             closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)

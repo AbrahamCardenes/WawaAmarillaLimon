@@ -40,6 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set google-service.json file
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA | base64 --decode > app/google-services.json
+
+
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew
 
@@ -53,6 +59,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set google-service.json file
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA | base64 --decode > app/google-services.json
+
 
       - name: Grant execute permissions for gradlew
         run: chmod +x gradlew

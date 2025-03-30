@@ -21,3 +21,5 @@
 #-renamesourcefileattribute SourceFile
 
 -keepnames class com.abrahamcardenes.wawaamarillalimon.presentation.navigation.*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

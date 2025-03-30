@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 val localProperties =
@@ -143,4 +145,9 @@ dependencies {
 
     // LOTTIE
     implementation(libs.lottie)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 }

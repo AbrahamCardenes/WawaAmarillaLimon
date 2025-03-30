@@ -20,7 +20,7 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
 ##### Firebase, encodinng and decoding command to put google-services.json inside a Github secret.
 - Encoding google-services.json: `base64 -i google-services.json -o google-services.b64`
 - Decoding: `base64 -D -i google-services.b64 -o google-services-decode.json`
-  Notes:
+- Notes:
     - You will need to generate your own `google-services.json` in [Firebase](https://firebase.google.com/)
     - Execute the command inside the `app` directory, or use it with `yourpPath/app/google-services.json`
     - `google-services.json`, `google-services.b64` and `google-services-decode.json` are included in `.gitignore`

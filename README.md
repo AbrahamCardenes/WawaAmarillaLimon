@@ -12,6 +12,8 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
 - [Retrofit2](https://square.github.io/retrofit/)
 - [RoomDB](https://developer.android.com/training/data-storage/room)
 - [Hilt](https://dagger.dev/hilt/)
+- [Firebase](https://firebase.google.com/)
+- [Ktlint](https://pinterest.github.io/ktlint/latest/)
 - Love and coffee, specially coffee :yellow_heart: :coffee:
 
 

@@ -7,4 +7,5 @@
     <string name="card_number_title">Nº Tarjeta:</string>
     <string name="update_date_title">Fecha actualización:</string>
     <string name="balance_title">Saldo:</string>
+    <string name="show_schedule">Mostrar tabla de tiempos</string>
 </resources>

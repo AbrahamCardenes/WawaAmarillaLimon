@@ -38,7 +38,6 @@ class BusRouteViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
     val availableBackRouteStops = _availableBackRouteStops.combine(uiState) { _, state ->
-
         if (state.busRoute == null || state.selectedIndex == 0) {
             emptyList()
         } else {
@@ -95,5 +94,8 @@ class BusRouteViewModel @Inject constructor(
         _uiState.update { state ->
             state.copy(selectedVariant = variant)
         }
+    }
+
+    fun openScheduleDialog() {
     }
 }

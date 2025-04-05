@@ -145,4 +145,19 @@ class WawaBalanceViewModelTest {
             getBalanceUseCase("579990")
         }
     }
+
+    @Test
+    fun `Given an empty input it should not call the use case`() = runTest {
+        wawaBalanceViewModel.getBalance()
+
+        coVerify(exactly = 0) {
+            getBalanceUseCase(any<String>())
+        }
+        
+        wawaBalanceViewModel.balanceUiState.test {
+            val latestEmission = awaitItem()
+            assertThat(latestEmission.wawaCards).isEmpty()
+            assertThat(latestEmission.cardNumber).isEmpty()
+        }
+    }
 }

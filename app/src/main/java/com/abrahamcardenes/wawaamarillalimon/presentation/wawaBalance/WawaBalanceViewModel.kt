@@ -27,6 +27,7 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
     fun getBalance() {
         viewModelScope.launch {
             println(_balanceUiState.value.cardNumber)
+            if (_balanceUiState.value.cardNumber.isEmpty()) return@launch
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
                     println("SUCCESS = $wawaBalance")

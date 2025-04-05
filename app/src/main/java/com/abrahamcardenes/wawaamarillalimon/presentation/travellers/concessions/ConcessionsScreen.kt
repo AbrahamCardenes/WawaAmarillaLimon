@@ -24,15 +24,18 @@ fun ConcessionsScreen(
     val uiState by concessionsViewModel.concessionUiState.collectAsStateWithLifecycle()
 
     LazyColumn(
-        modifier = modifier
-            .padding(
-                horizontal = 16.dp
-            )
-            .padding(top = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         items(uiState.concessions.concessions) {
-            ConcessionCard(concession = it, onClick = onNavigateToTimeTable)
+            ConcessionCard(
+                concession = it, onClick = onNavigateToTimeTable, modifier = Modifier.padding(
+                    horizontal = 16.dp
+                )
+            )
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))

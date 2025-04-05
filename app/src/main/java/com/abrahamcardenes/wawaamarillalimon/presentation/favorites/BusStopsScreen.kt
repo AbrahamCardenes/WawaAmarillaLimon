@@ -27,7 +27,7 @@ fun FavoritesStopsRoot(
             favoritesStopsViewModel.getBusStopDetail(stopNumber)
         },
         onUserInput = favoritesStopsViewModel::updateUserInput,
-        onSaveBusStop = favoritesStopsViewModel::deleteBusStop,
+        onSaveBusStop = favoritesStopsViewModel::deleteBusStop
     )
 }
 

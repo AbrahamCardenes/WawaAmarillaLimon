@@ -32,7 +32,9 @@ fun ConcessionsScreen(
         }
         items(uiState.concessions.concessions) {
             ConcessionCard(
-                concession = it, onClick = onNavigateToTimeTable, modifier = Modifier.padding(
+                concession = it,
+                onClick = onNavigateToTimeTable,
+                modifier = Modifier.padding(
                     horizontal = 16.dp
                 )
             )

@@ -245,7 +245,8 @@ private fun TimetablePreview() {
                             node = "Tres Palmas",
                             variants = listOf("B")
                         )
-                    )
+                    ),
+                    schedules = emptyList()
                 ),
                 selectedVariant = null
             ),

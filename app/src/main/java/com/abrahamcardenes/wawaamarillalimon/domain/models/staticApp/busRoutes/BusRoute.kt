@@ -9,5 +9,6 @@ data class BusRoute(
     val nodes: List<String>,
     val variantsGo: List<Variants>,
     val variantsBack: List<Variants>,
-    val stops: List<RouteStop>
+    val stops: List<RouteStop>,
+    val schedules: List<BusSchedule>
 )

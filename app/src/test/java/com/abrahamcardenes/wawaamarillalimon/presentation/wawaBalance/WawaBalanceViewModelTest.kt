@@ -153,7 +153,7 @@ class WawaBalanceViewModelTest {
         coVerify(exactly = 0) {
             getBalanceUseCase(any<String>())
         }
-        
+
         wawaBalanceViewModel.balanceUiState.test {
             val latestEmission = awaitItem()
             assertThat(latestEmission.wawaCards).isEmpty()

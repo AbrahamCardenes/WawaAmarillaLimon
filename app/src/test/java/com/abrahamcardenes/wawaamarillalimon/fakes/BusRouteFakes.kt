@@ -85,7 +85,8 @@ fun busRouteFake(): BusRoute = BusRoute(
             node = "Zárate",
             variants = listOf("B")
         )
-    )
+    ),
+    schedules = emptyList()
 )
 
 fun goStopsTypeA(): List<RouteStop> = listOf(

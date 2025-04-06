@@ -2,29 +2,18 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDe
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,16 +21,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.wawaamarillalimon.R
@@ -56,7 +41,6 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDet
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.StopsPager
-import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
 
@@ -74,6 +58,7 @@ fun BusRouteScreen(
     val busRouteUiState by busRouteViewModel.uiState.collectAsStateWithLifecycle()
     val availableGoRouteStops by busRouteViewModel.availableRouteStops.collectAsStateWithLifecycle()
     val availableBackRouteStops by busRouteViewModel.availableBackRouteStops.collectAsStateWithLifecycle()
+    val busRouteSchedule by busRouteViewModel.busSchedules.collectAsStateWithLifecycle()
 
     BusRouteUi(
         commercialLine = busNumber,
@@ -81,10 +66,11 @@ fun BusRouteScreen(
         uiState = busRouteUiState,
         availableGoRouteStops = availableGoRouteStops,
         availableBackRouteStops = availableBackRouteStops,
+        busRouteSchedule = busRouteSchedule,
         onNavigateBack = onNavigateBack,
         onRouteSelection = busRouteViewModel::onRouteSelection,
         onTabSelection = busRouteViewModel::onIndexSelection,
-        openScheduleDialog = busRouteViewModel::openScheduleDialog
+        openOrCloseScheduleDialog = busRouteViewModel::openOrCloseScheduleDialog
     )
 }
 
@@ -97,9 +83,10 @@ fun BusRouteUi(
     uiState: BusRouteUiState,
     availableGoRouteStops: List<RouteStop>,
     availableBackRouteStops: List<RouteStop>,
+    busRouteSchedule: List<ScheduleUi>,
     onNavigateBack: () -> Unit,
     onRouteSelection: (Variants) -> Unit,
-    openScheduleDialog: () -> Unit,
+    openOrCloseScheduleDialog: () -> Unit,
     onTabSelection: (Int) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -149,7 +136,7 @@ fun BusRouteUi(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = openScheduleDialog
+                        onClick = openOrCloseScheduleDialog
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_schedule),
@@ -164,58 +151,12 @@ fun BusRouteUi(
                     .fillMaxSize()
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) { innerpadding ->
+                SchedulesDialog(
+                    uiState = uiState,
+                    openOrCloseScheduleDialog = openOrCloseScheduleDialog,
+                    busRouteSchedule = busRouteSchedule
+                )
                 Column(modifier = Modifier.padding(innerpadding)) {
-                    Dialog(onDismissRequest = { }) {
-                        Card(
-                            modifier = Modifier
-                                .heightIn(max = 500.dp)
-                                .fillMaxWidth(),
-                            shape = RoundedCornerShape(16.dp)
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                            ) {
-                                Text(
-                                    text = uiState.selectedVariant.name,
-                                    style = MaterialTheme.typography.headlineMedium,
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    textAlign = TextAlign.Center
-                                )
-
-                                Text(
-                                    text = "Lunes a viernes:",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    textAlign = TextAlign.Start
-                                )
-
-                                FlowRow(
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
-                                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    busRoute!!.schedules.forEach {
-                                        Box(
-                                            modifier = Modifier
-                                                .clip(RoundedCornerShape(8.dp))
-                                                .background(getComposeColorFromRGBAColor(it.color).copy(alpha = 0.1f))
-                                                .width(IntrinsicSize.Max)
-                                                .padding(6.dp)
-                                        ) {
-                                            Text(it.time)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
                     ConcessionNodesTabRow(
                         tabSelected = pagerState.currentPage,
                         nodes = busRoute!!.nodes,
@@ -412,7 +353,8 @@ private fun TimetablePreview() {
             onTabSelection = {},
             availableGoRouteStops = emptyList(),
             availableBackRouteStops = emptyList(),
-            openScheduleDialog = {}
+            busRouteSchedule = emptyList(),
+            openOrCloseScheduleDialog = {}
         )
     }
 }

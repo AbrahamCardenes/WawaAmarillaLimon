@@ -4,7 +4,7 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 
 data class BusSchedule(
     val node: String,
-    val tipology: String,
+    val typology: String,
     val time: String,
     val color: RGBAColor,
     val variantLetter: String? = null

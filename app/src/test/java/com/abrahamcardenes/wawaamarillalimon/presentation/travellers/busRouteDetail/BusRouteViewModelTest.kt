@@ -11,6 +11,8 @@ import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusR
 import com.abrahamcardenes.wawaamarillalimon.fakes.backStopsTypeBD
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake
 import com.abrahamcardenes.wawaamarillalimon.fakes.goStopsTypeA
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.TimeUi
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -47,6 +49,10 @@ class BusRouteViewModelTest {
             assertThat(awaitItem()).isEmpty()
         }
         busRouteViewModel.availableBackRouteStops.test {
+            assertThat(awaitItem()).isEmpty()
+        }
+
+        busRouteViewModel.busSchedules.test {
             assertThat(awaitItem()).isEmpty()
         }
     }
@@ -229,4 +235,215 @@ class BusRouteViewModelTest {
                 assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
             }
         }
+
+
+    @Test
+    fun `When the user clicks on the schedule button it should update the uiState`() = runTest {
+        busRouteViewModel.openOrCloseScheduleDialog()
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.showDialog).isTrue()
+        }
+        assertThat(busRouteViewModel.uiState.value.showDialog).isTrue()
+
+        busRouteViewModel.openOrCloseScheduleDialog()
+        busRouteViewModel.uiState.test {
+            val secondEmission = awaitItem()
+            assertThat(secondEmission.showDialog).isFalse()
+        }
+    }
+
+    @Test
+    fun `Given a bus route it should show the correct time table WHEN index = 0`() = runTest {
+        val expectedScheduleUi = listOf(
+            ScheduleUi(
+                node = "Ciudad Deportiva Gran Canaria",
+                typology = "De lunes a viernes",
+                time = listOf(
+                    TimeUi(
+                        time = "06:55",
+                        color = RGBAColor(
+                            red = 245, green = 245, blue = 245, alpha = 1
+                        )
+                    ),
+                    TimeUi(
+                        time = "7:30",
+                        color = RGBAColor(
+                            red = 0, green = 0, blue = 0, alpha = 1
+                        )
+                    )
+                )
+            ),
+            ScheduleUi(
+                node = "Ciudad Deportiva Gran Canaria",
+                typology = "Sábado",
+                time = listOf(
+                    TimeUi(
+                        time = "08:05",
+                        color = RGBAColor(
+                            red = 0, green = 0, blue = 0, alpha = 0
+                        ),
+                    ),
+                )
+            ),
+            ScheduleUi(
+                node = "Ciudad Deportiva Gran Canaria",
+                typology = "Domingo y festivo",
+                time = listOf(
+                    TimeUi(
+                        time = "07:50",
+                        color = RGBAColor(
+                            red = 245, green = 245, blue = 245, alpha = 1
+                        )
+                    )
+                )
+            )
+        )
+
+        coEvery {
+            getBusRouteUseCase(concessionId = "50")
+        } returns Result.Success(busRouteFake())
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
+
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.selectedVariant).isNull()
+            assertThat(firstEmission.selectedIndex).isEqualTo(0)
+            assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
+        }
+
+        busRouteViewModel.busSchedules.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission).isEqualTo(expectedScheduleUi)
+        }
+    }
+
+
+    @Test
+    fun `Given a bus route it should show the correct time table WHEN index = 1`() = runTest {
+        val expectedScheduleUi = listOf(
+            ScheduleUi(
+                node = "Zárate",
+                typology = "De lunes a viernes",
+                time = listOf(
+                    TimeUi(
+                        time = "06:10",
+                        color = RGBAColor(
+                            red = 245, green = 245, blue = 245, alpha = 1
+                        )
+                    )
+                )
+            ),
+            ScheduleUi(
+                node = "Zárate",
+                typology = "Sábado",
+                time = listOf(
+                    TimeUi(
+                        time = "07:10",
+                        color = RGBAColor(
+                            red = 245, green = 245, blue = 245, alpha = 1
+                        ),
+                        variant = "D"
+                    )
+                )
+            ),
+            ScheduleUi(
+                node = "Zárate",
+                typology = "Domingo y festivo",
+                time = listOf(
+                    TimeUi(
+                        time = "08:35",
+                        color = RGBAColor(
+                            red = 231, green = 157, blue = 214, alpha = 1
+                        ),
+                        variant = "D"
+                    ),
+                    TimeUi(
+                        time = "10:20",
+                        color = RGBAColor(
+                            red = 0, green = 0, blue = 0, alpha = 0
+                        )
+                    )
+                )
+            )
+        )
+
+        coEvery {
+            getBusRouteUseCase(concessionId = "50")
+        } returns Result.Success(busRouteFake())
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
+        busRouteViewModel.onIndexSelection(value = 1)
+
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.selectedVariant).isNull()
+            assertThat(firstEmission.selectedIndex).isEqualTo(1)
+            assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
+        }
+
+        busRouteViewModel.busSchedules.test {
+            val firstEmission = awaitItem()
+            println(firstEmission)
+            assertThat(firstEmission).isEqualTo(expectedScheduleUi)
+        }
+    }
+
+    @Test
+    fun `Given a bus route it should show the correct time table WHEN index = 1 AND selected variant is NOT null`() = runTest {
+        val expectedScheduleUi = listOf(
+            ScheduleUi(
+                node = "Zárate",
+                typology = "De lunes a viernes",
+                time = listOf(
+                    TimeUi(
+                        time = "06:10",
+                        color = RGBAColor(
+                            red = 245, green = 245, blue = 245, alpha = 1
+                        )
+                    )
+                )
+            ),
+            ScheduleUi(
+                node = "Zárate",
+                typology = "Domingo y festivo",
+                time = listOf(
+                    TimeUi(
+                        time = "10:20",
+                        color = RGBAColor(
+                            red = 0, green = 0, blue = 0, alpha = 0
+                        )
+                    )
+                )
+            )
+        )
+        val expectedSelectedVariant = Variants(
+            type = "B",
+            name = "Zárate - Ciudad Deportiva Gran Canaria",
+            color = RGBAColor(
+                red = 231,
+                green = 157,
+                blue = 214,
+                alpha = 1
+            )
+        )
+        coEvery {
+            getBusRouteUseCase(concessionId = "50")
+        } returns Result.Success(busRouteFake())
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
+        busRouteViewModel.onIndexSelection(value = 1)
+        busRouteViewModel.onRouteSelection(variant = expectedSelectedVariant)
+
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.selectedVariant).isEqualTo(expectedSelectedVariant)
+            assertThat(firstEmission.selectedIndex).isEqualTo(1)
+            assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
+        }
+
+        busRouteViewModel.busSchedules.test {
+            val scheduledUiItems = awaitItem()
+            println(scheduledUiItems)
+            assertThat(scheduledUiItems).isEqualTo(expectedScheduleUi)
+        }
+    }
 }

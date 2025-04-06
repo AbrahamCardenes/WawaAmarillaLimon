@@ -41,7 +41,7 @@ fun List<RouteStopsDto>.toStopsDomain(): List<RouteStop> = this.map { routeStopD
 
 fun ScheduleStaticaDto.toDomain(): BusSchedule = BusSchedule(
     node = node,
-    tipology = tipology,
+    typology = tipology,
     time = time,
     color = color.toRGBAColor(),
     variantLetter = variant

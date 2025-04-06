@@ -172,7 +172,7 @@ class BusRoutesRepositoryImplTest {
                 schedules = listOf(
                     BusSchedule(
                         node = "Mercado de Vegueta",
-                        tipology = "De lunes a viernes",
+                        typology = "De lunes a viernes",
                         time = "06:55",
                         color = RGBAColor(
                             red = 245,
@@ -183,7 +183,7 @@ class BusRoutesRepositoryImplTest {
                     ),
                     BusSchedule(
                         node = "Mercado de Vegueta",
-                        tipology = "Sábado",
+                        typology = "Sábado",
                         time = "08:05",
                         color = RGBAColor(
                             red = 0,
@@ -194,7 +194,7 @@ class BusRoutesRepositoryImplTest {
                     ),
                     BusSchedule(
                         node = "Mercado de Vegueta",
-                        tipology = "Domingo y festivo",
+                        typology = "Domingo y festivo",
                         time = "07:50",
                         color = RGBAColor(
                             red = 245,
@@ -206,7 +206,7 @@ class BusRoutesRepositoryImplTest {
 
                     BusSchedule(
                         node = "Tres Palmas",
-                        tipology = "De lunes a viernes",
+                        typology = "De lunes a viernes",
                         time = "06:10",
                         color = RGBAColor(
                             red = 245,
@@ -217,7 +217,7 @@ class BusRoutesRepositoryImplTest {
                     ),
                     BusSchedule(
                         node = "Tres Palmas",
-                        tipology = "Sábado",
+                        typology = "Sábado",
                         time = "07:10",
                         color = RGBAColor(
                             red = 245,
@@ -229,7 +229,7 @@ class BusRoutesRepositoryImplTest {
                     ),
                     BusSchedule(
                         node = "Tres Palmas",
-                        tipology = "Domingo y festivo",
+                        typology = "Domingo y festivo",
                         time = "08:35",
                         color = RGBAColor(
                             red = 0,

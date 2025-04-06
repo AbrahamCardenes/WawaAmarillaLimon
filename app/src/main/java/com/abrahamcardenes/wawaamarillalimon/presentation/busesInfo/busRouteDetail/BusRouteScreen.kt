@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
@@ -37,11 +37,11 @@ import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.B
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.AvailableRoutes
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.ConcessionNodesTabRow
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.StopsPager
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.AvailableRoutes
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.BusRouteTopAppBar
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.ConcessionNodesTabRow
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.StopsPager
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
 

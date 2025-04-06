@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +27,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.TimeBox
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.ScheduleUi
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.TimeUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.TimeBox
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)

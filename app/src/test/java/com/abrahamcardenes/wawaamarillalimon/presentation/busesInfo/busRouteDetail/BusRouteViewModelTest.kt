@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail
 
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.core.Result
@@ -11,8 +11,8 @@ import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusR
 import com.abrahamcardenes.wawaamarillalimon.fakes.backStopsTypeBD
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake
 import com.abrahamcardenes.wawaamarillalimon.fakes.goStopsTypeA
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.ScheduleUi
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.TimeUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery

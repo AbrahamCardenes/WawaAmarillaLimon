@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 

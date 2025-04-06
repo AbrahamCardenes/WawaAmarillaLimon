@@ -41,8 +41,8 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.WawaBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.BusRouteScreen
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsScreen
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.BusRouteScreen
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.WawaBalanceScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels
 
 data class ScheduleUi(
     val node: String,

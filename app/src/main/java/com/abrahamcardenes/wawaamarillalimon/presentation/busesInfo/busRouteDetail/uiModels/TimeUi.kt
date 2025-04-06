@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels
 
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 

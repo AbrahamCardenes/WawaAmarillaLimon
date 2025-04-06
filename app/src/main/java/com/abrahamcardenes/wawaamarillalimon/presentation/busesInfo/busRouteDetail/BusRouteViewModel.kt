@@ -1,12 +1,15 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.wawaamarillalimon.core.onError
 import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusRouteUseCase
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +30,8 @@ class BusRouteViewModel @Inject constructor(
 
     private val _availableRouteStops = MutableStateFlow<List<ConcessionStop>>(emptyList())
     private val _availableBackRouteStops = MutableStateFlow<List<ConcessionStop>>(emptyList())
+    private val _busSchedules = MutableStateFlow<List<ScheduleUi>>(emptyList())
+
     val availableRouteStops = _availableRouteStops.combine(uiState) { _, state ->
         if (state.busRoute == null || state.selectedIndex == 1) {
             emptyList()
@@ -37,8 +42,8 @@ class BusRouteViewModel @Inject constructor(
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
-    val availableBackRouteStops = _availableBackRouteStops.combine(uiState) { _, state ->
 
+    val availableBackRouteStops = _availableBackRouteStops.combine(uiState) { _, state ->
         if (state.busRoute == null || state.selectedIndex == 0) {
             emptyList()
         } else {
@@ -47,6 +52,23 @@ class BusRouteViewModel @Inject constructor(
                 state = state
             )
         }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+
+    val busSchedules = _busSchedules.combine(uiState) { schedules, state ->
+        val currentBusRoute = state.busRoute
+        if (currentBusRoute == null) return@combine emptyList()
+
+        val uiSchedules = getSchedulesUiGroupedByTypology(currentBusRoute, state)
+
+        if (state.selectedVariant != null) {
+            val filteredVariants = uiSchedules.map {
+                it.copy(time = it.time.filter { time -> time.variant == state.selectedVariant.type || time.variant == "" })
+            }.filter { it.time.isNotEmpty() }
+
+            return@combine filteredVariants
+        }
+
+        uiSchedules
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
     private fun getAvailableRoutesFor(possibleVariants: List<Variants>, state: BusRouteUiState) = when {
@@ -82,6 +104,25 @@ class BusRouteViewModel @Inject constructor(
         }
     }
 
+    private fun getSchedulesUiGroupedByTypology(currentBusRoute: BusRoute, state: BusRouteUiState): List<ScheduleUi> {
+        val schedulesByNode = currentBusRoute.schedules.filter { it.node == currentBusRoute.nodes[state.selectedIndex] }
+        val schedulesGroupedByTypology = schedulesByNode.groupBy { it.typology }
+
+        return schedulesGroupedByTypology.map {
+            ScheduleUi(
+                node = currentBusRoute.nodes[state.selectedIndex],
+                typology = it.key,
+                time = it.value.map { schedule ->
+                    TimeUi(
+                        time = schedule.time,
+                        color = schedule.color,
+                        variant = schedule.variantLetter ?: ""
+                    )
+                }
+            )
+        }
+    }
+
     fun onIndexSelection(value: Int) {
         _uiState.update { state ->
             state.copy(
@@ -94,6 +135,12 @@ class BusRouteViewModel @Inject constructor(
     fun onRouteSelection(variant: Variants) {
         _uiState.update { state ->
             state.copy(selectedVariant = variant)
+        }
+    }
+
+    fun openOrCloseScheduleDialog() {
+        _uiState.update { state ->
+            state.copy(showDialog = !state.showDialog)
         }
     }
 }

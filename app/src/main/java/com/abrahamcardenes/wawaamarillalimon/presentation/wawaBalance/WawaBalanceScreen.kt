@@ -80,10 +80,7 @@ fun WawaBalanceContent(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .padding(
-                16.dp
-            ),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -93,11 +90,17 @@ fun WawaBalanceContent(
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
                 BalanceCard(
                     wawaCardBalance = it,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(
+                            horizontal = 16.dp
+                        )
                         .animateItem()
                 )
             }
@@ -106,10 +109,17 @@ fun WawaBalanceContent(
         }
 
         Row(
-            modifier = Modifier.run {
-                fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.ime)
-            },
+            modifier = Modifier
+                .run {
+                    fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.ime)
+                }
+                .padding(
+                    horizontal = 16.dp
+                )
+                .padding(
+                    bottom = 16.dp
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -123,7 +133,9 @@ fun WawaBalanceContent(
                     keyboardController?.hide()
                 }),
                 trailingIcon = null,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+
             )
 
             FilledTonalIconButton(

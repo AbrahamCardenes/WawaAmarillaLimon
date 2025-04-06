@@ -3,6 +3,7 @@ package com.abrahamcardenes.wawaamarillalimon.fakes
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 
@@ -85,7 +86,8 @@ fun busRouteFake(): BusRoute = BusRoute(
             node = "Zárate",
             variants = listOf("B")
         )
-    )
+    ),
+    schedules = schedulesFake()
 )
 
 fun goStopsTypeA(): List<RouteStop> = listOf(
@@ -122,4 +124,99 @@ fun backStopsTypeBD(): List<RouteStop> = listOf(
         node = "Zárate",
         variants = listOf("B")
     )
+)
+
+fun schedulesFake(): List<BusSchedule> = listOf(
+    BusSchedule(
+        node = "Ciudad Deportiva Gran Canaria",
+        typology = "De lunes a viernes",
+        time = "06:55",
+        color = RGBAColor(
+            red = 245,
+            green = 245,
+            blue = 245,
+            alpha = 1
+        )
+    ),
+    BusSchedule(
+        node = "Ciudad Deportiva Gran Canaria",
+        typology = "De lunes a viernes",
+        time = "7:30",
+        color = RGBAColor(
+            red = 0,
+            green = 0,
+            blue = 0,
+            alpha = 1
+        )
+    ),
+    BusSchedule(
+        node = "Ciudad Deportiva Gran Canaria",
+        typology = "Sábado",
+        time = "08:05",
+        color = RGBAColor(
+            red = 0,
+            green = 0,
+            blue = 0,
+            alpha = 0
+        )
+    ),
+    BusSchedule(
+        node = "Ciudad Deportiva Gran Canaria",
+        typology = "Domingo y festivo",
+        time = "07:50",
+        color = RGBAColor(
+            red = 245,
+            green = 245,
+            blue = 245,
+            alpha = 1
+        )
+    ),
+
+    BusSchedule(
+        node = "Zárate",
+        typology = "De lunes a viernes",
+        time = "06:10",
+        color = RGBAColor(
+            red = 245,
+            green = 245,
+            blue = 245,
+            alpha = 1
+        )
+    ),
+    BusSchedule(
+        node = "Zárate",
+        typology = "Sábado",
+        time = "07:10",
+        color = RGBAColor(
+            red = 245,
+            green = 245,
+            blue = 245,
+            alpha = 1
+        ),
+        variantLetter = "D"
+    ),
+    BusSchedule(
+        node = "Zárate",
+        typology = "Domingo y festivo",
+        time = "08:35",
+        color = RGBAColor(
+            red = 231,
+            green = 157,
+            blue = 214,
+            alpha = 1
+        ),
+        variantLetter = "D"
+    ),
+    BusSchedule(
+        node = "Zárate",
+        typology = "Domingo y festivo",
+        time = "10:20",
+        color = RGBAColor(
+            red = 0,
+            green = 0,
+            blue = 0,
+            alpha = 0
+        )
+    )
+
 )

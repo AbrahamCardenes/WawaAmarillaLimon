@@ -19,5 +19,7 @@ data class BusRouteDto(
     @field:Json(name = "variantsBack")
     val variantsBack: List<VariantsDto>,
     @field:Json(name = "stops")
-    val stops: List<RouteStopsDto>
+    val stops: List<RouteStopsDto>,
+    @field:Json(name = "schedule")
+    val schedule: List<ScheduleStaticaDto>
 )

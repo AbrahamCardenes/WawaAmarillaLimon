@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.components.BusLineNumberCircle
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.components.BusLineNumberCircle
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

@@ -27,14 +27,13 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
     fun getBalance() {
         viewModelScope.launch {
             println(_balanceUiState.value.cardNumber)
+            if (_balanceUiState.value.cardNumber.isEmpty()) return@launch
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
-                    println("SUCCESS = $wawaBalance")
                     _balanceUiState.update { state ->
                         val cardsToEdit = state.wawaCards.toMutableList()
                         cardsToEdit.add(0, wawaBalance)
                         val currentCardsToShow = (cardsToEdit).distinctBy { it.code }
-                        println("CURRENT CARDS TO SHOW = $currentCardsToShow")
                         state.copy(wawaCards = currentCardsToShow)
                     }
                 }

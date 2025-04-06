@@ -1,14 +1,18 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -19,20 +23,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abrahamcardenes.wawaamarillalimon.R
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.AvailableRoutes
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.BusRouteTopAppBar
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.ConcessionNodesTabRow
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.StopsPager
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.AvailableRoutes
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.ConcessionNodesTabRow
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.StopsPager
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
 
@@ -50,6 +59,7 @@ fun BusRouteScreen(
     val busRouteUiState by busRouteViewModel.uiState.collectAsStateWithLifecycle()
     val availableGoRouteStops by busRouteViewModel.availableRouteStops.collectAsStateWithLifecycle()
     val availableBackRouteStops by busRouteViewModel.availableBackRouteStops.collectAsStateWithLifecycle()
+    val busRouteSchedule by busRouteViewModel.busSchedules.collectAsStateWithLifecycle()
 
     BusRouteUi(
         commercialLine = busNumber,
@@ -57,13 +67,15 @@ fun BusRouteScreen(
         uiState = busRouteUiState,
         availableGoRouteStops = availableGoRouteStops,
         availableBackRouteStops = availableBackRouteStops,
+        busRouteSchedule = busRouteSchedule,
         onNavigateBack = onNavigateBack,
         onRouteSelection = busRouteViewModel::onRouteSelection,
-        onTabSelection = busRouteViewModel::onIndexSelection
+        onTabSelection = busRouteViewModel::onIndexSelection,
+        openOrCloseScheduleDialog = busRouteViewModel::openOrCloseScheduleDialog
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BusRouteUi(
@@ -72,8 +84,10 @@ fun BusRouteUi(
     uiState: BusRouteUiState,
     availableGoRouteStops: List<RouteStop>,
     availableBackRouteStops: List<RouteStop>,
+    busRouteSchedule: List<ScheduleUi>,
     onNavigateBack: () -> Unit,
     onRouteSelection: (Variants) -> Unit,
+    openOrCloseScheduleDialog: () -> Unit,
     onTabSelection: (Int) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -121,10 +135,28 @@ fun BusRouteUi(
                         scrollBehavior = scrollBehavior
                     )
                 },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = openOrCloseScheduleDialog
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_schedule),
+                            contentDescription = stringResource(
+                                R.string.show_schedule
+                            ),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 modifier = Modifier
                     .fillMaxSize()
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) { innerpadding ->
+                SchedulesDialog(
+                    showDialog = uiState.showDialog,
+                    openOrCloseScheduleDialog = openOrCloseScheduleDialog,
+                    busRouteSchedule = busRouteSchedule
+                )
                 Column(modifier = Modifier.padding(innerpadding)) {
                     ConcessionNodesTabRow(
                         tabSelected = pagerState.currentPage,
@@ -143,7 +175,6 @@ fun BusRouteUi(
                         selectedVariant = uiState.selectedVariant,
                         onRouteSelection = onRouteSelection
                     )
-
                     StopsPager(
                         availableGoRouteStops = availableGoRouteStops,
                         availableBackRouteStops = availableBackRouteStops,
@@ -245,6 +276,75 @@ private fun TimetablePreview() {
                             node = "Tres Palmas",
                             variants = listOf("B")
                         )
+                    ),
+                    schedules = listOf(
+                        BusSchedule(
+                            node = "Mercado de Vegueta",
+                            typology = "De lunes a viernes",
+                            time = "06:55",
+                            color = RGBAColor(
+                                red = 245,
+                                green = 245,
+                                blue = 245,
+                                alpha = 1
+                            )
+                        ),
+                        BusSchedule(
+                            node = "Mercado de Vegueta",
+                            typology = "Sábado",
+                            time = "08:05",
+                            color = RGBAColor(
+                                red = 0,
+                                green = 0,
+                                blue = 0,
+                                alpha = 0
+                            )
+                        ),
+                        BusSchedule(
+                            node = "Mercado de Vegueta",
+                            typology = "Domingo y festivo",
+                            time = "07:50",
+                            color = RGBAColor(
+                                red = 245,
+                                green = 245,
+                                blue = 245,
+                                alpha = 1
+                            )
+                        ),
+
+                        BusSchedule(
+                            node = "Tres Palmas",
+                            typology = "De lunes a viernes",
+                            time = "06:10",
+                            color = RGBAColor(
+                                red = 245,
+                                green = 245,
+                                blue = 245,
+                                alpha = 1
+                            )
+                        ),
+                        BusSchedule(
+                            node = "Tres Palmas",
+                            typology = "Sábado",
+                            time = "07:10",
+                            color = RGBAColor(
+                                red = 245,
+                                green = 245,
+                                blue = 245,
+                                alpha = 1
+                            )
+                        ),
+                        BusSchedule(
+                            node = "Tres Palmas",
+                            typology = "Domingo y festivo",
+                            time = "08:35",
+                            color = RGBAColor(
+                                red = 0,
+                                green = 0,
+                                blue = 0,
+                                alpha = 0
+                            )
+                        )
                     )
                 ),
                 selectedVariant = null
@@ -253,7 +353,9 @@ private fun TimetablePreview() {
             onRouteSelection = {},
             onTabSelection = {},
             availableGoRouteStops = emptyList(),
-            availableBackRouteStops = emptyList()
+            availableBackRouteStops = emptyList(),
+            busRouteSchedule = emptyList(),
+            openOrCloseScheduleDialog = {}
         )
     }
 }

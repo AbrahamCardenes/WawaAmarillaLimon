@@ -25,7 +25,7 @@ fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusS
         },
         onUserInput = busStopsViewModel::updateUserInput,
         onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
     )
 }
 

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.presentation.travellers
+package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo
 
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.core.Result
@@ -6,8 +6,8 @@ import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetConcessionsUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessionsDetails
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsUiState
-import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.concessions.ConcessionsViewModel
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsUiState
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery

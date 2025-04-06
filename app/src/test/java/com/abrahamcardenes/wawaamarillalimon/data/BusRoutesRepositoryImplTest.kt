@@ -6,6 +6,7 @@ import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiStaticApp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
@@ -167,6 +168,76 @@ class BusRoutesRepositoryImplTest {
                         node = "Tres Palmas",
                         variants = listOf("B")
                     )
+                ),
+                schedules = listOf(
+                    BusSchedule(
+                        node = "Mercado de Vegueta",
+                        typology = "De lunes a viernes",
+                        time = "06:55",
+                        color = RGBAColor(
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
+                        )
+                    ),
+                    BusSchedule(
+                        node = "Mercado de Vegueta",
+                        typology = "Sábado",
+                        time = "08:05",
+                        color = RGBAColor(
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 0
+                        )
+                    ),
+                    BusSchedule(
+                        node = "Mercado de Vegueta",
+                        typology = "Domingo y festivo",
+                        time = "07:50",
+                        color = RGBAColor(
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
+                        )
+                    ),
+
+                    BusSchedule(
+                        node = "Tres Palmas",
+                        typology = "De lunes a viernes",
+                        time = "06:10",
+                        color = RGBAColor(
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
+                        )
+                    ),
+                    BusSchedule(
+                        node = "Tres Palmas",
+                        typology = "Sábado",
+                        time = "07:10",
+                        color = RGBAColor(
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
+                        ),
+                        variantLetter = "F"
+                    ),
+                    BusSchedule(
+                        node = "Tres Palmas",
+                        typology = "Domingo y festivo",
+                        time = "08:35",
+                        color = RGBAColor(
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 0
+                        )
+                    )
                 )
             )
         )
@@ -209,7 +280,8 @@ class BusRoutesRepositoryImplTest {
                         node = "Tres Palmas",
                         variants = listOf("B")
                     )
-                )
+                ),
+                schedules = emptyList()
             )
         )
         ServerMocks.enqueue(

@@ -93,7 +93,8 @@ val shortStaticAppBusLine13 = """
         "node": "Tres Palmas",
         "tipology": "Sábado",
         "time": "07:10",
-        "color": "rgb(245, 245, 245)"
+        "color": "rgb(245, 245, 245)",
+        "variant": "F"
       },
       {
         "node": "Tres Palmas",

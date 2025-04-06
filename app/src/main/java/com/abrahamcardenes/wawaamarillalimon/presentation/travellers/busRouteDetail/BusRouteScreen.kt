@@ -41,6 +41,7 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDet
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.BusRouteTopAppBar
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.components.StopsPager
+import com.abrahamcardenes.wawaamarillalimon.presentation.travellers.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
 
@@ -152,7 +153,7 @@ fun BusRouteUi(
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) { innerpadding ->
                 SchedulesDialog(
-                    uiState = uiState,
+                    showDialog = uiState.showDialog,
                     openOrCloseScheduleDialog = openOrCloseScheduleDialog,
                     busRouteSchedule = busRouteSchedule
                 )

@@ -236,7 +236,6 @@ class BusRouteViewModelTest {
             }
         }
 
-
     @Test
     fun `When the user clicks on the schedule button it should update the uiState`() = runTest {
         busRouteViewModel.openOrCloseScheduleDialog()
@@ -263,13 +262,19 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "06:55",
                         color = RGBAColor(
-                            red = 245, green = 245, blue = 245, alpha = 1
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
                         )
                     ),
                     TimeUi(
                         time = "7:30",
                         color = RGBAColor(
-                            red = 0, green = 0, blue = 0, alpha = 1
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 1
                         )
                     )
                 )
@@ -281,9 +286,12 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "08:05",
                         color = RGBAColor(
-                            red = 0, green = 0, blue = 0, alpha = 0
-                        ),
-                    ),
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 0
+                        )
+                    )
                 )
             ),
             ScheduleUi(
@@ -293,7 +301,10 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "07:50",
                         color = RGBAColor(
-                            red = 245, green = 245, blue = 245, alpha = 1
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
                         )
                     )
                 )
@@ -318,7 +329,6 @@ class BusRouteViewModelTest {
         }
     }
 
-
     @Test
     fun `Given a bus route it should show the correct time table WHEN index = 1`() = runTest {
         val expectedScheduleUi = listOf(
@@ -329,7 +339,10 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "06:10",
                         color = RGBAColor(
-                            red = 245, green = 245, blue = 245, alpha = 1
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
                         )
                     )
                 )
@@ -341,7 +354,10 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "07:10",
                         color = RGBAColor(
-                            red = 245, green = 245, blue = 245, alpha = 1
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
                         ),
                         variant = "D"
                     )
@@ -354,14 +370,20 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "08:35",
                         color = RGBAColor(
-                            red = 231, green = 157, blue = 214, alpha = 1
+                            red = 231,
+                            green = 157,
+                            blue = 214,
+                            alpha = 1
                         ),
                         variant = "D"
                     ),
                     TimeUi(
                         time = "10:20",
                         color = RGBAColor(
-                            red = 0, green = 0, blue = 0, alpha = 0
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 0
                         )
                     )
                 )
@@ -398,7 +420,10 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "06:10",
                         color = RGBAColor(
-                            red = 245, green = 245, blue = 245, alpha = 1
+                            red = 245,
+                            green = 245,
+                            blue = 245,
+                            alpha = 1
                         )
                     )
                 )
@@ -410,7 +435,10 @@ class BusRouteViewModelTest {
                     TimeUi(
                         time = "10:20",
                         color = RGBAColor(
-                            red = 0, green = 0, blue = 0, alpha = 0
+                            red = 0,
+                            green = 0,
+                            blue = 0,
+                            alpha = 0
                         )
                     )
                 )

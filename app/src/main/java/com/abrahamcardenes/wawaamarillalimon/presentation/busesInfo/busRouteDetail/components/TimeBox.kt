@@ -23,10 +23,7 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDeta
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 
 @Composable
-fun TimeBox(
-    timeUi: TimeUi,
-    modifier: Modifier = Modifier
-) {
+fun TimeBox(timeUi: TimeUi, modifier: Modifier = Modifier) {
     val backgroundColor = if (timeUi.color ==
         RGBAColor(
             red = 245,
@@ -68,5 +65,4 @@ fun TimeBoxPreview() {
             TimeBox(timeUi = TimeUi(time = "06:30", color = RGBAColor(red = 231, green = 157, blue = 214, alpha = 1)))
         }
     }
-
 }

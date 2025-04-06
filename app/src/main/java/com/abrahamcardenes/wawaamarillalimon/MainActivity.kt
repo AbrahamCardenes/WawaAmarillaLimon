@@ -33,6 +33,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRgbStringColor
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.BusRouteScreen
+import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot
 import com.abrahamcardenes.wawaamarillalimon.presentation.home.BusStopsScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
@@ -41,8 +43,6 @@ import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.WawaBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.BusRouteScreen
-import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.WawaBalanceScreenRoot
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint

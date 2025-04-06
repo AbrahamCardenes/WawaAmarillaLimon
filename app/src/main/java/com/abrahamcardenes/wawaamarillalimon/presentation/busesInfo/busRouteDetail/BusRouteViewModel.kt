@@ -54,7 +54,6 @@ class BusRouteViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
-
     val busSchedules = _busSchedules.combine(uiState) { schedules, state ->
         val currentBusRoute = state.busRoute
         if (currentBusRoute == null) return@combine emptyList()
@@ -105,10 +104,7 @@ class BusRouteViewModel @Inject constructor(
         }
     }
 
-    private fun getSchedulesUiGroupedByTypology(
-        currentBusRoute: BusRoute,
-        state: BusRouteUiState
-    ): List<ScheduleUi> {
+    private fun getSchedulesUiGroupedByTypology(currentBusRoute: BusRoute, state: BusRouteUiState): List<ScheduleUi> {
         val schedulesByNode = currentBusRoute.schedules.filter { it.node == currentBusRoute.nodes[state.selectedIndex] }
         val schedulesGroupedByTypology = schedulesByNode.groupBy { it.typology }
 
@@ -125,7 +121,6 @@ class BusRouteViewModel @Inject constructor(
                 }
             )
         }
-
     }
 
     fun onIndexSelection(value: Int) {
@@ -149,6 +144,3 @@ class BusRouteViewModel @Inject constructor(
         }
     }
 }
-
-
-

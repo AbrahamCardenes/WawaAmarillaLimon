@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
-import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession

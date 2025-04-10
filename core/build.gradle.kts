@@ -26,7 +26,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    //implementation(libs.coroutines.test)
+    // implementation(libs.coroutines.test)
     implementation(libs.kotlinx.coroutines.android)
-
 }

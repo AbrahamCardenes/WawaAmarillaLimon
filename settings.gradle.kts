@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "WawaAmarillaLimon"
 include(":app")
+include(":core")

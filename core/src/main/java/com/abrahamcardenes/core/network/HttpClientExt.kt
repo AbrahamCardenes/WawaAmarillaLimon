@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.core
+package com.abrahamcardenes.core.network
 
 import com.squareup.moshi.JsonDataException
 import java.net.SocketTimeoutException

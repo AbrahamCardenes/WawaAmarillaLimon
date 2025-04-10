@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
 import app.cash.turbine.test
-import com.abrahamcardenes.wawaamarillalimon.core.Result
+import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBalanceUseCase

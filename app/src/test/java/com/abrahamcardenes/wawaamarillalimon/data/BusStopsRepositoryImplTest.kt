@@ -2,9 +2,9 @@ package com.abrahamcardenes.wawaamarillalimon.data
 
 import app.cash.turbine.test
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
-import com.abrahamcardenes.wawaamarillalimon.core.DataError
-import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
+import com.abrahamcardenes.core.network.DataError
+import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopEntity

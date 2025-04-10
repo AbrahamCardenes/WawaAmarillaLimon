@@ -2,8 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abrahamcardenes.wawaamarillalimon.core.onError
-import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
+import com.abrahamcardenes.core.network.onError
+import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetFavoriteBusStopsUseCase

@@ -123,7 +123,6 @@ dependencies {
     ksp(libs.moshi.kotlin.codegen)
 
     implementation(platform(libs.okhttp.bom))
-    // define any required OkHttp artifacts without version
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
@@ -150,4 +149,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+
+    // Modules
+    implementation(project(":core"))
 }

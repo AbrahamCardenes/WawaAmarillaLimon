@@ -2,8 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abrahamcardenes.wawaamarillalimon.core.onError
-import com.abrahamcardenes.wawaamarillalimon.core.onSuccess
+import com.abrahamcardenes.core.network.onError
+import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBalanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

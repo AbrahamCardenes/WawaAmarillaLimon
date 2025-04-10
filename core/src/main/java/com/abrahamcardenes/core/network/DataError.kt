@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.core
+package com.abrahamcardenes.core.network
 
 sealed interface DataError : Error {
     enum class Remote : DataError {

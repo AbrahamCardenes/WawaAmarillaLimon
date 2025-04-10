@@ -1,9 +1,9 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
-import com.abrahamcardenes.wawaamarillalimon.core.DataError
-import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.core.map
-import com.abrahamcardenes.wawaamarillalimon.core.safecall
+import com.abrahamcardenes.core.network.DataError
+import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core.network.map
+import com.abrahamcardenes.core.network.safecall
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao

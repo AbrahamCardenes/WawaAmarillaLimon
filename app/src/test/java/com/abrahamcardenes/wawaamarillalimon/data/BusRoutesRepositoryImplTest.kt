@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
-import com.abrahamcardenes.wawaamarillalimon.core.Result
+import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiStaticApp
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
 import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor

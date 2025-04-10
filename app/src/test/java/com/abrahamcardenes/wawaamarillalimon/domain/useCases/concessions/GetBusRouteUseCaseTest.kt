@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions
 
-import com.abrahamcardenes.wawaamarillalimon.core.Result
+import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusRoutesRepository
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake
 import com.google.common.truth.Truth.assertThat

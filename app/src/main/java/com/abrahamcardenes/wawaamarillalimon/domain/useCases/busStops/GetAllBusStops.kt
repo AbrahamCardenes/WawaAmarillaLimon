@@ -1,8 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops
 
-import com.abrahamcardenes.wawaamarillalimon.core.DataError
-import com.abrahamcardenes.wawaamarillalimon.core.Result
-import com.abrahamcardenes.wawaamarillalimon.core.map
+import com.abrahamcardenes.core.network.DataError
+import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
 import javax.inject.Inject

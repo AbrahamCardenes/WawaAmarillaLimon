@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.core.dispatchers
+package com.abrahamcardenes.core.dispatchers
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

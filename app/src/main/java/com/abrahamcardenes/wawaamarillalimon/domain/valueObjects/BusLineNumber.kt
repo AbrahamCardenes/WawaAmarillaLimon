@@ -1,3 +1,3 @@
 package com.abrahamcardenes.wawaamarillalimon.domain.valueObjects
 
-typealias BusLineNumber = Int
+typealias BusLineNumber = String

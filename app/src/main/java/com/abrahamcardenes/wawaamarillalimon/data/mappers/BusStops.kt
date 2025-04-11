@@ -23,7 +23,7 @@ fun BusStopDetailDto.toDomain(): BusStopDetail = BusStopDetail(
 
 fun List<BusLineDto>.linesToDomain(): List<BusLine> = this.map {
     BusLine(
-        number = it.number.toInt(),
+        number = it.number.toString(),
         arrivalTimeIn = it.arrivalTimeIn,
         destination = it.destination
     )

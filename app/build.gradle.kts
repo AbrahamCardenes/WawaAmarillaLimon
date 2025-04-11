@@ -152,4 +152,5 @@ dependencies {
 
     // Modules
     implementation(project(":core"))
+    testImplementation(project(":core"))
 }

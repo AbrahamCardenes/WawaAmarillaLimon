@@ -192,9 +192,14 @@ class BusStopsRepositoryImplTest {
             fakeBusStopDetail().copy(
                 availableBusLines = listOf(
                     BusLine(
-                        number = 13,
+                        number = "13",
                         destination = "TRESPALMAS",
                         arrivalTimeIn = "2min"
+                    ),
+                    BusLine(
+                        number = "X47",
+                        destination = "Tamaraceite",
+                        arrivalTimeIn = "1min"
                     )
                 )
             )

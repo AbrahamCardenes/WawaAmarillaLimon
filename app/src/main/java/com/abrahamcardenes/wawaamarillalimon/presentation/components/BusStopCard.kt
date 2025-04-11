@@ -165,10 +165,10 @@ private fun PreviewBusStopCard() {
                     stopNumber = 79,
                     availableBusLines =
                     listOf(
-                        BusLine(number = 13, arrivalTimeIn = "10min", destination = "TRES PALMAS"),
-                        BusLine(number = 13, arrivalTimeIn = "20min", destination = "TRES PALMAS"),
+                        BusLine(number = "13", arrivalTimeIn = "10min", destination = "TRES PALMAS"),
+                        BusLine(number = "13", arrivalTimeIn = "20min", destination = "TRES PALMAS"),
                         BusLine(
-                            number = 64,
+                            number = "64",
                             arrivalTimeIn = "20min",
                             destination = "HOYA DE LA PLATA"
                         )

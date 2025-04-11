@@ -277,7 +277,7 @@ class BusStopsViewModelTest {
         val expectedCollapsedList = fakeListUiBusStopDetail(
             lines = listOf(
                 BusLine(
-                    number = 13,
+                    number = "13",
                     destination = "TRESPALMAS",
                     arrivalTimeIn = "15min"
                 )
@@ -336,7 +336,7 @@ class BusStopsViewModelTest {
                 isExpanded = false,
                 availableBusLines = listOf(
                     BusLine(
-                        number = 13,
+                        number = "13",
                         destination = "TRESPALMAS",
                         arrivalTimeIn = "15min"
                     )

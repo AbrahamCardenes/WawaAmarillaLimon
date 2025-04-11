@@ -9,7 +9,7 @@ fun fakeBusStopDetail(): BusStopDetail = BusStopDetail(
     addressName = "Pº SAN JOSÉ (IGLESIA SAN JOSÉ)",
     availableBusLines = listOf(
         BusLine(
-            number = 13,
+            number = "13",
             destination = "TRESPALMAS",
             arrivalTimeIn = "15min"
         )

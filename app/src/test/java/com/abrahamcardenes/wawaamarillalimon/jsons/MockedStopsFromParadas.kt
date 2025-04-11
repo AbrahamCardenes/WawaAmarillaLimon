@@ -48,6 +48,11 @@ val mockedBusStopDetailWithLessTime =
               "numero": "13",
               "destino": "TRESPALMAS",
               "llegada": "2min"
+            },
+            {
+              "numero": "X47",
+              "destino": "Tamaraceite",
+              "llegada": "1min"
             }
           ]
         }

@@ -147,5 +147,4 @@ dependencies {
     implementation(project(":core"))
     testImplementation(project(":core"))
     implementation(project(":core_db"))
-
 }

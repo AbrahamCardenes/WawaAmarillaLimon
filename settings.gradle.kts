@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "WawaAmarillaLimon"
 include(":app")
 include(":core")
+include(":core_db")

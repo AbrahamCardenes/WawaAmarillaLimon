@@ -1,12 +1,11 @@
-package com.abrahamcardenes.wawaamarillalimon
+package com.abrahamcardenes.core_db
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.abrahamcardenes.wawaamarillalimon.datasource.local.BusStopDao
-import com.abrahamcardenes.wawaamarillalimon.datasource.local.roomDb.WawaDatabase
-import com.abrahamcardenes.wawaamarillalimon.fakes.busStopEntityFake
+import com.abrahamcardenes.core_db.fakes.busStopEntityFake
+import com.abrahamcardenes.core_db.roomDb.WawaDatabase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

@@ -1,11 +1,10 @@
-package com.abrahamcardenes.wawaamarillalimon.datasource.local
+package com.abrahamcardenes.core_db
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,3 +21,4 @@ interface BusStopDao {
     @Query("SELECT * FROM bus_stop_table WHERE stopNumber = :stopNumber")
     fun getBusStopByNumber(stopNumber: BusStopNumber): BusStopEntity?
 }
+typealias BusStopNumber = Int // TODO Replace with domain

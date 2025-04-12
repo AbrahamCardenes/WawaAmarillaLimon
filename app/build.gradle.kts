@@ -135,13 +135,6 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
 
-    // ROOM DB
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-    testImplementation(libs.androidx.room.testing)
-    androidTestImplementation(libs.androidx.room.testing)
-
     // LOTTIE
     implementation(libs.lottie)
 
@@ -153,4 +146,6 @@ dependencies {
     // Modules
     implementation(project(":core"))
     testImplementation(project(":core"))
+    implementation(project(":core_db"))
+
 }

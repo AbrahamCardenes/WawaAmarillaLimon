@@ -1,8 +1,8 @@
-package com.abrahamcardenes.wawaamarillalimon.di
+package com.abrahamcardenes.core_db.di
 
 import android.content.Context
 import androidx.room.Room
-import com.abrahamcardenes.wawaamarillalimon.datasource.local.roomDb.WawaDatabase
+import com.abrahamcardenes.core_db.roomDb.WawaDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -117,15 +117,6 @@ dependencies {
     androidTestImplementation(libs.bundles.testing)
     testImplementation(libs.turbine)
 
-    implementation(libs.retrofit)
-    implementation(libs.moshi)
-    implementation(libs.converter.moshi)
-    ksp(libs.moshi.kotlin.codegen)
-
-    implementation(platform(libs.okhttp.bom)) // TODO: Check if I could delete this.
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-
     // HILT
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

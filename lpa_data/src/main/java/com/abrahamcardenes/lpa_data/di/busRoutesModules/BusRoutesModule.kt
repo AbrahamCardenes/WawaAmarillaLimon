@@ -1,8 +1,8 @@
-package com.abrahamcardenes.wawaamarillalimon.di.busRoutesModules
+package com.abrahamcardenes.lpa_data.di.busRoutesModules
 
+import com.abrahamcardenes.lpa_data.BuildConfig
 import com.abrahamcardenes.lpa_data.annotations.BusRoutesRetrofit
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
-import com.abrahamcardenes.wawaamarillalimon.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

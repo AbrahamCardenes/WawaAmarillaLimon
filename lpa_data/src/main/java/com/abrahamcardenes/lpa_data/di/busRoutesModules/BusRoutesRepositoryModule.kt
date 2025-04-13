@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.di.busRoutesModules
+package com.abrahamcardenes.lpa_data.di.busRoutesModules
 
 import com.abrahamcardenes.lpa_data.data.BusRoutesRepositoryImpl
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp

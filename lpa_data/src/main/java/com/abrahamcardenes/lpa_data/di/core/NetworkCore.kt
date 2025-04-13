@@ -1,6 +1,6 @@
-package com.abrahamcardenes.wawaamarillalimon.di.core
+package com.abrahamcardenes.lpa_data.di.core
 
-import com.abrahamcardenes.wawaamarillalimon.BuildConfig
+import com.abrahamcardenes.lpa_data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

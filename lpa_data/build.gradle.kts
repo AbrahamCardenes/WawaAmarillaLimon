@@ -1,9 +1,24 @@
+import java.util.Properties
+import kotlin.apply
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.ksp)
 }
+
+val localProperties =
+    Properties().apply {
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            load(localPropertiesFile.inputStream())
+        }
+    }
+
+val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
+val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
+val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
 
 android {
     namespace = "com.abrahamcardenes.lpa_data"
@@ -23,6 +38,27 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        release {
+            isMinifyEnabled = false
+            manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
+            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
+        }
+
+        debug {
+            isMinifyEnabled = false
+            manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
+            android.buildFeatures.buildConfig = true
+            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
+            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
         }
     }
     compileOptions {

@@ -1,8 +1,8 @@
-package com.abrahamcardenes.wawaamarillalimon.di.travellers
+package com.abrahamcardenes.lpa_data.di.travellers
 
+import com.abrahamcardenes.lpa_data.BuildConfig
 import com.abrahamcardenes.lpa_data.annotations.TravellersRetrofit
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
-import com.abrahamcardenes.wawaamarillalimon.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

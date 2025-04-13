@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.di.busStops
+package com.abrahamcardenes.lpa_data.di.busStops
 
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.BusStopsRepositoryImpl

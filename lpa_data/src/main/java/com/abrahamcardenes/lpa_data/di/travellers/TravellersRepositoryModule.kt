@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.di.travellers
+package com.abrahamcardenes.lpa_data.di.travellers
 
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers

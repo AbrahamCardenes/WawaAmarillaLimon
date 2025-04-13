@@ -55,9 +55,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_PARADAS", "\"${System.getenv("API_WAWAS")}\"")
-            buildConfigField("String", "API_TRAVELLERS", "\"${System.getenv("API_TRAVELLERS")}\"")
-            buildConfigField("String", "API_STATICAPP", "\"${System.getenv("API_STATICAPP")}\"")
 
             signingConfig = signingConfigs["release"]
         }
@@ -67,9 +64,6 @@ android {
             isDebuggable = true
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
             applicationIdSuffix = ".dev"
-            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
-            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
-            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
         }
     }
     compileOptions {

@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "WawaAmarillaLimon"
 include(":app")
+include(":core")
+include(":core_db")
+include(":lpa_domain")
+include(":lpa_data")
+include(":lpa_presentation")

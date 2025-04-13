@@ -7,4 +7,6 @@ plugins {
     alias(libs.plugins.ksp) version "2.1.0-1.0.29"
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.android.library) apply false
 }

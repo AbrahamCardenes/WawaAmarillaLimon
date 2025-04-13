@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WawaAmarillaLimon</string>
+    <string name="search_bus_stop_textfield">Nº/Nombre de la parada</string>
+    <string name="no_buses_available">No hay guaguas disponibles en estos momentos.</string>
+    <string name="check_your_balance">Consulta el saldo de tu tarjeta</string>
+    <string name="put_here_card_number">Introduce el número de tu tarjeta</string>
+    <string name="card_number_title">Nº Tarjeta:</string>
+    <string name="update_date_title">Fecha actualización:</string>
+    <string name="balance_title">Saldo:</string>
+    <string name="show_schedule">Mostrar tabla de tiempos</string>
+</resources>

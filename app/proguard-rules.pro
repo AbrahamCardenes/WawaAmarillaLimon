@@ -20,6 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepnames class com.abrahamcardenes.wawaamarillalimon.presentation.navigation.*
+-keepnames class com.abrahamcardenes.lpa_presentation.navigation.*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

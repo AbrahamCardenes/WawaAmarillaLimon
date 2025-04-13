@@ -1,8 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.di.travellers
 
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
-import com.abrahamcardenes.wawaamarillalimon.data.TravellersRepositoryImpl
-import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
+import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
+import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

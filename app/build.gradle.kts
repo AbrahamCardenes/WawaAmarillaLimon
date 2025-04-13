@@ -55,9 +55,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_PARADAS", "\"${System.getenv("API_WAWAS")}\"")
-            buildConfigField("String", "API_TRAVELLERS", "\"${System.getenv("API_TRAVELLERS")}\"")
-            buildConfigField("String", "API_STATICAPP", "\"${System.getenv("API_STATICAPP")}\"")
+            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
+            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
 
             signingConfig = signingConfigs["release"]
         }
@@ -147,5 +147,6 @@ dependencies {
     implementation(project(":core"))
     testImplementation(project(":core"))
     implementation(project(":core_db"))
+    implementation(project(":lpa_data"))
     implementation(project(":lpa_domain"))
 }

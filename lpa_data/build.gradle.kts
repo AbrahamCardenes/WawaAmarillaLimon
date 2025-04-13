@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.abrahamcardenes.lpa_domain"
+    namespace = "com.abrahamcardenes.lpa_data"
     compileSdk = 35
 
     defaultConfig {
@@ -51,9 +51,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Modules
-    implementation(project(":core"))
-    testImplementation(project(":core"))
+    // Retrofit and moshi
+    implementation(libs.retrofit)
+    implementation(libs.moshi)
+    implementation(libs.converter.moshi)
+    ksp(libs.moshi.kotlin.codegen)
+
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     // HILT
     implementation(libs.hilt.android)
@@ -67,4 +73,10 @@ dependencies {
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     testImplementation(libs.turbine)
+
+    // Modules
+    implementation(project(":lpa_domain"))
+    implementation(project(":core_db"))
+    implementation(project(":core"))
+    testImplementation(project(":core"))
 }

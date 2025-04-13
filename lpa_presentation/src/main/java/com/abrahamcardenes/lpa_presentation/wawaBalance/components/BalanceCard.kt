@@ -11,8 +11,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
-import com.abrahamcardenes.lpa_presentation.utils.toLocalCurrency
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.utils.toLocalCurrency
 
 @Composable
 fun BalanceCard(wawaCardBalance: WawaCardBalance, modifier: Modifier = Modifier) {

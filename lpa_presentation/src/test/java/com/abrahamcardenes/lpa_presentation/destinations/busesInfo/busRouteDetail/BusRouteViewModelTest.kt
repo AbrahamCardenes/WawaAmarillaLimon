@@ -9,12 +9,12 @@ import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteUiState
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteViewModel
+import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.backStopsTypeBD
 import com.abrahamcardenes.lpa_presentation.fakes.busRouteFake
 import com.abrahamcardenes.lpa_presentation.fakes.goStopsTypeA
-import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
-import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery

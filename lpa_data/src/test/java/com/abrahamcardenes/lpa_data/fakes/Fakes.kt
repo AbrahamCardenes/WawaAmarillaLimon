@@ -13,4 +13,3 @@ fun fakeBusStopDetail(): BusStopDetail = BusStopDetail(
         )
     )
 )
-

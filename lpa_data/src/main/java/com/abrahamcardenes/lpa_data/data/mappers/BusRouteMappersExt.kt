@@ -1,14 +1,14 @@
 package com.abrahamcardenes.lpa_data.data.mappers
 
+import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.BusRouteDto
+import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.RouteStopsDto
+import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.ScheduleStaticaDto
+import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.VariantsDto
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.valueObjects.toRGBAColor
-import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.BusRouteDto
-import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.RouteStopsDto
-import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.ScheduleStaticaDto
-import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.VariantsDto
 
 fun BusRouteDto.toDomain(): BusRoute = BusRoute(
     line = line,

@@ -8,13 +8,13 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
-import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsViewModel
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.fakeBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetailOffline
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetailOffline
+import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsViewModel
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.google.common.truth.Truth.assertThat
@@ -22,6 +22,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.collections.get
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
@@ -31,7 +32,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.collections.get
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavoritesStopsViewModelTest {

@@ -8,8 +8,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.lpa_presentation.components.notifications.NotificationMessage
-import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 
 @Composable
 fun ConcessionInformationDashboard(timetableInfo: TimetableInfo, modifier: Modifier = Modifier) {

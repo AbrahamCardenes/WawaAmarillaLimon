@@ -84,7 +84,6 @@ dependencies {
     // LOTTIE
     implementation(libs.lottie)
 
-
     // Modules
     implementation(project(":lpa_domain"))
     implementation(project(":core"))

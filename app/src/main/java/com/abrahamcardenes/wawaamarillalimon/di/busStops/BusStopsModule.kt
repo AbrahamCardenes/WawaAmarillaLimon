@@ -1,8 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.di.busStops
 
-import com.abrahamcardenes.wawaamarillalimon.BuildConfig
 import com.abrahamcardenes.lpa_data.annotations.StopsRetrofit
 import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
+import com.abrahamcardenes.wawaamarillalimon.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

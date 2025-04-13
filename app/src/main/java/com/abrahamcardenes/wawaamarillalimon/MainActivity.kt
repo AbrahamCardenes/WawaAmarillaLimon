@@ -43,8 +43,8 @@ import com.abrahamcardenes.lpa_presentation.navigation.Concessions
 import com.abrahamcardenes.lpa_presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.lpa_presentation.navigation.WawaBalance
 import com.abrahamcardenes.lpa_presentation.navigation.getLabels
-import com.abrahamcardenes.lpa_presentation.wawaBalance.WawaBalanceScreenRoot
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.wawaBalance.WawaBalanceScreenRoot
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

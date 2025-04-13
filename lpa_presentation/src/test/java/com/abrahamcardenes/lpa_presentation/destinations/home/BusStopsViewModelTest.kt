@@ -10,11 +10,11 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
-import com.abrahamcardenes.lpa_presentation.home.BusStopsViewModel
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.fakeBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetail
+import com.abrahamcardenes.lpa_presentation.home.BusStopsViewModel
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop

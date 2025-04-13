@@ -42,8 +42,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextField
-import com.abrahamcardenes.lpa_presentation.wawaBalance.components.BalanceCard
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.wawaBalance.components.BalanceCard
 import kotlinx.coroutines.delay
 
 @Composable

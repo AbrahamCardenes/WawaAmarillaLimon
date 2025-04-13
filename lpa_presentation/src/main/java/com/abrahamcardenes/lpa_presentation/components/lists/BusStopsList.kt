@@ -53,10 +53,10 @@ fun BusStopsList(
                         onBusStopClick(busStopDetail.stopNumber)
                     },
                     modifier =
-                        Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth()
-                            .animateItem()
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .animateItem()
                 )
             }
 

@@ -18,8 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 
 @Composable
 fun NotificationMessage(message: String, notificationType: NotificationType, modifier: Modifier = Modifier) {

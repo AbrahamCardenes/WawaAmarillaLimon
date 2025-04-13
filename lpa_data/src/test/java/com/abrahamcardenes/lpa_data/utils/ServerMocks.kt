@@ -3,12 +3,12 @@ package com.abrahamcardenes.lpa_data.utils
 import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 
 object ServerMocks {
     private val client =

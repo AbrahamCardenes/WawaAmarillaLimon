@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
-import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
 
 @Composable
 fun ConcessionCard(concession: ConcessionDetails, onClick: (String, RGBAColor) -> Unit, modifier: Modifier = Modifier) {

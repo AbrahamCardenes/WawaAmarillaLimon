@@ -1,0 +1,8 @@
+package com.abrahamcardenes.lpa_presentation.wawaBalance
+
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+
+data class BalanceUiState(
+    val cardNumber: String = "",
+    val wawaCards: List<WawaCardBalance> = emptyList()
+)

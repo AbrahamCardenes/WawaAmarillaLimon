@@ -33,18 +33,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.abrahamcardenes.lpa_domain.valueObjects.toRGBAColor
 import com.abrahamcardenes.lpa_domain.valueObjects.toRgbStringColor
-import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.BusRouteScreen
-import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsScreen
-import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.home.BusStopsScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusStops
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.BusTimetable
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.Concessions
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.FavoritesBusStops
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.WawaBalance
-import com.abrahamcardenes.wawaamarillalimon.presentation.navigation.getLabels
-import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.WawaBalanceScreenRoot
-import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteScreen
+import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionsScreen
+import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsRoot
+import com.abrahamcardenes.lpa_presentation.home.BusStopsScreenRoot
+import com.abrahamcardenes.lpa_presentation.navigation.BusStops
+import com.abrahamcardenes.lpa_presentation.navigation.BusTimetable
+import com.abrahamcardenes.lpa_presentation.navigation.Concessions
+import com.abrahamcardenes.lpa_presentation.navigation.FavoritesBusStops
+import com.abrahamcardenes.lpa_presentation.navigation.WawaBalance
+import com.abrahamcardenes.lpa_presentation.navigation.getLabels
+import com.abrahamcardenes.lpa_presentation.wawaBalance.WawaBalanceScreenRoot
+import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

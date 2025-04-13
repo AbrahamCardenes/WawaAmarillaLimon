@@ -135,8 +135,6 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
 
-    // LOTTIE
-    implementation(libs.lottie)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -149,4 +147,5 @@ dependencies {
     implementation(project(":core_db"))
     implementation(project(":lpa_data"))
     implementation(project(":lpa_domain"))
+    implementation(project(":lpa_presentation"))
 }

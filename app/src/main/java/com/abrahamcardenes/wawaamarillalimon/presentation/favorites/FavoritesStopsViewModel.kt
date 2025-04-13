@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetBusDetailUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetFavoriteBusStopsUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.SaveOrDeleteBusStopUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
+import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.wawaamarillalimon.presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.mappers.toBusStop

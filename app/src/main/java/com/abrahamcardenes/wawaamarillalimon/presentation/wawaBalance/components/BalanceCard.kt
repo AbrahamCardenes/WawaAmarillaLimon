@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.R
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.toLocalCurrency
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

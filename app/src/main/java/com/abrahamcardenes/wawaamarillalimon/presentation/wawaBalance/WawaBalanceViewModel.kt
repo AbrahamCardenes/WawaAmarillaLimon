@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBalanceUseCase
+import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

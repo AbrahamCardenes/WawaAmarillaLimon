@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
+import com.abrahamcardenes.lpa_domain.models.travellers.Concession
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

@@ -4,15 +4,15 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
+import com.abrahamcardenes.lpa_domain.models.travellers.BusTimetables
+import com.abrahamcardenes.lpa_domain.models.travellers.Concession
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
+import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
+import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.toDomain
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
-import com.abrahamcardenes.wawaamarillalimon.domain.repositories.TravellersRepository
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusIdNumber
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.WawaCardNumber
 
 class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {

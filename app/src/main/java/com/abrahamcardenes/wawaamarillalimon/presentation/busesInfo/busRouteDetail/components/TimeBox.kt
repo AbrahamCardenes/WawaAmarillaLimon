@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 

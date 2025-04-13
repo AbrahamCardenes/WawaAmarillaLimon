@@ -1,15 +1,15 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.mappers
 
+import com.abrahamcardenes.lpa_domain.models.travellers.BusTimetables
+import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionSchedule
+import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
+import com.abrahamcardenes.lpa_domain.models.travellers.RoutePaths
+import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.BusTimetablesDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.ConcessionStopDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.RoutePathsDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.ScheduleDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.travellers.timetable.TimetableDto
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionSchedule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
 
 fun BusTimetablesDto.toDomain(): BusTimetables = BusTimetables(
     timetables = timetables.map { it.toDomain() }

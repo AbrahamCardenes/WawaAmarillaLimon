@@ -1,11 +1,11 @@
 package com.abrahamcardenes.wawaamarillalimon.fakes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusSchedule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
+import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 
 fun busRouteFake(): BusRoute = BusRoute(
     line = "50",

@@ -2,9 +2,9 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.travellers.GetBalanceUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery

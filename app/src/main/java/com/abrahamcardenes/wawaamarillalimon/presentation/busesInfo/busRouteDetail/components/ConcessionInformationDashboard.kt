@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
+import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.notifications.NotificationMessage
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.NotificationType
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme

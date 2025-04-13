@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 
 data class BalanceUiState(
     val cardNumber: String = "",

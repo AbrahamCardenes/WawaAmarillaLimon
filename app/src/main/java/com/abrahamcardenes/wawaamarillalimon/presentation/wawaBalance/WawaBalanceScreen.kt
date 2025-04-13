@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.R
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.presentation.components.textfields.BusTextField
 import com.abrahamcardenes.wawaamarillalimon.presentation.wawaBalance.components.BalanceCard
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme

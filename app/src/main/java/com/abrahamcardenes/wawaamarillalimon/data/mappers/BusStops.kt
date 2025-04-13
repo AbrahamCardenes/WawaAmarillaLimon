@@ -1,12 +1,12 @@
 package com.abrahamcardenes.wawaamarillalimon.data.mappers
 
 import com.abrahamcardenes.core_db.BusStopEntity
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusLineDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDetailDto
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.stops.BusStopDto
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
 
 fun List<BusStopDto>.toDomain(): List<BusStop> = this.map {
     BusStop(

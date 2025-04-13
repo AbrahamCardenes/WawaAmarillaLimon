@@ -1,7 +1,7 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.uiModels
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 
 data class UiBusStopDetail(
     val stopNumber: BusStopNumber,

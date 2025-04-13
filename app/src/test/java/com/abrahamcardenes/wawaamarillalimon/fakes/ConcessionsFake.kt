@@ -1,8 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.fakes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
 
 fun concessionsFake(): Concessions = Concessions(
     concessions = listOf(

@@ -2,9 +2,9 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo
 
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
+import com.abrahamcardenes.lpa_domain.useCases.concessions.GetConcessionsUseCase
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetConcessionsUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessionsDetails
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsUiState
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsViewModel

@@ -5,13 +5,13 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
 import com.abrahamcardenes.core_db.BusStopDao
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
+import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
+import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toDomain
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
-import com.abrahamcardenes.wawaamarillalimon.domain.repositories.BusStopsRepository
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.BusStopNumber
 import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException

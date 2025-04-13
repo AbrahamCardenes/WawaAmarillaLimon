@@ -2,12 +2,12 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDet
 
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
+import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.GpsCoordinates
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.RouteStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.backStopsTypeBD
 import com.abrahamcardenes.wawaamarillalimon.fakes.busRouteFake
 import com.abrahamcardenes.wawaamarillalimon.fakes.goStopsTypeA

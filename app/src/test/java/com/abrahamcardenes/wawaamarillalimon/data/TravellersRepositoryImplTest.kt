@@ -1,14 +1,14 @@
 package com.abrahamcardenes.wawaamarillalimon.data
 
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.lpa_domain.models.travellers.BusTimetables
+import com.abrahamcardenes.lpa_domain.models.travellers.Concession
+import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionSchedule
+import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
+import com.abrahamcardenes.lpa_domain.models.travellers.RoutePaths
+import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiTravellers
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.BusTimetables
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionSchedule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.RoutePaths
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.TimetableInfo
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedConcessions
 import com.abrahamcardenes.wawaamarillalimon.fakes.mockedWawaCardBalance
 import com.abrahamcardenes.wawaamarillalimon.jsons.concessionsResponse

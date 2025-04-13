@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.BusRoute
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.busRoutes.Variants
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.ConcessionStop
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.concessions.GetBusRouteUseCase
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
+import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
+import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
+import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi
 import dagger.hilt.android.lifecycle.HiltViewModel

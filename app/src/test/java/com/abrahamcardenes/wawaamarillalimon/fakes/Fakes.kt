@@ -1,8 +1,8 @@
 package com.abrahamcardenes.wawaamarillalimon.fakes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 
 fun fakeBusStopDetail(): BusStopDetail = BusStopDetail(

@@ -122,7 +122,7 @@ dependencies {
     implementation(libs.converter.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
-    implementation(platform(libs.okhttp.bom))
+    implementation(platform(libs.okhttp.bom)) // TODO: Check if I could delete this.
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
@@ -147,4 +147,5 @@ dependencies {
     implementation(project(":core"))
     testImplementation(project(":core"))
     implementation(project(":core_db"))
+    implementation(project(":lpa_domain"))
 }

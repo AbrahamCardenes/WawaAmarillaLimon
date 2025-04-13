@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.datasource.remote.dtos.staticApp.detail
 
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.RgbaStringColor
+import com.abrahamcardenes.lpa_domain.valueObjects.RgbaStringColor
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

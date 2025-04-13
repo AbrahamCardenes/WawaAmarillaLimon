@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.components.TimeBox
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.uiModels.TimeUi

@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.Concessions
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
 
 data class ConcessionsUiState(
     val isLoading: Boolean = true,

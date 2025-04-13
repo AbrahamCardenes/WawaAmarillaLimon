@@ -31,8 +31,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.toRgbStringColor
+import com.abrahamcardenes.lpa_domain.valueObjects.toRGBAColor
+import com.abrahamcardenes.lpa_domain.valueObjects.toRgbStringColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.busRouteDetail.BusRouteScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.concessions.ConcessionsScreen
 import com.abrahamcardenes.wawaamarillalimon.presentation.favorites.FavoritesStopsRoot

@@ -2,13 +2,13 @@ package com.abrahamcardenes.wawaamarillalimon.presentation.favorites
 
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.wawaamarillalimon.coroutineRules.MainCoroutineRule
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStopDetail
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetBusDetailUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.GetFavoriteBusStopsUseCase
-import com.abrahamcardenes.wawaamarillalimon.domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeListBusStopDetailOffline

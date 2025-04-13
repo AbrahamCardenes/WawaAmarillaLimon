@@ -6,11 +6,11 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.core_db.BusStopEntity
+import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.ServerMocks
 import com.abrahamcardenes.wawaamarillalimon.data.mappers.toEntity
 import com.abrahamcardenes.wawaamarillalimon.datasource.remote.apis.ApiParadas
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusLine
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.fakes.fakeBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetail
 import com.abrahamcardenes.wawaamarillalimon.jsons.mockedBusStopDetailWithLessTime

@@ -1,9 +1,9 @@
 package com.abrahamcardenes.wawaamarillalimon.fakes
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.Concession
-import com.abrahamcardenes.wawaamarillalimon.domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
+import com.abrahamcardenes.lpa_domain.models.travellers.Concession
+import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 
 fun mockedConcessions() = listOf(
     Concession(

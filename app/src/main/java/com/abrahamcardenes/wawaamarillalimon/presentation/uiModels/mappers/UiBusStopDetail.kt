@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.mappers
 
-import com.abrahamcardenes.wawaamarillalimon.domain.models.busStops.BusStop
+import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.wawaamarillalimon.presentation.uiModels.UiBusStopDetail
 
 fun UiBusStopDetail.toBusStop(): BusStop = BusStop(

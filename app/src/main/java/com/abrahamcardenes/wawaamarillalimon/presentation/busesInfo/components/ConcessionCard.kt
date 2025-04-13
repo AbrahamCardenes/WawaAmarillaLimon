@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
-import com.abrahamcardenes.wawaamarillalimon.domain.models.staticApp.concessions.ConcessionDetails
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.wawaamarillalimon.presentation.utils.getComposeColorFromRGBAColor
 import com.abrahamcardenes.wawaamarillalimon.ui.theme.WawaAmarillaLimonTheme
 

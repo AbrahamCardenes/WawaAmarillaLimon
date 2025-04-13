@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.wawaamarillalimon.domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.wawaamarillalimon.presentation.busesInfo.components.ConcessionCard
 
 @Composable

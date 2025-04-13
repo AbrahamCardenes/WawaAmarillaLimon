@@ -1,6 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.presentation.navigation
 
-import com.abrahamcardenes.wawaamarillalimon.domain.valueObjects.RgbaStringColor
+import com.abrahamcardenes.lpa_domain.valueObjects.RgbaStringColor
 import kotlinx.serialization.Serializable
 
 interface NavRoutes

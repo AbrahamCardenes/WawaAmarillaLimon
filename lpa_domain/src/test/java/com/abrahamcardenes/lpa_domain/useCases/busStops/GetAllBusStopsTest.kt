@@ -1,5 +1,6 @@
 package com.abrahamcardenes.lpa_domain.useCases.busStops
 
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
@@ -84,6 +85,71 @@ class GetAllBusStopsTest {
             )
 
         assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `When current bus stops is error it should call network again`() = runTest {
+        val expected = Result.Error(DataError.Remote.SERVER)
+        val expected2 =
+            Result.Success(
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = false
+                    )
+                )
+            )
+
+        coEvery {
+            repository.getAllLocalBusStops()
+        } returns flow { emit(emptyList()) }
+
+        coEvery {
+            repository.getBusStops()
+        } returns Result.Error(DataError.Remote.SERVER)
+
+        assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
+
+        coEvery {
+            repository.getBusStops()
+        } returns
+            Result.Success(
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isSavedInDb = false
+                    ),
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isSavedInDb = false
+                    )
+                )
+            )
+
+        assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected2)
     }
 
     @Test

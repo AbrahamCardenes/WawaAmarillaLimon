@@ -52,22 +52,20 @@ class BusStopsViewModel
 
     private var detailJob: Job? = null
 
-    private fun getBusStops() {
-        _uiState.update {
-            it.copy(isLoading = true)
-        }
+    fun getBusStops() {
+        updateState(BusStopState.Loading)
         viewModelScope.launch {
             getAllBusStopsUseCase()
                 .collect { response ->
                     response
                         .onSuccess { currentBusStops ->
                             _uiState.update {
-                                it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
+                                it.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
                                     .keepCurrentExpandedStatus()
                             }
                         }
                         .onError { it ->
-                            println(it.toString())
+                            updateState(BusStopState.Error)
                         }
                 }
         }
@@ -145,6 +143,13 @@ class BusStopsViewModel
     fun saveOrDeleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             saveOrDeleteBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
+        }
+    }
+
+    fun updateState(state: BusStopState) {
+        if (_uiState.value.state == state) return
+        _uiState.update {
+            it.copy(state = state)
         }
     }
 }

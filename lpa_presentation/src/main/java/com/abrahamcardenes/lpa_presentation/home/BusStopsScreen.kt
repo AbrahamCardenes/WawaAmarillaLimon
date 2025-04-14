@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.abrahamcardenes.lpa_presentation.components.errors.CatError
+import com.abrahamcardenes.lpa_presentation.components.errors.getRandomString
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
@@ -25,6 +31,7 @@ fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusS
         },
         onUserInput = busStopsViewModel::updateUserInput,
         onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
+        refreshBusStops = busStopsViewModel::getBusStops,
         modifier = modifier
     )
 }
@@ -35,27 +42,49 @@ private fun BusStopsScreen(
     onBusStopClick: (Int) -> Unit,
     onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
+    refreshBusStops: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var errorMessage by remember {
+        mutableIntStateOf(getRandomString())
+    }
     AnimatedContent(
-        targetState = uiState.isLoading,
+        targetState = uiState.state,
         label = "animation-loading-bus-stops"
-    ) { isLoading ->
-        if (isLoading) {
-            LoadingCircles(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            )
-        } else {
-            BusStopsList(
-                onSaveBusStop = onSaveBusStop,
-                onBusStopClick = onBusStopClick,
-                onUserInput = onUserInput,
-                busStops = uiState.busStops,
-                textFieldInput = uiState.userInput,
-                modifier = modifier
-            )
+    ) { currentState ->
+
+        when (currentState) {
+            BusStopState.Error -> {
+                CatError(
+                    onClick = {
+                        refreshBusStops()
+                        errorMessage = getRandomString()
+                    },
+                    message = stringResource(errorMessage),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize()
+                )
+            }
+
+            BusStopState.Loading -> {
+                LoadingCircles(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+            }
+
+            BusStopState.Success -> {
+                BusStopsList(
+                    onSaveBusStop = onSaveBusStop,
+                    onBusStopClick = onBusStopClick,
+                    onUserInput = onUserInput,
+                    busStops = uiState.busStops,
+                    textFieldInput = uiState.userInput,
+                    modifier = modifier
+                )
+            }
         }
     }
 }
@@ -80,7 +109,8 @@ fun BusStopsScreenPreview() {
             ),
             onBusStopClick = {},
             onUserInput = {},
-            onSaveBusStop = {}
+            onSaveBusStop = {},
+            refreshBusStops = {}
         )
     }
 }

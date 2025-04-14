@@ -8,4 +8,11 @@
     <string name="update_date_title">Fecha actualización:</string>
     <string name="balance_title">Saldo:</string>
     <string name="show_schedule">Mostrar tabla de tiempos</string>
+    <string name="retry">Reintentar</string>
+    <string name="cat_error_1">¿Donde está mi caja?</string>
+    <string name="cat_error_2">No encuentro mi caja</string>
+    <string name="cat_error_3">Alguien tiro la taza de café</string>
+    <string name="cat_error_4">MIAU MIAU MIAU…MIAU</string>
+    <string name="cat_error_5">¿Quién ha puesto al perro al mando?</string>
+    
 </resources>

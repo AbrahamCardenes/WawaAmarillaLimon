@@ -41,6 +41,7 @@ import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
+// TODO: Review this, texts strings.
 @Composable
 fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiBusStopDetail) -> Unit, modifier: Modifier = Modifier) {
     val interactionSource = remember { MutableInteractionSource() }

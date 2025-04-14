@@ -14,6 +14,7 @@ import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.fakeBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetail
+import com.abrahamcardenes.lpa_presentation.home.BusStopState
 import com.abrahamcardenes.lpa_presentation.home.BusStopsViewModel
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
@@ -83,7 +84,7 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When starting viewModel it should be loading and no busStops`() = runTest {
-        assertThat(busStopsViewModel.uiState.value.isLoading).isTrue()
+        assertThat(busStopsViewModel.uiState.value.state).isEqualTo(BusStopState.Loading)
         assertThat(busStopsViewModel.uiState.value.busStops).isEmpty()
     }
 
@@ -102,8 +103,25 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             assertThat(itemProduced.busStops).isEqualTo(expected)
+        }
+    }
+
+    @Test
+    fun `When getAllBusStops emits data error it should show error state`() = runTest {
+        coEvery {
+            getAllBusStopsUseCase()
+        } returns flow {
+            emit(
+                Result.Error(DataError.Remote.SERVER)
+            )
+        }
+
+        busStopsViewModel.uiState.test {
+            val itemProduced = awaitItem()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Error)
+            assertThat(itemProduced.busStops).isEmpty()
         }
     }
 
@@ -131,7 +149,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             assertThat(itemProduced.userInput).isEqualTo("PASEO DE SAN")
             assertThat(itemProduced.busStops).isEqualTo(
                 expected
@@ -153,7 +171,7 @@ class BusStopsViewModelTest {
         busStopsViewModel.updateUserInput("Some random text")
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             assertThat(itemProduced.userInput).isEqualTo("Some random text")
             assertThat(itemProduced.busStops).isEmpty()
         }
@@ -183,7 +201,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             assertThat(itemProduced.userInput).isEqualTo("79")
             assertThat(itemProduced.busStops).isEqualTo(
                 expected
@@ -223,7 +241,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             emissionExpected.onSuccess {
                 assertThat(itemProduced.busStops).isEqualTo(fakeListBusStopDetail().toUiStopDetail())
             }
@@ -250,7 +268,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             emissionExpected.onSuccess {
                 assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
             }
@@ -288,7 +306,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
 
             emissionExpected.onSuccess {
                 assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
@@ -369,7 +387,7 @@ class BusStopsViewModelTest {
 
         busStopsViewModel.uiState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
             emissionExpected.onSuccess {
                 assertThat(itemProduced.busStops).isEqualTo(
                     it.toUiStopDetail()

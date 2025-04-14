@@ -18,7 +18,7 @@ constructor(
 
     operator fun invoke(): Flow<Result<List<BusStop>, DataError>> {
         val busStopsCombinedWithLocal = repository.getAllLocalBusStops().map { savedStops ->
-            if (!::currentBusStops.isInitialized) {
+            if (!::currentBusStops.isInitialized || currentBusStops is Result.Error) {
                 currentBusStops = getNetworkBusStops()
             }
 

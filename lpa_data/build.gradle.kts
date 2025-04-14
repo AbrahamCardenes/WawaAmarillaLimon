@@ -22,10 +22,10 @@ val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
 
 android {
     namespace = "com.abrahamcardenes.lpa_data"
-    compileSdk = 35
+    compileSdk = AndroidConfig.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = AndroidConfig.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -111,8 +111,8 @@ dependencies {
     testImplementation(libs.turbine)
 
     // Modules
-    implementation(project(":lpa_domain"))
-    implementation(project(":core_db"))
-    implementation(project(":core"))
-    testImplementation(project(":core"))
+    implementation(project(Modules.lpaDomain))
+    implementation(project(Modules.coreDb))
+    implementation(project(Modules.core))
+    testImplementation(project(Modules.core))
 }

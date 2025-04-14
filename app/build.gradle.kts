@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,28 +9,16 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
 }
 
-val localProperties =
-    Properties().apply {
-        val localPropertiesFile = rootProject.file("local.properties")
-        if (localPropertiesFile.exists()) {
-            load(localPropertiesFile.inputStream())
-        }
-    }
-
-val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
-val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
-val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
-
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
-    compileSdk = 35
+    compileSdk = AndroidConfig.compileSdk
 
     defaultConfig {
         applicationId = "com.abrahamcardenes.wawaamarillalimon"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "0.0.1"
+        minSdk = AndroidConfig.minSdk
+        targetSdk = AndroidConfig.targetSdk
+        versionCode = AndroidConfig.versionCode
+        versionName = AndroidConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -47,7 +33,6 @@ android {
     }
 
     buildTypes {
-
         release {
             isMinifyEnabled = true
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
@@ -126,10 +111,10 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
     // Modules
-    implementation(project(":core"))
-    testImplementation(project(":core"))
-    implementation(project(":core_db"))
-    implementation(project(":lpa_data"))
-    implementation(project(":lpa_domain"))
-    implementation(project(":lpa_presentation"))
+    implementation(project(Modules.core))
+    testImplementation(project(Modules.core))
+    implementation(project(Modules.coreDb))
+    implementation(project(Modules.lpaData))
+    implementation(project(Modules.lpaDomain))
+    implementation(project(Modules.lpaPresentation))
 }

@@ -8,4 +8,3 @@ repositories {
 plugins {
     `kotlin-dsl`
 }
-

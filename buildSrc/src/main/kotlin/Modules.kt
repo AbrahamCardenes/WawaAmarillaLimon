@@ -1,8 +1,7 @@
 object Modules {
-    const val app = ":app"
-    const val core = ":core"
-    const val coreDb = ":core_db"
-    const val lpaDomain = ":lpa_domain"
-    const val lpaData = ":lpa_data"
-    const val lpaPresentation = ":lpa_presentation"
+    const val CORE = ":core"
+    const val CORE_DB = ":core_db"
+    const val LPA_DATA = ":lpa_data"
+    const val LPA_DOMAIN = ":lpa_domain"
+    const val LPA_PRESENTATION = ":lpa_presentation"
 }

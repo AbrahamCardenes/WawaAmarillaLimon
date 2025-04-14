@@ -9,10 +9,10 @@ plugins {
 
 android {
     namespace = "com.abrahamcardenes.lpa_presentation"
-    compileSdk = AndroidConfig.compileSdk
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
-        minSdk = AndroidConfig.minSdk
+        minSdk = AndroidConfig.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -86,6 +86,6 @@ dependencies {
     implementation(libs.lottie)
 
     // Modules
-    implementation(project(Modules.lpaDomain))
-    implementation(project(Modules.core))
+    implementation(project(Modules.LPA_DOMAIN))
+    implementation(project(Modules.CORE))
 }

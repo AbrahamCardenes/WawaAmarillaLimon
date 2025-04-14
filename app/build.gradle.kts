@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace = "com.abrahamcardenes.wawaamarillalimon"
-    compileSdk = AndroidConfig.compileSdk
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
         applicationId = "com.abrahamcardenes.wawaamarillalimon"
-        minSdk = AndroidConfig.minSdk
-        targetSdk = AndroidConfig.targetSdk
-        versionCode = AndroidConfig.versionCode
-        versionName = AndroidConfig.versionName
+        minSdk = AndroidConfig.MIN_SDK
+        targetSdk = AndroidConfig.TARGET_SDK
+        versionCode = AndroidConfig.VERSION_CODE
+        versionName = AndroidConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -111,10 +111,10 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
     // Modules
-    implementation(project(Modules.core))
-    testImplementation(project(Modules.core))
-    implementation(project(Modules.coreDb))
-    implementation(project(Modules.lpaData))
-    implementation(project(Modules.lpaDomain))
-    implementation(project(Modules.lpaPresentation))
+    implementation(project(Modules.CORE))
+    testImplementation(project(Modules.CORE))
+    implementation(project(Modules.CORE_DB))
+    implementation(project(Modules.LPA_DATA))
+    implementation(project(Modules.LPA_DOMAIN))
+    implementation(project(Modules.LPA_PRESENTATION))
 }

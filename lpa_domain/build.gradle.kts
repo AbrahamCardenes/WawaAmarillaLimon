@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.abrahamcardenes.lpa_domain"
-    compileSdk = AndroidConfig.compileSdk
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
-        minSdk = AndroidConfig.minSdk
+        minSdk = AndroidConfig.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -52,8 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Modules
-    implementation(project(Modules.core))
-    testImplementation(project(Modules.core))
+    implementation(project(Modules.CORE))
+    testImplementation(project(Modules.CORE))
 
     // HILT
     implementation(libs.hilt.android)

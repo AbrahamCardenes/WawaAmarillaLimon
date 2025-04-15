@@ -4,5 +4,6 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 
 data class BalanceUiState(
     val cardNumber: String = "",
-    val wawaCards: List<WawaCardBalance> = emptyList()
+    val wawaCards: List<WawaCardBalance> = emptyList(),
+    val errorHappened: Boolean = false
 )

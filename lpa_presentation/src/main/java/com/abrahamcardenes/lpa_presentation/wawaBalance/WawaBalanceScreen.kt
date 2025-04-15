@@ -1,7 +1,9 @@
 package com.abrahamcardenes.lpa_presentation.wawaBalance
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -36,14 +38,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
+import com.abrahamcardenes.lpa_presentation.components.notifications.NotificationMessage
 import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextField
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 import com.abrahamcardenes.lpa_presentation.wawaBalance.components.BalanceCard
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 
 @Composable
@@ -58,6 +64,7 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
             }
         },
         onGetBalance = wawaBalanceViewModel::getBalance,
+        updateErrorState = wawaBalanceViewModel::updateErrorState,
         modifier = Modifier
     )
 }
@@ -66,6 +73,7 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
 fun WawaBalanceContent(
     uiState: BalanceUiState,
     onCardNumberChange: (String) -> Unit,
+    updateErrorState: (Boolean) -> Unit,
     onGetBalance: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -76,6 +84,28 @@ fun WawaBalanceContent(
         if (uiState.wawaCards.isEmpty()) return@LaunchedEffect
         delay(250)
         state.animateScrollToItem(0)
+    }
+
+    LaunchedEffect(uiState.errorHappened) {
+        if (uiState.errorHappened) {
+            delay(5.seconds)
+            updateErrorState(false)
+        }
+    }
+
+    AnimatedVisibility(uiState.errorHappened, modifier = Modifier.zIndex(2f)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            NotificationMessage(
+                message = stringResource(R.string.balance_error),
+                notificationType = NotificationType.ERROR,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 
     Column(
@@ -175,6 +205,7 @@ fun WawaBalancePreview() {
 
             onCardNumberChange = {},
             onGetBalance = {},
+            updateErrorState = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         )
     }

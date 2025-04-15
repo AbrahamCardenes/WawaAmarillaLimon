@@ -26,7 +26,6 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
 
     fun getBalance() {
         viewModelScope.launch {
-            println(_balanceUiState.value.cardNumber)
             if (_balanceUiState.value.cardNumber.isEmpty()) return@launch
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
@@ -38,7 +37,14 @@ class WawaBalanceViewModel @Inject constructor(private val getBalanceUseCase: Ge
                     }
                 }
                 .onError {
+                    updateErrorState(true)
                 }
+        }
+    }
+
+    fun updateErrorState(value: Boolean) {
+        _balanceUiState.update { state ->
+            state.copy(errorHappened = value)
         }
     }
 }

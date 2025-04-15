@@ -1,6 +1,7 @@
 package com.abrahamcardenes.lpa_presentation.wawaBalance
 
 import app.cash.turbine.test
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
@@ -61,12 +62,41 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.balanceUiState.test {
             val latestEmission = awaitItem()
+            assertThat(latestEmission.errorHappened).isFalse()
             assertThat(latestEmission.wawaCards).isNotEmpty()
             assertThat(latestEmission.cardNumber).isNotEmpty()
             assertThat(latestEmission).isEqualTo(
                 BalanceUiState(
                     wawaCards = listOf(expectedBalance),
                     cardNumber = "579997"
+                )
+            )
+        }
+    }
+
+    @Test
+    fun `Given a card that returns an error it should update the state to error`() = runTest {
+        coEvery {
+            getBalanceUseCase("579997")
+        } returns Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+
+        wawaBalanceViewModel.onCardNumberChange("579997")
+        wawaBalanceViewModel.getBalance()
+
+        coVerify(exactly = 1) {
+            getBalanceUseCase("579997")
+        }
+
+        wawaBalanceViewModel.balanceUiState.test {
+            val latestEmission = awaitItem()
+            assertThat(latestEmission.errorHappened).isTrue()
+            assertThat(latestEmission.wawaCards).isEmpty()
+            assertThat(latestEmission.cardNumber).isNotEmpty()
+            assertThat(latestEmission).isEqualTo(
+                BalanceUiState(
+                    wawaCards = emptyList(),
+                    cardNumber = "579997",
+                    errorHappened = true
                 )
             )
         }

@@ -1,12 +1,14 @@
 package com.abrahamcardenes.lpa_presentation.destinations.busesInfo.busRouteDetail
 
 import app.cash.turbine.test
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
 import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
+import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteState
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteUiState
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteViewModel
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
@@ -68,12 +70,35 @@ class BusRouteViewModelTest {
 
         busRouteViewModel.uiState.test {
             val firstEmission = awaitItem()
-            assertThat(firstEmission.isLoading).isFalse()
+            assertThat(firstEmission.state).isEqualTo(BusRouteState.Success)
             assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
         }
 
         busRouteViewModel.availableRouteStops.test {
             assertThat(awaitItem()).isEqualTo(goStopsTypeA())
+        }
+
+        busRouteViewModel.availableBackRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
+        }
+    }
+
+    @Test
+    fun `When the call to getBusRoute fails it should update the uiState to error`() = runTest {
+        coEvery {
+            getBusRouteUseCase(concessionId = "50")
+        } returns Result.Error(DataError.Remote.SERVER)
+
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
+
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.state).isEqualTo(BusRouteState.Error)
+            assertThat(firstEmission.busRoute).isNull()
+        }
+
+        busRouteViewModel.availableRouteStops.test {
+            assertThat(awaitItem()).isEmpty()
         }
 
         busRouteViewModel.availableBackRouteStops.test {

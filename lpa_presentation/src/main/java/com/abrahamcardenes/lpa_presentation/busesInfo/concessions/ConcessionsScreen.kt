@@ -41,7 +41,12 @@ fun ConcessionsScreen(
                 )
             }
 
-            ConcessionState.Loading -> LoadingCircles(modifier = Modifier.fillMaxSize())
+            ConcessionState.Loading -> LoadingCircles(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            )
+
             ConcessionState.Success -> {
                 LazyColumn(
                     modifier = modifier,

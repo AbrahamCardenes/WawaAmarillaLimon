@@ -57,7 +57,6 @@ class ConcessionsViewModelTest {
         }
     }
 
-
     @Test
     fun `When getConcessions returns an error it should update state to error`() = runTest {
         coEvery {

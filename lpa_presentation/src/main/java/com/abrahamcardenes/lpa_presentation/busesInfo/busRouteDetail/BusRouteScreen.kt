@@ -41,6 +41,7 @@ import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.StopsPager
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
+import com.abrahamcardenes.lpa_presentation.components.errors.CatError
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
@@ -71,7 +72,10 @@ fun BusRouteScreen(
         onNavigateBack = onNavigateBack,
         onRouteSelection = busRouteViewModel::onRouteSelection,
         onTabSelection = busRouteViewModel::onIndexSelection,
-        openOrCloseScheduleDialog = busRouteViewModel::openOrCloseScheduleDialog
+        openOrCloseScheduleDialog = busRouteViewModel::openOrCloseScheduleDialog,
+        onRetry = {
+            busRouteViewModel.getBusRoute(busIdNumber = busNumber)
+        }
     )
 }
 
@@ -88,7 +92,8 @@ fun BusRouteUi(
     onNavigateBack: () -> Unit,
     onRouteSelection: (Variants) -> Unit,
     openOrCloseScheduleDialog: () -> Unit,
-    onTabSelection: (Int) -> Unit
+    onTabSelection: (Int) -> Unit,
+    onRetry: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
@@ -115,72 +120,86 @@ fun BusRouteUi(
     }
 
     AnimatedContent(
-        targetState = uiState.isLoading,
+        targetState = uiState.state,
         label = "animation-loading"
-    ) { isLoading ->
-        if (isLoading) {
-            LoadingCircles(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            )
-        } else {
-            Scaffold(
-                topBar = {
-                    BusRouteTopAppBar(
-                        commercial = commercialLine,
-                        rgbaColor = rgbaColor,
-                        title = busRoute!!.name,
-                        onNavigateBack = onNavigateBack,
-                        scrollBehavior = scrollBehavior
+    ) { state ->
+        when (state) {
+            BusRouteState.Error -> {
+                CatError(
+                    onClick = onRetry,
+                    message = stringResource(uiState.errorMessage),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize()
+                )
+            }
+
+            BusRouteState.Loading -> {
+                LoadingCircles(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                )
+            }
+
+            BusRouteState.Success -> {
+                Scaffold(
+                    topBar = {
+                        BusRouteTopAppBar(
+                            commercial = commercialLine,
+                            rgbaColor = rgbaColor,
+                            title = busRoute!!.name,
+                            onNavigateBack = onNavigateBack,
+                            scrollBehavior = scrollBehavior
+                        )
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = openOrCloseScheduleDialog
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_schedule),
+                                contentDescription = stringResource(
+                                    R.string.show_schedule
+                                ),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .nestedScroll(scrollBehavior.nestedScrollConnection)
+                ) { innerpadding ->
+                    SchedulesDialog(
+                        showDialog = uiState.showDialog,
+                        openOrCloseScheduleDialog = openOrCloseScheduleDialog,
+                        busRouteSchedule = busRouteSchedule
                     )
-                },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = openOrCloseScheduleDialog
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_schedule),
-                            contentDescription = stringResource(
-                                R.string.show_schedule
-                            ),
-                            tint = MaterialTheme.colorScheme.primary
+                    Column(modifier = Modifier.padding(innerpadding)) {
+                        ConcessionNodesTabRow(
+                            tabSelected = pagerState.currentPage,
+                            nodes = busRoute!!.nodes,
+                            onTabClick = {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(it)
+                                }
+                                onTabSelection(it)
+                            },
+                            modifier = Modifier
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        AvailableRoutes(
+                            routes = activeVariant,
+                            selectedVariant = uiState.selectedVariant,
+                            onRouteSelection = onRouteSelection
+                        )
+                        StopsPager(
+                            availableGoRouteStops = availableGoRouteStops,
+                            availableBackRouteStops = availableBackRouteStops,
+                            pagerState = pagerState,
+                            selectedIndex = pagerState.currentPage
                         )
                     }
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-            ) { innerpadding ->
-                SchedulesDialog(
-                    showDialog = uiState.showDialog,
-                    openOrCloseScheduleDialog = openOrCloseScheduleDialog,
-                    busRouteSchedule = busRouteSchedule
-                )
-                Column(modifier = Modifier.padding(innerpadding)) {
-                    ConcessionNodesTabRow(
-                        tabSelected = pagerState.currentPage,
-                        nodes = busRoute!!.nodes,
-                        onTabClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(it)
-                            }
-                            onTabSelection(it)
-                        },
-                        modifier = Modifier
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    AvailableRoutes(
-                        routes = activeVariant,
-                        selectedVariant = uiState.selectedVariant,
-                        onRouteSelection = onRouteSelection
-                    )
-                    StopsPager(
-                        availableGoRouteStops = availableGoRouteStops,
-                        availableBackRouteStops = availableBackRouteStops,
-                        pagerState = pagerState,
-                        selectedIndex = pagerState.currentPage
-                    )
                 }
             }
         }
@@ -200,7 +219,7 @@ private fun TimetablePreview() {
                 alpha = 1
             ),
             uiState = BusRouteUiState(
-                isLoading = false,
+                state = BusRouteState.Success,
                 busRoute = BusRoute(
                     line = "13",
                     name = "Mercado de Vegueta - Tres Palmas",
@@ -355,7 +374,8 @@ private fun TimetablePreview() {
             availableGoRouteStops = emptyList(),
             availableBackRouteStops = emptyList(),
             busRouteSchedule = emptyList(),
-            openOrCloseScheduleDialog = {}
+            openOrCloseScheduleDialog = {},
+            onRetry = {}
         )
     }
 }

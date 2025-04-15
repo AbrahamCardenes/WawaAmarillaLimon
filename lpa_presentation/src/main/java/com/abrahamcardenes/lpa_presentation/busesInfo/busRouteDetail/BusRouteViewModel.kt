@@ -10,6 +10,7 @@ import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.TimeUi
+import com.abrahamcardenes.lpa_presentation.utils.getRandomString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -88,18 +89,22 @@ class BusRouteViewModel @Inject constructor(
     }
 
     fun getBusRoute(busIdNumber: String) {
+        updateUiState(BusRouteState.Loading)
         viewModelScope.launch {
             getBusRouteUseCase(concessionId = busIdNumber)
                 .onSuccess { busRoute ->
                     _uiState.update { state ->
                         state.copy(
-                            isLoading = false,
-                            busRoute = busRoute
+                            busRoute = busRoute,
+                            state = BusRouteState.Success
                         )
                     }
                 }
                 .onError {
-                    println(it.toString())
+                    _uiState.update { state ->
+                        state.copy(errorMessage = getRandomString())
+                    }
+                    updateUiState(BusRouteState.Error)
                 }
         }
     }
@@ -141,6 +146,12 @@ class BusRouteViewModel @Inject constructor(
     fun openOrCloseScheduleDialog() {
         _uiState.update { state ->
             state.copy(showDialog = !state.showDialog)
+        }
+    }
+
+    fun updateUiState(value: BusRouteState) {
+        _uiState.update { state ->
+            state.copy(state = value)
         }
     }
 }

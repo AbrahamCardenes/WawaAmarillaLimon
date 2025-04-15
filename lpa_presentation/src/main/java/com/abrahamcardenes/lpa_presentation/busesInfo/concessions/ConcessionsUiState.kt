@@ -7,5 +7,3 @@ data class ConcessionsUiState(
     val concessionState: ConcessionState = ConcessionState.Loading,
     val errorMessage: Int = -1
 )
-
-

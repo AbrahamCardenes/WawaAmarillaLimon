@@ -3,6 +3,7 @@ package com.abrahamcardenes.lpa_presentation.destinations.busesInfo.busRouteDeta
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
 import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
@@ -35,10 +36,14 @@ class BusRouteViewModelTest {
 
     private lateinit var busRouteViewModel: BusRouteViewModel
     private val getBusRouteUseCase = mockk<GetBusRouteUseCase>(relaxed = true)
+    private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
 
     @Before
     fun setup() {
-        busRouteViewModel = BusRouteViewModel(getBusRouteUseCase = getBusRouteUseCase)
+        busRouteViewModel = BusRouteViewModel(
+            getBusRouteUseCase = getBusRouteUseCase,
+            crashlyticsService = crashlyticsService
+        )
     }
 
     @After
@@ -87,7 +92,7 @@ class BusRouteViewModelTest {
     fun `When the call to getBusRoute fails it should update the uiState to error`() = runTest {
         coEvery {
             getBusRouteUseCase(concessionId = "50")
-        } returns Result.Error(DataError.Remote.SERVER)
+        } returns Result.Error(DataError.Remote.ServerFailure)
 
         busRouteViewModel.getBusRoute(busIdNumber = "50")
 

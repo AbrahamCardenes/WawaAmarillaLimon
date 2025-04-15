@@ -2,8 +2,10 @@ package com.abrahamcardenes.lpa_presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
@@ -34,7 +36,8 @@ class BusStopsViewModel
 @Inject constructor(
     private val getAllBusStopsUseCase: GetAllBusStops,
     private val getBusDetailUseCase: GetBusDetailUseCase,
-    private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
+    private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase,
+    private val crashlyticsService: CrashlyticsService
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BusStopsUiState())
     val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
@@ -69,9 +72,16 @@ class BusStopsViewModel
                             _uiState.update { state ->
                                 state.copy(errorMessage = getRandomString())
                             }
+                            logErrorIfIsUnknown(it)
                             updateState(BusStopState.Error)
                         }
                 }
+        }
+    }
+
+    private suspend fun logErrorIfIsUnknown(it: DataError) {
+        if (it is DataError.Remote.UnknownError) {
+            crashlyticsService.logException(it.error ?: Exception("Null exception in Data Error Unknown"))
         }
     }
 
@@ -79,10 +89,9 @@ class BusStopsViewModel
         detailJob?.cancel()
         detailJob = viewModelScope.launch {
             closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)
-
             val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
             if (fetchedStop == null) {
-                // TODO: Handle error -> Show some error like: could not obtain bus stop detail¿?
+                crashlyticsService.logException(Exception("Could not find bus stop with number $stopNumber"))
                 return@launch
             }
 
@@ -108,6 +117,7 @@ class BusStopsViewModel
                             availableBusLines = emptyList(),
                             isExpanded = true
                         )
+                        logErrorIfIsUnknown(it)
                     }
             }.collect()
         }

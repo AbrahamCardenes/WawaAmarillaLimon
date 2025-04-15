@@ -89,7 +89,7 @@ class GetAllBusStopsTest {
 
     @Test
     fun `When current bus stops is error it should call network again`() = runTest {
-        val expected = Result.Error(DataError.Remote.SERVER)
+        val expected = Result.Error(DataError.Remote.ServerFailure)
         val expected2 =
             Result.Success(
                 listOf(
@@ -117,7 +117,7 @@ class GetAllBusStopsTest {
 
         coEvery {
             repository.getBusStops()
-        } returns Result.Error(DataError.Remote.SERVER)
+        } returns Result.Error(DataError.Remote.ServerFailure)
 
         assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
 

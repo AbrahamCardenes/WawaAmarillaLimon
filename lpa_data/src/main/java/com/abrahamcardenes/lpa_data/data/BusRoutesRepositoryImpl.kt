@@ -17,7 +17,7 @@ class BusRoutesRepositoryImpl(private val apiService: ApiStaticApp) : BusRoutesR
         it.response.concessionsDto.toDomain()
     }
 
-    override suspend fun getBusRoutes(busNumber: String): Result<BusRoute, DataError.Remote> {
+    override suspend fun getBusRoutes(busNumber: String): Result<BusRoute, DataError> {
         val busRouteDto = safecall {
             apiService.getBusRoute(busNumber)
         }

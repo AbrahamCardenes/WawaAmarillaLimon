@@ -1,16 +1,16 @@
 package com.abrahamcardenes.core.network
 
 sealed interface DataError : Error {
-    enum class Remote : DataError {
-        REQUEST_TIMEOUT,
-        TOO_MANY_REQUESTS,
-        NO_INTERNET,
-        SERVER,
-        SERIALIZATION,
-        UNKNOWN,
-        BAD_REQUEST,
-        UNAUTHORIZED,
-        NOT_FOUND
+    sealed class Remote() : DataError {
+        data object RequestTimeout : Remote()
+        data object TooManyRequests : Remote()
+        data object NoInternet : Remote()
+        data object ServerFailure : Remote()
+        data object Serialization : Remote()
+        data class UnknownError(val error: Throwable?) : Remote()
+        data object BadRequest : Remote()
+        data object Unauthorized : Remote()
+        data object NotFound : Remote()
     }
 
     enum class Local : DataError {

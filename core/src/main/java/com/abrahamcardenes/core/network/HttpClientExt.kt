@@ -6,22 +6,20 @@ import java.nio.channels.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import retrofit2.Response
 
-suspend inline fun <reified T> safecall(execute: () -> Response<T>): Result<T, DataError.Remote> {
+suspend inline fun <reified T> safecall(execute: () -> Response<T>): Result<T, DataError> {
     val response =
         try {
             execute()
-        } catch (e: SocketTimeoutException) {
-            return Result.Error(DataError.Remote.REQUEST_TIMEOUT)
-        } catch (e: UnresolvedAddressException) {
-            return Result.Error(DataError.Remote.NO_INTERNET)
-        } catch (e: JsonDataException) {
-            println(e.stackTraceToString())
-            return Result.Error(DataError.Remote.SERIALIZATION)
+        } catch (_: SocketTimeoutException) {
+            return Result.Error(DataError.Remote.RequestTimeout)
+        } catch (_: UnresolvedAddressException) {
+            return Result.Error(DataError.Remote.NoInternet)
+        } catch (_: JsonDataException) {
+            return Result.Error(DataError.Remote.Serialization)
         } catch (e: Exception) {
-            // Log.e("HttpClientExt", "safecall: ${e.stackTraceToString()}")
-            println(e.stackTraceToString())
-            return Result.Error(DataError.Remote.UNKNOWN)
+            return Result.Error(DataError.Remote.UnknownError(e))
         }
+
     return responseToResult(response)
 }
 
@@ -30,16 +28,16 @@ suspend inline fun <reified T> responseToResult(response: Response<T>): Result<T
         try {
             Result.Success(response.body() as T)
         } catch (e: SerializationException) {
-            Result.Error(DataError.Remote.SERIALIZATION)
+            Result.Error(DataError.Remote.Serialization)
         }
     }
 
-    400 -> Result.Error(DataError.Remote.BAD_REQUEST)
-    401 -> Result.Error(DataError.Remote.UNAUTHORIZED)
-    404 -> Result.Error(DataError.Remote.NOT_FOUND)
-    408 -> Result.Error(DataError.Remote.REQUEST_TIMEOUT)
-    429 -> Result.Error(DataError.Remote.TOO_MANY_REQUESTS)
-    in 500..599 -> Result.Error(DataError.Remote.SERVER)
+    400 -> Result.Error(DataError.Remote.BadRequest)
+    401 -> Result.Error(DataError.Remote.Unauthorized)
+    404 -> Result.Error(DataError.Remote.NotFound)
+    408 -> Result.Error(DataError.Remote.RequestTimeout)
+    429 -> Result.Error(DataError.Remote.TooManyRequests)
+    in 500..599 -> Result.Error(DataError.Remote.ServerFailure)
 
-    else -> Result.Error(DataError.Remote.UNKNOWN)
+    else -> Result.Error(DataError.Remote.UnknownError(Exception("Unknown error code ${response.code()}")))
 }

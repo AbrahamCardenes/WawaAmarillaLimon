@@ -3,6 +3,7 @@ package com.abrahamcardenes.lpa_presentation.wawaBalance
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
@@ -27,10 +28,14 @@ class WawaBalanceViewModelTest {
 
     private lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
+    private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
 
     @Before
     fun setup() {
-        wawaBalanceViewModel = WawaBalanceViewModel(getBalanceUseCase = getBalanceUseCase)
+        wawaBalanceViewModel = WawaBalanceViewModel(
+            getBalanceUseCase = getBalanceUseCase,
+            crashlyticsService = crashlyticsService
+        )
     }
 
     @After
@@ -78,7 +83,7 @@ class WawaBalanceViewModelTest {
     fun `Given a card that returns an error it should update the state to error`() = runTest {
         coEvery {
             getBalanceUseCase("579997")
-        } returns Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+        } returns Result.Error(DataError.Remote.RequestTimeout)
 
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()

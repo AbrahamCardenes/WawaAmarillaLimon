@@ -3,6 +3,7 @@ package com.abrahamcardenes.lpa_presentation.destinations.favorites
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
@@ -23,7 +24,6 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.collections.get
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
@@ -44,16 +44,19 @@ class FavoritesStopsViewModelTest {
     private lateinit var getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase
     private lateinit var getBusDetailUseCase: GetBusDetailUseCase
     private lateinit var saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
+    private lateinit var crashlyticsService: CrashlyticsService
 
     @Before
     fun setup() {
         getFavoriteBusStopsUseCase = mockk(relaxed = true)
         getBusDetailUseCase = mockk(relaxed = true)
         saveOrDeleteBusStopUseCase = mockk(relaxed = true)
+        crashlyticsService = mockk(relaxed = true)
         favoritesStopsViewModel = FavoritesStopsViewModel(
             getFavoriteBusStopsUseCase = getFavoriteBusStopsUseCase,
             getBusDetailUseCase = getBusDetailUseCase,
-            saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase
+            saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase,
+            crashlyticsService = crashlyticsService
         )
     }
 
@@ -506,7 +509,7 @@ class FavoritesStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                Result.Error(DataError.Remote.SERVER)
+                Result.Error(DataError.Remote.ServerFailure)
             )
         }
 

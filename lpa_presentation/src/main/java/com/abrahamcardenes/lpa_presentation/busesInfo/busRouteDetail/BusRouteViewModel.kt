@@ -2,8 +2,10 @@ package com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class BusRouteViewModel @Inject constructor(
-    private val getBusRouteUseCase: GetBusRouteUseCase
+    private val getBusRouteUseCase: GetBusRouteUseCase,
+    private val crashlyticsService: CrashlyticsService
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BusRouteUiState())
@@ -105,6 +108,7 @@ class BusRouteViewModel @Inject constructor(
                         state.copy(errorMessage = getRandomString())
                     }
                     updateUiState(BusRouteState.Error)
+                    logErrorIfIsUnknown(it)
                 }
         }
     }
@@ -152,6 +156,12 @@ class BusRouteViewModel @Inject constructor(
     fun updateUiState(value: BusRouteState) {
         _uiState.update { state ->
             state.copy(state = value)
+        }
+    }
+
+    private suspend fun logErrorIfIsUnknown(it: DataError) {
+        if (it is DataError.Remote.UnknownError) {
+            crashlyticsService.logException(it.error ?: Exception("Null exception in Data Error Unknown"))
         }
     }
 }

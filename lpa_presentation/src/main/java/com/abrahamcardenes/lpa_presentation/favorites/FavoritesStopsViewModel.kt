@@ -2,8 +2,10 @@ package com.abrahamcardenes.lpa_presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
@@ -33,7 +35,8 @@ class FavoritesStopsViewModel
 @Inject constructor(
     private val getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase,
     private val getBusDetailUseCase: GetBusDetailUseCase,
-    private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
+    private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase,
+    private val crashlyticsService: CrashlyticsService
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavoritesUiState())
     val uiState: StateFlow<FavoritesUiState> = _uiState.onStart {
@@ -74,7 +77,7 @@ class FavoritesStopsViewModel
 
             val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
             if (fetchedStop == null) {
-                // TODO: Handle error -> Show some error like: could not obtain bus stop detail¿?
+                crashlyticsService.logException(Exception("Could not find bus stop with number $stopNumber"))
                 return@launch
             }
 
@@ -101,6 +104,7 @@ class FavoritesStopsViewModel
                             availableBusLines = emptyList(),
                             isExpanded = true
                         )
+                        logErrorIfIsUnknown(it)
                     }
             }.collect()
         }
@@ -143,6 +147,12 @@ class FavoritesStopsViewModel
     fun deleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             saveOrDeleteBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
+        }
+    }
+
+    private suspend fun logErrorIfIsUnknown(it: DataError) {
+        if (it is DataError.Remote.UnknownError) {
+            crashlyticsService.logException(it.error ?: Exception("Null exception in Data Error Unknown"))
         }
     }
 }

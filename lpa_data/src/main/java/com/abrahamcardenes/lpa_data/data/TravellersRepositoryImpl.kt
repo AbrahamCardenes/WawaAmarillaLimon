@@ -15,12 +15,14 @@ import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
 
 class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {
+    @Deprecated("Use BusRoutesRepository instead")
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
         api.getBuses()
     }.map {
         it.response.concessions.lines.toDomain()
     }
 
+    @Deprecated("Use BusRoutesRepository instead")
     override suspend fun getTimetables(busNumber: BusIdNumber): Result<BusTimetables, DataError> = safecall {
         api.getTimetable(busIdNumber = busNumber)
     }.map {

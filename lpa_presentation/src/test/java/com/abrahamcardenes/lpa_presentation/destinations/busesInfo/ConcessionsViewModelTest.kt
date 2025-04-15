@@ -3,6 +3,7 @@ package com.abrahamcardenes.lpa_presentation.destinations.busesInfo
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetConcessionsUseCase
 import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionState
@@ -28,10 +29,14 @@ class ConcessionsViewModelTest {
 
     private lateinit var concessionsViewModel: ConcessionsViewModel
     private val getConcessionsUseCase = mockk<GetConcessionsUseCase>(relaxed = true)
+    private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
 
     @Before
     fun setup() {
-        concessionsViewModel = ConcessionsViewModel(getConcessionsUseCase)
+        concessionsViewModel = ConcessionsViewModel(
+            getConcessionsUseCase = getConcessionsUseCase,
+            crashlyticsService = crashlyticsService
+        )
     }
 
     @After
@@ -61,7 +66,7 @@ class ConcessionsViewModelTest {
     fun `When getConcessions returns an error it should update state to error`() = runTest {
         coEvery {
             getConcessionsUseCase()
-        } returns Result.Error(DataError.Remote.UNAUTHORIZED)
+        } returns Result.Error(DataError.Remote.Unauthorized)
 
         concessionsViewModel.concessionUiState.test {
             val emission = awaitItem()

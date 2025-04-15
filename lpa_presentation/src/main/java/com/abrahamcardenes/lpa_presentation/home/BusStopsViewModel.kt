@@ -12,6 +12,7 @@ import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
+import com.abrahamcardenes.lpa_presentation.utils.getRandomString
 import com.abrahamcardenes.lpa_presentation.utils.removeNonSpacingMarks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -65,6 +66,9 @@ class BusStopsViewModel
                             }
                         }
                         .onError { it ->
+                            _uiState.update { state ->
+                                state.copy(errorMessage = getRandomString())
+                            }
                             updateState(BusStopState.Error)
                         }
                 }

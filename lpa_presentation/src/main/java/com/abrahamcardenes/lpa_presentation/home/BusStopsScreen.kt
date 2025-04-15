@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -15,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.lpa_presentation.components.errors.CatError
-import com.abrahamcardenes.lpa_presentation.components.errors.getRandomString
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
@@ -32,6 +28,7 @@ fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusS
         onUserInput = busStopsViewModel::updateUserInput,
         onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
         refreshBusStops = busStopsViewModel::getBusStops,
+        errorMessage = uiState.errorMessage,
         modifier = modifier
     )
 }
@@ -42,23 +39,19 @@ private fun BusStopsScreen(
     onBusStopClick: (Int) -> Unit,
     onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
+    errorMessage: Int,
     refreshBusStops: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var errorMessage by remember {
-        mutableIntStateOf(getRandomString())
-    }
     AnimatedContent(
         targetState = uiState.state,
-        label = "animation-loading-bus-stops"
+        label = "animation-content"
     ) { currentState ->
-
         when (currentState) {
             BusStopState.Error -> {
                 CatError(
                     onClick = {
                         refreshBusStops()
-                        errorMessage = getRandomString()
                     },
                     message = stringResource(errorMessage),
                     modifier = Modifier
@@ -107,6 +100,7 @@ fun BusStopsScreenPreview() {
                     )
                 )
             ),
+            errorMessage = -1,
             onBusStopClick = {},
             onUserInput = {},
             onSaveBusStop = {},

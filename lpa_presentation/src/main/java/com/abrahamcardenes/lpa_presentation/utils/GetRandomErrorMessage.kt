@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_presentation.components.errors
+package com.abrahamcardenes.lpa_presentation.utils
 
 import com.abrahamcardenes.lpa_presentation.R
 

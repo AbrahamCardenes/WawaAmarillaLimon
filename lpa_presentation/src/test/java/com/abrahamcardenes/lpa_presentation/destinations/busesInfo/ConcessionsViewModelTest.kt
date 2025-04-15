@@ -1,9 +1,11 @@
 package com.abrahamcardenes.lpa_presentation.destinations.busesInfo
 
 import app.cash.turbine.test
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetConcessionsUseCase
+import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionState
 import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionsUiState
 import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionsViewModel
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
@@ -51,7 +53,21 @@ class ConcessionsViewModelTest {
         concessionsViewModel.concessionUiState.test {
             val emission = awaitItem()
             assertThat(emission.concessions).isEqualTo(Concessions(mockedConcessionsDetails()))
-            assertThat(emission.isLoading).isFalse()
+            assertThat(emission.concessionState).isEqualTo(ConcessionState.Success)
+        }
+    }
+
+
+    @Test
+    fun `When getConcessions returns an error it should update state to error`() = runTest {
+        coEvery {
+            getConcessionsUseCase()
+        } returns Result.Error(DataError.Remote.UNAUTHORIZED)
+
+        concessionsViewModel.concessionUiState.test {
+            val emission = awaitItem()
+            assertThat(emission.concessions).isEqualTo(Concessions(emptyList()))
+            assertThat(emission.concessionState).isEqualTo(ConcessionState.Error)
         }
     }
 }

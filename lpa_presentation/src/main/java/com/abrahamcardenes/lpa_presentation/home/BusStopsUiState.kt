@@ -6,7 +6,8 @@ data class BusStopsUiState(
     val busStops: List<UiBusStopDetail> = emptyList(),
     val userInput: String = "",
     val state: BusStopState = BusStopState.Loading,
-    val currentExpandedBusStop: UiBusStopDetail? = null
+    val currentExpandedBusStop: UiBusStopDetail? = null,
+    val errorMessage: Int = -1
 ) {
     fun keepCurrentExpandedStatus(): BusStopsUiState {
         val expandedIndex = this.busStops.indexOfFirst { it.stopNumber == this.currentExpandedBusStop?.stopNumber }

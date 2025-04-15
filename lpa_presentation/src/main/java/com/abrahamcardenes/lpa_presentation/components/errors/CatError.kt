@@ -32,7 +32,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-fun CatError(onClick: () -> Unit, modifier: Modifier = Modifier, message: String = "") {
+fun CatError(onClick: () -> Unit, modifier: Modifier = Modifier, message: String) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(
             R.raw.cat_lottie
@@ -64,7 +64,6 @@ fun CatError(onClick: () -> Unit, modifier: Modifier = Modifier, message: String
             modifier = Modifier
                 .clip(CircleShape)
                 .background(Color.White),
-
             contentAlignment = Alignment.Center
         ) {
             LottieComponent(

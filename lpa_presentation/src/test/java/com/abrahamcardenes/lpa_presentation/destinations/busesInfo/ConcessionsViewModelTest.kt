@@ -61,7 +61,7 @@ class ConcessionsViewModelTest {
     fun `When getConcessions returns an error it should update state to error`() = runTest {
         coEvery {
             getConcessionsUseCase()
-        } returns Result.Error(DataError.Remote.UNAUTHORIZED)
+        } returns Result.Error(DataError.Remote.Unauthorized)
 
         concessionsViewModel.concessionUiState.test {
             val emission = awaitItem()

@@ -233,7 +233,7 @@ class BusStopsRepositoryImplTest {
 
         repository.getBusDetailStop(stopNumber = 79).test {
             val emission = awaitItem()
-            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.SERVER))
+            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.ServerFailure))
             cancel()
         }
     }
@@ -248,7 +248,7 @@ class BusStopsRepositoryImplTest {
 
         repository.getBusDetailStop(stopNumber = 79).test {
             val emission = awaitItem()
-            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.BAD_REQUEST))
+            assertThat(emission).isEqualTo(Result.Error(DataError.Remote.BadRequest))
             cancel()
         }
     }

@@ -87,7 +87,7 @@ class BusRouteViewModelTest {
     fun `When the call to getBusRoute fails it should update the uiState to error`() = runTest {
         coEvery {
             getBusRouteUseCase(concessionId = "50")
-        } returns Result.Error(DataError.Remote.SERVER)
+        } returns Result.Error(DataError.Remote.ServerFailure)
 
         busRouteViewModel.getBusRoute(busIdNumber = "50")
 

@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
@@ -43,6 +44,7 @@ class BusStopsViewModelTest {
     private val getAllBusStopsUseCase = mockk<GetAllBusStops>()
     private val getBusDetailUseCase = mockk<GetBusDetailUseCase>()
     private val saveOrDeleteBusStopUseCase = mockk<SaveOrDeleteBusStopUseCase>()
+    private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
     private lateinit var busStopsViewModel: BusStopsViewModel
 
     @Before
@@ -50,7 +52,8 @@ class BusStopsViewModelTest {
         busStopsViewModel = BusStopsViewModel(
             getAllBusStopsUseCase = getAllBusStopsUseCase,
             getBusDetailUseCase = getBusDetailUseCase,
-            saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase
+            saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase,
+            crashlyticsService = crashlyticsService
         )
     }
 
@@ -114,7 +117,7 @@ class BusStopsViewModelTest {
             getAllBusStopsUseCase()
         } returns flow {
             emit(
-                Result.Error(DataError.Remote.SERVER)
+                Result.Error(DataError.Remote.ServerFailure)
             )
         }
 
@@ -308,7 +311,7 @@ class BusStopsViewModelTest {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                Result.Error(DataError.Remote.SERVER)
+                Result.Error(DataError.Remote.ServerFailure)
             )
         }
 

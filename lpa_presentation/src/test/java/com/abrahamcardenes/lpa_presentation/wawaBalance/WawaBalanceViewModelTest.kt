@@ -78,7 +78,7 @@ class WawaBalanceViewModelTest {
     fun `Given a card that returns an error it should update the state to error`() = runTest {
         coEvery {
             getBalanceUseCase("579997")
-        } returns Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+        } returns Result.Error(DataError.Remote.RequestTimeout)
 
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()

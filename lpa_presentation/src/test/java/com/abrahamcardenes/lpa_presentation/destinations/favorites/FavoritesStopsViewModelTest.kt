@@ -1,6 +1,7 @@
 package com.abrahamcardenes.lpa_presentation.destinations.favorites
 
 import app.cash.turbine.test
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
@@ -480,6 +481,50 @@ class FavoritesStopsViewModelTest {
 
             assertThat(itemProducedAfterSecondGetAllEmission.currentExpandedBusStop).isEqualTo(
                 expectedList.find { it.stopNumber == 79 }
+            )
+        }
+
+        coVerify(exactly = 1) {
+            getBusDetailUseCase(stopNumber = 79)
+        }
+    }
+
+    @Test
+    fun `When fetching details for a bus stop fails it should show the empty list with the bus stop expanded`() = runTest {
+        val (emissionExpected, _) = firstGetDetailSetup()
+        val expected = fakeListUiBusStopDetail(isExpanded = true, lines = emptyList()).map { it.copy(isFavorite = true) }
+
+        coEvery {
+            getFavoriteBusStopsUseCase()
+        } returns flow {
+            emit(
+                fakeListBusStopDetailOffline()
+            )
+        }
+
+        coEvery {
+            getBusDetailUseCase(stopNumber = 79)
+        } returns flow {
+            emit(
+                Result.Error(DataError.Remote.SERVER)
+            )
+        }
+
+        favoritesStopsViewModel.uiState.test {
+            val itemProduced = awaitItem()
+            assertThat(itemProduced.isLoading).isFalse()
+            assertThat(itemProduced.busStops).isEqualTo(
+                emissionExpected.toUiStopDetail()
+            )
+
+            favoritesStopsViewModel.getBusStopDetail(stopNumber = 79)
+
+            val itemProducedAfterExpansion = awaitItem()
+
+            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(expected)
+
+            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
+                expected.find { it.stopNumber == 79 }
             )
         }
 

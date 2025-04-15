@@ -19,6 +19,5 @@ interface BusStopDao {
     fun getBusStops(): Flow<List<BusStopEntity>>
 
     @Query("SELECT * FROM bus_stop_table WHERE stopNumber = :stopNumber")
-    fun getBusStopByNumber(stopNumber: BusStopNumber): BusStopEntity?
+    fun getBusStopByNumber(stopNumber: Int): BusStopEntity?
 }
-typealias BusStopNumber = Int // TODO Replace with domain

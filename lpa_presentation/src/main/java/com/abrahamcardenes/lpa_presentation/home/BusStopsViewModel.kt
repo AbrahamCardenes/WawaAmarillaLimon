@@ -82,7 +82,7 @@ class BusStopsViewModel
 
             val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
             if (fetchedStop == null) {
-                // TODO: Handle error
+                // TODO: Handle error -> Show some error like: could not obtain bus stop detail¿?
                 return@launch
             }
 
@@ -103,8 +103,11 @@ class BusStopsViewModel
                     )
                 }
                     .onError {
-                        // TODO:
-                        println("Log error")
+                        updateBusStopDetail(
+                            originalBusStop = fetchedStop,
+                            availableBusLines = emptyList(),
+                            isExpanded = true
+                        )
                     }
             }.collect()
         }

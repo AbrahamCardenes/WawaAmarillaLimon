@@ -15,5 +15,8 @@
     <string name="cat_error_4">MIAU MIAU MIAU…MIAU</string>
     <string name="cat_error_5">¿Quién ha puesto al perro al mando?</string>
     <string name="balance_error">No se ha podido obtener el saldo de la tarjeta</string>
+    <string name="line">Línea: %1$s</string>
+    <string name="destination">Destino: %1$s</string>
+    <string name="arrival">Llegada: %1$s</string>
     
 </resources>

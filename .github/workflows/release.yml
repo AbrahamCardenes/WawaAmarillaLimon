@@ -2,7 +2,7 @@ name: Build and Release Signed APK to github
 
 on:
   push:
-    branches: [ github-actions/* ]
+    branches: [ master ]
 
 jobs:
 

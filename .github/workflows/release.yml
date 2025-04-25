@@ -52,7 +52,7 @@ jobs:
       - name: Executing Clean, Check and Unit Tests.
         run: ./gradlew clean testRelease
 
-  release:
+  release-apk:
     name: Build & Release APK
     runs-on: ubuntu-latest
     needs: build
@@ -104,6 +104,36 @@ jobs:
           name: release-apk
           path: app/build/outputs/apk/release/app-release.apk
 
+  release-aab:
+    name: Build & Release AAB
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set google-service.json file
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA | base64 --decode > app/google-services.json
+
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x gradlew
+
+      - name: Clean Build
+        run: ./gradlew clean
+
+      - name: Decode Keystore File
+        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > app/wawa-amarilla-key.jks
+
+      - name: Set up signing environment variables
+        run: |
+          echo "KEY_PASS=${{ secrets.KEY_PASS }}" >> $GITHUB_ENV
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "API_WAWAS=${{ secrets.API_WAWAS }}" >> $GITHUB_ENV
+          echo "API_TRAVELLERS=${{ secrets.API_TRAVELLERS }}" >> $GITHUB_ENV
+          echo "API_STATICAPP=${{ secrets.API_STATICAPP }}" >> $GITHUB_ENV
 
       - name: Sign release App bundle
         run: |
@@ -112,19 +142,38 @@ jobs:
           export SIGNING_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
           export SIGNING_KEY_PASSWORD=${{ secrets.KEY_PASS }}
           ./gradlew bundleRelease
-          
+
       - name: Upload AAB as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-aab
           path: app/build/outputs/bundle/release/app-release.aab
 
+  upload-files:
+    name: Upload APK and APP
+    runs-on: ubuntu-latest
+    needs:
+      - release-apk
+      - release-aab
+
+    steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+
+      - name: Download App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+            app-release.apk
+            app-release.aab
           tag_name: v1.0.${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.PIPELINE_BUILDER }}

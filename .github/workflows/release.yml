@@ -92,7 +92,7 @@ jobs:
           export SIGNING_STORE_PASSWORD=${{ secrets.KEY_PASS }}
           export SIGNING_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
           export SIGNING_KEY_PASSWORD=${{ secrets.KEY_PASS }}
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease      
 
       #- name: Build Release APK
       #  run: ./gradlew assembleRelease
@@ -104,10 +104,27 @@ jobs:
           name: release-apk
           path: app/build/outputs/apk/release/app-release.apk
 
+
+      - name: Sign release App bundle
+        run: |
+          export SIGNING_STORE_FILE=/home/runner/work/WawaAmarillaLimon/WawaAmarillaLimon/app/wawa-amarilla-key.jks
+          export SIGNING_STORE_PASSWORD=${{ secrets.KEY_PASS }}
+          export SIGNING_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
+          export SIGNING_KEY_PASSWORD=${{ secrets.KEY_PASS }}
+          ./gradlew bundleRelease
+          
+      - name: Upload AAB as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/release/app-release.apk
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
           tag_name: v1.0.${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.PIPELINE_BUILDER }}

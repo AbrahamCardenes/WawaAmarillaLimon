@@ -157,10 +157,23 @@ jobs:
       - release-aab
 
     steps:
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+
+      - name: Download App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/release/app-release.apk
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
           tag_name: v1.0.${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.PIPELINE_BUILDER }}

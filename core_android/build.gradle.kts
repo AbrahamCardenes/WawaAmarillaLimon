@@ -32,6 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    ndkVersion = "28.0.12674087 rc2"
 }
 
 dependencies {

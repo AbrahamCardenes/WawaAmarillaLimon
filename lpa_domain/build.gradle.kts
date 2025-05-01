@@ -40,6 +40,7 @@ android {
             merges += "META-INF/LICENSE-notice.md"
         }
     }
+    ndkVersion = "28.0.12674087 rc2"
 }
 
 dependencies {

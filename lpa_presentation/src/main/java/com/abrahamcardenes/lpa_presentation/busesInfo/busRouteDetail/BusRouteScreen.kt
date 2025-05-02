@@ -100,7 +100,7 @@ fun BusRouteUi(
 
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
-        busRoute?.nodes?.size?: 0
+        busRoute?.nodes?.size ?: 0
     })
 
     LaunchedEffect(pagerState) {
@@ -108,7 +108,6 @@ fun BusRouteUi(
             onTabSelection(page)
         }
     }
-
 
     val activeVariant = remember(
         uiState.selectedIndex,

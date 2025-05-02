@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -47,7 +48,7 @@ fun BusRouteTopAppBar(
 
     val titleTextSize by remember {
         derivedStateOf {
-            lerp(start = 24.sp, stop = 17.sp, fraction = scrollBehavior.state.collapsedFraction)
+            lerp(start = 24.sp, stop = 16.sp, fraction = scrollBehavior.state.collapsedFraction)
         }
     }
 
@@ -65,6 +66,7 @@ fun BusRouteTopAppBar(
                 )
                 Text(
                     text = title,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.headlineSmall.copy(fontSize = titleTextSize),
                     modifier = Modifier
                         .padding(horizontal = 8.dp)

@@ -95,18 +95,20 @@ fun BusRouteUi(
     onTabSelection: (Int) -> Unit,
     onRetry: () -> Unit
 ) {
+    val busRoute = uiState.busRoute
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
-        2
+        busRoute?.nodes?.size?: 0
     })
+
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             onTabSelection(page)
         }
     }
 
-    val busRoute = uiState.busRoute
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val activeVariant = remember(
         uiState.selectedIndex,

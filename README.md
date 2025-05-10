@@ -1,7 +1,17 @@
 ## Wawas amarillo limon.
 
 ### ¿De qué va este repo?
-Es una app simple que replica las funciones de la aplicación original de la compañía de transportes públicos perteneciente a la ciudad de Las Palmas de Gran Canaria.
+Es una app simple que replica algunas de las funciones de la aplicación original de la compañía de transportes públicos perteneciente a la ciudad de Las Palmas de Gran Canaria. 🇮🇨
+
+### ¿Que es lo que puedo hacer en la app?
+- Consultar la información de la parada en la que te encuentras.
+- Seleccionar tus paradas favoritas para un acceso más rápido.
+- Consultar la información de las líneas de la ciudad.
+- Consultar el horario de cualquier línea.
+- Consultar el saldo de tu bono de guaguas.
+
+### ¿Donde me puedo descargar el APK más reciente?
+https://github.com/AbrahamCardenes/WawaAmarillaLimon/releases 🚀 (recuerda que es el fichero `.apk` el que debes seleccionar 🙂)
 
 ### ¿Cuál es el propósito?
 Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicación Android con los estándares más conocidos y usados a día de hoy (02/2025).

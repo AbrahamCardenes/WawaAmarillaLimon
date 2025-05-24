@@ -1,6 +1,7 @@
 package com.abrahamcardenes.lpa_data
 
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.date.DateProvider
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.fakes.mockedConcessions
 import com.abrahamcardenes.lpa_data.fakes.mockedWawaCardBalance
@@ -17,6 +18,7 @@ import com.abrahamcardenes.lpa_domain.models.travellers.RoutePaths
 import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -27,6 +29,7 @@ class TravellersRepositoryImplTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var apiTravellers: ApiTravellers
+    private val dateProvider = mockk<DateProvider>(relaxed = true)
     private lateinit var repository: TravellersRepositoryImpl
 
     @Before
@@ -34,7 +37,8 @@ class TravellersRepositoryImplTest {
         mockWebServer = MockWebServer()
         apiTravellers = ServerMocks.buildApiTravellersService(mockWebServer = mockWebServer)
         repository = TravellersRepositoryImpl(
-            api = apiTravellers
+            api = apiTravellers,
+            dateProvider = dateProvider
         )
     }
 

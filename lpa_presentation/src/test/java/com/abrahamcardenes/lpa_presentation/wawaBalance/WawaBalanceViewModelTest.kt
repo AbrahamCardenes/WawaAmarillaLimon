@@ -5,6 +5,7 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.google.common.truth.Truth.assertThat
@@ -29,12 +30,14 @@ class WawaBalanceViewModelTest {
     private lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
+    private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true)
 
     @Before
     fun setup() {
         wawaBalanceViewModel = WawaBalanceViewModel(
             getBalanceUseCase = getBalanceUseCase,
-            crashlyticsService = crashlyticsService
+            crashlyticsService = crashlyticsService,
+            balanceDbUseCases = balanceDbUseCases
         )
     }
 
@@ -54,7 +57,7 @@ class WawaBalanceViewModelTest {
 
     @Test
     fun `Given a valid search it should populate the list`() = runTest {
-        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", lastLocalUpdate = 0L)
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Success(expectedBalance)
@@ -109,7 +112,7 @@ class WawaBalanceViewModelTest {
 
     @Test
     fun `Given the same input two time it should only return one item`() = runTest {
-        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", lastLocalUpdate = 0L)
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Success(expectedBalance)
@@ -139,16 +142,16 @@ class WawaBalanceViewModelTest {
     @Test
     fun `Given the two different inputs it should only return two items and the last one it should be the first`() = runTest {
         val expectedBalance = listOf(
-            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"),
-            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51", lastLocalUpdate = 0L),
+            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", lastLocalUpdate = 0L)
         )
         coEvery {
             getBalanceUseCase("579997")
-        } returns Result.Success(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"))
+        } returns Result.Success(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", lastLocalUpdate = 0L))
 
         coEvery {
             getBalanceUseCase("579990")
-        } returns Result.Success(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"))
+        } returns Result.Success(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51", lastLocalUpdate = 0L))
 
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()
@@ -157,7 +160,14 @@ class WawaBalanceViewModelTest {
             val emission = awaitItem()
             assertThat(emission).isEqualTo(
                 BalanceUiState(
-                    wawaCards = listOf(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")),
+                    wawaCards = listOf(
+                        WawaCardBalance(
+                            code = "579997",
+                            balance = 6.60,
+                            date = "03-02-2025 17:18:21",
+                            lastLocalUpdate = 0L
+                        )
+                    ),
                     cardNumber = "579997"
                 )
             )

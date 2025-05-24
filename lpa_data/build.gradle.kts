@@ -116,4 +116,5 @@ dependencies {
     implementation(project(Modules.CORE_DB))
     implementation(project(Modules.CORE))
     testImplementation(project(Modules.CORE))
+    implementation(project(Modules.CORE_ANDROID))
 }

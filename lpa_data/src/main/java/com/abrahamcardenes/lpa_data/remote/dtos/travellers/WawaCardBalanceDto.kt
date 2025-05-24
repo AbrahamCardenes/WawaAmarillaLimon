@@ -14,10 +14,11 @@ data class WawaCardBalanceDto(
     val date: String
 )
 
-fun WawaCardBalanceDto.toDomain(): WawaCardBalance = WawaCardBalance(
+fun WawaCardBalanceDto.toDomain(timestamp: Long): WawaCardBalance = WawaCardBalance(
     code = this.code,
     balance = this.balance.balanceToDouble(),
-    date = this.date
+    date = this.date,
+    lastLocalUpdate = timestamp
 )
 
 fun String.balanceToDouble(): Double = try {

@@ -4,6 +4,7 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
+import com.abrahamcardenes.core_android.date.DateProvider
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
 import com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable.mappers.toDomain
 import com.abrahamcardenes.lpa_data.remote.dtos.travellers.toDomain
@@ -13,8 +14,12 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
 import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
+import kotlinx.coroutines.flow.Flow
 
-class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepository {
+class TravellersRepositoryImpl(
+    private val api: ApiTravellers,
+    private val dateProvider: DateProvider
+) : TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
         api.getBuses()
@@ -32,6 +37,18 @@ class TravellersRepositoryImpl(private val api: ApiTravellers) : TravellersRepos
     override suspend fun getBalance(cardNumber: WawaCardNumber): Result<WawaCardBalance, DataError> = safecall {
         api.getBalance(cardNumber = cardNumber)
     }.map {
-        it.toDomain()
+        it.toDomain(timestamp = dateProvider.getCurrentTimestamp())
+    }
+
+    override suspend fun saveCard(wawaCard: WawaCardBalance) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteCard(wawaCard: WawaCardBalance) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllCardsFromDb(): Flow<List<WawaCardBalance>> {
+        TODO("Not yet implemented")
     }
 }

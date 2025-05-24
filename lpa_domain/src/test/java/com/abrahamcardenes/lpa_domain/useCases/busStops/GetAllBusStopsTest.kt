@@ -153,55 +153,13 @@ class GetAllBusStopsTest {
     }
 
     @Test
-    fun `When there is local bus stops it should return bus stops with not repeated stops and sorted by stopNumber and saved to true`() =
-        runTest {
-            val expected =
-                Result.Success(
-                    listOf(
-                        BusStop(
-                            addressName = "TEATRO",
-                            stopNumber = 1,
-                            isSavedInDb = false
-                        ),
-                        BusStop(
-                            addressName = "C / FRANCISCO GOURIÉ, 103",
-                            stopNumber = 2,
-                            isSavedInDb = false
-                        ),
-                        BusStop(
-                            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                            stopNumber = 79,
-                            isSavedInDb = true
-                        )
-                    )
-                )
-
-            coEvery {
-                repository.getAllLocalBusStops()
-            } returns flow {
-                emit(
-                    listOf(
-                        BusStop(
-                            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                            stopNumber = 79,
-                            isSavedInDb = true
-                        )
-                    )
-                )
-            }
-
-            coEvery {
-                repository.getBusStops()
-            } returns Result.Success(
+    fun `When there is local bus stops it should return bus stops with not repeated stops and sorted by stopNumber and saved to true`() = runTest {
+        val expected =
+            Result.Success(
                 listOf(
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
-                    ),
-                    BusStop(
-                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                        stopNumber = 79,
                         isSavedInDb = false
                     ),
                     BusStop(
@@ -210,13 +168,54 @@ class GetAllBusStopsTest {
                         isSavedInDb = false
                     ),
                     BusStop(
-                        addressName = "TEATRO",
-                        stopNumber = 1,
-                        isSavedInDb = false
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = true
                     )
                 )
             )
 
-            assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
+        coEvery {
+            repository.getAllLocalBusStops()
+        } returns flow {
+            emit(
+                listOf(
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isSavedInDb = true
+                    )
+                )
+            )
         }
+
+        coEvery {
+            repository.getBusStops()
+        } returns Result.Success(
+            listOf(
+                BusStop(
+                    addressName = "TEATRO",
+                    stopNumber = 1,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                    stopNumber = 79,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "C / FRANCISCO GOURIÉ, 103",
+                    stopNumber = 2,
+                    isSavedInDb = false
+                ),
+                BusStop(
+                    addressName = "TEATRO",
+                    stopNumber = 1,
+                    isSavedInDb = false
+                )
+            )
+        )
+
+        assertThat(getAllBusStopsUseCase().single()).isEqualTo(expected)
+    }
 }

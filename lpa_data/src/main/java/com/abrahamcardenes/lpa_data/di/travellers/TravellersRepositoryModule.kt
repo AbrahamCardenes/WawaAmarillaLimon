@@ -1,5 +1,6 @@
 package com.abrahamcardenes.lpa_data.di.travellers
 
+import com.abrahamcardenes.core_android.date.DateProvider
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 object TravellersRepositoryModule {
     @Provides
     @Singleton
-    fun provideTravellersRepository(api: ApiTravellers): TravellersRepository = TravellersRepositoryImpl(
-        api = api
+    fun provideTravellersRepository(api: ApiTravellers, dateProvider: DateProvider): TravellersRepository = TravellersRepositoryImpl(
+        api = api,
+        dateProvider = dateProvider
     )
 }

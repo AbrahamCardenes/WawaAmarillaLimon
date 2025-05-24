@@ -45,7 +45,8 @@ fun BalanceCardPreview() {
             wawaCardBalance = WawaCardBalance(
                 code = "579997",
                 balance = 6.60,
-                date = "03-02-2025 17:18:21"
+                date = "03-02-2025 17:18:21",
+                lastLocalUpdate = 0L
             ),
             modifier = Modifier
         )

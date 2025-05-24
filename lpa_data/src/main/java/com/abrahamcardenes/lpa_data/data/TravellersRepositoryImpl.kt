@@ -5,6 +5,9 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
 import com.abrahamcardenes.core_android.date.DateProvider
+import com.abrahamcardenes.core_db.cards.WawaBalanceDao
+import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toDomain
+import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toEntity
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
 import com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable.mappers.toDomain
 import com.abrahamcardenes.lpa_data.remote.dtos.travellers.toDomain
@@ -15,10 +18,13 @@ import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
 import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 
 class TravellersRepositoryImpl(
     private val api: ApiTravellers,
-    private val dateProvider: DateProvider
+    private val dateProvider: DateProvider,
+    private val wawaBalanceDao: WawaBalanceDao
 ) : TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
@@ -41,14 +47,18 @@ class TravellersRepositoryImpl(
     }
 
     override suspend fun saveCard(wawaCard: WawaCardBalance) {
-        TODO("Not yet implemented")
+        wawaBalanceDao.insertWawaBalance(wawaBalance = wawaCard.toEntity())
     }
 
     override suspend fun deleteCard(wawaCard: WawaCardBalance) {
-        TODO("Not yet implemented")
+        wawaBalanceDao.deleteWawaBalanceByCode(code = wawaCard.code)
     }
 
     override fun getAllCardsFromDb(): Flow<List<WawaCardBalance>> {
-        TODO("Not yet implemented")
+        return wawaBalanceDao.getAllWawaBalances().map { entityCard ->
+            entityCard.map { it.toDomain() }
+        }
     }
 }
+
+

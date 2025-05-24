@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android.plugin)
+
 }
 
 android {
@@ -37,6 +38,11 @@ android {
         }
     }
     ndkVersion = "28.0.12674087 rc2"
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
 }
 
 dependencies {

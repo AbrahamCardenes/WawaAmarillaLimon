@@ -6,5 +6,6 @@ data class WawaCardBalance(
     val code: WawaCardNumber,
     val balance: Double,
     val date: String,
-    val lastLocalUpdate: Long
+    val lastLocalUpdate: Long,
+    val addedAt: Long
 )

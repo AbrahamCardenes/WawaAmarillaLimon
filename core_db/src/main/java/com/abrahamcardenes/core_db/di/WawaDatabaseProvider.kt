@@ -26,4 +26,8 @@ object WawaDatabaseProvider {
     @Provides
     @Singleton
     fun provideBusStopDao(db: WawaDatabase) = db.busStopDao()
+
+    @Provides
+    @Singleton
+    fun provideWawaBalanceDao(db: WawaDatabase) = db.wawaBalanceDao()
 }

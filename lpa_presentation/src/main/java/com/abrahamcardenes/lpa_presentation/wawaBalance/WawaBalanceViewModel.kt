@@ -42,12 +42,6 @@ class WawaBalanceViewModel @Inject constructor(
             if (_balanceUiState.value.cardNumber.isEmpty()) return@launch
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
-                    _balanceUiState.update { state ->
-                        val cardsToEdit = state.wawaCards.toMutableList()
-                        cardsToEdit.add(0, wawaBalance)
-                        val currentCardsToShow = (cardsToEdit).distinctBy { it.code }
-                        state.copy(wawaCards = currentCardsToShow)
-                    }
                     saveCard(wawaCard = wawaBalance)
                 }
                 .onError {
@@ -104,7 +98,11 @@ class WawaBalanceViewModel @Inject constructor(
                 }
 
                 _balanceUiState.update { state ->
-                    state.copy(wawaCards = cardsThatICanShow)
+                    state
+                        .copy(
+                            wawaCards = cardsThatICanShow
+                                .sortedByDescending { it.addedAt }
+                        )
                 }
             }
         }

@@ -19,6 +19,7 @@ class GetAllCardsUseCase @Inject constructor(
 
     val coroutineScope = CoroutineScope(Dispatchers.IO)
     operator fun invoke(): Flow<List<Result<WawaCardBalance, DataError>>> {
+
         return repository.getAllCardsFromDb().map { cards ->
             cards.map { card ->
                 if (!shouldFetchThisCard(

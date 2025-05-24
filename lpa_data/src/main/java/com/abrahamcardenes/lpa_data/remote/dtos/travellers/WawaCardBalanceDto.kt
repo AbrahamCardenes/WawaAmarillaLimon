@@ -18,7 +18,8 @@ fun WawaCardBalanceDto.toDomain(timestamp: Long): WawaCardBalance = WawaCardBala
     code = this.code,
     balance = this.balance.balanceToDouble(),
     date = this.date,
-    lastLocalUpdate = timestamp
+    lastLocalUpdate = timestamp,
+    addedAt = timestamp
 )
 
 fun String.balanceToDouble(): Double = try {

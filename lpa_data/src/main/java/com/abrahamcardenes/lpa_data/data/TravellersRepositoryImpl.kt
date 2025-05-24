@@ -19,7 +19,6 @@ import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
 
 class TravellersRepositoryImpl(
     private val api: ApiTravellers,
@@ -54,11 +53,7 @@ class TravellersRepositoryImpl(
         wawaBalanceDao.deleteWawaBalanceByCode(code = wawaCard.code)
     }
 
-    override fun getAllCardsFromDb(): Flow<List<WawaCardBalance>> {
-        return wawaBalanceDao.getAllWawaBalances().map { entityCard ->
-            entityCard.map { it.toDomain() }
-        }
+    override fun getAllCardsFromDb(): Flow<List<WawaCardBalance>> = wawaBalanceDao.getAllWawaBalances().map { entityCard ->
+        entityCard.map { it.toDomain() }
     }
 }
-
-

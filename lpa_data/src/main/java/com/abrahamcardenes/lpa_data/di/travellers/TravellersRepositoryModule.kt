@@ -16,11 +16,7 @@ import javax.inject.Singleton
 object TravellersRepositoryModule {
     @Provides
     @Singleton
-    fun provideTravellersRepository(
-        api: ApiTravellers,
-        dateProvider: DateProvider,
-        wawaBalanceDao: WawaBalanceDao
-    ): TravellersRepository =
+    fun provideTravellersRepository(api: ApiTravellers, dateProvider: DateProvider, wawaBalanceDao: WawaBalanceDao): TravellersRepository =
         TravellersRepositoryImpl(
             api = api,
             dateProvider = dateProvider,

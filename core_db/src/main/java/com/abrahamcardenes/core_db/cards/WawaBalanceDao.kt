@@ -19,5 +19,4 @@ interface WawaBalanceDao {
 
     @Query("SELECT * FROM wawa_balance_table")
     fun getAllWawaBalances(): Flow<List<WawaBalanceEntity>>
-
 }

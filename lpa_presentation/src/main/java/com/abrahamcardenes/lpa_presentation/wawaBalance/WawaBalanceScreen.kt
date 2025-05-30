@@ -24,9 +24,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -65,15 +67,18 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
         },
         onGetBalance = wawaBalanceViewModel::getBalance,
         updateErrorState = wawaBalanceViewModel::updateErrorState,
+        onRefresh = wawaBalanceViewModel::refreshCards,
         modifier = Modifier
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WawaBalanceContent(
     uiState: BalanceUiState,
     onCardNumberChange: (String) -> Unit,
     updateErrorState: (Boolean) -> Unit,
+    onRefresh: () -> Unit,
     onGetBalance: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -114,29 +119,37 @@ fun WawaBalanceContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LazyColumn(
-            state = state,
+        PullToRefreshBox(
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = onRefresh,
             modifier = Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
-                BalanceCard(
-                    wawaCardBalance = it,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = 16.dp
-                        )
-                        .animateItem()
-                )
-            }
+                .weight(1f)
 
-            item { Spacer(Modifier.height(8.dp)) }
+        ) {
+            LazyColumn(
+                state = state,
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
+                    BalanceCard(
+                        wawaCardBalance = it,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 16.dp
+                            )
+                            .animateItem()
+                    )
+                }
+
+                item { Spacer(Modifier.height(8.dp)) }
+            }
         }
+
 
         Row(
             modifier = Modifier
@@ -198,9 +211,7 @@ fun WawaBalancePreview() {
                     WawaCardBalance(
                         code = "579997",
                         balance = 6.60,
-                        date = "03-02-2025 17:18:21",
-                        lastLocalUpdate = 0L,
-                        addedAt = 0L
+                        date = "03-02-2025 17:18:21"
                     )
                 )
             ),
@@ -208,6 +219,7 @@ fun WawaBalancePreview() {
             onCardNumberChange = {},
             onGetBalance = {},
             updateErrorState = {},
+            onRefresh = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         )
     }

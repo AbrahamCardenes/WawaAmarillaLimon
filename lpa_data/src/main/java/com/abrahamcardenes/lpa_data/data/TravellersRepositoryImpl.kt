@@ -42,7 +42,7 @@ class TravellersRepositoryImpl(
     override suspend fun getBalance(cardNumber: WawaCardNumber): Result<WawaCardBalance, DataError> = safecall {
         api.getBalance(cardNumber = cardNumber)
     }.map {
-        it.toDomain(timestamp = dateProvider.getCurrentTimestamp())
+        it.toDomain()
     }
 
     override suspend fun saveCard(wawaCard: WawaCardBalance) {

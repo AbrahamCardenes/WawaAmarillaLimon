@@ -6,15 +6,11 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 fun WawaCardBalance.toEntity(): WawaBalanceEntity = WawaBalanceEntity(
     code = this.code,
     balance = this.balance,
-    lastLocalUpdate = this.lastLocalUpdate,
-    date = this.date,
-    addedAt = this.addedAt
+    date = this.date
 )
 
 fun WawaBalanceEntity.toDomain(): WawaCardBalance = WawaCardBalance(
     code = this.code,
     balance = this.balance,
-    lastLocalUpdate = this.lastLocalUpdate,
     date = this.date,
-    addedAt = this.addedAt
 )

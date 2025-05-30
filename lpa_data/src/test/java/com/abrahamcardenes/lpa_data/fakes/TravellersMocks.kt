@@ -21,7 +21,5 @@ fun mockedConcessions() = listOf(
 fun mockedWawaCardBalance(): WawaCardBalance = WawaCardBalance(
     code = "529491",
     balance = 6.60,
-    date = "03-02-2025 11:30:21",
-    lastLocalUpdate = 0L,
-    addedAt = 0L
+    date = "03-02-2025 11:30:21"
 )

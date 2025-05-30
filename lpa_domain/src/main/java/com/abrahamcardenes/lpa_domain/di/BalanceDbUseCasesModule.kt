@@ -20,8 +20,7 @@ object BalanceDbUseCasesModule {
     fun provideBalanceDbUseCases(repository: TravellersRepository, dateProvider: DateProvider): BalanceDbUseCases = BalanceDbUseCases(
         saveCard = SaveBalanceUseCase(repository),
         getAllCards = GetAllCardsUseCase(
-            repository = repository,
-            dateProvider = dateProvider
+            repository = repository
         ),
         deleteCard = DeleteBalanceUseCase(repository)
     )

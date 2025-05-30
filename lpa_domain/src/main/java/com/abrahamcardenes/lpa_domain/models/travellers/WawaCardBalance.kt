@@ -5,7 +5,5 @@ import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
 data class WawaCardBalance(
     val code: WawaCardNumber,
     val balance: Double,
-    val date: String,
-    val lastLocalUpdate: Long,
-    val addedAt: Long
+    val date: String
 )

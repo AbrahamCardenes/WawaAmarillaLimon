@@ -46,7 +46,7 @@ class TravellersRepositoryImpl(
     }
 
     override suspend fun saveCard(wawaCard: WawaCardBalance) {
-        wawaBalanceDao.insertWawaBalance(wawaBalance = wawaCard.toEntity())
+        wawaBalanceDao.updateOrInsert(wawaBalance = wawaCard.toEntity())
     }
 
     override suspend fun deleteCard(wawaCard: WawaCardBalance) {

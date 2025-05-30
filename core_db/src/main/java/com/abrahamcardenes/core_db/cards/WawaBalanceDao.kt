@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WawaBalanceDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWawaBalance(wawaBalance: WawaBalanceEntity)
 
     @Query("SELECT * FROM wawa_balance_table WHERE code = :code")
@@ -19,4 +19,14 @@ interface WawaBalanceDao {
 
     @Query("SELECT * FROM wawa_balance_table")
     fun getAllWawaBalances(): Flow<List<WawaBalanceEntity>>
+
+    @Query("UPDATE wawa_balance_table SET balance = :balance WHERE code = :code")
+    fun updateWawaBalanceByCode(code: String, balance: Double)
+
+    suspend fun updateOrInsert(wawaBalance: WawaBalanceEntity) {
+        val balance = getWawaBalanceByCode(wawaBalance.code)
+        if (balance == null) {
+            insertWawaBalance(wawaBalance = wawaBalance)
+        } else updateWawaBalanceByCode(code = wawaBalance.code, balance = wawaBalance.balance)
+    }
 }

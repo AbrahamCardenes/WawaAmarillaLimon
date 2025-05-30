@@ -97,11 +97,13 @@ class WawaBalanceViewModel @Inject constructor(
                     }
                 }
 
+                cardsThatICanShow.map {
+                    println("${it.code} - ${it.addedAt}")
+                }
                 _balanceUiState.update { state ->
                     state
                         .copy(
                             wawaCards = cardsThatICanShow
-                                .sortedByDescending { it.addedAt }
                         )
                 }
             }

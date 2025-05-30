@@ -11,3 +11,5 @@ class GetBalanceUseCase @Inject constructor(private val repository: TravellersRe
     suspend operator fun invoke(wawaCardNumber: WawaCardNumber): Result<WawaCardBalance, DataError> =
         repository.getBalance(cardNumber = wawaCardNumber)
 }
+
+

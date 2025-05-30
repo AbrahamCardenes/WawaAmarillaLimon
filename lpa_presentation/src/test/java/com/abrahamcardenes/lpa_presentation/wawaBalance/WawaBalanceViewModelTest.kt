@@ -5,7 +5,9 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
+import com.abrahamcardenes.lpa_domain.useCases.travellers.RefreshBalanceCardsUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
@@ -29,12 +31,16 @@ class WawaBalanceViewModelTest {
     private lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
+    private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true)
+    private val refreshBalanceCardsUseCase = mockk<RefreshBalanceCardsUseCase>(relaxed = true)
 
     @Before
     fun setup() {
         wawaBalanceViewModel = WawaBalanceViewModel(
             getBalanceUseCase = getBalanceUseCase,
-            crashlyticsService = crashlyticsService
+            crashlyticsService = crashlyticsService,
+            balanceDbUseCases = balanceDbUseCases,
+            refreshBalanceCardsUseCase = refreshBalanceCardsUseCase
         )
     }
 
@@ -157,7 +163,13 @@ class WawaBalanceViewModelTest {
             val emission = awaitItem()
             assertThat(emission).isEqualTo(
                 BalanceUiState(
-                    wawaCards = listOf(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")),
+                    wawaCards = listOf(
+                        WawaCardBalance(
+                            code = "579997",
+                            balance = 6.60,
+                            date = "03-02-2025 17:18:21"
+                        )
+                    ),
                     cardNumber = "579997"
                 )
             )

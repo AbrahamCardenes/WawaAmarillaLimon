@@ -52,11 +52,7 @@ fun fakeListBusStopDetailOffline(setSecondFavoriteValue: Boolean = true): List<B
     )
 )
 
-fun fakeListUiBusStopDetail(
-    isFirstFavorite: Boolean = false,
-    isExpanded: Boolean = false,
-    lines: List<BusLine>? = null
-): List<UiBusStopDetail> = listOf(
+fun fakeListUiBusStopDetail(isFirstFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
     UiBusStopDetail(
         addressName = "TEATRO",
         stopNumber = 1,
@@ -80,11 +76,7 @@ fun fakeListUiBusStopDetail(
     )
 )
 
-fun fakeListUiBusStopDetailOffline(
-    isFirstFavorite: Boolean = false,
-    isExpanded: Boolean = false,
-    lines: List<BusLine>? = null
-): List<UiBusStopDetail> = listOf(
+fun fakeListUiBusStopDetailOffline(isFirstFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
     UiBusStopDetail(
         addressName = "TEATRO",
         stopNumber = 1,

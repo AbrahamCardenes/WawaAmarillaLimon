@@ -7,6 +7,7 @@ import com.abrahamcardenes.lpa_domain.models.travellers.Concession
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
+import kotlinx.coroutines.flow.Flow
 
 interface TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")
@@ -15,4 +16,8 @@ interface TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")
     suspend fun getTimetables(busNumber: BusIdNumber): Result<BusTimetables, DataError>
     suspend fun getBalance(cardNumber: WawaCardNumber): Result<WawaCardBalance, DataError>
+
+    suspend fun saveCard(wawaCard: WawaCardBalance)
+    suspend fun deleteCard(wawaCard: WawaCardBalance)
+    fun getAllCardsFromDb(): Flow<List<WawaCardBalance>>
 }

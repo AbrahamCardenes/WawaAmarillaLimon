@@ -143,8 +143,8 @@ class MainActivity : ComponentActivity() {
 
                         composable<BusTimetable> { navBackstackEntry ->
                             val busTimetable = navBackstackEntry.toRoute<BusTimetable>()
-                            val busNumber =  busTimetable.busNumber
-                            val rgbColorString =busTimetable.rgbColorString
+                            val busNumber = busTimetable.busNumber
+                            val rgbColorString = busTimetable.rgbColorString
                             BusRouteScreen(
                                 busNumber = busNumber,
                                 rgbaColor = rgbColorString.toRGBAColor(),

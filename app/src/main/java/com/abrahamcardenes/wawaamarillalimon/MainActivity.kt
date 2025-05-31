@@ -31,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.abrahamcardenes.lpa_domain.valueObjects.toRGBAColor
 import com.abrahamcardenes.lpa_domain.valueObjects.toRgbStringColor
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteScreen
@@ -141,8 +142,9 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<BusTimetable> { navBackstackEntry ->
-                            val busNumber = navBackstackEntry.arguments?.getString("busNumber") ?: ""
-                            val rgbColorString = navBackstackEntry.arguments?.getString("rgbColorString") ?: ""
+                            val busTimetable = navBackstackEntry.toRoute<BusTimetable>()
+                            val busNumber = busTimetable.busNumber
+                            val rgbColorString = busTimetable.rgbColorString
                             BusRouteScreen(
                                 busNumber = busNumber,
                                 rgbaColor = rgbColorString.toRGBAColor(),

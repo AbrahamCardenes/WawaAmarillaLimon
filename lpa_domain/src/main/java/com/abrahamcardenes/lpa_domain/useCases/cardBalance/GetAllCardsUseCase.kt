@@ -9,8 +9,5 @@ class GetAllCardsUseCase @Inject constructor(
     private val repository: TravellersRepository
 ) {
 
-    operator fun invoke(): Flow<List<WawaCardBalance>> {
-        return repository.getAllCardsFromDb()
-    }
-
+    operator fun invoke(): Flow<List<WawaCardBalance>> = repository.getAllCardsFromDb()
 }

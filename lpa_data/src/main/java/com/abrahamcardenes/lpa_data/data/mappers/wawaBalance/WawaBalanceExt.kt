@@ -12,5 +12,5 @@ fun WawaCardBalance.toEntity(): WawaBalanceEntity = WawaBalanceEntity(
 fun WawaBalanceEntity.toDomain(): WawaCardBalance = WawaCardBalance(
     code = this.code,
     balance = this.balance,
-    date = this.date,
+    date = this.date
 )

@@ -150,7 +150,6 @@ fun WawaBalanceContent(
             }
         }
 
-
         Row(
             modifier = Modifier
                 .run {

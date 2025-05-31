@@ -27,6 +27,8 @@ interface WawaBalanceDao {
         val balance = getWawaBalanceByCode(wawaBalance.code)
         if (balance == null) {
             insertWawaBalance(wawaBalance = wawaBalance)
-        } else updateWawaBalanceByCode(code = wawaBalance.code, balance = wawaBalance.balance)
+        } else {
+            updateWawaBalanceByCode(code = wawaBalance.code, balance = wawaBalance.balance)
+        }
     }
 }

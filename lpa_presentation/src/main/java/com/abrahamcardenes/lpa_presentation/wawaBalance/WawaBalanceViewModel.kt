@@ -11,13 +11,13 @@ import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.RefreshBalanceCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class WawaBalanceViewModel @Inject constructor(
@@ -85,8 +85,6 @@ class WawaBalanceViewModel @Inject constructor(
                             wawaCards = cards,
                             newCardAdded = true // TODO only if new card is added // jump to last card added if necessary
                         )
-
-
                 }
             }
         }

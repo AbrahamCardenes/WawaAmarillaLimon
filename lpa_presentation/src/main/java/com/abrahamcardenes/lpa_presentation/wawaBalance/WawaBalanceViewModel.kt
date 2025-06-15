@@ -84,8 +84,7 @@ class WawaBalanceViewModel @Inject constructor(
                 _balanceUiState.update { state ->
                     state
                         .copy(
-                            wawaCards = cards,
-                            newCardAdded = true // TODO only if new card is added // jump to last card added if necessary
+                            wawaCards = cards
                         )
                 }
             }
@@ -97,7 +96,6 @@ class WawaBalanceViewModel @Inject constructor(
             _balanceUiState.update { state ->
                 state.copy(isRefreshing = true)
             }
-
             _balanceUiState.update { state ->
                 state
                     .copy(
@@ -105,12 +103,6 @@ class WawaBalanceViewModel @Inject constructor(
                         isRefreshing = false
                     )
             }
-        }
-    }
-
-    fun resetState() {
-        _balanceUiState.update { state ->
-            state.copy(newCardAdded = false)
         }
     }
 }

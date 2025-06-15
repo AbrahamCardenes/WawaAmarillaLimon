@@ -9,6 +9,7 @@ import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.RefreshBalanceCardsUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
+import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -16,6 +17,7 @@ import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -33,6 +35,7 @@ class WawaBalanceViewModelTest {
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
     private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true)
     private val refreshBalanceCardsUseCase = mockk<RefreshBalanceCardsUseCase>(relaxed = true)
+    private val dispatchers = TestsDispatchers
 
     @Before
     fun setup() {
@@ -40,7 +43,8 @@ class WawaBalanceViewModelTest {
             getBalanceUseCase = getBalanceUseCase,
             crashlyticsService = crashlyticsService,
             balanceDbUseCases = balanceDbUseCases,
-            refreshBalanceCardsUseCase = refreshBalanceCardsUseCase
+            refreshBalanceCardsUseCase = refreshBalanceCardsUseCase,
+            dispatchers = dispatchers
         )
     }
 
@@ -64,10 +68,18 @@ class WawaBalanceViewModelTest {
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Success(expectedBalance)
+
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()
 
+        coEvery {
+            balanceDbUseCases.getAllCards()
+        } returns flow {
+            emit(listOf(expectedBalance))
+        }
+
         coVerify(exactly = 1) {
+            balanceDbUseCases.saveCard(wawaCard = expectedBalance)
             getBalanceUseCase("579997")
         }
 
@@ -114,39 +126,10 @@ class WawaBalanceViewModelTest {
     }
 
     @Test
-    fun `Given the same input two time it should only return one item`() = runTest {
-        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
-        coEvery {
-            getBalanceUseCase("579997")
-        } returns Result.Success(expectedBalance)
-
-        wawaBalanceViewModel.onCardNumberChange("579997")
-        wawaBalanceViewModel.getBalance()
-
-        wawaBalanceViewModel.balanceUiState.test {
-            val emission = awaitItem()
-            assertThat(emission).isEqualTo(
-                BalanceUiState(
-                    wawaCards = listOf(expectedBalance),
-                    cardNumber = "579997"
-                )
-            )
-            wawaBalanceViewModel.onCardNumberChange("579997")
-            wawaBalanceViewModel.getBalance()
-            // It does not emit because value is the same
-            // However it calls the use case twice ;)
-        }
-
-        coVerify(exactly = 2) {
-            getBalanceUseCase("579997")
-        }
-    }
-
-    @Test
-    fun `Given the two different inputs it should only return two items and the last one it should be the first`() = runTest {
+    fun `Given the two different inputs it should only verify that it can save both`() = runTest {
         val expectedBalance = listOf(
-            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"),
-            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"),
+            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51")
         )
         coEvery {
             getBalanceUseCase("579997")
@@ -158,27 +141,17 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()
-
-        wawaBalanceViewModel.balanceUiState.test {
-            val emission = awaitItem()
-            assertThat(emission).isEqualTo(
-                BalanceUiState(
-                    wawaCards = listOf(
-                        WawaCardBalance(
-                            code = "579997",
-                            balance = 6.60,
-                            date = "03-02-2025 17:18:21"
-                        )
-                    ),
-                    cardNumber = "579997"
-                )
-            )
-        }
         wawaBalanceViewModel.onCardNumberChange("579990")
         wawaBalanceViewModel.getBalance()
+
+        coEvery {
+            balanceDbUseCases.getAllCards()
+        } returns flow {
+            emit(expectedBalance)
+        }
+
         wawaBalanceViewModel.balanceUiState.test {
             val lastEmission = awaitItem()
-            println(lastEmission.toString())
             assertThat(lastEmission).isEqualTo(
                 BalanceUiState(
                     wawaCards = expectedBalance,
@@ -187,9 +160,11 @@ class WawaBalanceViewModelTest {
             )
         }
 
-        coVerifySequence {
+        coVerify {
             getBalanceUseCase("579997")
+            balanceDbUseCases.saveCard(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"))
             getBalanceUseCase("579990")
+            balanceDbUseCases.saveCard(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"))
         }
     }
 
@@ -205,6 +180,15 @@ class WawaBalanceViewModelTest {
             val latestEmission = awaitItem()
             assertThat(latestEmission.wawaCards).isEmpty()
             assertThat(latestEmission.cardNumber).isEmpty()
+        }
+    }
+
+    @Test
+    fun `Given a card it should call the use case to delete it`() = runTest {
+        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+        wawaBalanceViewModel.removeCard(expectedBalance)
+        coVerifySequence {
+            balanceDbUseCases.deleteCard(expectedBalance)
         }
     }
 }

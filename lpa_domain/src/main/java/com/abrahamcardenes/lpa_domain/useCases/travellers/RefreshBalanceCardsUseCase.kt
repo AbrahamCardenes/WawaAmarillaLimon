@@ -1,8 +1,10 @@
 package com.abrahamcardenes.lpa_domain.useCases.travellers
 
+import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
 import javax.inject.Inject
@@ -12,7 +14,10 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 
-class RefreshBalanceCardsUseCase @Inject constructor(private val repository: TravellersRepository) {
+class RefreshBalanceCardsUseCase @Inject constructor(
+    private val repository: TravellersRepository,
+    private val crashlyticsService: CrashlyticsService
+) {
     suspend operator fun invoke(wawaCards: List<WawaCardBalance>): List<WawaCardBalance> {
         val semaphore = Semaphore(10)
         val updatedCards = supervisorScope {
@@ -40,18 +45,22 @@ class RefreshBalanceCardsUseCase @Inject constructor(private val repository: Tra
 
         errorCards.forEach { errorCard ->
             errorCard.onError { error ->
-                println(error.toString())
-                // logErrorIfIsUnknown(error)
+                logErrorIfIsUnknown(error)
             }
         }
 
         val newCards = cardsThatICanShow.map { it.code }.toSet()
         val oldCardsThatCouldNotBeUpdated = wawaCards.filter { it.code !in newCards }
 
-        println(newCards)
-
-        println(oldCardsThatCouldNotBeUpdated.map { it.code })
+        // println(newCards)
+        // println(oldCardsThatCouldNotBeUpdated.map { it.code })
 
         return cardsThatICanShow + oldCardsThatCouldNotBeUpdated
+    }
+
+    private suspend fun logErrorIfIsUnknown(it: DataError) {
+        if (it is DataError.Remote.UnknownError) {
+            crashlyticsService.logException(it.error ?: Exception("Null exception in Data Error Unknown"))
+        }
     }
 }

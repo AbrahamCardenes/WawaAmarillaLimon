@@ -436,7 +436,6 @@ class BusRouteViewModelTest {
 
         busRouteViewModel.busSchedules.test {
             val firstEmission = awaitItem()
-            println(firstEmission)
             assertThat(firstEmission).isEqualTo(expectedScheduleUi)
         }
     }
@@ -501,7 +500,6 @@ class BusRouteViewModelTest {
 
         busRouteViewModel.busSchedules.test {
             val scheduledUiItems = awaitItem()
-            println(scheduledUiItems)
             assertThat(scheduledUiItems).isEqualTo(expectedScheduleUi)
         }
     }

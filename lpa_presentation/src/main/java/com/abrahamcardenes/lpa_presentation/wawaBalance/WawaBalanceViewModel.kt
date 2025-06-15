@@ -2,6 +2,7 @@ package com.abrahamcardenes.lpa_presentation.wawaBalance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
@@ -24,7 +25,8 @@ class WawaBalanceViewModel @Inject constructor(
     private val refreshBalanceCardsUseCase: RefreshBalanceCardsUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val balanceDbUseCases: BalanceDbUseCases,
-    private val crashlyticsService: CrashlyticsService
+    private val crashlyticsService: CrashlyticsService,
+    private val dispatchers: DispatchersProvider
 ) : ViewModel() {
 
     private val _balanceUiState = MutableStateFlow(BalanceUiState())
@@ -65,7 +67,7 @@ class WawaBalanceViewModel @Inject constructor(
     }
 
     private fun saveCard(wawaCard: WawaCardBalance) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.IO) {
             balanceDbUseCases.saveCard(wawaCard)
         }
     }

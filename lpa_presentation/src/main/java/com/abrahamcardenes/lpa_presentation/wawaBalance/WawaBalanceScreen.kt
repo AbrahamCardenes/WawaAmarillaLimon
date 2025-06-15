@@ -1,6 +1,9 @@
 package com.abrahamcardenes.lpa_presentation.wawaBalance
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +35,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,6 +72,7 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
         onGetBalance = wawaBalanceViewModel::getBalance,
         updateErrorState = wawaBalanceViewModel::updateErrorState,
         onRefresh = wawaBalanceViewModel::refreshCards,
+        onDeleteCard = wawaBalanceViewModel::removeCard,
         modifier = Modifier
     )
 }
@@ -78,6 +83,7 @@ fun WawaBalanceContent(
     uiState: BalanceUiState,
     onCardNumberChange: (String) -> Unit,
     updateErrorState: (Boolean) -> Unit,
+    onDeleteCard: (WawaCardBalance) -> Unit,
     onRefresh: () -> Unit,
     onGetBalance: () -> Unit,
     modifier: Modifier = Modifier
@@ -128,7 +134,9 @@ fun WawaBalanceContent(
         ) {
             LazyColumn(
                 state = state,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .animateContentSize(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
@@ -137,12 +145,16 @@ fun WawaBalanceContent(
                 items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
                     BalanceCard(
                         wawaCardBalance = it,
+                        onDeleteAction = onDeleteCard,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
                                 horizontal = 16.dp
                             )
-                            .animateItem()
+                            .animateItem(
+                                spring(stiffness = Spring.StiffnessMediumLow)
+                            )
+
                     )
                 }
 
@@ -219,6 +231,7 @@ fun WawaBalancePreview() {
             onGetBalance = {},
             updateErrorState = {},
             onRefresh = {},
+            onDeleteCard = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         )
     }

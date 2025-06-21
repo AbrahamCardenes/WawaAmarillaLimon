@@ -196,77 +196,76 @@ class BusRouteViewModelTest {
     }
 
     @Test
-    fun `Given a bus route, selecting an index and variant WHEN returning to index zero, resets uiState and clears the selected variant`() =
-        runTest {
-            val expectedSelectedVariant = Variants(
-                type = "D",
-                name = "Estas expediciones no circulan por Francisco Inglott Artiles",
-                color = RGBAColor(
-                    red = 231,
-                    green = 157,
-                    blue = 214,
-                    alpha = 1
-                )
+    fun `Given a bus route, selecting an index and variant WHEN returning to index zero, resets uiState and clears the selected variant`() = runTest {
+        val expectedSelectedVariant = Variants(
+            type = "D",
+            name = "Estas expediciones no circulan por Francisco Inglott Artiles",
+            color = RGBAColor(
+                red = 231,
+                green = 157,
+                blue = 214,
+                alpha = 1
             )
+        )
 
-            coEvery {
-                getBusRouteUseCase(concessionId = "50")
-            } returns Result.Success(busRouteFake())
-            busRouteViewModel.getBusRoute(busIdNumber = "50")
-            busRouteViewModel.onIndexSelection(value = 1)
+        coEvery {
+            getBusRouteUseCase(concessionId = "50")
+        } returns Result.Success(busRouteFake())
+        busRouteViewModel.getBusRoute(busIdNumber = "50")
+        busRouteViewModel.onIndexSelection(value = 1)
 
-            busRouteViewModel.uiState.test {
-                val firstEmission = awaitItem()
-                assertThat(firstEmission.selectedVariant).isNull()
-                assertThat(firstEmission.selectedIndex).isEqualTo(1)
-                assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
-            }
-            busRouteViewModel.availableRouteStops.test {
-                assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
-            }
-            busRouteViewModel.availableBackRouteStops.test {
-                assertThat(awaitItem()).isEqualTo(backStopsTypeBD())
-            }
+        busRouteViewModel.uiState.test {
+            val firstEmission = awaitItem()
+            assertThat(firstEmission.selectedVariant).isNull()
+            assertThat(firstEmission.selectedIndex).isEqualTo(1)
+            assertThat(firstEmission.busRoute).isEqualTo(busRouteFake())
+        }
+        busRouteViewModel.availableRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
+        }
+        busRouteViewModel.availableBackRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(backStopsTypeBD())
+        }
 
-            busRouteViewModel.onRouteSelection(variant = expectedSelectedVariant)
+        busRouteViewModel.onRouteSelection(variant = expectedSelectedVariant)
 
-            busRouteViewModel.uiState.test {
-                val secondEmission = awaitItem()
-                assertThat(secondEmission.selectedVariant).isEqualTo(expectedSelectedVariant)
-                assertThat(secondEmission.selectedIndex).isEqualTo(1)
-            }
-            busRouteViewModel.availableBackRouteStops.test {
-                assertThat(awaitItem()).isEqualTo(
-                    listOf(
-                        RouteStop(
-                            number = "970",
-                            name = "Leonardo Torriani (Zárate)",
-                            gpsCoordinates = GpsCoordinates(
-                                longitude = -15.42227448,
-                                latitude = 28.07906443
-                            ),
-                            node = "Zárate",
-                            variants = listOf("B", "D")
-                        )
+        busRouteViewModel.uiState.test {
+            val secondEmission = awaitItem()
+            assertThat(secondEmission.selectedVariant).isEqualTo(expectedSelectedVariant)
+            assertThat(secondEmission.selectedIndex).isEqualTo(1)
+        }
+        busRouteViewModel.availableBackRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(
+                listOf(
+                    RouteStop(
+                        number = "970",
+                        name = "Leonardo Torriani (Zárate)",
+                        gpsCoordinates = GpsCoordinates(
+                            longitude = -15.42227448,
+                            latitude = 28.07906443
+                        ),
+                        node = "Zárate",
+                        variants = listOf("B", "D")
                     )
                 )
-            }
-
-            busRouteViewModel.onIndexSelection(value = 0)
-
-            busRouteViewModel.uiState.test {
-                val thirdEmission = awaitItem()
-                assertThat(thirdEmission.selectedVariant).isEqualTo(null)
-                assertThat(thirdEmission.selectedIndex).isEqualTo(0)
-            }
-            busRouteViewModel.availableRouteStops.test {
-                assertThat(awaitItem()).isEqualTo(goStopsTypeA())
-            }
-
-            busRouteViewModel.availableBackRouteStops.test {
-                assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
-            }
+            )
         }
+
+        busRouteViewModel.onIndexSelection(value = 0)
+
+        busRouteViewModel.uiState.test {
+            val thirdEmission = awaitItem()
+            assertThat(thirdEmission.selectedVariant).isEqualTo(null)
+            assertThat(thirdEmission.selectedIndex).isEqualTo(0)
+        }
+        busRouteViewModel.availableRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(goStopsTypeA())
+        }
+
+        busRouteViewModel.availableBackRouteStops.test {
+            assertThat(awaitItem()).isEqualTo(emptyList<RouteStop>())
+        }
+    }
 
     @Test
     fun `When the user clicks on the schedule button it should update the uiState`() = runTest {
@@ -437,7 +436,6 @@ class BusRouteViewModelTest {
 
         busRouteViewModel.busSchedules.test {
             val firstEmission = awaitItem()
-            println(firstEmission)
             assertThat(firstEmission).isEqualTo(expectedScheduleUi)
         }
     }
@@ -502,7 +500,6 @@ class BusRouteViewModelTest {
 
         busRouteViewModel.busSchedules.test {
             val scheduledUiItems = awaitItem()
-            println(scheduledUiItems)
             assertThat(scheduledUiItems).isEqualTo(expectedScheduleUi)
         }
     }

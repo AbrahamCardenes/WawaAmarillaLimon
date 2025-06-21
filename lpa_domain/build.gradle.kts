@@ -55,6 +55,7 @@ dependencies {
     // Modules
     implementation(project(Modules.CORE))
     testImplementation(project(Modules.CORE))
+    implementation(project(Modules.CORE_ANDROID))
 
     // HILT
     implementation(libs.hilt.android)

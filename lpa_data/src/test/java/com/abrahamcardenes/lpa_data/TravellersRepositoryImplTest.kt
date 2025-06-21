@@ -6,6 +6,7 @@ import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.fakes.mockedConcessions
 import com.abrahamcardenes.lpa_data.fakes.mockedWawaCardBalance
+import com.abrahamcardenes.lpa_data.fakes.mockedWawaCardBalanceEntity
 import com.abrahamcardenes.lpa_data.jsons.concessionsResponse
 import com.abrahamcardenes.lpa_data.jsons.ogs.ogWawaCardBalanceJson
 import com.abrahamcardenes.lpa_data.jsons.shortLine10Timetable
@@ -19,7 +20,11 @@ import com.abrahamcardenes.lpa_domain.models.travellers.RoutePaths
 import com.abrahamcardenes.lpa_domain.models.travellers.TimetableInfo
 import com.google.common.truth.Truth.assertThat
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -181,5 +186,39 @@ class TravellersRepositoryImplTest {
         val result = repository.getBalance("529491")
 
         assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `Given a call to save a card it should be mapped to entity and call the dao`() = runTest {
+        val expectedEntity = mockedWawaCardBalanceEntity()
+        repository.saveCard(mockedWawaCardBalance())
+        coVerify {
+            wawaBalanceDao.updateOrInsert(expectedEntity)
+        }
+    }
+
+    @Test
+    fun `Given a call to delete a card it should call the dao`() = runTest {
+        repository.deleteCard(mockedWawaCardBalance())
+        coVerify {
+            wawaBalanceDao.deleteWawaBalanceByCode(mockedWawaCardBalance().code)
+        }
+    }
+
+    @Test
+    fun `Given a call to get all cards it should call the dao and return some cards mapped to domain model`() = runTest {
+        coEvery {
+            wawaBalanceDao.getAllWawaBalances()
+        } returns flow {
+            emit(listOf(mockedWawaCardBalanceEntity()))
+        }
+
+        val resultDbConvertedToSingle = repository.getAllCardsFromDb().single()
+
+        assertThat(resultDbConvertedToSingle).isEqualTo(listOf(mockedWawaCardBalance()))
+
+        coVerify {
+            wawaBalanceDao.getAllWawaBalances()
+        }
     }
 }

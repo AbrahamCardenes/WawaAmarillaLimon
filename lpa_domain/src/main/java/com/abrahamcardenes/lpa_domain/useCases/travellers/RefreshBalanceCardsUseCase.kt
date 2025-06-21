@@ -52,9 +52,6 @@ class RefreshBalanceCardsUseCase @Inject constructor(
         val newCards = cardsThatICanShow.map { it.code }.toSet()
         val oldCardsThatCouldNotBeUpdated = wawaCards.filter { it.code !in newCards }
 
-        // println(newCards)
-        // println(oldCardsThatCouldNotBeUpdated.map { it.code })
-
         return cardsThatICanShow + oldCardsThatCouldNotBeUpdated
     }
 

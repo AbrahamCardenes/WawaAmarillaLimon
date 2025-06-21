@@ -33,7 +33,7 @@ class WawaBalanceViewModelTest {
     private lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
-    private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true)
+    private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true) // TODO: fake emitting class for DB getAll.
     private val refreshBalanceCardsUseCase = mockk<RefreshBalanceCardsUseCase>(relaxed = true)
     private val dispatchers = TestsDispatchers
 

@@ -20,7 +20,6 @@ object WawaDatabaseProvider {
         klass = WawaDatabase::class.java,
         name = "wawa_database"
     )
-        .fallbackToDestructiveMigration()
         .build()
 
     @Provides

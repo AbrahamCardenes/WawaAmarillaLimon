@@ -81,6 +81,13 @@ class WawaBalanceViewModel @Inject constructor(
     fun getCardsFromDb() {
         viewModelScope.launch {
             balanceDbUseCases.getAllCards().collect { cards ->
+                val old = _balanceUiState.value.wawaCards
+
+                val removedCards = old.filter {
+                    it.code !in cards.map { it.code }
+                }
+
+                println("#### removed: $removedCards")
                 _balanceUiState.update { state ->
                     state
                         .copy(

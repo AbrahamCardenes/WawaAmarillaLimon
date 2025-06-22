@@ -2,8 +2,6 @@ package com.abrahamcardenes.lpa_presentation.wawaBalance
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +33,8 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,10 +91,17 @@ fun WawaBalanceContent(
     val state = rememberLazyListState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var currentNumberOfCards by remember {
+        mutableIntStateOf(uiState.wawaCards.size)
+    }
+
     LaunchedEffect(uiState.wawaCards.size) {
         if (uiState.wawaCards.isEmpty()) return@LaunchedEffect
-        delay(250)
-        state.animateScrollToItem(0)
+
+        if (currentNumberOfCards < uiState.wawaCards.size) {
+            state.animateScrollToItem(uiState.wawaCards.size)
+        }
+        currentNumberOfCards = uiState.wawaCards.size
     }
 
     LaunchedEffect(uiState.errorHappened) {
@@ -143,21 +150,20 @@ fun WawaBalanceContent(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
                 items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
-                    BalanceCard(
-                        wawaCardBalance = it,
-                        onDeleteAction = onDeleteCard,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 16.dp
-                            )
-                            .animateItem(
-                                spring(stiffness = Spring.StiffnessMediumLow)
-                            )
-
-                    )
+                    Box(
+                        modifier = Modifier.animateItem()
+                    ) {
+                        BalanceCard(
+                            wawaCardBalance = it,
+                            onDeleteAction = onDeleteCard,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    horizontal = 16.dp
+                                )
+                        )
+                    }
                 }
-
                 item { Spacer(Modifier.height(8.dp)) }
             }
         }

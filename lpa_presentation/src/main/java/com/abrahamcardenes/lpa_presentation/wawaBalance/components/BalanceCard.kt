@@ -2,7 +2,6 @@ package com.abrahamcardenes.lpa_presentation.wawaBalance.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -26,13 +25,9 @@ import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -41,14 +36,9 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.utils.toLocalCurrency
-import kotlinx.coroutines.delay
 
 @Composable
 fun BalanceCard(wawaCardBalance: WawaCardBalance, onDeleteAction: (WawaCardBalance) -> Unit, modifier: Modifier = Modifier) {
-    var isItemSwiped by remember {
-        mutableStateOf(false)
-    }
-
     val dismissState = rememberSwipeToDismissBoxState()
     val swipeBackgroundColor by
         animateColorAsState(
@@ -72,27 +62,16 @@ fun BalanceCard(wawaCardBalance: WawaCardBalance, onDeleteAction: (WawaCardBalan
             animationSpec = tween(500)
         )
 
-    val alpha by
-        animateFloatAsState(
-            targetValue = if (isItemSwiped) 0f else 1f,
-            animationSpec = tween(250)
-        )
-
     LaunchedEffect(dismissState) {
         snapshotFlow { dismissState.currentValue }
             .collect { value ->
                 if (value != SwipeToDismissBoxValue.Settled) {
-                    isItemSwiped = true
-                    delay(350)
-                    dismissState.reset()
                     onDeleteAction(wawaCardBalance)
-                    isItemSwiped = false
                 }
             }
     }
 
     SwipeToDismissBox(
-        modifier = Modifier.alpha(alpha),
         state = dismissState,
         backgroundContent = {
             Box(

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class SaveOrDeleteBusStopUseCase @Inject constructor(
     private val busStopsRepository: BusStopsRepository,
-    private val analyticsServiceImpl: AnalyticsService
+    private val analyticsService: AnalyticsService
 ) {
     suspend operator fun invoke(busStop: BusStop) {
         if (busStop.isSavedInDb) {
@@ -28,10 +28,12 @@ class SaveOrDeleteBusStopUseCase @Inject constructor(
     }
 
     private fun sendEvent(event: AnalyticsEvents, busStop: BusStop) {
-        analyticsServiceImpl.sendLogEvent(
+        analyticsService.sendLogEvent(
             event = event,
-            Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
-            Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+            params = arrayOf(
+                Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+            )
         )
     }
 }

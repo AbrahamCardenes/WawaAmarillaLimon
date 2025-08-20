@@ -20,7 +20,5 @@ class AnalyticsServiceImpl(private val firebaseAnalytics: FirebaseAnalytics) : A
             }
         }
         firebaseAnalytics.logEvent(event.value, bundle)
-
-        println("### event sent: $event")
     }
 }

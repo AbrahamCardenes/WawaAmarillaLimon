@@ -1,6 +1,9 @@
 package com.abrahamcardenes.lpa_domain.useCases.concessions
 
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsEvents
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsParams
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsService
 import com.abrahamcardenes.lpa_domain.fakes.busRouteFake
 import com.abrahamcardenes.lpa_domain.repositories.BusRoutesRepository
 import com.google.common.truth.Truth.assertThat
@@ -15,11 +18,15 @@ import org.junit.Test
 
 class GetBusRouteUseCaseTest {
     private val repository = mockk<BusRoutesRepository>()
+    private val analyticsService = mockk<AnalyticsService>()
     private lateinit var getBusRouteUseCase: GetBusRouteUseCase
 
     @Before
     fun setup() {
-        getBusRouteUseCase = GetBusRouteUseCase(repository)
+        getBusRouteUseCase = GetBusRouteUseCase(
+            busRoutesRepository = repository,
+            analyticsService = analyticsService
+        )
     }
 
     @After
@@ -34,8 +41,25 @@ class GetBusRouteUseCaseTest {
             repository.getBusRoutes("50")
         } returns Result.Success(busRouteFake())
 
+        coEvery {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.CONCESSION_LOOK_UP,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.CONCESSION_ID, "50")
+                )
+            )
+        } returns Unit
+
         assertThat(getBusRouteUseCase("50")).isEqualTo(expected)
         coVerify {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.CONCESSION_LOOK_UP,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.CONCESSION_ID, "50")
+                )
+            )
             repository.getBusRoutes("50")
         }
     }
@@ -48,8 +72,25 @@ class GetBusRouteUseCaseTest {
             repository.getBusRoutes("x47")
         } returns Result.Success(x47Bus)
 
+        coEvery {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.CONCESSION_LOOK_UP,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.CONCESSION_ID, "x47")
+                )
+            )
+        } returns Unit
+
         assertThat(getBusRouteUseCase("X47")).isEqualTo(expected)
         coVerify {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.CONCESSION_LOOK_UP,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.CONCESSION_ID, "x47")
+                )
+            )
             repository.getBusRoutes("x47")
         }
     }

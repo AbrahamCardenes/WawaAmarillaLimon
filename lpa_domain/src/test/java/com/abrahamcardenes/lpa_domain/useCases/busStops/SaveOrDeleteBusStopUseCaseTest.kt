@@ -1,5 +1,8 @@
 package com.abrahamcardenes.lpa_domain.useCases.busStops
 
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsEvents
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsParams
+import com.abrahamcardenes.core_android.firebase.analytics.AnalyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import io.mockk.clearAllMocks
@@ -13,11 +16,15 @@ import org.junit.Test
 
 class SaveOrDeleteBusStopUseCaseTest {
     private val busStopsRepository = mockk<BusStopsRepository>()
+    private val analyticsService = mockk<AnalyticsService>()
     private lateinit var saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
 
     @Before
     fun setup() {
-        saveOrDeleteBusStopUseCase = SaveOrDeleteBusStopUseCase(busStopsRepository)
+        saveOrDeleteBusStopUseCase = SaveOrDeleteBusStopUseCase(
+            busStopsRepository = busStopsRepository,
+            analyticsService = analyticsService
+        )
     }
 
     @After
@@ -37,10 +44,29 @@ class SaveOrDeleteBusStopUseCaseTest {
             busStopsRepository.saveStops(busStop)
         } returns Unit
 
+        coEvery {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.FAVORITE_CLICKED,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
+        } returns Unit
+
         saveOrDeleteBusStopUseCase(busStop)
 
         coVerify(exactly = 1) {
             busStopsRepository.saveStops(busStop)
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.FAVORITE_CLICKED,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
         }
 
         coVerify(exactly = 0) {
@@ -60,10 +86,29 @@ class SaveOrDeleteBusStopUseCaseTest {
             busStopsRepository.deleteBusStop(busStop)
         } returns Unit
 
+        coEvery {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.UNFAVORITE_CLICKED,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
+        } returns Unit
+
         saveOrDeleteBusStopUseCase(busStop)
 
         coVerify(exactly = 1) {
             busStopsRepository.deleteBusStop(busStop)
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.UNFAVORITE_CLICKED,
+                params =
+                arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
         }
         coVerify(exactly = 0) {
             busStopsRepository.saveStops(busStop)

@@ -14,12 +14,13 @@ class GetBusRouteUseCase @Inject constructor(
     private val analyticsService: AnalyticsService
 ) {
     suspend operator fun invoke(concessionId: String): Result<BusRoute, DataError> {
+        val concessionIdLowerCase = concessionId.lowercase()
         analyticsService.sendLogEvent(
             event = AnalyticsEvents.CONCESSION_LOOK_UP,
             params = arrayOf(
-                Pair(AnalyticsParams.CONCESSION_ID, concessionId)
+                Pair(AnalyticsParams.CONCESSION_ID, concessionIdLowerCase)
             )
         )
-        return busRoutesRepository.getBusRoutes(concessionId = concessionId.lowercase())
+        return busRoutesRepository.getBusRoutes(concessionId = concessionIdLowerCase)
     }
 }

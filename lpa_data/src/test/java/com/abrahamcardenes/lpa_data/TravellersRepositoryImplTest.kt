@@ -45,7 +45,6 @@ class TravellersRepositoryImplTest {
         apiTravellers = ServerMocks.buildApiTravellersService(mockWebServer = mockWebServer)
         repository = TravellersRepositoryImpl(
             api = apiTravellers,
-            dateProvider = dateProvider,
             wawaBalanceDao = wawaBalanceDao
 
         )

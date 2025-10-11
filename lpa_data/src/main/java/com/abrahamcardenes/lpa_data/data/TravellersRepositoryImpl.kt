@@ -4,7 +4,6 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
-import com.abrahamcardenes.core_android.date.DateProvider
 import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toDomain
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toEntity
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.map
 
 class TravellersRepositoryImpl(
     private val api: ApiTravellers,
-    private val dateProvider: DateProvider,
     private val wawaBalanceDao: WawaBalanceDao
 ) : TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")

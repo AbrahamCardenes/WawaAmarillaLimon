@@ -1,5 +1,5 @@
 package com.abrahamcardenes.core_android.date
 
-interface DateProvider {
+fun interface DateProvider {
     fun getCurrentTimestamp(): Long
 }

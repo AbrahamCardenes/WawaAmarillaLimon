@@ -51,47 +51,49 @@ fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modi
 @Composable
 @Preview(showBackground = true)
 fun AvailableStopsByVariantPreview() {
+    val mercadoVegueta = "Mercado de Vegueta"
+    val tresPalmas = "Tres Palmas"
     WawaAmarillaLimonTheme {
         AvailableStopsByVariant(
             availableRouteStops = listOf(
                 RouteStop(
                     number = "993",
-                    name = "Mercado de Vegueta",
+                    name = mercadoVegueta,
                     gpsCoordinates = GpsCoordinates(
                         longitude = -15.41300107,
                         latitude = 28.10265634
                     ),
-                    node = "Mercado de Vegueta",
+                    node = mercadoVegueta,
                     variants = listOf("A")
                 ),
                 RouteStop(
                     number = "936",
-                    name = "Tres Palmas",
+                    name = tresPalmas,
                     gpsCoordinates = GpsCoordinates(
                         latitude = 28.06985503,
                         longitude = -15.42283358
                     ),
-                    node = "Mercado de Vegueta",
+                    node = mercadoVegueta,
                     variants = listOf("A")
                 ),
                 RouteStop(
                     number = "936",
-                    name = "Tres Palmas",
+                    name = tresPalmas,
                     gpsCoordinates = GpsCoordinates(
                         latitude = 28.06985503,
                         longitude = -15.42283358
                     ),
-                    node = "Tres Palmas",
+                    node = tresPalmas,
                     variants = listOf("B")
                 ),
                 RouteStop(
                     number = "993",
-                    name = "Mercado de Vegueta",
+                    name = mercadoVegueta,
                     gpsCoordinates = GpsCoordinates(
                         latitude = 28.10265634,
                         longitude = -15.41300107
                     ),
-                    node = "Tres Palmas",
+                    node = tresPalmas,
                     variants = listOf("B")
                 )
             )

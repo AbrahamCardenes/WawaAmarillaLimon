@@ -19,7 +19,6 @@ object TravellersRepositoryModule {
     fun provideTravellersRepository(api: ApiTravellers, dateProvider: DateProvider, wawaBalanceDao: WawaBalanceDao): TravellersRepository =
         TravellersRepositoryImpl(
             api = api,
-            dateProvider = dateProvider,
             wawaBalanceDao = wawaBalanceDao
         )
 }

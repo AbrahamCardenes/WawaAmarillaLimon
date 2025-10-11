@@ -211,6 +211,8 @@ fun BusRouteUi(
 @PreviewLightDark
 private fun TimetablePreview() {
     WawaAmarillaLimonTheme {
+        val mercadoVeguetaNode = "Mercado de Vegueta"
+        val tresPalmasNode = "Tres Palmas"
         BusRouteUi(
             commercialLine = "10",
             rgbaColor = RGBAColor(
@@ -223,18 +225,18 @@ private fun TimetablePreview() {
                 state = BusRouteState.Success,
                 busRoute = BusRoute(
                     line = "13",
-                    name = "Mercado de Vegueta - Tres Palmas",
+                    name = "$mercadoVeguetaNode - $tresPalmasNode",
                     color = RGBAColor(
                         red = 185,
                         green = 102,
                         blue = 161,
                         alpha = 1
                     ),
-                    nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
+                    nodes = listOf(mercadoVeguetaNode, tresPalmasNode),
                     variantsGo = listOf(
                         Variants(
                             type = "A",
-                            name = "Mercado de Vegueta - Tres Palmas",
+                            name = "$mercadoVeguetaNode - $tresPalmasNode",
                             color = RGBAColor(
                                 red = 185,
                                 green = 102,
@@ -246,7 +248,7 @@ private fun TimetablePreview() {
                     variantsBack = listOf(
                         Variants(
                             type = "B",
-                            name = "Tres Palmas - Mercado de Vegueta",
+                            name = "$tresPalmasNode - $mercadoVeguetaNode",
                             color = RGBAColor(
                                 red = 185,
                                 green = 102,
@@ -258,48 +260,48 @@ private fun TimetablePreview() {
                     stops = listOf(
                         RouteStop(
                             number = "993",
-                            name = "Mercado de Vegueta",
+                            name = mercadoVeguetaNode,
                             gpsCoordinates = GpsCoordinates(
                                 longitude = -15.41300107,
                                 latitude = 28.10265634
                             ),
-                            node = "Mercado de Vegueta",
+                            node = mercadoVeguetaNode,
                             variants = listOf("A")
                         ),
                         RouteStop(
                             number = "936",
-                            name = "Tres Palmas",
+                            name = tresPalmasNode,
                             gpsCoordinates = GpsCoordinates(
                                 latitude = 28.06985503,
                                 longitude = -15.42283358
                             ),
-                            node = "Mercado de Vegueta",
+                            node = mercadoVeguetaNode,
                             variants = listOf("A")
                         ),
                         RouteStop(
                             number = "936",
-                            name = "Tres Palmas",
+                            name = tresPalmasNode,
                             gpsCoordinates = GpsCoordinates(
                                 latitude = 28.06985503,
                                 longitude = -15.42283358
                             ),
-                            node = "Tres Palmas",
+                            node = tresPalmasNode,
                             variants = listOf("B")
                         ),
                         RouteStop(
                             number = "993",
-                            name = "Mercado de Vegueta",
+                            name = mercadoVeguetaNode,
                             gpsCoordinates = GpsCoordinates(
                                 latitude = 28.10265634,
                                 longitude = -15.41300107
                             ),
-                            node = "Tres Palmas",
+                            node = tresPalmasNode,
                             variants = listOf("B")
                         )
                     ),
                     schedules = listOf(
                         BusSchedule(
-                            node = "Mercado de Vegueta",
+                            node = mercadoVeguetaNode,
                             typology = "De lunes a viernes",
                             time = "06:55",
                             color = RGBAColor(
@@ -310,7 +312,7 @@ private fun TimetablePreview() {
                             )
                         ),
                         BusSchedule(
-                            node = "Mercado de Vegueta",
+                            node = mercadoVeguetaNode,
                             typology = "Sábado",
                             time = "08:05",
                             color = RGBAColor(
@@ -321,7 +323,7 @@ private fun TimetablePreview() {
                             )
                         ),
                         BusSchedule(
-                            node = "Mercado de Vegueta",
+                            node = mercadoVeguetaNode,
                             typology = "Domingo y festivo",
                             time = "07:50",
                             color = RGBAColor(
@@ -333,7 +335,7 @@ private fun TimetablePreview() {
                         ),
 
                         BusSchedule(
-                            node = "Tres Palmas",
+                            node = tresPalmasNode,
                             typology = "De lunes a viernes",
                             time = "06:10",
                             color = RGBAColor(
@@ -344,7 +346,7 @@ private fun TimetablePreview() {
                             )
                         ),
                         BusSchedule(
-                            node = "Tres Palmas",
+                            node = tresPalmasNode,
                             typology = "Sábado",
                             time = "07:10",
                             color = RGBAColor(
@@ -355,7 +357,7 @@ private fun TimetablePreview() {
                             )
                         ),
                         BusSchedule(
-                            node = "Tres Palmas",
+                            node = tresPalmasNode,
                             typology = "Domingo y festivo",
                             time = "08:35",
                             color = RGBAColor(

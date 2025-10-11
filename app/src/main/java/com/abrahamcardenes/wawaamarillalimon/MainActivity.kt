@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
-            navController.addOnDestinationChangedListener(listener = { _, destination, arguments ->
+            navController.addOnDestinationChangedListener(listener = { _, destination, _ ->
                 val indexSelected = items.indexOfFirst {
                     destination.route == it::class.java.name
                 }

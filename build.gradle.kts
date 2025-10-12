@@ -10,7 +10,10 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
     id("org.sonarqube") version "6.3.1.5724"
+    id("jacoco")
 }
+
+
 buildscript {
     dependencies {
         classpath(libs.org.jacoco.core)

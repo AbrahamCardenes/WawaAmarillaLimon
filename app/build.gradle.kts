@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    id("jacoco")
 }
 
 android {
@@ -52,6 +53,7 @@ android {
             isDebuggable = true
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
             applicationIdSuffix = ".dev"
+            enableUnitTestCoverage = true
         }
     }
     compileOptions {
@@ -121,4 +123,59 @@ dependencies {
     implementation(project(Modules.LPA_DATA))
     implementation(project(Modules.LPA_DOMAIN))
     implementation(project(Modules.LPA_PRESENTATION))
+}
+
+jacoco {
+    toolVersion = "0.8.14"
+    //reportsDirectory.set(layout.buildDirectory.dir("JacocoReports"))
+}
+
+val fileFilter = listOf(
+    "**/R.class",
+    "**/R$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*",
+    "**/*Test*.*",
+    "android/**/*.*"
+)
+
+
+tasks.withType<Test>().configureEach {
+    jacoco {
+        setExcludes(listOf("jdk.internal.*"))
+    }
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    val debugTree = fileTree(
+        mapOf(
+            "dir" to "$buildDir/intermediates/classes/debug",
+            "excludes" to fileFilter // assuming fileFilter is defined elsewhere as a List<String>
+        )
+    )
+
+    val mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
+
+    executionData.setFrom(
+        fileTree(
+            mapOf(
+                "dir" to buildDir,
+                "includes" to listOf(
+                    "jacoco/testDebugUnitTest.exec",
+                    "outputs/code-coverage/connected/*coverage.ec"
+                )
+            )
+        )
+    )
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }

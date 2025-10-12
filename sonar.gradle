@@ -1,0 +1,53 @@
+ext.sonar = [
+        ignoreModules: [
+                "core",
+        ],
+        excludeFilter: [
+                // add here any regex you want to ignore
+                "**/test/**",
+                "**/androidTest/**",
+                "**/R.class",
+                "**/R2.class",
+                "**/R*.class", // TODO CHECK
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                "**/*Test*.*"
+        ]
+]
+
+ext.sonar.ignoreModules.each {
+    ext.sonar.excludeFilter << "**/${it}/**"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
+//def sonarToken = localProperties.getProperty("SONAR_TOKEN")
+//def sonarOrganization = localProperties.getProperty("SONAR_ORGANIZATION")
+//def sonarProjectKey = localProperties.getProperty("SONAR_PROJECT_KEY")
+//def sonarProjectName = localProperties.getProperty("SONAR_PROJECT_NAME")
+
+//println "Sonar token is: ${localProperties.getProperty('SONAR_TOKEN')}"
+//println "Sonar ORG is: ${localProperties.getProperty('SONAR_ORGANIZATION')}"
+//println "Sonar PKey Pnametoken is: ${localProperties.getProperty('SONAR_PROJECT_KEY')}"
+//println "Sonar Pname is: ${localProperties.getProperty('SONAR_PROJECT_NAME')}"
+
+
+sonar {
+    properties {
+        property("sonar.host.url", "https://sonarcloud.io")
+        property "sonar.login", System.getenv("SONAR_TOKEN")
+        property "sonar.organization", System.getenv("SONAR_ORGANIZATION")
+        property "sonar.projectKey", System.getenv("SONAR_PROJECT_KEY")
+        property "sonar.projectName", System.getenv("SONAR_PROJECT_NAME")
+        property("sonar.java.coveragePlugin", "jacoco")
+        // this value stays the same for both jacoco and kover
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.java.binaries", "${rootDir}/**/build/tmp/kotlin-classes/debug")
+        property("sonar.coverage.exclusions", rootProject.ext.sonar.excludeFilter)
+    }
+}

@@ -1,7 +1,6 @@
 package com.abrahamcardenes.lpa_data
 
 import com.abrahamcardenes.core.network.Result
-import com.abrahamcardenes.core_android.date.DateProvider
 import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.fakes.mockedConcessions
@@ -35,7 +34,6 @@ class TravellersRepositoryImplTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var apiTravellers: ApiTravellers
-    private val dateProvider = mockk<DateProvider>(relaxed = true)
     private val wawaBalanceDao = mockk<WawaBalanceDao>(relaxed = true)
     private lateinit var repository: TravellersRepositoryImpl
 

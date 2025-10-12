@@ -3,6 +3,8 @@ name: Build and Release Signed APK to github
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
 
@@ -137,22 +139,33 @@ jobs:
         run: ./gradlew clean
 
       - name: Decode Keystore File
-        run: echo "${{ secrets.KEY_STORE }}" | base64 --decode > app/wawa-amarilla-key.jks
+        env:
+          KEY_STORE: ${{ secrets.KEY_STORE }}
+        run: echo $KEY_STORE | base64 --decode > app/wawa-amarilla-key.jks
 
       - name: Set up signing environment variables
+        env:
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          API_WAWAS: ${{ secrets.API_WAWAS }}
+          API_TRAVELLERS: ${{ secrets.API_TRAVELLERS }}
+          API_STATICAPP: ${{ secrets.API_STATICAPP }}
         run: |
-          echo "KEY_PASS=${{ secrets.KEY_PASS }}" >> $GITHUB_ENV
-          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
-          echo "API_WAWAS=${{ secrets.API_WAWAS }}" >> $GITHUB_ENV
-          echo "API_TRAVELLERS=${{ secrets.API_TRAVELLERS }}" >> $GITHUB_ENV
-          echo "API_STATICAPP=${{ secrets.API_STATICAPP }}" >> $GITHUB_ENV
+          echo "KEY_PASS=$KEY_PASS >> $GITHUB_ENV
+          echo "KEY_ALIAS=$KEY_ALIAS >> $GITHUB_ENV
+          echo "API_WAWAS=$API_WAWAS >> $GITHUB_ENV
+          echo "API_TRAVELLERS=$API_TRAVELLERS >> $GITHUB_ENV
+          echo "API_STATICAPP=$API_STATICAPP >> $GITHUB_ENV
 
       - name: Sign release App bundle
+        env:
+          KEY_PASS: ${{ secrets.KEY_PASS }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           export SIGNING_STORE_FILE=/home/runner/work/WawaAmarillaLimon/WawaAmarillaLimon/app/wawa-amarilla-key.jks
-          export SIGNING_STORE_PASSWORD=${{ secrets.KEY_PASS }}
-          export SIGNING_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
-          export SIGNING_KEY_PASSWORD=${{ secrets.KEY_PASS }}
+          export SIGNING_STORE_PASSWORD=$KEY_PASS
+          export SIGNING_KEY_ALIAS=$KEY_ALIAS
+          export SIGNING_KEY_PASSWORD=$KEY_PASS
           ./gradlew bundleRelease
 
       - name: Upload AAB as Artifact

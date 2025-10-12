@@ -151,11 +151,11 @@ jobs:
           API_TRAVELLERS: ${{ secrets.API_TRAVELLERS }}
           API_STATICAPP: ${{ secrets.API_STATICAPP }}
         run: |
-          echo "KEY_PASS=$KEY_PASS >> $GITHUB_ENV
-          echo "KEY_ALIAS=$KEY_ALIAS >> $GITHUB_ENV
-          echo "API_WAWAS=$API_WAWAS >> $GITHUB_ENV
-          echo "API_TRAVELLERS=$API_TRAVELLERS >> $GITHUB_ENV
-          echo "API_STATICAPP=$API_STATICAPP >> $GITHUB_ENV
+          echo "KEY_PASS=$KEY_PASS" >> $GITHUB_ENV
+          echo "KEY_ALIAS=$KEY_ALIAS" >> $GITHUB_ENV
+          echo "API_WAWAS=$API_WAWAS" >> $GITHUB_ENV
+          echo "API_TRAVELLERS=$API_TRAVELLERS" >> $GITHUB_ENV
+          echo "API_STATICAPP=$API_STATICAPP" >> $GITHUB_ENV
 
       - name: Sign release App bundle
         env:

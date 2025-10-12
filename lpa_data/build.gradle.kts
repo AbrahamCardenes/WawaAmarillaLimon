@@ -172,6 +172,4 @@ tasks.register<JacocoReport>("jacocoTestReport") {
             )
         )
     )
-
-
 }

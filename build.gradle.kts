@@ -13,7 +13,6 @@ plugins {
     id("jacoco")
 }
 
-
 buildscript {
     dependencies {
         classpath(libs.org.jacoco.core)

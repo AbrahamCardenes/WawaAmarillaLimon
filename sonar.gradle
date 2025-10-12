@@ -40,10 +40,10 @@ if (localPropertiesFile.exists()) {
 sonar {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
-        property "sonar.token", sonarToken
-        property "sonar.organization", sonarOrganization
-        property "sonar.projectKey", sonarProjectKey
-        property "sonar.projectName", sonarProjectName
+        property "sonar.token", System.getenv("SONAR_TOKEN")
+        property "sonar.organization", System.getenv("SONAR_ORGANIZATION")
+        property "sonar.projectKey", System.getenv("SONAR_PROJECT_KEY")
+        property "sonar.projectName", System.getenv("SONAR_PROJECT_NAME")
         property("sonar.java.coveragePlugin", "jacoco")
         // this value stays the same for both jacoco and kover
         property("sonar.sourceEncoding", "UTF-8")

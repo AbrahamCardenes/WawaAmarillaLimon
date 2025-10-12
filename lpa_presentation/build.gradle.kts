@@ -120,6 +120,9 @@ tasks.withType<Test>().configureEach {
 tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
 
+    group = "ReportingSonar"
+    description = "Generate Jacoco coverage reports after running tests."
+
     val debugTree = fileTree(
         mapOf(
             "dir" to "$buildDir/intermediates/classes/debug",

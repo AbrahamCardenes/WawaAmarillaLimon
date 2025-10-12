@@ -143,6 +143,8 @@ tasks.withType<Test>().configureEach {
 
 tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
+    group = "ReportingSonar"
+    description = "Generate Jacoco coverage reports after running tests."
 
     reports {
         xml.required.set(true)

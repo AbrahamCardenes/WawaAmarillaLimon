@@ -67,7 +67,7 @@ dependencies {
 
 jacoco {
     toolVersion = "0.8.14"
-    //reportsDirectory.set(layout.buildDirectory.dir("JacocoReports"))
+    // reportsDirectory.set(layout.buildDirectory.dir("JacocoReports"))
 }
 
 val fileFilter = listOf(
@@ -78,7 +78,6 @@ val fileFilter = listOf(
     "**/*Test*.*",
     "android/**/*.*"
 )
-
 
 tasks.withType<Test>().configureEach {
     jacoco {

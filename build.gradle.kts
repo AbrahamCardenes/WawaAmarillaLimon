@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
     id("org.sonarqube") version "6.3.1.5724"
-
 }
 buildscript {
     dependencies {
@@ -21,8 +20,8 @@ buildscript {
     }
 }
 
-apply(from = "${rootDir}/sonar.gradle")
+apply(from = "$rootDir/sonar.gradle")
 
 subprojects {
-    apply(from = "${rootDir}/jacoco.gradle")
+    apply(from = "$rootDir/jacoco.gradle")
 }

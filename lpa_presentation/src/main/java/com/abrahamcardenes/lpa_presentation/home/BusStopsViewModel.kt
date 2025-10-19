@@ -63,16 +63,16 @@ class BusStopsViewModel
                 .collect { response ->
                     response
                         .onSuccess { currentBusStops ->
-                            _uiState.update {
-                                it.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
+                            _uiState.update { state ->
+                                state.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
                                     .keepCurrentExpandedStatus()
                             }
                         }
-                        .onError { it ->
+                        .onError { error ->
                             _uiState.update { state ->
                                 state.copy(errorMessage = getRandomString())
                             }
-                            logErrorIfIsUnknown(it)
+                            logErrorIfIsUnknown(error)
                             updateState(BusStopState.Error)
                         }
                 }

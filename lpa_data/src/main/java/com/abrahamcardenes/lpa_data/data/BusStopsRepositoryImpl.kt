@@ -28,8 +28,8 @@ class BusStopsRepositoryImpl(
 
     override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
         api.getParadas()
-    }.map { it ->
-        val originalBusStops = it.toMutableList()
+    }.map { busStopDto ->
+        val originalBusStops = busStopDto.toMutableList()
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
         originalBusStops.toDomain()
     }

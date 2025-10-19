@@ -58,7 +58,7 @@ class BusRouteViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
-    val busSchedules = _busSchedules.combine(uiState) { schedules, state ->
+    val busSchedules = _busSchedules.combine(uiState) { _, state ->
         val currentBusRoute = state.busRoute
         if (currentBusRoute == null) return@combine emptyList()
 

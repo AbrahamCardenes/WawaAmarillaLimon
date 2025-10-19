@@ -82,43 +82,39 @@ android {
 }
 
 dependencies {
-
+    // Modules
+    implementation(project(Modules.LPA_DOMAIN))
+    implementation(project(Modules.CORE_DB))
+    implementation(project(Modules.CORE))
+    implementation(project(Modules.CORE_ANDROID))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
     // Retrofit and moshi
     implementation(libs.retrofit)
     implementation(libs.moshi)
     implementation(libs.converter.moshi)
     ksp(libs.moshi.kotlin.codegen)
-
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-
     // HILT
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
-    testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
 
+    testImplementation(project(Modules.CORE))
+    testImplementation(libs.junit)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.bundles.testing)
-    androidTestImplementation(libs.bundles.testing)
     testImplementation(libs.turbine)
 
-    // Modules
-    implementation(project(Modules.LPA_DOMAIN))
-    implementation(project(Modules.CORE_DB))
-    implementation(project(Modules.CORE))
-    testImplementation(project(Modules.CORE))
-    implementation(project(Modules.CORE_ANDROID))
+    androidTestImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
 }
 
 jacoco {

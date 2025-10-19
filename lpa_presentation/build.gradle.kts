@@ -57,6 +57,10 @@ android {
 }
 
 dependencies {
+    // Modules
+    implementation(project(Modules.LPA_DOMAIN))
+    implementation(project(Modules.CORE))
+    implementation(project(Modules.CORE_ANDROID))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -66,35 +70,31 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-    testImplementation(libs.bundles.testing)
-    androidTestImplementation(libs.bundles.testing)
-    testImplementation(libs.turbine)
-
+    // LOTTIE
+    implementation(libs.lottie)
     // HILT
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.bundles.testing)
+    testImplementation(libs.turbine)
+    testImplementation(libs.junit)
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
 
-    // LOTTIE
-    implementation(libs.lottie)
-
-    // Modules
-    implementation(project(Modules.LPA_DOMAIN))
-    implementation(project(Modules.CORE))
-    implementation(project(Modules.CORE_ANDROID))
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.bundles.testing)
 }
 
 jacoco {

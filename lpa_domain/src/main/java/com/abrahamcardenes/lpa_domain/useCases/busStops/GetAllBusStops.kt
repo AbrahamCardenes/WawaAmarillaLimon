@@ -35,8 +35,8 @@ constructor(
     }
 
     private suspend fun getNetworkBusStops() = repository
-        .getBusStops().map { it ->
-            it.distinctBy { it.stopNumber }
+        .getBusStops().map { busStop ->
+            busStop.distinctBy { it.stopNumber }
                 .sortedBy { it.stopNumber }
         }
 }

@@ -2,6 +2,7 @@ package com.abrahamcardenes.lpa_presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
@@ -17,8 +18,6 @@ import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
 import com.abrahamcardenes.lpa_presentation.utils.getRandomString
 import com.abrahamcardenes.lpa_presentation.utils.removeNonSpacingMarks
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,6 +29,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class BusStopsViewModel
@@ -37,7 +37,8 @@ class BusStopsViewModel
     private val getAllBusStopsUseCase: GetAllBusStops,
     private val getBusDetailUseCase: GetBusDetailUseCase,
     private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase,
-    private val crashlyticsService: CrashlyticsService
+    private val crashlyticsService: CrashlyticsService,
+    private val dispatchers: DispatchersProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BusStopsUiState())
     val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
@@ -158,7 +159,7 @@ class BusStopsViewModel
     }
 
     fun saveOrDeleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatchers.IO) {
             saveOrDeleteBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
         }
     }

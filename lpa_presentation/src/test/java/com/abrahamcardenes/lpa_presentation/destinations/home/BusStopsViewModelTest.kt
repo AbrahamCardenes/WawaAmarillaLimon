@@ -12,6 +12,7 @@ import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
+import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
 import com.abrahamcardenes.lpa_presentation.fakes.fakeBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetail
@@ -46,6 +47,7 @@ class BusStopsViewModelTest {
     private val saveOrDeleteBusStopUseCase = mockk<SaveOrDeleteBusStopUseCase>()
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
     private lateinit var busStopsViewModel: BusStopsViewModel
+    private val dispatchers = TestsDispatchers
 
     @Before
     fun setup() {
@@ -53,7 +55,8 @@ class BusStopsViewModelTest {
             getAllBusStopsUseCase = getAllBusStopsUseCase,
             getBusDetailUseCase = getBusDetailUseCase,
             saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase,
-            crashlyticsService = crashlyticsService
+            crashlyticsService = crashlyticsService,
+            dispatchers = dispatchers
         )
     }
 

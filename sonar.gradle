@@ -1,0 +1,65 @@
+ext.sonar = [
+        ignoreModules: [
+                "core",
+        ],
+        excludeFilter: [
+                // add here any regex you want to ignore
+                "**/test/**",
+                "**/androidTest/**",
+                "**/R.class",
+                "**/R2.class",
+                "**/R*.class",
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                "**/*Test*.*",
+                "*/core",
+                "**/lpa_presentation/src/main/java/com/abrahamcardenes/lpa_presentation/components/*",
+                "**/lpa_presentation/**/**Screen.kt",
+                "**/lpa_presentation/**/components/**",
+                "**/lpa_data/**/di/**",
+                "**/lpa_domain/**/di/**",
+                "**/core_android/**/di/**",
+                "**/core_db/src/main/java/com/abrahamcardenes/core_db/**",
+                "**/DispatchersModule.kt",
+                "**/lpa_presentation/**/busesInfo/busRouteDetail/SchedulesDialog.kt",
+                "**/lpa_presentation/**/theme/**",
+                "**/lpa_presentation/**/navigation/**",
+                "**/lpa_presentation/**/GetComposeColorFrom.kt",
+                "**/lpa_presentation/**/GetRandomErrorMessage.kt",
+                "**/lpa_presentation/**/NotificationType.kt",
+                "**/WawaAmarillaLimon.kt",
+                "**/MainActivity.kt",
+        ]
+]
+
+ext.sonar.ignoreModules.each {
+    ext.sonar.excludeFilter << "**/${it}/**"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
+def sonarToken = System.getenv("SONAR_TOKEN") ?: localProperties.getProperty("SONAR_TOKEN")
+def sonarOrganization = System.getenv("SONAR_ORGANIZATION") ?: localProperties.getProperty("SONAR_ORGANIZATION")
+def sonarProjectKey = System.getenv("SONAR_PROJECT_KEY") ?: localProperties.getProperty("SONAR_PROJECT_KEY")
+def sonarProjectName = System.getenv("SONAR_PROJECT_NAME") ?: localProperties.getProperty("SONAR_PROJECT_NAME")
+
+sonar {
+    properties {
+        property("sonar.host.url", "https://sonarcloud.io")
+        property "sonar.token", sonarToken
+        property "sonar.organization", sonarOrganization
+        property "sonar.projectKey", sonarProjectKey
+        property "sonar.projectName", sonarProjectName
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.java.binaries", "${rootDir}/**/build/tmp/kotlin-classes/debug")
+        property("sonar.coverage.exclusions", rootProject.ext.sonar.excludeFilter)
+        property "sonar.coverage.jacoco.xmlReportPaths", "${rootDir}/**/build/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
+        property "sonar.tests", ["src/test/java"]
+    }
+}

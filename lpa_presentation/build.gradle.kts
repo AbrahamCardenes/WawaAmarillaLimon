@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.android.plugin)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    id("jacoco")
 }
 
 android {
@@ -25,6 +26,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        debug {
+            enableUnitTestCoverage = true
         }
     }
     compileOptions {
@@ -90,4 +95,60 @@ dependencies {
     implementation(project(Modules.LPA_DOMAIN))
     implementation(project(Modules.CORE))
     implementation(project(Modules.CORE_ANDROID))
+}
+
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+val fileFilter = listOf(
+    "**/R.class",
+    "**/R$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*",
+    "**/*Test*.*",
+    "android/**/*.*"
+)
+
+tasks.withType<Test>().configureEach {
+    jacoco {
+        setExcludes(listOf("jdk.internal.*"))
+    }
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    group = "ReportingSonar"
+    description = "Generate Jacoco coverage reports after running tests."
+
+    val debugTree = fileTree(
+        mapOf(
+            "dir" to "$buildDir/intermediates/classes/debug",
+            "excludes" to fileFilter // assuming fileFilter is defined elsewhere as a List<String>
+        )
+    )
+
+    val mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
+
+    executionData.setFrom(
+        fileTree(
+            mapOf(
+                "dir" to buildDir,
+                "includes" to listOf(
+                    "jacoco/testDebugUnitTest.exec",
+                    "outputs/code-coverage/connected/*coverage.ec"
+                )
+            )
+        )
+    )
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }

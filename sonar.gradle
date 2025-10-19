@@ -56,7 +56,6 @@ sonar {
         property "sonar.projectKey", sonarProjectKey
         property "sonar.projectName", sonarProjectName
         property("sonar.java.coveragePlugin", "jacoco")
-        // this value stays the same for both jacoco and kover
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.java.binaries", "${rootDir}/**/build/tmp/kotlin-classes/debug")
         property("sonar.coverage.exclusions", rootProject.ext.sonar.excludeFilter)

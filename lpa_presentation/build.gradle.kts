@@ -99,7 +99,6 @@ dependencies {
 
 jacoco {
     toolVersion = "0.8.14"
-    // reportsDirectory.set(layout.buildDirectory.dir("JacocoReports"))
 }
 
 val fileFilter = listOf(

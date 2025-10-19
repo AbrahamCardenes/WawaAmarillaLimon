@@ -1,4 +1,11 @@
-## Wawas amarillo limon.
+## Wawas amarillo limón.
+
+### Project Status:
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=coverage)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
 
 ### ¿De qué va este repo?
 Es una app simple que replica algunas de las funciones de la aplicación original de la compañía de transportes públicos perteneciente a la ciudad de Las Palmas de Gran Canaria. 🇮🇨
@@ -24,6 +31,7 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
 - [Hilt](https://dagger.dev/hilt/)
 - [Firebase](https://firebase.google.com/)
 - [Ktlint](https://pinterest.github.io/ktlint/latest/)
+- [Sonar](https://sonarcloud.io/)
 - Love and coffee, specially coffee :yellow_heart: :coffee:
 
 

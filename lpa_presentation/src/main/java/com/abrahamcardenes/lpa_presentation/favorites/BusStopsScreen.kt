@@ -16,10 +16,7 @@ import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
-fun FavoritesStopsRoot(
-    favoritesStopsViewModel: FavoritesStopsViewModel = hiltViewModel<FavoritesStopsViewModel>(),
-    modifier: Modifier = Modifier
-) {
+fun FavoritesStopsRoot(favoritesStopsViewModel: FavoritesStopsViewModel = hiltViewModel<FavoritesStopsViewModel>()) {
     val uiState by favoritesStopsViewModel.uiState.collectAsStateWithLifecycle()
     FavoritesStopsScreen(
         uiState = uiState,

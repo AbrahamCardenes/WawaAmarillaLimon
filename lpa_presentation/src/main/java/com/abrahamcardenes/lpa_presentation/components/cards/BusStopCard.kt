@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_presentation.components
+package com.abrahamcardenes.lpa_presentation.components.cards
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
@@ -54,8 +54,7 @@ fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiB
             ) {
                 onClick()
             },
-        colors =
-        CardDefaults
+        colors = CardDefaults
             .cardColors()
     ) {
         Column(
@@ -94,64 +93,69 @@ fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiB
                     onIconClick(busStop)
                 }, modifier = Modifier) {
                     Crossfade(busStop.isFavorite, label = "") { isFavotite ->
-                        val favoriteIcon = if (isFavotite) {
-                            Icons.Outlined.Favorite
-                        } else {
-                            Icons.Outlined.FavoriteBorder
-                        }
-                        val tint = if (isFavotite) Color.Red else Color.Black
+                        val iconConfiguration = getFavoriteIcon(isFavotite)
                         Icon(
-                            imageVector = favoriteIcon,
+                            imageVector = iconConfiguration.icon,
                             contentDescription = null,
-                            tint = tint
+                            tint = iconConfiguration.tint
                         )
                     }
                 }
             }
 
-            AnimatedContent(busStop.isExpanded, label = "") {
-                if (it) {
-                    AnimatedContent(
-                        busStop.availableBusLines.isNullOrEmpty(),
-                        label = "available-buses-content"
-                    ) { isEmpty ->
-                        if (isEmpty) {
-                            Text(
-                                text = stringResource(R.string.no_buses_available),
-                                style = MaterialTheme.typography.bodyLarge,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        } else {
-                            Column {
-                                Spacer(modifier = Modifier.height(12.dp))
-                                busStop.availableBusLines?.forEach {
-                                    Box(
-                                        modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .border(
-                                                width = 1.5.dp,
-                                                color = MaterialTheme.colorScheme.outline,
-                                                shape = MaterialTheme.shapes.medium
-                                            )
-                                            .padding(12.dp)
-                                    ) {
-                                        Column {
-                                            Text(stringResource(R.string.line, it.number))
-                                            Text(stringResource(R.string.destination, it.destination))
-                                            Text(stringResource(R.string.arrival, it.arrivalTimeIn))
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.height(8.dp))
+            AnimatedContent(busStop.isExpanded, label = "") { isExpanded ->
+                if (!isExpanded) return@AnimatedContent
+                AnimatedContent(
+                    busStop.availableBusLines.isNullOrEmpty(),
+                    label = "available-buses-content"
+                ) { isEmpty ->
+                    if (isEmpty) {
+                        Text(
+                            text = stringResource(R.string.no_buses_available),
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        return@AnimatedContent
+                    }
+                    Column {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        busStop.availableBusLines?.forEach {
+                            Box(
+                                modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.5.dp,
+                                        color = MaterialTheme.colorScheme.outline,
+                                        shape = MaterialTheme.shapes.medium
+                                    )
+                                    .padding(12.dp)
+                            ) {
+                                Column {
+                                    Text(stringResource(R.string.line, it.number))
+                                    Text(stringResource(R.string.destination, it.destination))
+                                    Text(stringResource(R.string.arrival, it.arrivalTimeIn))
                                 }
                             }
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun getFavoriteIcon(isFavorite: Boolean): IconConfiguration {
+    val favoriteIcon = if (isFavorite) {
+        Icons.Outlined.Favorite
+    } else {
+        Icons.Outlined.FavoriteBorder
+    }
+    val tint = if (isFavorite) Color.Red else Color.Black
+    return IconConfiguration(favoriteIcon, tint)
 }
 
 @PreviewLightDark

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.components.BusStopCard
 import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextField
+import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextFieldConfig
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
@@ -66,8 +67,10 @@ fun BusStopsList(
         }
 
         BusTextField(
-            label = stringResource(R.string.search_bus_stop_textfield),
-            value = textFieldInput,
+            busTextFieldConfig = BusTextFieldConfig(
+                label = stringResource(R.string.search_bus_stop_textfield),
+                value = textFieldInput
+            ),
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp),

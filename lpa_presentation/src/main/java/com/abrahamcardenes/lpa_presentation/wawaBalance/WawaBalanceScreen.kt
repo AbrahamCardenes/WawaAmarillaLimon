@@ -52,6 +52,7 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.components.notifications.NotificationMessage
 import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextField
+import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextFieldConfig
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 import com.abrahamcardenes.lpa_presentation.wawaBalance.components.BalanceCard
@@ -184,15 +185,17 @@ fun WawaBalanceContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             BusTextField(
-                label = stringResource(R.string.put_here_card_number),
-                keyboardType = KeyboardType.Number,
-                value = uiState.cardNumber,
+                busTextFieldConfig = BusTextFieldConfig(
+                    label = stringResource(R.string.put_here_card_number),
+                    keyboardType = KeyboardType.Number,
+                    value = uiState.cardNumber,
+                    keyboardActions = KeyboardActions(onDone = {
+                        onGetBalance()
+                        keyboardController?.hide()
+                    }),
+                    trailingIcon = null
+                ),
                 onUserInput = onCardNumberChange,
-                keyboardActions = KeyboardActions(onDone = {
-                    onGetBalance()
-                    keyboardController?.hide()
-                }),
-                trailingIcon = null,
                 modifier = Modifier
                     .weight(1f)
 

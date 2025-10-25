@@ -7,18 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.R
@@ -26,31 +21,27 @@ import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 
 @Composable
 fun BusTextField(
-    label: String,
-    value: String,
+    busTextFieldConfig: BusTextFieldConfig,
     onUserInput: (String) -> Unit,
     modifier: Modifier = Modifier,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    isError: Boolean = false,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    trailingIcon: @Composable (() -> Unit)? = { Icon(imageVector = Icons.Outlined.Search, contentDescription = null) }
+    isError: Boolean = false
 ) {
     OutlinedTextField(
-        value = value,
+        value = busTextFieldConfig.value,
         onValueChange = { input ->
             onUserInput(input)
         },
         singleLine = true,
         label = {
             Text(
-                text = label,
+                text = busTextFieldConfig.label,
                 style = MaterialTheme.typography.labelLarge
             )
         },
-        trailingIcon = trailingIcon,
+        trailingIcon = busTextFieldConfig.trailingIcon,
         isError = isError,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        keyboardActions = keyboardActions,
+        keyboardOptions = KeyboardOptions(keyboardType = busTextFieldConfig.keyboardType),
+        keyboardActions = busTextFieldConfig.keyboardActions,
         modifier =
         modifier
             .fillMaxWidth()
@@ -67,13 +58,17 @@ fun BusTextFieldPreview() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             BusTextField(
-                label = stringResource(R.string.search_bus_stop_textfield),
-                value = "",
+                busTextFieldConfig = BusTextFieldConfig(
+                    label = stringResource(R.string.search_bus_stop_textfield),
+                    value = ""
+                ),
                 onUserInput = {}
             )
             BusTextField(
-                label = stringResource(R.string.search_bus_stop_textfield),
-                value = "PASEO DE SAN JOSÉ",
+                busTextFieldConfig = BusTextFieldConfig(
+                    label = stringResource(id = R.string.search_bus_stop_textfield),
+                    value = "PASEO DE SAN JOSÉ"
+                ),
                 onUserInput = {}
             )
         }

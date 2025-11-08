@@ -2,7 +2,7 @@ package com.abrahamcardenes.lpa_domain.models.common
 
 import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
 
-data class RGBAColor(
+data class WawaColor(
     val red: Int,
     val green: Int,
     val blue: Int,
@@ -10,7 +10,7 @@ data class RGBAColor(
 ) {
 
     companion object {
-        fun buildRgbaColorFrom(rgbString: RgbString): RGBAColor {
+        fun buildWawaColorFrom(rgbString: RgbString): WawaColor {
             val noPrefixAndSuffix = if (rgbString.contains("rgba")) {
                 rgbString.removePrefix("rgba(").removeSuffix(")")
             } else {
@@ -19,7 +19,7 @@ data class RGBAColor(
 
             val colors = noPrefixAndSuffix.split(",").map { it.trim() }
 
-            return RGBAColor(
+            return WawaColor(
                 red = colors[0].toInt(),
                 green = colors[1].toInt(),
                 blue = colors[2].toInt(),

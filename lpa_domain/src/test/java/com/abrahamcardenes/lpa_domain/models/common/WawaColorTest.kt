@@ -1,13 +1,13 @@
 package com.abrahamcardenes.lpa_domain.models.common
 
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor.Companion.buildRgbaColorFrom
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor.Companion.buildWawaColorFrom
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RGBAColorTest {
+class WawaColorTest {
     @Test
     fun `Given a RGB string color it should return a RGBColor`() {
-        val expected = RGBAColor(
+        val expected = WawaColor(
             red = 188,
             green = 228,
             blue = 246,
@@ -15,12 +15,12 @@ class RGBAColorTest {
         )
         val rgbString = "rgb(188, 228, 246)"
 
-        assertThat(buildRgbaColorFrom(rgbString)).isEqualTo(expected)
+        assertThat(buildWawaColorFrom(rgbString)).isEqualTo(expected)
     }
 
     @Test
     fun `Given a RGBA string color it should return a RGBColor`() {
-        val expected = RGBAColor(
+        val expected = WawaColor(
             red = 0,
             green = 0,
             blue = 0,
@@ -28,13 +28,13 @@ class RGBAColorTest {
         )
         val rgbaString = "rgba(0, 0, 0, 0)"
 
-        assertThat(buildRgbaColorFrom(rgbaString)).isEqualTo(expected)
+        assertThat(buildWawaColorFrom(rgbaString)).isEqualTo(expected)
     }
 
     @Test
     fun `Given a RGBColor it should return a Rgba string color`() {
         val expected = "rgb(188, 228, 246)"
-        val rgbaString = RGBAColor(
+        val rgbaString = WawaColor(
             red = 188,
             green = 228,
             blue = 246,

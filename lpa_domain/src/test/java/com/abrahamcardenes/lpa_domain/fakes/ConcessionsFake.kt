@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_domain.fakes
 
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
 
@@ -9,7 +9,7 @@ fun concessionsFake(): Concessions = Concessions(
         ConcessionDetails(
             name = "Puerto - Hoya de La Plata",
             commercial = "12",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 226,
                 green = 0,
                 blue = 26,
@@ -19,7 +19,7 @@ fun concessionsFake(): Concessions = Concessions(
         ConcessionDetails(
             name = "Mercado de Vegueta - Tres Palmas",
             commercial = "13",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 185,
                 green = 102,
                 blue = 161,
@@ -29,7 +29,7 @@ fun concessionsFake(): Concessions = Concessions(
         ConcessionDetails(
             name = "Teatro - Tamaraceite",
             commercial = "L3",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 188,
                 green = 228,
                 blue = 246,

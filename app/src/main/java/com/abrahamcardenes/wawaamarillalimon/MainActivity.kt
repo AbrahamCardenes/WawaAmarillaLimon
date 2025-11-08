@@ -15,7 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor.Companion.buildRgbaColorFrom
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor.Companion.buildWawaColorFrom
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteScreen
 import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionsScreen
 import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsRoot
@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
                             val rgbColorString = busTimetable.rgbColorString
                             BusRouteScreen(
                                 busNumber = busNumber,
-                                rgbaColor = buildRgbaColorFrom(rgbColorString),
+                                wawaColor = buildWawaColorFrom(rgbColorString),
                                 onNavigateBack = navController::navigateUp
                             )
                         }

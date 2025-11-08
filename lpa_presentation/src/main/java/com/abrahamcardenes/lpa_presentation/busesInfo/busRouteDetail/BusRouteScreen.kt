@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun BusRouteScreen(
     busNumber: String,
-    rgbaColor: RGBAColor,
+    wawaColor: WawaColor,
     busRouteViewModel: BusRouteViewModel = hiltViewModel<BusRouteViewModel>(),
     onNavigateBack: () -> Unit
 ) {
@@ -64,7 +64,7 @@ fun BusRouteScreen(
 
     BusRouteUi(
         commercialLine = busNumber,
-        rgbaColor = rgbaColor,
+        wawaColor = wawaColor,
         uiState = busRouteUiState,
         availableGoRouteStops = availableGoRouteStops,
         availableBackRouteStops = availableBackRouteStops,
@@ -84,7 +84,7 @@ fun BusRouteScreen(
 @Composable
 fun BusRouteUi(
     commercialLine: String,
-    rgbaColor: RGBAColor,
+    wawaColor: WawaColor,
     uiState: BusRouteUiState,
     availableGoRouteStops: List<RouteStop>,
     availableBackRouteStops: List<RouteStop>,
@@ -148,7 +148,7 @@ fun BusRouteUi(
                     topBar = {
                         BusRouteTopAppBar(
                             commercial = commercialLine,
-                            rgbaColor = rgbaColor,
+                            wawaColor = wawaColor,
                             title = busRoute!!.name,
                             onNavigateBack = onNavigateBack,
                             scrollBehavior = scrollBehavior
@@ -215,7 +215,7 @@ private fun TimetablePreview() {
         val tresPalmasNode = "Tres Palmas"
         BusRouteUi(
             commercialLine = "10",
-            rgbaColor = RGBAColor(
+            wawaColor = WawaColor(
                 red = 185,
                 green = 102,
                 blue = 161,
@@ -226,7 +226,7 @@ private fun TimetablePreview() {
                 busRoute = BusRoute(
                     line = "13",
                     name = "$mercadoVeguetaNode - $tresPalmasNode",
-                    color = RGBAColor(
+                    color = WawaColor(
                         red = 185,
                         green = 102,
                         blue = 161,
@@ -237,7 +237,7 @@ private fun TimetablePreview() {
                         Variants(
                             type = "A",
                             name = "$mercadoVeguetaNode - $tresPalmasNode",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 185,
                                 green = 102,
                                 blue = 161,
@@ -249,7 +249,7 @@ private fun TimetablePreview() {
                         Variants(
                             type = "B",
                             name = "$tresPalmasNode - $mercadoVeguetaNode",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 185,
                                 green = 102,
                                 blue = 161,
@@ -304,7 +304,7 @@ private fun TimetablePreview() {
                             node = mercadoVeguetaNode,
                             typology = "De lunes a viernes",
                             time = "06:55",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 245,
                                 green = 245,
                                 blue = 245,
@@ -315,7 +315,7 @@ private fun TimetablePreview() {
                             node = mercadoVeguetaNode,
                             typology = "Sábado",
                             time = "08:05",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 0,
                                 green = 0,
                                 blue = 0,
@@ -326,7 +326,7 @@ private fun TimetablePreview() {
                             node = mercadoVeguetaNode,
                             typology = "Domingo y festivo",
                             time = "07:50",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 245,
                                 green = 245,
                                 blue = 245,
@@ -338,7 +338,7 @@ private fun TimetablePreview() {
                             node = tresPalmasNode,
                             typology = "De lunes a viernes",
                             time = "06:10",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 245,
                                 green = 245,
                                 blue = 245,
@@ -349,7 +349,7 @@ private fun TimetablePreview() {
                             node = tresPalmasNode,
                             typology = "Sábado",
                             time = "07:10",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 245,
                                 green = 245,
                                 blue = 245,
@@ -360,7 +360,7 @@ private fun TimetablePreview() {
                             node = tresPalmasNode,
                             typology = "Domingo y festivo",
                             time = "08:35",
-                            color = RGBAColor(
+                            color = WawaColor(
                                 red = 0,
                                 green = 0,
                                 blue = 0,

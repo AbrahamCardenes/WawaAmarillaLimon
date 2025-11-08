@@ -33,7 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
@@ -141,7 +141,7 @@ fun AvailablePathsPreview() {
                 Variants(
                     type = "A",
                     name = "Mercado de Vegueta - Tres Palmas",
-                    color = RGBAColor(
+                    color = WawaColor(
                         red = 185,
                         green = 102,
                         blue = 161,

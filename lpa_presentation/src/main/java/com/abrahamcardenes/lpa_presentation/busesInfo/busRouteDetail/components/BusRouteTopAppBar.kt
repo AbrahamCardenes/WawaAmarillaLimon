@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_presentation.busesInfo.components.BusLineNumberCircle
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
@@ -35,7 +35,7 @@ import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
 @OptIn(ExperimentalMaterial3Api::class)
 fun BusRouteTopAppBar(
     commercial: String,
-    rgbaColor: RGBAColor,
+    wawaColor: WawaColor,
     title: String,
     onNavigateBack: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
@@ -60,7 +60,7 @@ fun BusRouteTopAppBar(
 
             ) {
                 BusLineNumberCircle(
-                    dynamicColor = getComposeColorFromRGBAColor(rgbaColor),
+                    dynamicColor = getComposeColorFromRGBAColor(wawaColor),
                     commercialName = commercial.toString(),
                     modifier = Modifier.size(circleSize)
                 )
@@ -92,7 +92,7 @@ fun TimetableTopBarPreview() {
 
         BusRouteTopAppBar(
             commercial = "1",
-            rgbaColor = RGBAColor(
+            wawaColor = WawaColor(
                 red = 185,
                 green = 102,
                 blue = 161,

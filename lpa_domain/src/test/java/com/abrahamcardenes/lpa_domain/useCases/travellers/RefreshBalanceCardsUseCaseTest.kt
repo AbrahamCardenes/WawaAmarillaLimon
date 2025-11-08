@@ -98,4 +98,29 @@ class RefreshBalanceCardsUseCaseTest {
             crashlyticsService.logException(any<Throwable>())
         }
     }
+
+    @Test
+    fun `Given a card Where it fails with unknown null error it should return the original card AND log the error`() = runTest {
+        val wawaCardBalance = mockedWawaCardBalance().copy(code = "12345", balance = 10.0, date = "03-02-2025 11:30:21")
+        coEvery { crashlyticsService.logException(any()) } returns Unit
+
+        coEvery {
+            repository.getBalance(cardNumber = wawaCardBalance.code)
+        } returns Result.Error(DataError.Remote.UnknownError(null))
+
+        val result = refreshBalanceCardsUseCase(
+            wawaCards = listOf(
+                wawaCardBalance
+            )
+        )
+
+        assertThat(result).isEqualTo(listOf(wawaCardBalance))
+
+        coVerify {
+            repository.getBalance(any())
+            crashlyticsService.logException(
+                match { it is Exception && it.message == "Null exception in Data Error Unknown" }
+            )
+        }
+    }
 }

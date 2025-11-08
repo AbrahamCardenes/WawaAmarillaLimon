@@ -1,5 +1,9 @@
 package com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components
 
+import androidx.compose.foundation.MarqueeAnimationMode
+import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +26,7 @@ import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 @Composable
 fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modifier = Modifier) {
     val scrollState = rememberLazyListState()
+
     LazyColumn(
         state = scrollState,
         modifier = modifier
@@ -33,15 +38,32 @@ fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modi
                     .fillMaxWidth()
                     .animateItem()
             ) {
-                Text(
-                    text = routeStop.number + " - " + routeStop.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                Row(
                     modifier = Modifier
                         .padding(vertical = 12.dp, horizontal = 16.dp)
                         .fillMaxWidth()
-                )
+                ) {
+                    Text(
+                        text = "${routeStop.number} - ",
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = routeStop.name,
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .basicMarquee(
+                                initialDelayMillis = 1000,
+                                animationMode = MarqueeAnimationMode.Immediately,
+                                spacing = MarqueeSpacing.fractionOfContainer(1 / 4f),
+                                velocity = 45.dp,
+                                repeatDelayMillis = 1500
+                            )
+                            .weight(1f)
+                    )
+                }
             }
             HorizontalDivider()
         }
@@ -77,7 +99,7 @@ fun AvailableStopsByVariantPreview() {
                     variants = listOf("A")
                 ),
                 RouteStop(
-                    number = "936",
+                    number = "931",
                     name = tresPalmas,
                     gpsCoordinates = GpsCoordinates(
                         latitude = 28.06985503,
@@ -87,7 +109,7 @@ fun AvailableStopsByVariantPreview() {
                     variants = listOf("B")
                 ),
                 RouteStop(
-                    number = "993",
+                    number = "9",
                     name = mercadoVegueta,
                     gpsCoordinates = GpsCoordinates(
                         latitude = 28.10265634,

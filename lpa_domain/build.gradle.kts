@@ -97,6 +97,11 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     group = "ReportingSonar"
     description = "Generate Jacoco coverage reports after running tests."
 
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
     val debugTree = fileTree(
         mapOf(
             "dir" to "$buildDir/intermediates/classes/debug",
@@ -120,10 +125,4 @@ tasks.register<JacocoReport>("jacocoTestReport") {
             )
         )
     )
-
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
-        csv.required.set(false)
-    }
 }

@@ -12,7 +12,6 @@ ext.sonar = [
                 "**/BuildConfig.*",
                 "**/Manifest*.*",
                 "**/*Test*.*",
-                "*/core",
                 "**/lpa_presentation/src/main/java/com/abrahamcardenes/lpa_presentation/components/*",
                 "**/lpa_presentation/**/**Screen.kt",
                 "**/lpa_presentation/**/components/**",

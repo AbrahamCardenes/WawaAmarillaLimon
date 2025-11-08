@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes
 
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
 import com.abrahamcardenes.lpa_domain.valueObjects.VariantLetter
 
 data class RouteStop(

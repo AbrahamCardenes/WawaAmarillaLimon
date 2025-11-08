@@ -25,7 +25,6 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
                     "androidx.core.*",
                     "com.android.*",
                     "android.*",
-                    "*/core",
             ]
         }
 

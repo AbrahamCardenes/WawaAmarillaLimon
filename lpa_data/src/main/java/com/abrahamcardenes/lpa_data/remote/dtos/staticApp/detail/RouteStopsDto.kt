@@ -1,7 +1,7 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail
 
 import com.abrahamcardenes.lpa_data.data.mappers.latitudeOrLongitudeToDouble
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

@@ -14,13 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.utils.getComposeColorFromRGBAColor
 
 @Composable
-fun ConcessionCard(concession: ConcessionDetails, onClick: (String, RGBAColor) -> Unit, modifier: Modifier = Modifier) {
+fun ConcessionCard(concession: ConcessionDetails, onClick: (String, WawaColor) -> Unit, modifier: Modifier = Modifier) {
     val dynamicColor = getComposeColorFromRGBAColor(concession.color)
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -64,11 +64,11 @@ fun ConcessionCardPreview() {
             concession = ConcessionDetails(
                 commercial = "91",
                 name = "Teatro - Tamaraceite",
-                color = RGBAColor(
+                color = WawaColor(
                     red = 0,
                     green = 144,
                     blue = 54,
-                    alpha = 1
+                    alpha = 1f
                 )
             )
         )

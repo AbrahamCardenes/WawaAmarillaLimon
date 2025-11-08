@@ -1,7 +1,7 @@
 package com.abrahamcardenes.lpa_presentation.fakes
 
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
@@ -10,11 +10,11 @@ import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 fun busRouteFake(): BusRoute = BusRoute(
     line = "50",
     name = "Ciudad Deportiva Gran Canaria - Zárate",
-    color = RGBAColor(
+    color = WawaColor(
         red = 185,
         green = 102,
         blue = 161,
-        alpha = 1
+        alpha = 1f
     ),
     nodes = listOf(
         "Ciudad Deportiva Gran Canaria",
@@ -24,11 +24,11 @@ fun busRouteFake(): BusRoute = BusRoute(
         Variants(
             type = "A",
             name = "Ciudad Deportiva Gran Canaria - Zárate",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             )
         )
     ),
@@ -36,21 +36,21 @@ fun busRouteFake(): BusRoute = BusRoute(
         Variants(
             type = "B",
             name = "Zárate - Ciudad Deportiva Gran Canaria",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             )
         ),
         Variants(
             type = "D",
             name = "Estas expediciones no circulan por Francisco Inglott Artiles",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
     ),
@@ -131,44 +131,44 @@ fun schedulesFake(): List<BusSchedule> = listOf(
         node = "Ciudad Deportiva Gran Canaria",
         typology = "De lunes a viernes",
         time = "06:55",
-        color = RGBAColor(
+        color = WawaColor(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
         node = "Ciudad Deportiva Gran Canaria",
         typology = "De lunes a viernes",
         time = "7:30",
-        color = RGBAColor(
+        color = WawaColor(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
         node = "Ciudad Deportiva Gran Canaria",
         typology = "Sábado",
         time = "08:05",
-        color = RGBAColor(
+        color = WawaColor(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 0
+            alpha = 0f
         )
     ),
     BusSchedule(
         node = "Ciudad Deportiva Gran Canaria",
         typology = "Domingo y festivo",
         time = "07:50",
-        color = RGBAColor(
+        color = WawaColor(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
 
@@ -176,22 +176,22 @@ fun schedulesFake(): List<BusSchedule> = listOf(
         node = "Zárate",
         typology = "De lunes a viernes",
         time = "06:10",
-        color = RGBAColor(
+        color = WawaColor(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
         node = "Zárate",
         typology = "Sábado",
         time = "07:10",
-        color = RGBAColor(
+        color = WawaColor(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         ),
         variantLetter = "D"
     ),
@@ -199,11 +199,11 @@ fun schedulesFake(): List<BusSchedule> = listOf(
         node = "Zárate",
         typology = "Domingo y festivo",
         time = "08:35",
-        color = RGBAColor(
+        color = WawaColor(
             red = 231,
             green = 157,
             blue = 214,
-            alpha = 1
+            alpha = 1f
         ),
         variantLetter = "D"
     ),
@@ -211,11 +211,11 @@ fun schedulesFake(): List<BusSchedule> = listOf(
         node = "Zárate",
         typology = "Domingo y festivo",
         time = "10:20",
-        color = RGBAColor(
+        color = WawaColor(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 0
+            alpha = 0f
         )
     )
 

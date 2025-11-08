@@ -14,12 +14,12 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 
-class RefreshBalanceCardsUseCase @Inject constructor(
+class FetchWawaBalanceUseCase @Inject constructor(
     private val repository: TravellersRepository,
     private val crashlyticsService: CrashlyticsService
 ) {
-    suspend operator fun invoke(wawaCards: List<WawaCardBalance>): List<WawaCardBalance> {
-        val semaphore = Semaphore(10)
+    suspend operator fun invoke(wawaCards: List<WawaCardBalance>, saturationThreshold: Int = 10): List<WawaCardBalance> {
+        val semaphore = Semaphore(permits = saturationThreshold)
         val updatedCards = supervisorScope {
             wawaCards.map {
                 async {

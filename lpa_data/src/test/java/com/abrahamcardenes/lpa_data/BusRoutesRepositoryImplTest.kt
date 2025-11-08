@@ -5,8 +5,8 @@ import com.abrahamcardenes.lpa_data.data.BusRoutesRepositoryImpl
 import com.abrahamcardenes.lpa_data.jsons.shortStaticAppLinesJson
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
 import com.abrahamcardenes.lpa_data.utils.ServerMocks
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
@@ -51,31 +51,31 @@ class BusRoutesRepositoryImplTest {
                     ConcessionDetails(
                         name = "Puerto - Hoya de La Plata",
                         commercial = "12",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 226,
                             green = 0,
                             blue = 26,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     ConcessionDetails(
                         name = "Mercado de Vegueta - Tres Palmas",
                         commercial = "13",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     ConcessionDetails(
                         name = "Teatro - Tamaraceite",
                         commercial = "L3",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 188,
                             green = 228,
                             blue = 246,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
 
@@ -97,22 +97,22 @@ class BusRoutesRepositoryImplTest {
             BusRoute(
                 line = "13",
                 name = "Mercado de Vegueta - Tres Palmas",
-                color = RGBAColor(
+                color = WawaColor(
                     red = 185,
                     green = 102,
                     blue = 161,
-                    alpha = 1
+                    alpha = 1f
                 ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = listOf(
                     Variants(
                         type = "A",
                         name = "Mercado de Vegueta - Tres Palmas",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 ),
@@ -120,11 +120,11 @@ class BusRoutesRepositoryImplTest {
                     Variants(
                         type = "B",
                         name = "Tres Palmas - Mercado de Vegueta",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 ),
@@ -175,33 +175,33 @@ class BusRoutesRepositoryImplTest {
                         node = "Mercado de Vegueta",
                         typology = "De lunes a viernes",
                         time = "06:55",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     BusSchedule(
                         node = "Mercado de Vegueta",
                         typology = "Sábado",
                         time = "08:05",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     ),
                     BusSchedule(
                         node = "Mercado de Vegueta",
                         typology = "Domingo y festivo",
                         time = "07:50",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
 
@@ -209,22 +209,22 @@ class BusRoutesRepositoryImplTest {
                         node = "Tres Palmas",
                         typology = "De lunes a viernes",
                         time = "06:10",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     BusSchedule(
                         node = "Tres Palmas",
                         typology = "Sábado",
                         time = "07:10",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variantLetter = "F"
                     ),
@@ -232,11 +232,11 @@ class BusRoutesRepositoryImplTest {
                         node = "Tres Palmas",
                         typology = "Domingo y festivo",
                         time = "08:35",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -257,11 +257,11 @@ class BusRoutesRepositoryImplTest {
             BusRoute(
                 line = "13",
                 name = "Mercado de Vegueta - Tres Palmas",
-                color = RGBAColor(
+                color = WawaColor(
                     red = 185,
                     green = 102,
                     blue = 161,
-                    alpha = 1
+                    alpha = 1f
                 ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = emptyList(),

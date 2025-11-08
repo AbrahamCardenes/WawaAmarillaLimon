@@ -99,7 +99,6 @@ class RefreshBalanceCardsUseCaseTest {
         }
     }
 
-
     @Test
     fun `Given a card Where it fails with unknown null error it should return the original card AND log the error`() = runTest {
         val wawaCardBalance = mockedWawaCardBalance().copy(code = "12345", balance = 10.0, date = "03-02-2025 11:30:21")

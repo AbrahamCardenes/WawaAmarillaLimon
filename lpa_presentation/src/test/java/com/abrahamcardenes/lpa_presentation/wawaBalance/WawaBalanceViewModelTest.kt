@@ -6,8 +6,8 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
+import com.abrahamcardenes.lpa_domain.useCases.travellers.FetchWawaBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
-import com.abrahamcardenes.lpa_domain.useCases.travellers.RefreshBalanceCardsUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
 import com.google.common.truth.Truth.assertThat
@@ -34,7 +34,7 @@ class WawaBalanceViewModelTest {
     private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
     private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true) // TODO: fake emitting class for DB getAll.
-    private val refreshBalanceCardsUseCase = mockk<RefreshBalanceCardsUseCase>(relaxed = true)
+    private val fetchWawaBalanceUseCase = mockk<FetchWawaBalanceUseCase>(relaxed = true)
     private val dispatchers = TestsDispatchers
 
     @Before
@@ -43,7 +43,7 @@ class WawaBalanceViewModelTest {
             getBalanceUseCase = getBalanceUseCase,
             crashlyticsService = crashlyticsService,
             balanceDbUseCases = balanceDbUseCases,
-            refreshBalanceCardsUseCase = refreshBalanceCardsUseCase,
+            fetchWawaBalanceUseCase = fetchWawaBalanceUseCase,
             dispatchers = dispatchers
         )
     }

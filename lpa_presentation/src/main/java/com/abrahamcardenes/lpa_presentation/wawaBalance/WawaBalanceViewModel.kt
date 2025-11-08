@@ -9,8 +9,8 @@ import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
+import com.abrahamcardenes.lpa_domain.useCases.travellers.FetchWawaBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
-import com.abrahamcardenes.lpa_domain.useCases.travellers.RefreshBalanceCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class WawaBalanceViewModel @Inject constructor(
-    private val refreshBalanceCardsUseCase: RefreshBalanceCardsUseCase,
+    private val fetchWawaBalanceUseCase: FetchWawaBalanceUseCase,
     private val getBalanceUseCase: GetBalanceUseCase,
     private val balanceDbUseCases: BalanceDbUseCases,
     private val crashlyticsService: CrashlyticsService,
@@ -99,7 +99,7 @@ class WawaBalanceViewModel @Inject constructor(
             _balanceUiState.update { state ->
                 state
                     .copy(
-                        wawaCards = refreshBalanceCardsUseCase(_balanceUiState.value.wawaCards),
+                        wawaCards = fetchWawaBalanceUseCase(_balanceUiState.value.wawaCards),
                         isRefreshing = false
                     )
             }

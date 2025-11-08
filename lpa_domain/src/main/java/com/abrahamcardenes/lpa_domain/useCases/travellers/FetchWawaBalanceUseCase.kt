@@ -14,7 +14,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 
-class RefreshBalanceCardsUseCase @Inject constructor(
+class FetchWawaBalanceUseCase @Inject constructor(
     private val repository: TravellersRepository,
     private val crashlyticsService: CrashlyticsService
 ) {

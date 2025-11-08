@@ -15,14 +15,14 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class RefreshBalanceCardsUseCaseTest {
+class FetchWawaBalanceUseCaseTest {
     private val repository = mockk<TravellersRepository>()
     private val crashlyticsService = mockk<CrashlyticsService>()
-    private lateinit var refreshBalanceCardsUseCase: RefreshBalanceCardsUseCase
+    private lateinit var fetchWawaBalanceUseCase: FetchWawaBalanceUseCase
 
     @Before
     fun setup() {
-        refreshBalanceCardsUseCase = RefreshBalanceCardsUseCase(
+        fetchWawaBalanceUseCase = FetchWawaBalanceUseCase(
             repository = repository,
             crashlyticsService = crashlyticsService
         )
@@ -51,7 +51,7 @@ class RefreshBalanceCardsUseCaseTest {
             repository.getBalance(cardNumber = secondCard.code)
         } returns Result.Success(secondCard.copy(date = "03-07-2025 09:30:20", balance = 5.50))
 
-        val result = refreshBalanceCardsUseCase(
+        val result = fetchWawaBalanceUseCase(
             wawaCards = listOf(
                 firstCard,
                 secondCard
@@ -84,7 +84,7 @@ class RefreshBalanceCardsUseCaseTest {
             repository.getBalance(cardNumber = secondCard.code)
         } returns Result.Error(DataError.Remote.UnknownError(Exception("Unknown exception from API call")))
 
-        val result = refreshBalanceCardsUseCase(
+        val result = fetchWawaBalanceUseCase(
             wawaCards = listOf(
                 firstCard,
                 secondCard
@@ -110,7 +110,7 @@ class RefreshBalanceCardsUseCaseTest {
             repository.getBalance(cardNumber = wawaCardBalance.code)
         } returns Result.Error(DataError.Remote.UnknownError(null))
 
-        val result = refreshBalanceCardsUseCase(
+        val result = fetchWawaBalanceUseCase(
             wawaCards = listOf(
                 wawaCardBalance
             ),
@@ -136,7 +136,7 @@ class RefreshBalanceCardsUseCaseTest {
             repository.getBalance(cardNumber = wawaCardBalance.code)
         } returns Result.Error(DataError.Remote.NoInternet)
 
-        val result = refreshBalanceCardsUseCase(
+        val result = fetchWawaBalanceUseCase(
             wawaCards = listOf(
                 wawaCardBalance
             ),

@@ -92,6 +92,8 @@ fun SchedulesDialog(showDialog: Boolean, openOrCloseScheduleDialog: () -> Unit, 
 @OptIn(ExperimentalLayoutApi::class)
 fun SchedulesDialogPreview() {
     MaterialTheme {
+        val whiteSmokeColor = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+        val blackColor = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
         SchedulesDialog(
             showDialog = true,
             openOrCloseScheduleDialog = {},
@@ -102,31 +104,31 @@ fun SchedulesDialogPreview() {
                     time = listOf(
                         TimeUi(
                             time = "06:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "06:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "06:30",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "06:45",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "07:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "07:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "07:30",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         )
                     )
                 ),
@@ -136,31 +138,31 @@ fun SchedulesDialogPreview() {
                     time = listOf(
                         TimeUi(
                             time = "06:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "06:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "06:30",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "06:45",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "07:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
+                            color = whiteSmokeColor
                         ),
                         TimeUi(
                             time = "07:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         ),
                         TimeUi(
                             time = "07:30",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
+                            color = blackColor
                         )
                     )
                 )

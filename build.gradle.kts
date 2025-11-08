@@ -34,3 +34,30 @@ task("addPreCommitGitHookOnBuild") {
     }
     println("✅ Added Pre Commit")
 }
+
+tasks.register("setupGitHooks") {
+    group = "git"
+    description = "Checks for pre-commit hook"
+    doLast {
+        val hooksDir = File(rootDir, ".git/hooks")
+        val preCommitHook = File(hooksDir, "pre-commit")
+
+        if (preCommitHook.exists()) {
+            println("Setting executable permission on pre-commit hook...")
+            val success = preCommitHook.setExecutable(true)
+            if (success) {
+                println("✅ pre-commit hook is now executable.")
+            } else {
+                println("⚠️ Failed to set executable permission. You may need to run `chmod +x .git/hooks/pre-commit` manually.")
+            }
+        } else {
+            println("⚠️ No pre-commit hook found in .git/hooks/.")
+        }
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.matching { it.name == "preBuild" }.configureEach {
+        dependsOn("setupGitHooks")
+    }
+}

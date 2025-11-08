@@ -8,11 +8,11 @@ import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import javax.inject.Inject
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
-import kotlinx.coroutines.sync.withPermit
 
 class RefreshBalanceCardsUseCase @Inject constructor(
     private val repository: TravellersRepository,

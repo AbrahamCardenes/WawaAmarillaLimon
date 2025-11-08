@@ -4,7 +4,7 @@ import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.concessions.Concession
 import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.concessions.ConcessionsDto
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
-import com.abrahamcardenes.lpa_domain.valueObjects.toRGBAColor
+import com.abrahamcardenes.lpa_domain.valueObjects.toRgba
 
 fun ConcessionsDto.toDomain(): Concessions = Concessions(
     this.concessions.map { it.toDomain() }
@@ -13,5 +13,5 @@ fun ConcessionsDto.toDomain(): Concessions = Concessions(
 fun ConcessionStaticAppDto.toDomain(): ConcessionDetails = ConcessionDetails(
     name = this.name,
     commercial = this.commercial,
-    color = this.color.toRGBAColor()
+    color = this.color.toRgba()
 )

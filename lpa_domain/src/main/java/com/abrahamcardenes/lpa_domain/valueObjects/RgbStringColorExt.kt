@@ -2,9 +2,9 @@ package com.abrahamcardenes.lpa_domain.valueObjects
 
 import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 
-typealias RgbaStringColor = String
+typealias RgbString = String
 
-fun RgbaStringColor.toRGBAColor(): RGBAColor {
+fun RgbString.toRgba(): RGBAColor {
     val noPrefixAndSuffix = if (this.contains("rgba")) {
         this.removePrefix("rgba(").removeSuffix(")")
     } else {
@@ -21,4 +21,4 @@ fun RgbaStringColor.toRGBAColor(): RGBAColor {
     )
 }
 
-fun RGBAColor.toRgbStringColor(): RgbaStringColor = "rgb(${this.red}, ${this.green}, ${this.blue})"
+fun RGBAColor.toRgbString(): RgbString = "rgb(${this.red}, ${this.green}, ${this.blue})"

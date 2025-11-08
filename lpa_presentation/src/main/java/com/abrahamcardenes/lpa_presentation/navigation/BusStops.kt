@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_presentation.navigation
 
-import com.abrahamcardenes.lpa_domain.valueObjects.RgbaStringColor
+import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
 import kotlinx.serialization.Serializable
 
 interface NavRoutes
@@ -18,7 +18,7 @@ object Concessions : NavRoutes
 object WawaBalance : NavRoutes
 
 @Serializable
-data class BusTimetable(val busNumber: String, val rgbColorString: RgbaStringColor) : NavRoutes
+data class BusTimetable(val busNumber: String, val rgbColorString: RgbString) : NavRoutes
 
 fun NavRoutes.getLabels(): String = when (this) {
     is BusStops -> "Paradas"

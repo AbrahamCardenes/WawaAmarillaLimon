@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.concessions
 
-import com.abrahamcardenes.lpa_domain.valueObjects.RgbaStringColor
+import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -11,5 +11,5 @@ data class ConcessionStaticAppDto(
     @field:Json(name = "Comercial")
     val commercial: String,
     @field:Json(name = "Color")
-    val color: RgbaStringColor
+    val color: RgbString
 )

@@ -4,7 +4,7 @@ import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RgbaStringColorTest {
+class RgbaStringColorExtTest {
 
     @Test
     fun `Given a RGB string color it should return a RGBColor`() {
@@ -16,7 +16,7 @@ class RgbaStringColorTest {
         )
         val rgbString = "rgb(188, 228, 246)"
 
-        assertThat(rgbString.toRGBAColor()).isEqualTo(expected)
+        assertThat(rgbString.toRgba()).isEqualTo(expected)
     }
 
     @Test
@@ -29,7 +29,7 @@ class RgbaStringColorTest {
         )
         val rgbaString = "rgba(0, 0, 0, 0)"
 
-        assertThat(rgbaString.toRGBAColor()).isEqualTo(expected)
+        assertThat(rgbaString.toRgba()).isEqualTo(expected)
     }
 
     @Test
@@ -42,6 +42,6 @@ class RgbaStringColorTest {
             alpha = 1
         )
 
-        assertThat(rgbaString.toRgbStringColor()).isEqualTo(expected)
+        assertThat(rgbaString.toRgbString()).isEqualTo(expected)
     }
 }

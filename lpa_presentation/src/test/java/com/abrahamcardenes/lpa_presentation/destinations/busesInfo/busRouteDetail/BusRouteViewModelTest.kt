@@ -136,7 +136,7 @@ class BusRouteViewModelTest {
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
 
@@ -204,7 +204,7 @@ class BusRouteViewModelTest {
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
 
@@ -296,7 +296,7 @@ class BusRouteViewModelTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     TimeUi(
@@ -305,7 +305,7 @@ class BusRouteViewModelTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -320,7 +320,7 @@ class BusRouteViewModelTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -335,7 +335,7 @@ class BusRouteViewModelTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -373,7 +373,7 @@ class BusRouteViewModelTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -388,7 +388,7 @@ class BusRouteViewModelTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variant = "D"
                     )
@@ -404,7 +404,7 @@ class BusRouteViewModelTest {
                             red = 231,
                             green = 157,
                             blue = 214,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variant = "D"
                     ),
@@ -414,7 +414,7 @@ class BusRouteViewModelTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -453,7 +453,7 @@ class BusRouteViewModelTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -468,7 +468,7 @@ class BusRouteViewModelTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -481,7 +481,7 @@ class BusRouteViewModelTest {
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
         coEvery {

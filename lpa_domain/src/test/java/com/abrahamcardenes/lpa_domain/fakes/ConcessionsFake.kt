@@ -13,7 +13,7 @@ fun concessionsFake(): Concessions = Concessions(
                 red = 226,
                 green = 0,
                 blue = 26,
-                alpha = 1
+                alpha = 1f
             )
         ),
         ConcessionDetails(
@@ -23,7 +23,7 @@ fun concessionsFake(): Concessions = Concessions(
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             )
         ),
         ConcessionDetails(
@@ -33,7 +33,7 @@ fun concessionsFake(): Concessions = Concessions(
                 red = 188,
                 green = 228,
                 blue = 246,
-                alpha = 1
+                alpha = 1f
             )
         )
     )

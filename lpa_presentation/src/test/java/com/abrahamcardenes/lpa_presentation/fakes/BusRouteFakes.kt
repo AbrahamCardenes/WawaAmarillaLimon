@@ -14,7 +14,7 @@ fun busRouteFake(): BusRoute = BusRoute(
         red = 185,
         green = 102,
         blue = 161,
-        alpha = 1
+        alpha = 1f
     ),
     nodes = listOf(
         "Ciudad Deportiva Gran Canaria",
@@ -28,7 +28,7 @@ fun busRouteFake(): BusRoute = BusRoute(
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             )
         )
     ),
@@ -40,7 +40,7 @@ fun busRouteFake(): BusRoute = BusRoute(
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             )
         ),
         Variants(
@@ -50,7 +50,7 @@ fun busRouteFake(): BusRoute = BusRoute(
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
     ),
@@ -135,7 +135,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
@@ -146,7 +146,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
@@ -157,7 +157,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 0
+            alpha = 0f
         )
     ),
     BusSchedule(
@@ -168,7 +168,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
 
@@ -180,7 +180,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ),
     BusSchedule(
@@ -191,7 +191,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         ),
         variantLetter = "D"
     ),
@@ -203,7 +203,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 231,
             green = 157,
             blue = 214,
-            alpha = 1
+            alpha = 1f
         ),
         variantLetter = "D"
     ),
@@ -215,7 +215,7 @@ fun schedulesFake(): List<BusSchedule> = listOf(
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 0
+            alpha = 0f
         )
     )
 

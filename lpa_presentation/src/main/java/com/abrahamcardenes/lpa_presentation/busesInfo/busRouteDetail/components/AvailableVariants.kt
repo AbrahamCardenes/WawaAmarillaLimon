@@ -145,7 +145,7 @@ fun AvailablePathsPreview() {
                         red = 185,
                         green = 102,
                         blue = 161,
-                        alpha = 1
+                        alpha = 1f
                     )
                 )
             ),

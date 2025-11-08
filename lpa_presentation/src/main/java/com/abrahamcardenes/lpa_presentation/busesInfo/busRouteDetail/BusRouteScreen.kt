@@ -219,7 +219,7 @@ private fun TimetablePreview() {
                 red = 185,
                 green = 102,
                 blue = 161,
-                alpha = 1
+                alpha = 1f
             ),
             uiState = BusRouteUiState(
                 state = BusRouteState.Success,
@@ -230,7 +230,7 @@ private fun TimetablePreview() {
                         red = 185,
                         green = 102,
                         blue = 161,
-                        alpha = 1
+                        alpha = 1f
                     ),
                     nodes = listOf(mercadoVeguetaNode, tresPalmasNode),
                     variantsGo = listOf(
@@ -241,7 +241,7 @@ private fun TimetablePreview() {
                                 red = 185,
                                 green = 102,
                                 blue = 161,
-                                alpha = 1
+                                alpha = 1f
                             )
                         )
                     ),
@@ -253,7 +253,7 @@ private fun TimetablePreview() {
                                 red = 185,
                                 green = 102,
                                 blue = 161,
-                                alpha = 1
+                                alpha = 1f
                             )
                         )
                     ),
@@ -308,7 +308,7 @@ private fun TimetablePreview() {
                                 red = 245,
                                 green = 245,
                                 blue = 245,
-                                alpha = 1
+                                alpha = 1f
                             )
                         ),
                         BusSchedule(
@@ -319,7 +319,7 @@ private fun TimetablePreview() {
                                 red = 0,
                                 green = 0,
                                 blue = 0,
-                                alpha = 0
+                                alpha = 0f
                             )
                         ),
                         BusSchedule(
@@ -330,7 +330,7 @@ private fun TimetablePreview() {
                                 red = 245,
                                 green = 245,
                                 blue = 245,
-                                alpha = 1
+                                alpha = 1f
                             )
                         ),
 
@@ -342,7 +342,7 @@ private fun TimetablePreview() {
                                 red = 245,
                                 green = 245,
                                 blue = 245,
-                                alpha = 1
+                                alpha = 1f
                             )
                         ),
                         BusSchedule(
@@ -353,7 +353,7 @@ private fun TimetablePreview() {
                                 red = 245,
                                 green = 245,
                                 blue = 245,
-                                alpha = 1
+                                alpha = 1f
                             )
                         ),
                         BusSchedule(
@@ -364,7 +364,7 @@ private fun TimetablePreview() {
                                 red = 0,
                                 green = 0,
                                 blue = 0,
-                                alpha = 0
+                                alpha = 0f
                             )
                         )
                     )

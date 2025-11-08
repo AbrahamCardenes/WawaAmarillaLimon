@@ -68,7 +68,7 @@ fun ConcessionCardPreview() {
                     red = 0,
                     green = 144,
                     blue = 54,
-                    alpha = 1
+                    alpha = 1f
                 )
             )
         )

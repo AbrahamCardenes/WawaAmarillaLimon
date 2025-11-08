@@ -29,7 +29,7 @@ fun TimeBox(timeUi: TimeUi, modifier: Modifier = Modifier) {
             red = 245,
             green = 245,
             blue = 245,
-            alpha = 1
+            alpha = 1f
         )
     ) {
         Color.Transparent
@@ -60,9 +60,9 @@ fun TimeBox(timeUi: TimeUi, modifier: Modifier = Modifier) {
 fun TimeBoxPreview() {
     MaterialTheme {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            TimeBox(timeUi = TimeUi(time = "06:00", color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)))
-            TimeBox(timeUi = TimeUi(time = "06:15", color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)))
-            TimeBox(timeUi = TimeUi(time = "06:30", color = RGBAColor(red = 231, green = 157, blue = 214, alpha = 1)))
+            TimeBox(timeUi = TimeUi(time = "06:00", color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)))
+            TimeBox(timeUi = TimeUi(time = "06:15", color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)))
+            TimeBox(timeUi = TimeUi(time = "06:30", color = RGBAColor(red = 231, green = 157, blue = 214, alpha = 1f)))
         }
     }
 }

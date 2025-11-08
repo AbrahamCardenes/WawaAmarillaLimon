@@ -102,31 +102,31 @@ fun SchedulesDialogPreview() {
                     time = listOf(
                         TimeUi(
                             time = "06:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:30",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:45",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:30",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         )
                     )
                 ),
@@ -136,31 +136,31 @@ fun SchedulesDialogPreview() {
                     time = listOf(
                         TimeUi(
                             time = "06:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:30",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "06:45",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:00",
-                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1)
+                            color = RGBAColor(red = 245, green = 245, blue = 245, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:15",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         ),
                         TimeUi(
                             time = "07:30",
-                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1)
+                            color = RGBAColor(red = 0, green = 0, blue = 0, alpha = 1f)
                         )
                     )
                 )

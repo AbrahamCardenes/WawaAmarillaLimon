@@ -1,10 +1,11 @@
 package com.abrahamcardenes.lpa_domain.valueObjects
 
 import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.core.RGBAColor.Companion.buildRgbaColorFrom
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RgbaStringColorExtTest {
+class RGBAColorTest {
 
     @Test
     fun `Given a RGB string color it should return a RGBColor`() {
@@ -12,11 +13,11 @@ class RgbaStringColorExtTest {
             red = 188,
             green = 228,
             blue = 246,
-            alpha = 1
+            alpha = 1f
         )
         val rgbString = "rgb(188, 228, 246)"
 
-        assertThat(rgbString.toRgba()).isEqualTo(expected)
+        assertThat(buildRgbaColorFrom(rgbString)).isEqualTo(expected)
     }
 
     @Test
@@ -25,11 +26,11 @@ class RgbaStringColorExtTest {
             red = 0,
             green = 0,
             blue = 0,
-            alpha = 0
+            alpha = 0f
         )
         val rgbaString = "rgba(0, 0, 0, 0)"
 
-        assertThat(rgbaString.toRgba()).isEqualTo(expected)
+        assertThat(buildRgbaColorFrom(rgbaString)).isEqualTo(expected)
     }
 
     @Test
@@ -39,7 +40,7 @@ class RgbaStringColorExtTest {
             red = 188,
             green = 228,
             blue = 246,
-            alpha = 1
+            alpha = 1f
         )
 
         assertThat(rgbaString.toRgbString()).isEqualTo(expected)

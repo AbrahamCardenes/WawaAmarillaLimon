@@ -55,7 +55,7 @@ class BusRoutesRepositoryImplTest {
                             red = 226,
                             green = 0,
                             blue = 26,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     ConcessionDetails(
@@ -65,7 +65,7 @@ class BusRoutesRepositoryImplTest {
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     ConcessionDetails(
@@ -75,7 +75,7 @@ class BusRoutesRepositoryImplTest {
                             red = 188,
                             green = 228,
                             blue = 246,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
 
@@ -101,7 +101,7 @@ class BusRoutesRepositoryImplTest {
                     red = 185,
                     green = 102,
                     blue = 161,
-                    alpha = 1
+                    alpha = 1f
                 ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = listOf(
@@ -112,7 +112,7 @@ class BusRoutesRepositoryImplTest {
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 ),
@@ -124,7 +124,7 @@ class BusRoutesRepositoryImplTest {
                             red = 185,
                             green = 102,
                             blue = 161,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 ),
@@ -179,7 +179,7 @@ class BusRoutesRepositoryImplTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     BusSchedule(
@@ -190,7 +190,7 @@ class BusRoutesRepositoryImplTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     ),
                     BusSchedule(
@@ -201,7 +201,7 @@ class BusRoutesRepositoryImplTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
 
@@ -213,7 +213,7 @@ class BusRoutesRepositoryImplTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     BusSchedule(
@@ -224,7 +224,7 @@ class BusRoutesRepositoryImplTest {
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variantLetter = "F"
                     ),
@@ -236,7 +236,7 @@ class BusRoutesRepositoryImplTest {
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -261,7 +261,7 @@ class BusRoutesRepositoryImplTest {
                     red = 185,
                     green = 102,
                     blue = 161,
-                    alpha = 1
+                    alpha = 1f
                 ),
                 nodes = listOf("Mercado de Vegueta", "Tres Palmas"),
                 variantsGo = emptyList(),

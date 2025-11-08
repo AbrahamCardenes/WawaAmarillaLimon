@@ -32,7 +32,6 @@ task("addPreCommitGitHookOnBuild") {
     exec {
         commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
     }
-    println("✅ Added Pre Commit")
 }
 
 tasks.register("setupGitHooks") {

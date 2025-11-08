@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_domain.fakes
 
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.lpa_domain.models.travellers.Concession
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance

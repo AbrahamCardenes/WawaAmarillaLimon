@@ -4,7 +4,7 @@ import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.BusRouteDto
 import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.RouteStopsDto
 import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.ScheduleStaticaDto
 import com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail.VariantsDto
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor.Companion.buildRgbaColorFrom
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor.Companion.buildRgbaColorFrom
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop

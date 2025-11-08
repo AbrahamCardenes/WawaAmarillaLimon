@@ -1,7 +1,7 @@
 package com.abrahamcardenes.lpa_domain.valueObjects
 
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor.Companion.buildRgbaColorFrom
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor.Companion.buildRgbaColorFrom
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

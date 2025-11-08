@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_domain.models.staticApp.concessions
 
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 
 data class ConcessionDetails(
     val name: String,

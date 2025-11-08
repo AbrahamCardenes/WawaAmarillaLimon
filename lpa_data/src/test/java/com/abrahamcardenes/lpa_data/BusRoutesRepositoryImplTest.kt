@@ -5,8 +5,8 @@ import com.abrahamcardenes.lpa_data.data.BusRoutesRepositoryImpl
 import com.abrahamcardenes.lpa_data.jsons.shortStaticAppLinesJson
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
 import com.abrahamcardenes.lpa_data.utils.ServerMocks
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusRoute
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.BusSchedule
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop

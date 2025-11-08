@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 import com.abrahamcardenes.lpa_presentation.busesInfo.components.ConcessionCard
 import com.abrahamcardenes.lpa_presentation.components.errors.CatError
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles

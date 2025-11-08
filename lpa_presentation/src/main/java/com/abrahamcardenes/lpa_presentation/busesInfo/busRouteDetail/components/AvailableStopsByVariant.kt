@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 

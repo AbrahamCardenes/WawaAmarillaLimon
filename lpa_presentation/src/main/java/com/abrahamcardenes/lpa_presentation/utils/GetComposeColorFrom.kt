@@ -2,7 +2,7 @@ package com.abrahamcardenes.lpa_presentation.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 
 @Composable
 fun getComposeColorFromHexHtml(hexColor: String): Color {

@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase

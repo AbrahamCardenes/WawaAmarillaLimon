@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_domain.models.core
+package com.abrahamcardenes.lpa_domain.models.common
 
 import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
 

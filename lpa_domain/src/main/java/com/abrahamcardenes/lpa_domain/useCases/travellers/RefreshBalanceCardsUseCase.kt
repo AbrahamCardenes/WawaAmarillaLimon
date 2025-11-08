@@ -2,8 +2,8 @@ package com.abrahamcardenes.lpa_domain.useCases.travellers
 
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
-import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository

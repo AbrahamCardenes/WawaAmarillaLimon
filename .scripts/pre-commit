@@ -1,0 +1,31 @@
+#!/bin/bash
+echo "*********************************************************"
+echo "Running git pre-commit hook. Ktlint"
+echo "*********************************************************"
+
+# Gather the staged files - to make sure changes are saved only for these files.
+stagedFiles=$(git diff --staged --name-only)
+
+# run  ktlint
+ktlint
+
+status=$?
+
+if [ "$status" = 0 ] ; then
+    for file in $stagedFiles; do
+      if test -f "$file"; then
+        git add $file
+      fi
+    done
+    #Exit
+    exit 0
+else
+    echo "*********************************************************"
+    echo "       ********************************************      "
+    echo 1>&2 "Ktlint found some issues."
+    echo "Execute ktlint --format to fix issues."
+    echo "       ********************************************      "
+    echo "*********************************************************"
+    #Exit
+    exit 1
+fi

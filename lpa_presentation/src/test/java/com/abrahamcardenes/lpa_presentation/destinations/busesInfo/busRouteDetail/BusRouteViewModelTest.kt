@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
-import com.abrahamcardenes.lpa_domain.models.core.GpsCoordinates
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
@@ -132,11 +132,11 @@ class BusRouteViewModelTest {
         val expectedSelectedVariant = Variants(
             type = "D",
             name = "Estas expediciones no circulan por Francisco Inglott Artiles",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
 
@@ -200,11 +200,11 @@ class BusRouteViewModelTest {
         val expectedSelectedVariant = Variants(
             type = "D",
             name = "Estas expediciones no circulan por Francisco Inglott Artiles",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
 
@@ -292,20 +292,20 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "06:55",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     ),
                     TimeUi(
                         time = "7:30",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -316,11 +316,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "08:05",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -331,11 +331,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "07:50",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -369,11 +369,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "06:10",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -384,11 +384,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "07:10",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variant = "D"
                     )
@@ -400,21 +400,21 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "08:35",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 231,
                             green = 157,
                             blue = 214,
-                            alpha = 1
+                            alpha = 1f
                         ),
                         variant = "D"
                     ),
                     TimeUi(
                         time = "10:20",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -449,11 +449,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "06:10",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 245,
                             green = 245,
                             blue = 245,
-                            alpha = 1
+                            alpha = 1f
                         )
                     )
                 )
@@ -464,11 +464,11 @@ class BusRouteViewModelTest {
                 time = listOf(
                     TimeUi(
                         time = "10:20",
-                        color = RGBAColor(
+                        color = WawaColor(
                             red = 0,
                             green = 0,
                             blue = 0,
-                            alpha = 0
+                            alpha = 0f
                         )
                     )
                 )
@@ -477,11 +477,11 @@ class BusRouteViewModelTest {
         val expectedSelectedVariant = Variants(
             type = "B",
             name = "Zárate - Ciudad Deportiva Gran Canaria",
-            color = RGBAColor(
+            color = WawaColor(
                 red = 231,
                 green = 157,
                 blue = 214,
-                alpha = 1
+                alpha = 1f
             )
         )
         coEvery {

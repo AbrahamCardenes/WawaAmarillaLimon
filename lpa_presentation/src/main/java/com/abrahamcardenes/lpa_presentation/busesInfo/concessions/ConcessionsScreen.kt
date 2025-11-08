@@ -15,16 +15,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.lpa_domain.models.core.RGBAColor
+import com.abrahamcardenes.lpa_domain.models.common.WawaColor
 import com.abrahamcardenes.lpa_presentation.busesInfo.components.ConcessionCard
 import com.abrahamcardenes.lpa_presentation.components.errors.CatError
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 
 @Composable
 fun ConcessionsScreen(
-    onNavigateToTimeTable: (String, RGBAColor) -> Unit,
-    concessionsViewModel: ConcessionsViewModel = hiltViewModel<ConcessionsViewModel>(),
-    modifier: Modifier = Modifier
+    onNavigateToTimeTable: (String, WawaColor) -> Unit,
+    modifier: Modifier = Modifier,
+    concessionsViewModel: ConcessionsViewModel = hiltViewModel<ConcessionsViewModel>()
 ) {
     val uiState by concessionsViewModel.concessionUiState.collectAsStateWithLifecycle()
     AnimatedContent(uiState.concessionState) { state ->

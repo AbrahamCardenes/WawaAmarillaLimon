@@ -55,7 +55,8 @@ class RefreshBalanceCardsUseCaseTest {
             wawaCards = listOf(
                 firstCard,
                 secondCard
-            )
+            ),
+            saturationThreshold = 1
         )
 
         assertThat(result).isEqualTo(expected)
@@ -87,7 +88,8 @@ class RefreshBalanceCardsUseCaseTest {
             wawaCards = listOf(
                 firstCard,
                 secondCard
-            )
+            ),
+            saturationThreshold = 1
         )
 
         assertThat(result).isEqualTo(expected)
@@ -111,7 +113,8 @@ class RefreshBalanceCardsUseCaseTest {
         val result = refreshBalanceCardsUseCase(
             wawaCards = listOf(
                 wawaCardBalance
-            )
+            ),
+            saturationThreshold = 1
         )
 
         assertThat(result).isEqualTo(listOf(wawaCardBalance))
@@ -121,6 +124,29 @@ class RefreshBalanceCardsUseCaseTest {
             crashlyticsService.logException(
                 match { it is Exception && it.message == "Null exception in Data Error Unknown" }
             )
+        }
+    }
+
+    @Test
+    fun `Given a card Where it fails with known error it should return the original card AND does not log anything`() = runTest {
+        val wawaCardBalance = mockedWawaCardBalance().copy(code = "12345", balance = 10.0, date = "03-02-2025 11:30:21")
+        coEvery { crashlyticsService.logException(any()) } returns Unit
+
+        coEvery {
+            repository.getBalance(cardNumber = wawaCardBalance.code)
+        } returns Result.Error(DataError.Remote.NoInternet)
+
+        val result = refreshBalanceCardsUseCase(
+            wawaCards = listOf(
+                wawaCardBalance
+            ),
+            saturationThreshold = 1
+        )
+
+        assertThat(result).isEqualTo(listOf(wawaCardBalance))
+
+        coVerify {
+            repository.getBalance(any())
         }
     }
 }

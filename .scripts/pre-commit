@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Gather the staged files - to make sure changes are saved only for these files.
+stagedFiles=$(git diff --staged --name-only)
+
+# run  ktlint
+ktlint "**/src/**/*.kt"
+
+status=$?
+
+if [ "$status" = 0 ] ; then
+    for file in $stagedFiles; do
+      if test -f "$file"; then
+        git add $file
+      fi
+    done
+    #Exit
+    exit 0
+else
+    echo 1>&2 "Ktlint found some issues."
+    echo "Execute ktlint --format to fix the issues."
+    #Exit
+    exit 1
+fi

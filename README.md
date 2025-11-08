@@ -113,3 +113,7 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
     - You will need to generate your own `google-services.json` in [Firebase](https://firebase.google.com/)
     - Execute the command inside the `app` directory, or use it with `yourpPath/app/google-services.json`
     - `google-services.json`, `google-services.b64` and `google-services-decode.json` are included in `.gitignore`
+
+##### Pre-commit.
+- To allow the pre-commit to be executable you have to type into your terminal the following command:
+  - chmod +x .git/hooks/pre-commit

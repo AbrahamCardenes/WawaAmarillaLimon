@@ -27,3 +27,9 @@ apply(from = "$rootDir/sonar.gradle")
 subprojects {
     apply(from = "$rootDir/jacoco.gradle")
 }
+
+task("addPreCommitGitHookOnBuild") {
+    exec {
+        commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
+    }
+}

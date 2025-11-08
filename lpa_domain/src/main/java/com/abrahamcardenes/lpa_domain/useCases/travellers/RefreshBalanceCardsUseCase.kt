@@ -1,18 +1,18 @@
 package com.abrahamcardenes.lpa_domain.useCases.travellers
 
 import com.abrahamcardenes.core.network.DataError
-import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
-import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.core.network.Result
+import kotlinx.coroutines.supervisorScope
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
-import javax.inject.Inject
-import kotlinx.coroutines.sync.withPermit
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.supervisorScope
+import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
 import kotlinx.coroutines.sync.Semaphore
+import javax.inject.Inject
+import kotlinx.coroutines.async
+import com.abrahamcardenes.core.network.onSuccess
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.sync.withPermit
 
 class RefreshBalanceCardsUseCase @Inject constructor(
     private val repository: TravellersRepository,

@@ -1,12 +1,10 @@
-package com.abrahamcardenes.lpa_domain.valueObjects
+package com.abrahamcardenes.lpa_domain.models.common
 
-import com.abrahamcardenes.lpa_domain.models.common.RGBAColor
 import com.abrahamcardenes.lpa_domain.models.common.RGBAColor.Companion.buildRgbaColorFrom
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class RGBAColorTest {
-
     @Test
     fun `Given a RGB string color it should return a RGBColor`() {
         val expected = RGBAColor(

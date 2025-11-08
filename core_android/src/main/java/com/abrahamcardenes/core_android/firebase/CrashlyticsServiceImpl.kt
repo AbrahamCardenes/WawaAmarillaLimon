@@ -6,8 +6,4 @@ class CrashlyticsServiceImpl(val firebaseCrashlytics: FirebaseCrashlytics) : Cra
     override suspend fun logException(throwable: Throwable) {
         firebaseCrashlytics.recordException(throwable)
     }
-
-    override suspend fun logException(e: Exception) {
-        firebaseCrashlytics.recordException(e)
-    }
 }

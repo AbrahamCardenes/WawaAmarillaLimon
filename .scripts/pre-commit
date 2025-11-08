@@ -4,7 +4,7 @@
 stagedFiles=$(git diff --staged --name-only)
 
 # run  ktlint
-ktlint
+ktlint "**/src/**/*.kt"
 
 status=$?
 

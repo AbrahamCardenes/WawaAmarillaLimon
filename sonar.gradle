@@ -45,7 +45,7 @@ if (localPropertiesFile.exists()) {
     localProperties.load(new FileInputStream(localPropertiesFile))
 }
 
-def sonarToken = System.getenv("SONAR_TOKEN") ?: localProperties.getProperty("SONAR_TOKEN")
+def sonarToken = System.getenv("SONAR_TOKEN_2026") ?: localProperties.getProperty("SONAR_TOKEN")
 def sonarOrganization = System.getenv("SONAR_ORGANIZATION") ?: localProperties.getProperty("SONAR_ORGANIZATION")
 def sonarProjectKey = System.getenv("SONAR_PROJECT_KEY") ?: localProperties.getProperty("SONAR_PROJECT_KEY")
 def sonarProjectName = System.getenv("SONAR_PROJECT_NAME") ?: localProperties.getProperty("SONAR_PROJECT_NAME")

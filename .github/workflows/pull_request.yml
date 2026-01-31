@@ -52,7 +52,7 @@ jobs:
 
       - name: Run SonarCloudAnalysis
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_2026 }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_PROJECT_NAME: ${{ secrets.SONAR_PROJECT_NAME }}

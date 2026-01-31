@@ -1,47 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt.android.plugin)
-    id("jacoco")
+    alias(libs.plugins.convention.common.android)
 }
 
 android {
     namespace = "com.abrahamcardenes.core_db"
-    compileSdk = AndroidConfig.COMPILE_SDK
-
-    defaultConfig {
-        minSdk = AndroidConfig.MIN_SDK
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
-        debug {
-            enableUnitTestCoverage = true
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            merges += "META-INF/LICENSE.md"
-            merges += "META-INF/LICENSE-notice.md"
-        }
-    }
-    ndkVersion = "28.0.12674087 rc2"
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")

@@ -16,7 +16,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.android")
+                apply("com.google.dagger.hilt.android")
                 apply("com.google.devtools.ksp")
                 apply("jacoco")
             }
@@ -28,6 +28,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
                     minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
+                buildFeatures.buildConfig = true
 
                 buildTypes {
                     release {
@@ -39,6 +40,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
                     }
 
                     debug {
+                        isMinifyEnabled = false
                         enableUnitTestCoverage = true
                     }
                 }

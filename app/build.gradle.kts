@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.convention.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android.plugin)
@@ -11,71 +11,10 @@ plugins {
 }
 
 android {
-    namespace = "com.abrahamcardenes.wawaamarillalimon"
-    compileSdk = AndroidConfig.COMPILE_SDK
-
-    defaultConfig {
-        applicationId = "com.abrahamcardenes.wawaamarillalimon"
-        minSdk = AndroidConfig.MIN_SDK
-        targetSdk = AndroidConfig.TARGET_SDK
-        versionCode = AndroidConfig.VERSION_CODE
-        versionName = AndroidConfig.VERSION_NAME
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    signingConfigs {
-        create("release") {
-            storeFile = file("wawa-amarilla-key.jks")
-            storePassword = System.getenv("KEY_PASS") ?: ""
-            keyAlias = System.getenv("KEY_ALIAS") ?: ""
-            keyPassword = System.getenv("KEY_PASS") ?: ""
-        }
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-
-            signingConfig = signingConfigs["release"]
-            ndk {
-                debugSymbolLevel = "FULL"
-            }
-        }
-
-        debug {
-            isMinifyEnabled = false
-            isDebuggable = true
-            manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
-            applicationIdSuffix = ".dev"
-            enableUnitTestCoverage = true
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            merges += "META-INF/LICENSE.md"
-            merges += "META-INF/LICENSE-notice.md"
-        }
-    }
-    ndkVersion = "28.0.12674087 rc2"
 }
 
 dependencies {

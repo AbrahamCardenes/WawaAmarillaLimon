@@ -27,6 +27,7 @@ ext.sonar = [
                 "**/lpa_presentation/**/GetComposeColorFrom.kt",
                 "**/lpa_presentation/**/GetRandomErrorMessage.kt",
                 "**/lpa_presentation/**/NotificationType.kt",
+                "**/WawaAmarillaLimon/build-logic/**",
                 "**/WawaAmarillaLimon.kt",
                 "**/wawaamarillalimon/ui/**",
                 "**/MainActivity.kt",

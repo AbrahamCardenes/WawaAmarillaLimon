@@ -42,5 +42,10 @@ gradlePlugin {
             id = "com.abrahamcardenes.convention.android.common"
             implementationClass = "CommonGradleConventionPlugin"
         }
+
+        register("jacocoConventionPlugin") {
+            id = "com.abrahamcardenes.convention.jacoco"
+            implementationClass = "JacocoConventionPlugin"
+        }
     }
 }

@@ -1,12 +1,9 @@
-import com.abrahamcardenes.wawaamarillalimon.convention.libs
+import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.findByType
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class CommonGradleConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -24,10 +21,8 @@ class CommonGradleConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 defaultConfig {
                     // namespace = "com.abrahamcardenes.lpa_domain" TODO
-                    compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
-                    minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
+
                 buildFeatures.buildConfig = true
 
                 buildTypes {
@@ -44,28 +39,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
                         enableUnitTestCoverage = true
                     }
                 }
-
-                // There are so much in common with AndroidApplicationConventionPlugin
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_11
-                    targetCompatibility = JavaVersion.VERSION_11
-                }
-
-                tasks.withType<KotlinCompile>().configureEach {
-                    compilerOptions {
-                        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-                    }
-                }
-
-                packaging {
-                    resources {
-                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
-                        merges += "META-INF/LICENSE.md"
-                        merges += "META-INF/LICENSE-notice.md"
-                    }
-                }
-
-                ndkVersion = "28.0.12674087 rc2"
+                configureCommonGradle(this)
             }
 
             afterEvaluate {

@@ -1,4 +1,4 @@
-import com.abrahamcardenes.wawaamarillalimon.convention.configureKotlinAndroid
+import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle
 import com.abrahamcardenes.wawaamarillalimon.convention.libs
 import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Plugin
@@ -21,15 +21,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     targetSdk = libs.findVersion("projectTargetSdkVersion").get().toString().toInt()
                     versionCode = libs.findVersion("projectVersionCode").get().toString().toInt()
                     versionName = libs.findVersion("projectVersionName").get().toString()
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                }
-
-                packaging {
-                    resources {
-                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
-                        merges += "META-INF/LICENSE.md"
-                        merges += "META-INF/LICENSE-notice.md"
-                    }
                 }
 
                 signingConfigs {
@@ -66,7 +57,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
 
-                configureKotlinAndroid(this)
+                configureCommonGradle(this)
             }
         }
     }

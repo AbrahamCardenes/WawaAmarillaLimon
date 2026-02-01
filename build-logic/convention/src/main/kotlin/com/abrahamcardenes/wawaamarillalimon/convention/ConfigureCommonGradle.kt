@@ -6,9 +6,13 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureCommonGradle(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     with(commonExtension) {
-        compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
+        defaultConfig {
+            compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
+            minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
         defaultConfig.minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
 
         compileOptions {
@@ -19,6 +23,14 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
         tasks.withType<KotlinCompile>().configureEach {
             compilerOptions {
                 jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+            }
+        }
+
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                merges += "META-INF/LICENSE.md"
+                merges += "META-INF/LICENSE-notice.md"
             }
         }
 

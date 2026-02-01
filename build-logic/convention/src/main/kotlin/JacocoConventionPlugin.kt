@@ -1,8 +1,10 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
 class JacocoConventionPlugin : Plugin<Project> {
@@ -17,6 +19,10 @@ class JacocoConventionPlugin : Plugin<Project> {
         )
 
         plugins.withId("jacoco") {
+            extensions.configure<JacocoPluginExtension> {
+                toolVersion = "0.8.14"
+            }
+
             tasks.withType<Test>().configureEach {
                 setExcludes(listOf("jdk.internal.*"))
             }

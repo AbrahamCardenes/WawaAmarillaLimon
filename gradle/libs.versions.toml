@@ -109,6 +109,8 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 
 convention-android-application = { id = "com.abrahamcardenes.convention.android.application", version = "unspecified" }
 convention-common-android = { id = "com.abrahamcardenes.convention.android.common", version = "unspecified" }
+convention-jacoco = { id = "com.abrahamcardenes.convention.jacoco", version = "unspecified" }
+
 
 [bundles]
 testing = [

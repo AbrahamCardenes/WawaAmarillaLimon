@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon.convention
+package com.abrahamcardenes.wawaamarillalimon.convention.utils
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension

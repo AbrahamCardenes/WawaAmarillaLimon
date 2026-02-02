@@ -19,8 +19,6 @@ val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
 val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
 
 android {
-    namespace = "com.abrahamcardenes.lpa_data"
-
     buildTypes {
         release {
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"

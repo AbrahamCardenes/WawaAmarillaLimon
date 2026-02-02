@@ -4,10 +4,6 @@ plugins {
     alias(libs.plugins.convention.jacoco)
 }
 
-android {
-    namespace = "com.abrahamcardenes.core_android"
-}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)

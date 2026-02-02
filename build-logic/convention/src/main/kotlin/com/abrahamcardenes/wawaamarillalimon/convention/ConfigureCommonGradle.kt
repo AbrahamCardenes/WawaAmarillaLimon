@@ -1,5 +1,6 @@
 package com.abrahamcardenes.wawaamarillalimon.convention
 
+import com.abrahamcardenes.wawaamarillalimon.convention.utils.libs
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project

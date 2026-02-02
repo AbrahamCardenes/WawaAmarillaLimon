@@ -4,8 +4,6 @@ plugins {
 }
 
 android {
-    namespace = "com.abrahamcardenes.core_db"
-
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }

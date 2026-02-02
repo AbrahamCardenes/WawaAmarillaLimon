@@ -1,4 +1,5 @@
 import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle
+import com.abrahamcardenes.wawaamarillalimon.convention.utils.pathToPackageName
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -7,8 +8,6 @@ import org.gradle.kotlin.dsl.findByType
 
 class CommonGradleConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        println("🔥 Applying CommonGradleConventionPlugin to ${project.path}")
-
         with(project) {
             with(pluginManager) {
                 apply("com.android.library")
@@ -20,7 +19,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 defaultConfig {
-                    // namespace = "com.abrahamcardenes.lpa_domain" TODO
+                    namespace = project.pathToPackageName()
                 }
 
                 buildFeatures.buildConfig = true

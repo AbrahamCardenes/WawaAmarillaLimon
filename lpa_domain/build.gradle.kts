@@ -3,10 +3,6 @@ plugins {
     alias(libs.plugins.convention.jacoco)
 }
 
-android {
-    namespace = "com.abrahamcardenes.lpa_domain"
-}
-
 dependencies {
     // Modules
     implementation(project(Modules.CORE))

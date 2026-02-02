@@ -6,8 +6,6 @@ plugins {
 }
 
 android {
-    namespace = "com.abrahamcardenes.lpa_presentation"
-
     buildFeatures {
         compose = true
         buildConfig = true

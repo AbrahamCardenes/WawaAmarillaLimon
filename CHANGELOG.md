@@ -1,3 +1,6 @@
+#### 02/02/2026 - v0.1.4
+- feat: conventional plugins.
+
 #### 09/11/2025 - v0.1.3  
 - feat: Add text animation when the address is too large.
 - chore: internal improvements.

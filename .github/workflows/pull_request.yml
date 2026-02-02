@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Ktint set up curl
-        run: curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.50.0/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
+        run: curl -sSLO --proto '=https' --proto-redir '=https' --tlsv1.2 https://github.com/pinterest/ktlint/releases/download/0.50.0/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
 
       - run: ktlint '!**/build/**'
 
@@ -52,7 +52,7 @@ jobs:
 
       - name: Run SonarCloudAnalysis
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_2026 }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_PROJECT_NAME: ${{ secrets.SONAR_PROJECT_NAME }}

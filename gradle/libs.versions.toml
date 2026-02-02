@@ -1,9 +1,17 @@
 [versions]
+projectTargetSdkVersion = "35"
+projectCompileSdkVersion = "35"
+projectMinSdkVersion = "24"
+projectVersionCode = "10"
+projectVersionName = "0.1.4"
+projectApplicationId = "com.abrahamcardenes.wawaamarillalimon"
+
 agp = "8.7.2"
 converterMoshi = "2.9.0"
 hiltAndroid = "2.55"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.1.0"
+ksp = "2.2.0-2.0.2"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -30,6 +38,7 @@ turbine = "1.2.0"
 jetbrainsKotlinJvm = "2.1.0"
 appcompat = "1.7.0"
 material = "1.12.0"
+androidTools = "31.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -80,6 +89,12 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -91,6 +106,11 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+
+convention-android-application = { id = "com.abrahamcardenes.convention.android.application", version = "unspecified" }
+convention-common-android = { id = "com.abrahamcardenes.convention.android.common", version = "unspecified" }
+convention-jacoco = { id = "com.abrahamcardenes.convention.jacoco", version = "unspecified" }
+
 
 [bundles]
 testing = [

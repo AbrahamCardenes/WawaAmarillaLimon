@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WawaAmarillaLimon</string>
+    <string name="search_bus_stop_textfield">Stop number or name</string>
+    <string name="no_buses_available">There are no buses available at this time.</string>
+    <string name="check_your_balance">Check your card balance</string>
+    <string name="put_here_card_number">Enter your card number</string>
+    <string name="card_number_title">Card Number:</string>
+    <string name="update_date_title">Last update:</string>
+    <string name="balance_title">Balance:</string>
+    <string name="show_schedule">Show schedule</string>
+    <string name="retry">Retry</string>
+    <string name="cat_error_1">Where is my box?</string>
+    <string name="cat_error_2">I can\'t find my box</string>
+    <string name="cat_error_3">Someone threw the coffee mug</string>
+    <string name="cat_error_4">MEOW MEOW MEOW…MEOW</string>
+    <string name="cat_error_5">Who put the dog in charge?</string>
+    <string name="balance_error">The card balance could not be obtained.</string>
+    <string name="line">Line: %1$s</string>
+    <string name="destination">Destination: %1$s</string>
+    <string name="arrival">Arrival in: %1$s</string>
+    <string name="favorites">Favourites</string>
+    <string name="lines">Lines</string>
+    <string name="stops">Stops</string>
+    <string name="card_balance">Wawa Balance</string>
+</resources>

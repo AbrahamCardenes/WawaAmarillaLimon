@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WawaAmarillaLimon</string>
+    <string name="app_name" translatable="false">WawaAmarillaLimon</string>
     <string name="search_bus_stop_textfield">Nº/Nombre de la parada</string>
     <string name="no_buses_available">No hay guaguas disponibles en estos momentos.</string>
     <string name="check_your_balance">Consulta el saldo de tu tarjeta</string>
@@ -18,5 +18,8 @@
     <string name="line">Línea: %1$s</string>
     <string name="destination">Destino: %1$s</string>
     <string name="arrival">Llegada: %1$s</string>
-    
+    <string name="stops">Paradas</string>
+    <string name="favorites">Favoritas</string>
+    <string name="lines">Líneas</string>
+    <string name="card_balance">Saldo Wawa</string>
 </resources>

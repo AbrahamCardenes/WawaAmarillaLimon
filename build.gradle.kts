@@ -26,10 +26,20 @@ apply(from = "$rootDir/sonar.gradle")
 
 subprojects {
     apply(from = "$rootDir/jacoco.gradle")
+    // PmaxForks will set to that cpu forks -> ./gradlew testDebugUnitTest -PmaxForks=4
+    tasks.withType<Test>().configureEach {
+        maxParallelForks = (
+            findProperty("maxForks")?.toString()?.toInt()
+                ?: (Runtime.getRuntime().availableProcessors() / 2)
+            )
+            .coerceAtLeast(1)
+    }
 }
 
 task("addPreCommitGitHookOnBuild") {
-    exec {
-        commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
+    doLast {
+        exec {
+            commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
+        }
     }
 }

@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  GRADLE_OPTS: "-Xmx3g -Dfile.encoding=UTF-8 -XX:+UseG1GC -XX:MaxMetaspaceSize=768m"
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -23,6 +26,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'gradle'
+
+      - name: Run Gradle to start cache
+        run: ./gradlew tasks
 
   ktlint:
     runs-on: ubuntu-latest

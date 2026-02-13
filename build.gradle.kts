@@ -26,7 +26,7 @@ apply(from = "$rootDir/sonar.gradle")
 
 subprojects {
     apply(from = "$rootDir/jacoco.gradle")
-    // command example if needed -> ./gradlew testDebugUnitTest -PmaxForks=4
+    // PmaxForks will set to that cpu forks -> ./gradlew testDebugUnitTest -PmaxForks=4
     tasks.withType<Test>().configureEach {
         maxParallelForks = (
             findProperty("maxForks")?.toString()?.toInt()

@@ -29,7 +29,9 @@ subprojects {
 }
 
 task("addPreCommitGitHookOnBuild") {
-    exec {
-        commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
+    doLast {
+        exec {
+            commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
+        }
     }
 }

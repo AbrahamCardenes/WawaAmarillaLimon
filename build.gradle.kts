@@ -28,8 +28,10 @@ subprojects {
     apply(from = "$rootDir/jacoco.gradle")
     // command example if needed -> ./gradlew testDebugUnitTest -PmaxForks=4
     tasks.withType<Test>().configureEach {
-        maxParallelForks = (findProperty("maxForks")?.toString()?.toInt()
-            ?: (Runtime.getRuntime().availableProcessors() / 2))
+        maxParallelForks = (
+            findProperty("maxForks")?.toString()?.toInt()
+                ?: (Runtime.getRuntime().availableProcessors() / 2)
+            )
             .coerceAtLeast(1)
     }
 }

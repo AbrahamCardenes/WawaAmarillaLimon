@@ -6,7 +6,7 @@ projectVersionCode = "11"
 projectVersionName = "0.1.5"
 projectApplicationId = "com.abrahamcardenes.wawaamarillalimon"
 
-agp = "8.7.2"
+agp = "8.13.2"
 converterMoshi = "2.9.0"
 hiltAndroid = "2.55"
 hiltNavigationCompose = "1.2.0"

@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.hilt.android.plugin) apply false
-    alias(libs.plugins.ksp) version "2.1.0-1.0.29"
+    alias(libs.plugins.ksp) version "2.3.4"
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
@@ -36,10 +36,11 @@ subprojects {
     }
 }
 
-task("addPreCommitGitHookOnBuild") {
-    doLast {
-        exec {
-            commandLine("cp", "./.scripts/pre-commit", "./.git/hooks")
-        }
-    }
+tasks.register<Copy>("addPreCommitGitHookOnBuild") {
+    group = "git"
+    description = "Copies pre-commit hook into .git/hooks"
+
+    from(layout.projectDirectory.file(".scripts/pre-commit"))
+    into(layout.projectDirectory.dir(".git/hooks"))
+    rename { "pre-commit" }
 }

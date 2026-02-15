@@ -7,27 +7,26 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-internal fun Project.configureCommonGradle(commonExtension: CommonExtension<*, *, *, *, *, *>) {
-    with(commonExtension) {
-        defaultConfig {
+internal fun Project.configureCommonGradle(commonExtension: CommonExtension) {
+    commonExtension.apply {
+        defaultConfig.apply {
             compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
             minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
-        defaultConfig.minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
 
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+        compileOptions.apply {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         tasks.withType<KotlinCompile>().configureEach {
             compilerOptions {
-                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
             }
         }
 
-        packaging {
+        packaging.apply {
             resources {
                 excludes += "/META-INF/{AL2.0,LGPL2.1}"
                 merges += "META-INF/LICENSE.md"
@@ -35,6 +34,6 @@ internal fun Project.configureCommonGradle(commonExtension: CommonExtension<*, *
             }
         }
 
-        ndkVersion = "28.0.12674087 rc2"
+        ndkVersion = "29.0.14206865"
     }
 }

@@ -11,7 +11,6 @@ class CommonGradleConventionPlugin : Plugin<Project> {
         with(project) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
                 apply("com.google.dagger.hilt.android")
                 apply("com.google.devtools.ksp")
                 apply("jacoco")

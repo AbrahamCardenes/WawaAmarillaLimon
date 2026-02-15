@@ -1,4 +1,4 @@
-import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle2
+import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle
 import com.abrahamcardenes.wawaamarillalimon.convention.utils.pathToPackageName
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
@@ -37,7 +37,7 @@ class CommonGradleConventionPlugin : Plugin<Project> {
                         enableUnitTestCoverage = true
                     }
                 }
-                configureCommonGradle2(this)
+                configureCommonGradle(this)
             }
 
             afterEvaluate {

@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
-    id("org.sonarqube") version "6.3.1.5724"
+    id("org.sonarqube") version "7.2.2.6593"
     id("jacoco")
 }
 

@@ -60,7 +60,7 @@ class JacocoConventionPlugin : Plugin<Project> {
                         layout.buildDirectory
                     ) {
                         include(
-                            "jacoco/testDebugUnitTest.exec",
+                            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
                             "outputs/code-coverage/connected/*coverage.ec"
                         )
                     }

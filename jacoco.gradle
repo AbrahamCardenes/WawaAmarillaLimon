@@ -9,7 +9,6 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
         android {
             buildTypes {
                 debug {
-                    testCoverageEnabled = true
                     enableUnitTestCoverage = true
                     enableAndroidTestCoverage true
                 }
@@ -28,7 +27,7 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
             ]
         }
 
-        def jacocoResults = "${buildDir}/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
+        def jacocoResults = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
 
         tasks.register("testCoverage", JacocoReport) {
             dependsOn testTask
@@ -40,7 +39,8 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
             }
 
             executionData.setFrom(fileTree(dir: buildDir, includes: [
-                    "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+                    "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
+                    "jacoco/testDebugUnitTest.exec"
             ]))
 
             sourceDirectories.setFrom(files([
@@ -48,6 +48,10 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
             ]))
 
             classDirectories.setFrom(files([
+                    fileTree(
+                            dir: "${buildDir}/intermediates/classes/debug/transformDebugClassesWithAsm/dirs",
+                            excludes: rootProject.ext.sonar.excludeFilter
+                    ),
                     fileTree(
                             dir: "${buildDir}/tmp/kotlin-classes/debug",
                             excludes: rootProject.ext.sonar.excludeFilter
@@ -59,7 +63,8 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
     sonar {
         properties {
             property "sonar.junit.reportPaths", "${buildDir}/test-results/${testTask}"
-            property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
+            property "sonar.coverage.jacoco.xmlReportPaths",
+                    "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
             property "sonar.sources", sources
         }
     }

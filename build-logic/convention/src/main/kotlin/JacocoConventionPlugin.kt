@@ -25,6 +25,7 @@ class JacocoConventionPlugin : Plugin<Project> {
 
             tasks.withType<Test>().configureEach {
                 setExcludes(listOf("jdk.internal.*"))
+                finalizedBy(tasks.getByName("jacocoTestReport"))
             }
 
             tasks.register<JacocoReport>("jacocoTestReport") {
@@ -34,6 +35,11 @@ class JacocoConventionPlugin : Plugin<Project> {
 
                 reports {
                     xml.required.set(true)
+                    xml.outputLocation.set(
+                        layout.buildDirectory.file(
+                            "reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+                        )
+                    )
                     html.required.set(true)
                     csv.required.set(false)
                 }
@@ -52,6 +58,9 @@ class JacocoConventionPlugin : Plugin<Project> {
                 classDirectories.setFrom(
                     fileTree(layout.buildDirectory.dir("tmp/kotlin-classes")) {
                         exclude(fileFilter)
+                    },
+                    fileTree(layout.buildDirectory.dir("intermediates/classes/debug/transformDebugClassesWithAsm/dirs")) {
+                        exclude(fileFilter)
                     }
                 )
 
@@ -61,6 +70,7 @@ class JacocoConventionPlugin : Plugin<Project> {
                     ) {
                         include(
                             "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
+                            "jacoco/testDebugUnitTest.exec",
                             "outputs/code-coverage/connected/*coverage.ec"
                         )
                     }

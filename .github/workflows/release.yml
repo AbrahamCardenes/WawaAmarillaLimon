@@ -3,8 +3,6 @@ name: Build and Release Signed APK to github
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 env:
   GRADLE_OPTS: "-Xmx3g -Dfile.encoding=UTF-8 -XX:+UseG1GC -XX:MaxMetaspaceSize=768m"

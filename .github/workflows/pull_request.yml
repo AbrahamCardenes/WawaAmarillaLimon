@@ -29,6 +29,7 @@ jobs:
 
       - name: Debug Java
         run: |
+          echo "JAVA_HOME=$JAVA_HOME"
           java -version
           ./gradlew -version
 

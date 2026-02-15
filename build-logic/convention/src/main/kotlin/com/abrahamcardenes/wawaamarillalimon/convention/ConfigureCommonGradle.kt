@@ -34,6 +34,6 @@ internal fun Project.configureCommonGradle(applicationExtension: CommonExtension
             }
         }
 
-        ndkVersion = "28.0.12674087 rc2"
+        ndkVersion = "29.0.14206865"
     }
 }

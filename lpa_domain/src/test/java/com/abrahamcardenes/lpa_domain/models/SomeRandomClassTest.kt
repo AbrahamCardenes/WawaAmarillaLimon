@@ -3,11 +3,11 @@ package com.abrahamcardenes.lpa_domain.models
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class TestSonarClassReportingTest {
+class SomeRandomClassTest {
     @Test
     fun `Some random test to show coverage`() {
-        val testSonarClassReporting = TestSonarClassReporting(value1 = 1, value2 = 2)
+        val someRandomClass = SomeRandomClass(value1 = 1, value2 = 2)
 
-        assertThat(testSonarClassReporting.add()).isEqualTo(3)
+        assertThat(someRandomClass.add()).isEqualTo(3)
     }
 }

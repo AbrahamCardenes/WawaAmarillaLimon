@@ -1,6 +1,6 @@
 package com.abrahamcardenes.lpa_domain.models
 
-data class TestSonarClassReporting(
+data class SomeRandomClass(
     val value1: Int,
     val value2: Int
 ) {

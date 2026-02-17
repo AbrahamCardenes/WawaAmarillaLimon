@@ -37,10 +37,12 @@ class JacocoConventionPlugin : Plugin<Project> {
                     xml.required.set(true)
                     xml.outputLocation.set(
                         layout.buildDirectory.file(
-                            "reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+                            "$buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
                         )
                     )
                     html.required.set(true)
+                    html.outputLocation.set(file("$buildDir/reports/jacoco/jacocoTestReport/html"))
+
                     csv.required.set(false)
                 }
 
@@ -56,10 +58,13 @@ class JacocoConventionPlugin : Plugin<Project> {
                 )
 
                 classDirectories.setFrom(
-                    fileTree(layout.buildDirectory.dir("tmp/kotlin-classes")) {
+                    fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
                         exclude(fileFilter)
                     },
-                    fileTree(layout.buildDirectory.dir("intermediates/classes/debug/transformDebugClassesWithAsm/dirs")) {
+                    fileTree(layout.buildDirectory.dir("intermediates/javac/debug/compileDebugJavaWithJavac/classes")) {
+                        exclude(fileFilter)
+                    },
+                    fileTree(layout.buildDirectory.dir("intermediates/javac/debug/classes")) {
                         exclude(fileFilter)
                     }
                 )

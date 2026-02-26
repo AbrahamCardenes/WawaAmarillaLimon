@@ -10,7 +10,7 @@ agp = "9.0.1"
 converterMoshi = "2.9.0"
 hiltAndroid = "2.59.1"
 hiltNavigationCompose = "1.2.0"
-kotlin = "2.2.21"
+kotlin = "2.3.10"
 ksp = "2.3.4"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -35,7 +35,7 @@ retrofit = "2.11.0"
 roomRuntime = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
-jetbrainsKotlinJvm = "2.1.0"
+jetbrainsKotlinJvm = "2.3.10"
 appcompat = "1.7.0"
 material = "1.12.0"
 androidTools = "31.12.0"
@@ -80,8 +80,8 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 mockk = { module = "io.mockk:mockk", version.ref = "mock-version" }
 mockkAndroid = { module = "io.mockk:mockk-android", version.ref = "mock-version" }
 mockInline = { module = "org.mockito:mockito-inline", version = "5.2.0" }
-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.7.1" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.3" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.10.0" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }

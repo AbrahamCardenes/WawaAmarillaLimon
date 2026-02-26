@@ -9,7 +9,6 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
         android {
             buildTypes {
                 debug {
-                    testCoverageEnabled = true
                     enableUnitTestCoverage = true
                     enableAndroidTestCoverage true
                 }
@@ -28,19 +27,21 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
             ]
         }
 
-        def jacocoResults = "${buildDir}/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
-
-        tasks.register("testCoverage", JacocoReport) {
+        def jacocoResults = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+        def jacocoHtmlResults = "${buildDir}/reports/jacoco/jacocoTestReport/html"
+      tasks.register("testCoverage", JacocoReport) {
             dependsOn testTask
 
             reports {
                 xml.required.set(true)
                 xml.outputLocation.set(file(jacocoResults))
                 html.required.set(true)
+                html.outputLocation.set(file(jacocoHtmlResults))
             }
 
             executionData.setFrom(fileTree(dir: buildDir, includes: [
-                    "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+                    "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
+                    "jacoco/testDebugUnitTest.exec"
             ]))
 
             sourceDirectories.setFrom(files([
@@ -49,7 +50,19 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
 
             classDirectories.setFrom(files([
                     fileTree(
+                            dir: "${buildDir}/tmp/kotlin-classes",
+                            excludes: rootProject.ext.sonar.excludeFilter
+                    ),
+                    fileTree(
+                            dir: "${buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac/classes",
+                            excludes: rootProject.ext.sonar.excludeFilter
+                    ),
+                    fileTree(
                             dir: "${buildDir}/tmp/kotlin-classes/debug",
+                            excludes: rootProject.ext.sonar.excludeFilter
+                    ),
+                    fileTree(
+                            dir: "${buildDir}/intermediates/javac/debug/classes",
                             excludes: rootProject.ext.sonar.excludeFilter
                     )
             ]))
@@ -59,8 +72,28 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
     sonar {
         properties {
             property "sonar.junit.reportPaths", "${buildDir}/test-results/${testTask}"
-            property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
             property "sonar.sources", sources
+
+
+            property "sonar.coverage.jacoco.xmlReportPaths",
+                    fileTree(rootDir)
+                            .include("**/build/reports/jacoco/**/*.xml")
+                            .files
+                            .join(",")
+
+            property "sonar.java.binaries",
+                    fileTree(rootDir)
+                            .include("**/build/intermediates/classes/**/transform*ClassesWithAsm/dirs")
+                            .files
+                            .join(",")
+
+
+            property "sonar.java.test.binaries",
+                    fileTree(rootDir) {
+                        include("**/build/classes/kotlin/main")
+                        include("$buildDir/intermediates/classes/debug/transformDebugClassesWithAsm/dirs")
+                    }.files.join(",")
+            property("sonar.sources", "src/main/java,src/main/kotlin")
         }
     }
 }

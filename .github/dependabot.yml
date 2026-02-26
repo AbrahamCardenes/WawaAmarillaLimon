@@ -1,0 +1,57 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+    ignore:
+      - dependency-name: "com.android.tools.build:gradle"
+        update-types: [ "version-update:semver-major" ]
+    groups:
+      androidx:
+        applies-to: version-updates
+        patterns:
+          - "androidx.*"
+        update-types:
+          - "minor"
+          - "patch"
+      google:
+        applies-to: version-updates
+        patterns:
+          - "com.google.*"
+        update-types:
+          - "minor"
+          - "patch"
+      testing:
+        applies-to: version-updates
+        patterns:
+          - "*junit*"
+          - "io.mockk.*"
+          - "org.mockito:*"
+          - "app.cash.*"
+          - "com.google.truth:*"
+        update-types:
+          - "minor"
+          - "patch"
+      network:
+        applies-to: version-updates
+        patterns:
+          - "com.squareup.*"
+        update-types:
+          - "minor"
+          - "patch"
+      jetbrains:
+        applies-to: version-updates
+        patterns:
+          - "org.jetbrains.*"
+        update-types:
+          - "minor"
+          - "patch"
+
+

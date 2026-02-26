@@ -60,7 +60,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Executing Clean, Check and Unit Tests.
-        run: ./gradlew clean testRelease testCoverage
+        run: ./gradlew clean testDebugUnitTest testCoverage
 
       - name: Run SonarCloudAnalysis
         env:

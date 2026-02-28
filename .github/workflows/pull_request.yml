@@ -42,7 +42,14 @@ jobs:
 
       - run: ktlint '!**/build/**'
 
+  dependabot-info:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Skipping build because this PR was created by Dependabot."
+
   build:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     needs: ktlint
 

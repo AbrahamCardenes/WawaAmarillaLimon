@@ -38,7 +38,7 @@ turbine = "1.2.1"
 jetbrainsKotlinJvm = "2.3.10"
 appcompat = "1.7.1"
 material = "1.13.0"
-androidTools = "32.0.1"
+androidTools = "32.1.0"
 materialIcons = "1.7.8"
 
 [libraries]

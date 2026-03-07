@@ -1,7 +1,8 @@
 ## Wawas amarillo limón.
 
 ### Project Status:
-WIP: [AGP 9 breaks the scanner at the moment, I will update it when a fix comes by 💛💙](https://community.sonarsource.com/t/working-towards-the-support-of-android-gradle-plugin-9/177015/4)
+[AGP 9 breaks the scanner at the moment, I will update it when a fix comes by 💛💙](https://community.sonarsource.com/t/working-towards-the-support-of-android-gradle-plugin-9/177015/4)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AbrahamCardenes_WawaAmarillaLimon&metric=coverage)](https://sonarcloud.io/summary/new_code?id=AbrahamCardenes_WawaAmarillaLimon)

@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     alias(libs.plugins.convention.common.android)
     alias(libs.plugins.kotlin.compose)
@@ -5,7 +7,7 @@ plugins {
     alias(libs.plugins.convention.jacoco)
 }
 
-android {
+configure<LibraryExtension> {
     buildFeatures {
         compose = true
         buildConfig = true

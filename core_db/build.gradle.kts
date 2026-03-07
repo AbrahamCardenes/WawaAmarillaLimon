@@ -1,9 +1,11 @@
+import com.google.devtools.ksp.gradle.KspExtension
+
 plugins {
     alias(libs.plugins.convention.common.android)
     alias(libs.plugins.convention.jacoco)
 }
 
-android {
+configure<KspExtension> {
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }

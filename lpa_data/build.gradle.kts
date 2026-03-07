@@ -1,5 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
 import java.util.Properties
-import kotlin.apply
 
 plugins {
     alias(libs.plugins.convention.common.android)
@@ -18,7 +18,7 @@ val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
 val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
 val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
 
-android {
+configure<LibraryExtension> {
     buildTypes {
         release {
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"

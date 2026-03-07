@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.convention.jacoco)
 }
 
-configure<ApplicationExtension>{
+configure<ApplicationExtension> {
     buildFeatures {
         compose = true
         buildConfig = true

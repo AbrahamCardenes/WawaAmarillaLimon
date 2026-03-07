@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     alias(libs.plugins.convention.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -9,7 +11,7 @@ plugins {
     alias(libs.plugins.convention.jacoco)
 }
 
-android {
+configure<ApplicationExtension> {
     buildFeatures {
         compose = true
         buildConfig = true

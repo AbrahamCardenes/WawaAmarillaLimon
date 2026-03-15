@@ -42,7 +42,7 @@ class BusStopsViewModel
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BusStopsUiState())
     val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
-        getBusStops()
+        // getBusStops()
     }.map { currentState ->
         val userInput = _uiState.value.userInput
         val filteredBusStops = currentState.busStops.filter { busStop ->
@@ -168,6 +168,12 @@ class BusStopsViewModel
         if (_uiState.value.state == state) return
         _uiState.update {
             it.copy(state = state)
+        }
+    }
+
+    fun onTabClick(busStopTab: BusStopTabs) {
+        _uiState.update { state ->
+            state.copy(selectedTab = busStopTab)
         }
     }
 }

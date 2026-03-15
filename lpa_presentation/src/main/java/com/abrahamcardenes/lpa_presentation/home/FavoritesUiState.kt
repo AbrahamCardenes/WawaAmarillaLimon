@@ -1,10 +1,9 @@
-package com.abrahamcardenes.lpa_presentation.favorites
+package com.abrahamcardenes.lpa_presentation.home
 
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 data class FavoritesUiState(
     val busStops: List<UiBusStopDetail> = emptyList(),
-    val userInput: String = "",
     val isLoading: Boolean = true,
     val currentExpandedBusStop: UiBusStopDetail? = null
 ) {

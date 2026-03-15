@@ -9,13 +9,14 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.lpa_presentation.favorites.FavoritesUiState
+import com.abrahamcardenes.lpa_presentation.home.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
 fun FavoriteStops(
     uiState: FavoritesUiState,
+    userInput: String,
     onBusStopClick: (Int) -> Unit,
     onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
@@ -37,7 +38,7 @@ fun FavoriteStops(
                 onBusStopClick = onBusStopClick,
                 onUserInput = onUserInput,
                 busStops = uiState.busStops,
-                textFieldInput = uiState.userInput,
+                textFieldInput = userInput,
                 modifier = modifier
             )
         }
@@ -64,7 +65,8 @@ fun FavoriteStopsPreview() {
             ),
             onBusStopClick = {},
             onUserInput = {},
-            onSaveBusStop = {}
+            onSaveBusStop = {},
+            userInput = ""
         )
     }
 }

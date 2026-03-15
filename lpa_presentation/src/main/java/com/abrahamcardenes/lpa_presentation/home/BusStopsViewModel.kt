@@ -10,6 +10,7 @@ import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -38,13 +40,18 @@ class BusStopsViewModel
     private val getBusDetailUseCase: GetBusDetailUseCase,
     private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase,
     private val crashlyticsService: CrashlyticsService,
-    private val dispatchers: DispatchersProvider
+    private val dispatchers: DispatchersProvider,
+    private val getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(BusStopsUiState())
-    val uiState: StateFlow<BusStopsUiState> = _uiState.onStart {
+    // TODO.
+    // A textfield flow could be a great idea to share the input :)
+
+    // TODO: expand behaviour in offline.
+    private val _onlineBusStopsState = MutableStateFlow(BusStopsUiState())
+    val onlineBusStopsState: StateFlow<BusStopsUiState> = _onlineBusStopsState.onStart {
         getBusStops()
     }.map { currentState ->
-        val userInput = _uiState.value.userInput
+        val userInput = _onlineBusStopsState.value.userInput
         val filteredBusStops = currentState.busStops.filter { busStop ->
             busStop.stopNumber.toString().contains(other = userInput, ignoreCase = true) || busStop.addressName.removeNonSpacingMarks()
                 .contains(
@@ -55,6 +62,21 @@ class BusStopsViewModel
         currentState.copy(busStops = filteredBusStops)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
 
+    private val _favoriteBusStopsUiState = MutableStateFlow(FavoritesUiState())
+    val favoriteBusStopsUiState: StateFlow<FavoritesUiState> = _favoriteBusStopsUiState.onStart {
+        getOfflineBusStops()
+    }.combine(_onlineBusStopsState) { currentState, onlineState ->
+        val userInput = onlineState.userInput
+        val filteredBusStops = currentState.busStops.filter { busStop ->
+            busStop.stopNumber.toString().contains(other = userInput, ignoreCase = true) || busStop.addressName.removeNonSpacingMarks()
+                .contains(
+                    other = userInput,
+                    ignoreCase = true
+                )
+        }
+        currentState.copy(busStops = filteredBusStops)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), FavoritesUiState())
+
     private var detailJob: Job? = null
 
     fun getBusStops() {
@@ -64,13 +86,13 @@ class BusStopsViewModel
                 .collect { response ->
                     response
                         .onSuccess { currentBusStops ->
-                            _uiState.update { state ->
+                            _onlineBusStopsState.update { state ->
                                 state.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
                                     .keepCurrentExpandedStatus()
                             }
                         }
                         .onError { error ->
-                            _uiState.update { state ->
+                            _onlineBusStopsState.update { state ->
                                 state.copy(errorMessage = getRandomString())
                             }
                             logErrorIfIsUnknown(error)
@@ -90,7 +112,7 @@ class BusStopsViewModel
         detailJob?.cancel()
         detailJob = viewModelScope.launch {
             closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)
-            val fetchedStop = _uiState.value.busStops.find { it.stopNumber == stopNumber }
+            val fetchedStop = _onlineBusStopsState.value.busStops.find { it.stopNumber == stopNumber }
             if (fetchedStop == null) {
                 crashlyticsService.logException(Exception("Could not find bus stop with number $stopNumber"))
                 return@launch
@@ -125,7 +147,7 @@ class BusStopsViewModel
     }
 
     private fun closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber: BusStopNumber) {
-        val expandedBusStops = _uiState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+        val expandedBusStops = _onlineBusStopsState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
         expandedBusStops.forEach { busStop ->
             updateBusStopDetail(
                 originalBusStop = busStop,
@@ -136,7 +158,7 @@ class BusStopsViewModel
     }
 
     private fun updateBusStopDetail(originalBusStop: UiBusStopDetail, availableBusLines: List<BusLine>?, isExpanded: Boolean) {
-        val updatedList = _uiState.value.busStops.toMutableList()
+        val updatedList = _onlineBusStopsState.value.busStops.toMutableList()
         val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
         updatedList[index] = originalBusStop.copy(
             isExpanded = isExpanded,
@@ -147,13 +169,13 @@ class BusStopsViewModel
         } else {
             null
         }
-        _uiState.update { state ->
+        _onlineBusStopsState.update { state ->
             state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
         }
     }
 
     fun updateUserInput(value: String) {
-        _uiState.update {
+        _onlineBusStopsState.update {
             it.copy(userInput = value)
         }
     }
@@ -165,15 +187,31 @@ class BusStopsViewModel
     }
 
     fun updateState(state: BusStopState) {
-        if (_uiState.value.state == state) return
-        _uiState.update {
+        if (_onlineBusStopsState.value.state == state) return
+        _onlineBusStopsState.update {
             it.copy(state = state)
         }
     }
 
     fun onTabClick(busStopTab: BusStopTabs) {
-        _uiState.update { state ->
+        _onlineBusStopsState.update { state ->
             state.copy(selectedTab = busStopTab)
+        }
+    }
+
+    // Favorites
+    private fun getOfflineBusStops() {
+        _favoriteBusStopsUiState.update {
+            it.copy(isLoading = true)
+        }
+        viewModelScope.launch {
+            getFavoriteBusStopsUseCase()
+                .collect { currentBusStops ->
+                    _favoriteBusStopsUiState.update {
+                        it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
+                            .keepCurrentExpandedStatus()
+                    }
+                }
         }
     }
 }

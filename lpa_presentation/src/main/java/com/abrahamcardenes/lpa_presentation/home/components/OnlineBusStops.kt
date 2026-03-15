@@ -18,7 +18,8 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
 fun OnlineBusStops(
-    uiState: BusStopsUiState,
+    state: BusStopsUiState,
+    userInput: String,
     onBusStopClick: (Int) -> Unit,
     onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
@@ -27,7 +28,7 @@ fun OnlineBusStops(
     modifier: Modifier = Modifier
 ) {
     AnimatedContent(
-        targetState = uiState.state,
+        targetState = state.state,
         label = "animation-content"
     ) { currentState ->
         when (currentState) {
@@ -56,8 +57,8 @@ fun OnlineBusStops(
                     onSaveBusStop = onSaveBusStop,
                     onBusStopClick = onBusStopClick,
                     onUserInput = onUserInput,
-                    busStops = uiState.busStops,
-                    textFieldInput = uiState.userInput,
+                    busStops = state.busStops,
+                    textFieldInput = userInput,
                     modifier = modifier
                 )
             }
@@ -70,7 +71,7 @@ fun OnlineBusStops(
 fun OnlineBusStopsPreview() {
     WawaAmarillaLimonTheme {
         OnlineBusStops(
-            uiState =
+            state =
             BusStopsUiState().copy(
                 busStops =
                 listOf(
@@ -87,7 +88,8 @@ fun OnlineBusStopsPreview() {
             onBusStopClick = {},
             onUserInput = {},
             onSaveBusStop = {},
-            refreshBusStops = {}
+            refreshBusStops = {},
+            userInput = ""
         )
     }
 }

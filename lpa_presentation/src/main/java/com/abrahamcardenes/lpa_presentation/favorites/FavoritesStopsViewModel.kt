@@ -12,6 +12,7 @@ import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
+import com.abrahamcardenes.lpa_presentation.home.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
@@ -40,10 +41,12 @@ class FavoritesStopsViewModel
     private val dispatchers: DispatchersProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavoritesUiState())
+
+    @Deprecated("KO")
     val uiState: StateFlow<FavoritesUiState> = _uiState.onStart {
         getOfflineBusStops()
     }.map { currentState ->
-        val userInput = _uiState.value.userInput
+        val userInput = "_uiState.value.userInput"
         val filteredBusStops = currentState.busStops.filter { busStop ->
             busStop.stopNumber.toString().contains(other = userInput, ignoreCase = true) || busStop.addressName.removeNonSpacingMarks()
                 .contains(
@@ -139,9 +142,10 @@ class FavoritesStopsViewModel
         }
     }
 
+    @Deprecated("KO")
     fun updateUserInput(value: String) {
         _uiState.update {
-            it.copy(userInput = value)
+            it.copy()
         }
     }
 

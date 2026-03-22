@@ -43,10 +43,6 @@ class BusStopsViewModel
     private val dispatchers: DispatchersProvider,
     private val getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase
 ) : ViewModel() {
-    // TODO.
-    // A textfield flow could be a great idea to share the input :)
-
-    // TODO: expand behaviour in offline.
     private val _onlineBusStopsState = MutableStateFlow(BusStopsUiState())
     val onlineBusStopsState: StateFlow<BusStopsUiState> = _onlineBusStopsState.onStart {
         getBusStops()
@@ -108,11 +104,14 @@ class BusStopsViewModel
         }
     }
 
-    fun getBusStopDetail(stopNumber: Int) {
+    fun getBusStopDetail(stopNumber: Int, origin: BusStopOrigin) {
         detailJob?.cancel()
         detailJob = viewModelScope.launch {
-            closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber)
-            val fetchedStop = _onlineBusStopsState.value.busStops.find { it.stopNumber == stopNumber }
+            closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber, origin = origin)
+            val fetchedStop = when (origin) {
+                BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.find { it.stopNumber == stopNumber }
+                BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.find { it.stopNumber == stopNumber }
+            }
             if (fetchedStop == null) {
                 crashlyticsService.logException(Exception("Could not find bus stop with number $stopNumber"))
                 return@launch
@@ -122,7 +121,8 @@ class BusStopsViewModel
                 updateBusStopDetail(
                     originalBusStop = fetchedStop,
                     availableBusLines = fetchedStop.availableBusLines,
-                    isExpanded = false
+                    isExpanded = false,
+                    origin = origin
                 )
                 return@launch
             }
@@ -131,14 +131,16 @@ class BusStopsViewModel
                     updateBusStopDetail(
                         originalBusStop = fetchedStop,
                         availableBusLines = it?.availableBusLines,
-                        isExpanded = true
+                        isExpanded = true,
+                        origin = origin
                     )
                 }
                     .onError {
                         updateBusStopDetail(
                             originalBusStop = fetchedStop,
                             availableBusLines = emptyList(),
-                            isExpanded = true
+                            isExpanded = true,
+                            origin = origin
                         )
                         logErrorIfIsUnknown(it)
                     }
@@ -146,19 +148,32 @@ class BusStopsViewModel
         }
     }
 
-    private fun closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber: BusStopNumber) {
-        val expandedBusStops = _onlineBusStopsState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+    private fun closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber: BusStopNumber, origin: BusStopOrigin) {
+        val expandedBusStops = when (origin) {
+            BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+            BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+        }
         expandedBusStops.forEach { busStop ->
             updateBusStopDetail(
                 originalBusStop = busStop,
                 availableBusLines = busStop.availableBusLines,
-                isExpanded = false
+                isExpanded = false,
+                origin = origin
             )
         }
     }
 
-    private fun updateBusStopDetail(originalBusStop: UiBusStopDetail, availableBusLines: List<BusLine>?, isExpanded: Boolean) {
-        val updatedList = _onlineBusStopsState.value.busStops.toMutableList()
+    private fun updateBusStopDetail(
+        originalBusStop: UiBusStopDetail,
+        availableBusLines: List<BusLine>?,
+        isExpanded: Boolean,
+        origin: BusStopOrigin
+    ) {
+        val updatedList = when (origin) {
+            BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.toMutableList()
+            BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.toMutableList()
+        }
+
         val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
         updatedList[index] = originalBusStop.copy(
             isExpanded = isExpanded,
@@ -169,8 +184,19 @@ class BusStopsViewModel
         } else {
             null
         }
-        _onlineBusStopsState.update { state ->
-            state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
+
+        when (origin) {
+            BusStopOrigin.ONLINE -> {
+                _onlineBusStopsState.update { state ->
+                    state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
+                }
+            }
+
+            BusStopOrigin.FAVORITES -> {
+                _favoriteBusStopsUiState.update { state ->
+                    state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
+                }
+            }
         }
     }
 
@@ -194,6 +220,7 @@ class BusStopsViewModel
     }
 
     fun onTabClick(busStopTab: BusStopTabs) {
+        closeExpandedBusStops()
         _onlineBusStopsState.update { state ->
             state.copy(selectedTab = busStopTab)
         }
@@ -214,4 +241,32 @@ class BusStopsViewModel
                 }
         }
     }
+
+    fun closeExpandedBusStops() {
+        detailJob?.cancel()
+        val onlineBusStopSelected = _onlineBusStopsState.value.currentExpandedBusStop
+        if (onlineBusStopSelected != null) {
+            updateBusStopDetail(
+                originalBusStop = onlineBusStopSelected,
+                availableBusLines = onlineBusStopSelected.availableBusLines,
+                isExpanded = false,
+                origin = BusStopOrigin.ONLINE
+            )
+        }
+
+        val favoriteBusStopSelected = _favoriteBusStopsUiState.value.currentExpandedBusStop
+        if (favoriteBusStopSelected != null) {
+            updateBusStopDetail(
+                originalBusStop = favoriteBusStopSelected,
+                availableBusLines = favoriteBusStopSelected.availableBusLines,
+                isExpanded = false,
+                origin = BusStopOrigin.FAVORITES
+            )
+        }
+    }
+}
+
+enum class BusStopOrigin {
+    ONLINE,
+    FAVORITES
 }

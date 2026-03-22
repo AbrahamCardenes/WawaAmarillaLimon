@@ -16,9 +16,7 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 @Composable
 fun FavoriteStops(
     uiState: FavoritesUiState,
-    userInput: String,
     onBusStopClick: (Int) -> Unit,
-    onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -36,9 +34,7 @@ fun FavoriteStops(
             BusStopsList(
                 onSaveBusStop = onSaveBusStop,
                 onBusStopClick = onBusStopClick,
-                onUserInput = onUserInput,
                 busStops = uiState.busStops,
-                textFieldInput = userInput,
                 modifier = modifier
             )
         }
@@ -64,9 +60,7 @@ fun FavoriteStopsPreview() {
                 )
             ),
             onBusStopClick = {},
-            onUserInput = {},
-            onSaveBusStop = {},
-            userInput = ""
+            onSaveBusStop = {}
         )
     }
 }

@@ -19,9 +19,7 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 @Composable
 fun OnlineBusStops(
     state: BusStopsUiState,
-    userInput: String,
     onBusStopClick: (Int) -> Unit,
-    onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
     errorMessage: Int,
     refreshBusStops: () -> Unit,
@@ -56,9 +54,7 @@ fun OnlineBusStops(
                 BusStopsList(
                     onSaveBusStop = onSaveBusStop,
                     onBusStopClick = onBusStopClick,
-                    onUserInput = onUserInput,
                     busStops = state.busStops,
-                    textFieldInput = userInput,
                     modifier = modifier
                 )
             }
@@ -86,10 +82,8 @@ fun OnlineBusStopsPreview() {
             ),
             errorMessage = -1,
             onBusStopClick = {},
-            onUserInput = {},
             onSaveBusStop = {},
-            refreshBusStops = {},
-            userInput = ""
+            refreshBusStops = {}
         )
     }
 }

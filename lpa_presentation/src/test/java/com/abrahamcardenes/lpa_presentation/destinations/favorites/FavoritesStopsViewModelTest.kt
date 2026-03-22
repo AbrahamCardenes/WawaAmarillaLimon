@@ -17,7 +17,6 @@ import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListBusStopDetailOffline
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.fakes.fakeListUiBusStopDetailOffline
-import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsViewModel
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.google.common.truth.Truth.assertThat

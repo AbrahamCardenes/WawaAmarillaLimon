@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_presentation.home
+package com.abrahamcardenes.lpa_presentation.home.states
 
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 

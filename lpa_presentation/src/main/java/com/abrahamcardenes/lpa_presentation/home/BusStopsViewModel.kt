@@ -13,6 +13,10 @@ import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
+import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopState
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
+import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
@@ -242,7 +246,7 @@ class BusStopsViewModel
         }
     }
 
-    fun closeExpandedBusStops() {
+    private fun closeExpandedBusStops() {
         detailJob?.cancel()
         val onlineBusStopSelected = _onlineBusStopsState.value.currentExpandedBusStop
         if (onlineBusStopSelected != null) {
@@ -264,9 +268,4 @@ class BusStopsViewModel
             )
         }
     }
-}
-
-enum class BusStopOrigin {
-    ONLINE,
-    FAVORITES
 }

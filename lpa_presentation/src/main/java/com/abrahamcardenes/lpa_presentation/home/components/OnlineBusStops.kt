@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.components.errors.CatError
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.lpa_presentation.home.BusStopState
-import com.abrahamcardenes.lpa_presentation.home.BusStopsUiState
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopState
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 

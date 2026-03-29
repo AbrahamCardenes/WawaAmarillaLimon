@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.lpa_presentation.home.FavoritesUiState
+import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 

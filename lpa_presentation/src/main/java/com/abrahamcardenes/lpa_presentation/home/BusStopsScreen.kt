@@ -28,6 +28,9 @@ import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextFieldCo
 import com.abrahamcardenes.lpa_presentation.home.components.BusStopsTabs
 import com.abrahamcardenes.lpa_presentation.home.components.FavoriteStops
 import com.abrahamcardenes.lpa_presentation.home.components.OnlineBusStops
+import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
+import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import kotlinx.coroutines.launch
 

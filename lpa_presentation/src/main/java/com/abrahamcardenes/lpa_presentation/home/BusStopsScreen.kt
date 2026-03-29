@@ -1,15 +1,23 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.abrahamcardenes.lpa_presentation.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -53,6 +61,7 @@ private fun BusStosScreenWithTabs(
     refreshBusStops: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
         BusStopTabs.Metadata().totalTabs
@@ -69,66 +78,75 @@ private fun BusStosScreenWithTabs(
         }
     }
 
-    println("#### bool count: ${pagerState.pageCount}")
-    println("#### bool currentPage: ${pagerState.currentPage}")
-    println("#### bool selected: ${onlineBusStopsState.selectedTab.index}")
-    println("#### bool: ${onlineBusStopsState.selectedTab.index == pagerState.currentPage}")
-    Column(modifier = modifier) {
-        BusStopsTabs(
-            currentPage = pagerState.currentPage,
-            selectedTab = onlineBusStopsState.selectedTab.index,
-            onAllTab = {
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(BusStopTabs.All.index)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    BusStopsTabs(
+                        currentPage = pagerState.currentPage,
+                        selectedTab = onlineBusStopsState.selectedTab.index,
+                        onAllTab = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(BusStopTabs.All.index)
+                            }
+                            onTabClick(BusStopTabs.All)
+                        },
+                        onFavoritesTab = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(BusStopTabs.Favorites.index)
+                            }
+                            onTabClick(BusStopTabs.Favorites)
+                        }
+                    )
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) { innerPadding ->
+        Column(modifier = modifier.padding(innerPadding)) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (pagerState.currentPage == BusStopTabs.All.index) {
+                    OnlineBusStops(
+                        state = onlineBusStopsState,
+                        onBusStopClick = { stopNumber ->
+                            onBusStopClick(stopNumber, BusStopOrigin.ONLINE)
+                        },
+                        onSaveBusStop = onSaveBusStop,
+                        refreshBusStops = refreshBusStops,
+                        errorMessage = onlineBusStopsState.errorMessage,
+                        modifier = modifier
+                    )
                 }
-                onTabClick(BusStopTabs.All)
-            },
-            onFavoritesTab = {
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(BusStopTabs.Favorites.index)
+
+                if (pagerState.currentPage == BusStopTabs.Favorites.index) {
+                    FavoriteStops(
+                        uiState = favoriteBusStopsState,
+                        onBusStopClick = { stopNumber ->
+                            onBusStopClick(stopNumber, BusStopOrigin.FAVORITES)
+                        },
+                        onSaveBusStop = onSaveBusStop
+                    )
                 }
-                onTabClick(BusStopTabs.Favorites)
-            }
-        )
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.weight(1f)
-        ) {
-            if (pagerState.currentPage == BusStopTabs.All.index) {
-                OnlineBusStops(
-                    state = onlineBusStopsState,
-                    onBusStopClick = { stopNumber ->
-                        onBusStopClick(stopNumber, BusStopOrigin.ONLINE)
-                    },
-                    onSaveBusStop = onSaveBusStop,
-                    refreshBusStops = refreshBusStops,
-                    errorMessage = onlineBusStopsState.errorMessage,
-                    modifier = modifier
-                )
             }
 
-            if (pagerState.currentPage == BusStopTabs.Favorites.index) {
-                FavoriteStops(
-                    uiState = favoriteBusStopsState,
-                    onBusStopClick = { stopNumber ->
-                        onBusStopClick(stopNumber, BusStopOrigin.FAVORITES)
-                    },
-                    onSaveBusStop = onSaveBusStop
-                )
-            }
+            BusTextField(
+                busTextFieldConfig = BusTextFieldConfig(
+                    label = stringResource(R.string.search_bus_stop_textfield),
+                    value = onlineBusStopsState.userInput
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                onUserInput = { input ->
+                    onUserInput(input)
+                }
+            )
         }
-
-        BusTextField(
-            busTextFieldConfig = BusTextFieldConfig(
-                label = stringResource(R.string.search_bus_stop_textfield),
-                value = onlineBusStopsState.userInput
-            ),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp),
-            onUserInput = { input ->
-                onUserInput(input)
-            }
-        )
     }
 }

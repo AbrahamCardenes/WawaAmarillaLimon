@@ -113,8 +113,8 @@ private fun BusStosScreenWithTabs(
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.weight(1f)
-            ) {
-                if (pagerState.currentPage == BusStopTabs.All.index) {
+            ) { page ->
+                if (page == BusStopTabs.All.index) {
                     OnlineBusStops(
                         state = onlineBusStopsState,
                         onBusStopClick = { stopNumber ->
@@ -127,7 +127,7 @@ private fun BusStosScreenWithTabs(
                     )
                 }
 
-                if (pagerState.currentPage == BusStopTabs.Favorites.index) {
+                if (page == BusStopTabs.Favorites.index) {
                     FavoriteStops(
                         uiState = favoriteBusStopsState,
                         onBusStopClick = { stopNumber ->

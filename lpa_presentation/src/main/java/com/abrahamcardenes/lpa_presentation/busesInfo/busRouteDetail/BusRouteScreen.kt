@@ -197,8 +197,7 @@ fun BusRouteUi(
                         StopsPager(
                             availableGoRouteStops = availableGoRouteStops,
                             availableBackRouteStops = availableBackRouteStops,
-                            pagerState = pagerState,
-                            selectedIndex = pagerState.currentPage
+                            pagerState = pagerState
                         )
                     }
                 }

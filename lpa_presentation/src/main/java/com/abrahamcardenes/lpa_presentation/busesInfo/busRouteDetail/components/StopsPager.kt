@@ -9,22 +9,17 @@ import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 
 @Composable
-fun StopsPager(
-    pagerState: PagerState,
-    selectedIndex: Int,
-    availableGoRouteStops: List<RouteStop>,
-    availableBackRouteStops: List<RouteStop>
-) {
+fun StopsPager(pagerState: PagerState, availableGoRouteStops: List<RouteStop>, availableBackRouteStops: List<RouteStop>) {
     HorizontalPager(
         state = pagerState
-    ) {
-        if (selectedIndex == 0) {
+    ) { page ->
+        if (page == 0) {
             AvailableStopsByVariant(
                 availableRouteStops = availableGoRouteStops
             )
         }
 
-        if (selectedIndex == 1) {
+        if (page == 1) {
             AvailableStopsByVariant(
                 availableRouteStops = availableBackRouteStops
             )
@@ -42,7 +37,6 @@ fun StopsPagerPreview() {
         StopsPager(
             availableGoRouteStops = emptyList(),
             availableBackRouteStops = emptyList(),
-            selectedIndex = pagerState.currentPage,
             pagerState = pagerState
         )
     }

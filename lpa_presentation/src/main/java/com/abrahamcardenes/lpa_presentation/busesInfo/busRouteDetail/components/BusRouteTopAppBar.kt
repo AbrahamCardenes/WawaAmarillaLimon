@@ -61,7 +61,7 @@ fun BusRouteTopAppBar(
             ) {
                 BusLineNumberCircle(
                     dynamicColor = getComposeColorFromRGBAColor(wawaColor),
-                    commercialName = commercial.toString(),
+                    commercialName = commercial,
                     modifier = Modifier.size(circleSize)
                 )
                 Text(

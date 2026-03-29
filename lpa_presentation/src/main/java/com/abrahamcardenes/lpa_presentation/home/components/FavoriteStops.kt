@@ -1,38 +1,22 @@
-package com.abrahamcardenes.lpa_presentation.favorites
+package com.abrahamcardenes.lpa_presentation.home.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
+import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
-fun FavoritesStopsRoot(favoritesStopsViewModel: FavoritesStopsViewModel = hiltViewModel<FavoritesStopsViewModel>()) {
-    val uiState by favoritesStopsViewModel.uiState.collectAsStateWithLifecycle()
-    FavoritesStopsScreen(
-        uiState = uiState,
-        onBusStopClick = { stopNumber ->
-            favoritesStopsViewModel.getBusStopDetail(stopNumber)
-        },
-        onUserInput = favoritesStopsViewModel::updateUserInput,
-        onSaveBusStop = favoritesStopsViewModel::deleteBusStop
-    )
-}
-
-@Composable
-private fun FavoritesStopsScreen(
+fun FavoriteStops(
     uiState: FavoritesUiState,
     onBusStopClick: (Int) -> Unit,
-    onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,9 +34,7 @@ private fun FavoritesStopsScreen(
             BusStopsList(
                 onSaveBusStop = onSaveBusStop,
                 onBusStopClick = onBusStopClick,
-                onUserInput = onUserInput,
                 busStops = uiState.busStops,
-                textFieldInput = uiState.userInput,
                 modifier = modifier
             )
         }
@@ -61,9 +43,9 @@ private fun FavoritesStopsScreen(
 
 @Composable()
 @PreviewLightDark
-fun BusStopsScreenPreview() {
+fun FavoriteStopsPreview() {
     WawaAmarillaLimonTheme {
-        FavoritesStopsScreen(
+        FavoriteStops(
             uiState =
             FavoritesUiState().copy(
                 busStops =
@@ -78,7 +60,6 @@ fun BusStopsScreenPreview() {
                 )
             ),
             onBusStopClick = {},
-            onUserInput = {},
             onSaveBusStop = {}
         )
     }

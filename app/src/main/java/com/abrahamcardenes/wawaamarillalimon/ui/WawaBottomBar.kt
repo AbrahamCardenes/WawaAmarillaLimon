@@ -2,10 +2,8 @@ package com.abrahamcardenes.wawaamarillalimon.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
@@ -25,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.abrahamcardenes.lpa_presentation.navigation.BusStops
 import com.abrahamcardenes.lpa_presentation.navigation.BusTimetable
 import com.abrahamcardenes.lpa_presentation.navigation.Concessions
-import com.abrahamcardenes.lpa_presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.lpa_presentation.navigation.WawaBalance
 import com.abrahamcardenes.lpa_presentation.navigation.getLabels
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
@@ -35,11 +32,11 @@ import com.abrahamcardenes.wawaamarillalimon.R
 fun WawaBottomBar(currentDestination: String, navController: NavController) {
     val cardFilled = ImageVector.vectorResource(R.drawable.card_filled)
     val cardOutlined = ImageVector.vectorResource(R.drawable.card_outlined)
-    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Favorite, Icons.Filled.Info, cardFilled)
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.Info, cardFilled)
     val unselectedIcons =
-        listOf(Icons.Outlined.Home, Icons.Outlined.FavoriteBorder, Icons.Outlined.Info, cardOutlined)
+        listOf(Icons.Outlined.Home, Icons.Outlined.Info, cardOutlined)
 
-    val bottomBarRoutes = listOf(BusStops, FavoritesBusStops, Concessions, WawaBalance)
+    val bottomBarRoutes = listOf(BusStops, Concessions, WawaBalance)
     var selectedRoute by remember { mutableIntStateOf(0) }
 
     navController.addOnDestinationChangedListener(listener = { _, destination, _ ->

@@ -2,8 +2,8 @@ package com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,7 +14,7 @@ import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 
 @Composable
 fun ConcessionNodesTabRow(onTabClick: (Int) -> Unit, tabSelected: Int, nodes: List<String>, modifier: Modifier = Modifier) {
-    TabRow(
+    PrimaryTabRow(
         selectedTabIndex = tabSelected,
         modifier = modifier
     ) {

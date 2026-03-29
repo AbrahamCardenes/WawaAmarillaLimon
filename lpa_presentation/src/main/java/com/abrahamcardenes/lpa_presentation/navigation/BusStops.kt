@@ -12,9 +12,6 @@ interface NavRoutes
 object BusStops : NavRoutes
 
 @Serializable
-object FavoritesBusStops : NavRoutes
-
-@Serializable
 object Concessions : NavRoutes
 
 @Serializable
@@ -26,7 +23,6 @@ data class BusTimetable(val busNumber: String, val rgbColorString: RgbString) : 
 @Composable
 fun NavRoutes.getLabels(): String = when (this) {
     is BusStops -> stringResource(R.string.stops)
-    is FavoritesBusStops -> stringResource(R.string.favorites)
     is Concessions -> stringResource(R.string.lines)
     is WawaBalance -> stringResource(R.string.card_balance)
     else -> ""

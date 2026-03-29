@@ -1,110 +1,155 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.abrahamcardenes.lpa_presentation.home
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.abrahamcardenes.lpa_presentation.components.errors.CatError
-import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
-import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
+import com.abrahamcardenes.lpa_presentation.R
+import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextField
+import com.abrahamcardenes.lpa_presentation.components.textfields.BusTextFieldConfig
+import com.abrahamcardenes.lpa_presentation.home.components.BusStopsTabs
+import com.abrahamcardenes.lpa_presentation.home.components.FavoriteStops
+import com.abrahamcardenes.lpa_presentation.home.components.OnlineBusStops
+import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
+import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
+import kotlinx.coroutines.launch
 
 @Composable
 fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(), modifier: Modifier = Modifier) {
-    val uiState by busStopsViewModel.uiState.collectAsStateWithLifecycle()
-    BusStopsScreen(
-        uiState = uiState,
-        onBusStopClick = { stopNumber ->
-            busStopsViewModel.getBusStopDetail(stopNumber)
+    val onlineBusStopsState by busStopsViewModel.onlineBusStopsState.collectAsStateWithLifecycle()
+    val favoriteBusStopsState by busStopsViewModel.favoriteBusStopsUiState.collectAsStateWithLifecycle()
+
+    BusStosScreenWithTabs(
+        onlineBusStopsState = onlineBusStopsState,
+        favoriteBusStopsState = favoriteBusStopsState,
+        onTabClick = busStopsViewModel::onTabClick,
+        onBusStopClick = { stopNumber, origin ->
+            busStopsViewModel.getBusStopDetail(stopNumber, origin)
         },
         onUserInput = busStopsViewModel::updateUserInput,
         onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
         refreshBusStops = busStopsViewModel::getBusStops,
-        errorMessage = uiState.errorMessage,
         modifier = modifier
     )
 }
 
 @Composable
-private fun BusStopsScreen(
-    uiState: BusStopsUiState,
-    onBusStopClick: (Int) -> Unit,
+private fun BusStosScreenWithTabs(
+    onlineBusStopsState: BusStopsUiState,
+    favoriteBusStopsState: FavoritesUiState,
+    onTabClick: (BusStopTabs) -> Unit,
+    onBusStopClick: (Int, BusStopOrigin) -> Unit,
     onUserInput: (String) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
-    errorMessage: Int,
     refreshBusStops: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AnimatedContent(
-        targetState = uiState.state,
-        label = "animation-content"
-    ) { currentState ->
-        when (currentState) {
-            BusStopState.Error -> {
-                CatError(
-                    onClick = {
-                        refreshBusStops()
-                    },
-                    message = stringResource(errorMessage),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                )
-            }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = {
+        BusStopTabs.Metadata().totalTabs
+    })
 
-            BusStopState.Loading -> {
-                LoadingCircles(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            if (page == 0) {
+                onTabClick(BusStopTabs.All)
             }
-
-            BusStopState.Success -> {
-                BusStopsList(
-                    onSaveBusStop = onSaveBusStop,
-                    onBusStopClick = onBusStopClick,
-                    onUserInput = onUserInput,
-                    busStops = uiState.busStops,
-                    textFieldInput = uiState.userInput,
-                    modifier = modifier
-                )
+            if (page == 1) {
+                onTabClick(BusStopTabs.Favorites)
             }
         }
     }
-}
 
-@Composable()
-@PreviewLightDark
-fun BusStopsScreenPreview() {
-    WawaAmarillaLimonTheme {
-        BusStopsScreen(
-            uiState =
-            BusStopsUiState().copy(
-                busStops =
-                listOf(
-                    UiBusStopDetail(
-                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                        stopNumber = 79,
-                        availableBusLines = emptyList(),
-                        isExpanded = false,
-                        isFavorite = false
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    BusStopsTabs(
+                        currentPage = pagerState.currentPage,
+                        selectedTab = onlineBusStopsState.selectedTab.index,
+                        onAllTab = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(BusStopTabs.All.index)
+                            }
+                            onTabClick(BusStopTabs.All)
+                        },
+                        onFavoritesTab = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(BusStopTabs.Favorites.index)
+                            }
+                            onTabClick(BusStopTabs.Favorites)
+                        }
                     )
-                )
-            ),
-            errorMessage = -1,
-            onBusStopClick = {},
-            onUserInput = {},
-            onSaveBusStop = {},
-            refreshBusStops = {}
-        )
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) { innerPadding ->
+        Column(modifier = modifier.padding(innerPadding)) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (pagerState.currentPage == BusStopTabs.All.index) {
+                    OnlineBusStops(
+                        state = onlineBusStopsState,
+                        onBusStopClick = { stopNumber ->
+                            onBusStopClick(stopNumber, BusStopOrigin.ONLINE)
+                        },
+                        onSaveBusStop = onSaveBusStop,
+                        refreshBusStops = refreshBusStops,
+                        errorMessage = onlineBusStopsState.errorMessage,
+                        modifier = modifier
+                    )
+                }
+
+                if (pagerState.currentPage == BusStopTabs.Favorites.index) {
+                    FavoriteStops(
+                        uiState = favoriteBusStopsState,
+                        onBusStopClick = { stopNumber ->
+                            onBusStopClick(stopNumber, BusStopOrigin.FAVORITES)
+                        },
+                        onSaveBusStop = onSaveBusStop
+                    )
+                }
+            }
+
+            BusTextField(
+                busTextFieldConfig = BusTextFieldConfig(
+                    label = stringResource(R.string.search_bus_stop_textfield),
+                    value = onlineBusStopsState.userInput
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                onUserInput = { input ->
+                    onUserInput(input)
+                }
+            )
+        }
     }
 }

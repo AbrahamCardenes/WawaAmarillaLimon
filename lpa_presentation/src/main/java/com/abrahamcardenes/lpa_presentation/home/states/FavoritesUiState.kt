@@ -1,15 +1,13 @@
-package com.abrahamcardenes.lpa_presentation.home
+package com.abrahamcardenes.lpa_presentation.home.states
 
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
-data class BusStopsUiState(
+data class FavoritesUiState(
     val busStops: List<UiBusStopDetail> = emptyList(),
-    val userInput: String = "",
-    val state: BusStopState = BusStopState.Loading,
-    val currentExpandedBusStop: UiBusStopDetail? = null,
-    val errorMessage: Int = -1
+    val isLoading: Boolean = true,
+    val currentExpandedBusStop: UiBusStopDetail? = null
 ) {
-    fun keepCurrentExpandedStatus(): BusStopsUiState {
+    fun keepCurrentExpandedStatus(): FavoritesUiState {
         val expandedIndex = this.busStops.indexOfFirst { it.stopNumber == this.currentExpandedBusStop?.stopNumber }
         val updatedBusStops = if (expandedIndex >= 0) {
             busStops.toMutableList().apply {

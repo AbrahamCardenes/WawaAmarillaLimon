@@ -18,12 +18,10 @@ import androidx.navigation.toRoute
 import com.abrahamcardenes.lpa_domain.models.common.WawaColor.Companion.buildWawaColorFrom
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.BusRouteScreen
 import com.abrahamcardenes.lpa_presentation.busesInfo.concessions.ConcessionsScreen
-import com.abrahamcardenes.lpa_presentation.favorites.FavoritesStopsRoot
 import com.abrahamcardenes.lpa_presentation.home.BusStopsScreenRoot
 import com.abrahamcardenes.lpa_presentation.navigation.BusStops
 import com.abrahamcardenes.lpa_presentation.navigation.BusTimetable
 import com.abrahamcardenes.lpa_presentation.navigation.Concessions
-import com.abrahamcardenes.lpa_presentation.navigation.FavoritesBusStops
 import com.abrahamcardenes.lpa_presentation.navigation.WawaBalance
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.wawaBalance.WawaBalanceScreenRoot
@@ -61,10 +59,6 @@ class MainActivity : ComponentActivity() {
                                 Modifier
                                     .fillMaxSize()
                             )
-                        }
-
-                        composable<FavoritesBusStops> {
-                            FavoritesStopsRoot()
                         }
 
                         composable<Concessions> {

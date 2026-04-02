@@ -1,15 +1,15 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail
 
 import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class VariantsDto(
-    @field:Json(name = "type")
+    @SerialName(value = "type")
     val type: String,
-    @field:Json(name = "name")
+    @SerialName(value = "name")
     val name: String,
-    @field:Json(name = "color")
+    @SerialName(value = "color")
     val color: RgbString
 )

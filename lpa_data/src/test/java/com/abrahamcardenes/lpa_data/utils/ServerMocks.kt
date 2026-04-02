@@ -11,7 +11,6 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 object ServerMocks {
 
@@ -43,7 +42,7 @@ object ServerMocks {
 
     fun buildApiTravellersService(mockWebServer: MockWebServer): ApiTravellers = Retrofit
         .Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(converterFactory)
         .client(client)
         .baseUrl(mockWebServer.url("/"))
         .build()
@@ -51,7 +50,7 @@ object ServerMocks {
 
     fun buildApiStaticAppService(mockWebServer: MockWebServer): ApiStaticApp = Retrofit
         .Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(converterFactory)
         .client(client)
         .baseUrl(mockWebServer.url("/"))
         .build()

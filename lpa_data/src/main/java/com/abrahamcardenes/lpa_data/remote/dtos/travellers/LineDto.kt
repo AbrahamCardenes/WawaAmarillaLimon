@@ -1,18 +1,20 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers
 
+import com.abrahamcardenes.core.serializationUtils.FlexibleStringSerializer
 import com.abrahamcardenes.lpa_domain.models.travellers.Concession
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class LineDto(
-    @field:Json(name = "Numero")
+    @SerialName(value = "Numero")
     val busNumber: Int,
-    @field:Json(name = "Nombre")
+    @SerialName(value = "Nombre")
     val name: String,
-    @field:Json(name = "Comercial")
+    @Serializable(with = FlexibleStringSerializer::class)
+    @SerialName(value = "Comercial")
     val commercialName: String,
-    @field:Json(name = "Color")
+    @SerialName(value = "Color")
     val color: String
 )
 

@@ -1,6 +1,5 @@
 package com.abrahamcardenes.core.network
 
-import com.squareup.moshi.JsonDataException
 import java.net.SocketTimeoutException
 import java.nio.channels.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
@@ -14,7 +13,8 @@ suspend inline fun <reified T> safecall(execute: () -> Response<T>): Result<T, D
             return Result.Error(DataError.Remote.RequestTimeout)
         } catch (_: UnresolvedAddressException) {
             return Result.Error(DataError.Remote.NoInternet)
-        } catch (_: JsonDataException) {
+        } catch (e: SerializationException) {
+            println(e.stackTraceToString())
             return Result.Error(DataError.Remote.Serialization)
         } catch (e: Exception) {
             return Result.Error(DataError.Remote.UnknownError(e))

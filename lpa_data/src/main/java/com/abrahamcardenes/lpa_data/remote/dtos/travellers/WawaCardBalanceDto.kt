@@ -1,16 +1,16 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers
 
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class WawaCardBalanceDto(
-    @field:Json(name = "codigo")
+    @SerialName(value = "codigo")
     val code: String,
-    @field:Json(name = "saldo")
+    @SerialName(value = "saldo")
     val balance: String,
-    @field:Json(name = "fecha")
+    @SerialName(value = "fecha")
     val date: String
 )
 

@@ -2,22 +2,22 @@ package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail
 
 import com.abrahamcardenes.lpa_data.data.mappers.latitudeOrLongitudeToDouble
 import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class RouteStopsDto(
-    @field:Json(name = "number")
+    @SerialName(value = "number")
     val number: String,
-    @field:Json(name = "name")
+    @SerialName(value = "name")
     val name: String,
-    @field:Json(name = "longitude")
+    @SerialName(value = "longitude")
     val longitude: String,
-    @field:Json(name = "latitude")
+    @SerialName(value = "latitude")
     val latitude: String,
-    @field:Json(name = "node")
+    @SerialName(value = "node")
     val node: String,
-    @field:Json(name = "variants")
+    @SerialName(value = "variants")
     val variants: List<String>
 ) {
     fun getGpsCoordinates(): GpsCoordinates? {

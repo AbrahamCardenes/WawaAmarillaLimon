@@ -3,16 +3,16 @@ package com.abrahamcardenes.lpa_data.di.busRoutesModules
 import com.abrahamcardenes.lpa_data.BuildConfig
 import com.abrahamcardenes.lpa_data.annotations.BusRoutesRetrofit
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,17 +21,13 @@ object BusRoutesModule {
     @Singleton
     @BusRoutesRetrofit
     fun provideBusRoutesRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val moshi =
-            Moshi
-                .Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-
+        val json = Json { ignoreUnknownKeys = true }
+        val converterFactory = json.asConverterFactory("application/json".toMediaType())
         return Retrofit
             .Builder()
             .baseUrl(BuildConfig.API_STATICAPP)
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(converterFactory)
             .build()
     }
 

@@ -1,15 +1,15 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.concessions
 
 import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ConcessionStaticAppDto(
-    @field:Json(name = "Nombre")
+    @SerialName(value = "Nombre")
     val name: String,
-    @field:Json(name = "Comercial")
+    @SerialName(value = "Comercial")
     val commercial: String,
-    @field:Json(name = "Color")
+    @SerialName(value = "Color")
     val color: RgbString
 )

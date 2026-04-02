@@ -12,9 +12,9 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
-import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
@@ -37,7 +37,7 @@ class BusStopsRepositoryImpl(
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {
         try {
             while (true) {
-                coroutineContext.ensureActive()
+                currentCoroutineContext().ensureActive()
                 emit(
                     safecall {
                         api.getBusStopDetail(stopNumber)

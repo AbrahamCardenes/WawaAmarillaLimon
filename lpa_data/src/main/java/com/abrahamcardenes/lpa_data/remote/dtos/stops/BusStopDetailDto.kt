@@ -1,12 +1,12 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.stops
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class BusStopDetailDto(
-    @field:Json(name = "nombre")
+    @SerialName(value = "nombre")
     val addressName: String,
-    @field:Json(name = "lineas")
+    @SerialName(value = "lineas")
     val lines: List<BusLineDto>
 )

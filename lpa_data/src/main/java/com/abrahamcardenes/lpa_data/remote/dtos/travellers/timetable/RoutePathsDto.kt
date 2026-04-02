@@ -1,14 +1,14 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class RoutePathsDto(
-    @field:Json(name = "Tipo")
+    @SerialName(value = "Tipo")
     val type: String,
-    @field:Json(name = "Color")
+    @SerialName(value = "Color")
     val hexColour: String,
-    @field:Json(name = "Observaciones")
+    @SerialName(value = "Observaciones")
     val observations: String
 )

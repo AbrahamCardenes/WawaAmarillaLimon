@@ -1,25 +1,25 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail
 
 import com.abrahamcardenes.lpa_domain.valueObjects.RgbString
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class BusRouteDto(
-    @field:Json(name = "line")
+    @SerialName(value = "line")
     val line: String,
-    @field:Json(name = "name")
+    @SerialName(value = "name")
     val name: String,
-    @field:Json(name = "color")
+    @SerialName(value = "color")
     val color: RgbString,
-    @field:Json(name = "nodes")
+    @SerialName(value = "nodes")
     val nodes: List<String>,
-    @field:Json(name = "variantsGo")
+    @SerialName(value = "variantsGo")
     val variantsGo: List<VariantsDto>,
-    @field:Json(name = "variantsBack")
+    @SerialName(value = "variantsBack")
     val variantsBack: List<VariantsDto>,
-    @field:Json(name = "stops")
+    @SerialName(value = "stops")
     val stops: List<RouteStopsDto>,
-    @field:Json(name = "schedule")
+    @SerialName(value = "schedule")
     val schedule: List<ScheduleStaticaDto>
 )

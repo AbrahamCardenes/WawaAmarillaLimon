@@ -1,12 +1,12 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ScheduleDto(
-    @field:Json(name = "Tipologia")
+    @SerialName(value = "Tipologia")
     val availableDays: String,
-    @field:Json(name = "Hora")
+    @SerialName(value = "Hora")
     val times: List<String>
 )

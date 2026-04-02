@@ -1,18 +1,18 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.detail
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ScheduleStaticaDto(
-    @field:Json(name = "node")
+    @SerialName(value = "node")
     val node: String,
-    @field:Json(name = "tipology")
+    @SerialName(value = "tipology")
     val tipology: String,
-    @field:Json(name = "time")
+    @SerialName(value = "time")
     val time: String,
-    @field:Json(name = "color")
+    @SerialName(value = "color")
     val color: String,
-    @field:Json(name = "variant")
-    val variant: String?
+    @SerialName(value = "variant")
+    val variant: String? = null
 )

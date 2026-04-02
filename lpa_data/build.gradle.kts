@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.convention.common.android)
     alias(libs.plugins.convention.jacoco)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 val localProperties =
@@ -45,11 +46,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    // Retrofit and moshi
+    // Retrofit and converters
     implementation(libs.retrofit)
-    implementation(libs.moshi)
-    implementation(libs.converter.moshi)
-    ksp(libs.moshi.kotlin.codegen)
+    implementation(libs.converter.kotlinx)
+    implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)

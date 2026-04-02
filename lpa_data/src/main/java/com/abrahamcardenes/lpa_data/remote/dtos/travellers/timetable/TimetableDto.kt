@@ -1,22 +1,22 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TimetableDto(
-    @field:Json(name = "Linea_ID")
+    @SerialName(value = "Linea_ID")
     val lineId: String,
-    @field:Json(name = "Nodo")
+    @SerialName(value = "Nodo")
     val node: String,
-    @field:Json(name = "Aviso")
+    @SerialName(value = "Aviso")
     val warning: String,
-    @field:Json(name = "Observaciones")
+    @SerialName(value = "Observaciones")
     val observations: String,
-    @field:Json(name = "TiposTrayectos")
+    @SerialName(value = "TiposTrayectos")
     val routes: List<RoutePathsDto>,
-    @field:Json(name = "ListaParadas")
+    @SerialName(value = "ListaParadas")
     val concessionStops: List<ConcessionStopDto>,
-    @field:Json(name = "Tipologias")
+    @SerialName(value = "Tipologias")
     val schedules: List<ScheduleDto>
 )

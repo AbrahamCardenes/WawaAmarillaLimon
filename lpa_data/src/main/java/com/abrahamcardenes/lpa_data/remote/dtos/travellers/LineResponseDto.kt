@@ -1,10 +1,10 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.travellers
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class LineResponseDto(
-    @field:Json(name = "Concesiones")
+    @SerialName(value = "Concesiones")
     val concessions: ConcessionDto
 )

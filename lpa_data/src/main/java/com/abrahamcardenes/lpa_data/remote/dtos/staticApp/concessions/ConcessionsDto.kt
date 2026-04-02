@@ -1,10 +1,10 @@
 package com.abrahamcardenes.lpa_data.remote.dtos.staticApp.concessions
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ConcessionsDto(
-    @field:Json(name = "Concesion")
+    @SerialName(value = "Concesion")
     val concessions: List<ConcessionStaticAppDto>
 )

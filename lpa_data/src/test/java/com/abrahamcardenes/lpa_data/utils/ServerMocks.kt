@@ -4,13 +4,18 @@ import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
 import java.util.concurrent.TimeUnit
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 object ServerMocks {
+
+    private val json = Json { ignoreUnknownKeys = true }
+    private val converterFactory = json.asConverterFactory("application/json".toMediaType())
     private val client =
         OkHttpClient
             .Builder()
@@ -29,7 +34,7 @@ object ServerMocks {
 
     fun buildApiParadasService(mockWebServer: MockWebServer): ApiParadas = Retrofit
         .Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(converterFactory)
         .client(client)
         .baseUrl(mockWebServer.url("/"))
         .build()
@@ -37,7 +42,7 @@ object ServerMocks {
 
     fun buildApiTravellersService(mockWebServer: MockWebServer): ApiTravellers = Retrofit
         .Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(converterFactory)
         .client(client)
         .baseUrl(mockWebServer.url("/"))
         .build()
@@ -45,7 +50,7 @@ object ServerMocks {
 
     fun buildApiStaticAppService(mockWebServer: MockWebServer): ApiStaticApp = Retrofit
         .Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(converterFactory)
         .client(client)
         .baseUrl(mockWebServer.url("/"))
         .build()

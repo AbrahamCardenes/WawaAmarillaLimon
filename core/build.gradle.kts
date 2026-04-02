@@ -19,9 +19,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.retrofit)
-    implementation(libs.moshi)
-    implementation(libs.converter.moshi)
-    ksp(libs.moshi.kotlin.codegen)
+    implementation(libs.converter.kotlinx)
 
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)

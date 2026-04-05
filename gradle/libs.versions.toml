@@ -37,6 +37,8 @@ appcompat = "1.7.1"
 material = "1.13.0"
 androidTools = "32.1.0"
 materialIcons = "1.7.8"
+kotest = "6.1.10"
+junitVintage = "6.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +67,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
 lottie = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
@@ -74,6 +77,8 @@ okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp
 org-jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "orgJacocoCore" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
+kotest-junit4 = {module = "io.kotest:kotest-runner-junit4", version.ref = "kotest"}
+kotest-assertions = {module = "io.kotest:kotest-assertions-core", version.ref= "kotest"}
 mockk = { module = "io.mockk:mockk", version.ref = "mock-version" }
 mockkAndroid = { module = "io.mockk:mockk-android", version.ref = "mock-version" }
 mockInline = { module = "org.mockito:mockito-inline", version = "5.2.0" }
@@ -85,6 +90,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintage" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
@@ -116,5 +122,7 @@ testing = [
     "mockwebserver",
     "mockInline",
     "coroutines-test",
+    "kotest-junit4",
+    "kotest-assertions"
 ]
 

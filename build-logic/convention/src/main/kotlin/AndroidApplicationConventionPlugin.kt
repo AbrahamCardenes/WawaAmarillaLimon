@@ -21,6 +21,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     versionName = libs.findVersion("projectVersionName").get().toString()
                 }
 
+                testOptions {
+                    unitTests.all {
+                        it.useJUnitPlatform()
+                    }
+                }
+
                 signingConfigs {
                     create("release") {
                         storeFile = file("wawa-amarilla-key.jks")

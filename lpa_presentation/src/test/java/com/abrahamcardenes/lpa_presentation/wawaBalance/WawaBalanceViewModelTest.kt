@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.abrahamcardenes.lpa_presentation.wawaBalance
 
 import app.cash.turbine.test
@@ -8,9 +10,12 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.FetchWawaBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
-import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
+import com.abrahamcardenes.lpa_presentation.coroutineRules.CoroutineTestExtension
 import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
-import com.google.common.truth.Truth.assertThat
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.runner.junit4.FunSpec
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,27 +23,18 @@ import io.mockk.coVerifySequence
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
-class WawaBalanceViewModelTest {
+class WawaBalanceViewModelTest : FunSpec({
+    lateinit var wawaBalanceViewModel: WawaBalanceViewModel
+    val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
+    val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
+    val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true) // TODO: fake emitting class for DB getAll.
+    val fetchWawaBalanceUseCase = mockk<FetchWawaBalanceUseCase>(relaxed = true)
+    val dispatchers = TestsDispatchers
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
+    extensions(CoroutineTestExtension())
 
-    private lateinit var wawaBalanceViewModel: WawaBalanceViewModel
-    private val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
-    private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
-    private val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true) // TODO: fake emitting class for DB getAll.
-    private val fetchWawaBalanceUseCase = mockk<FetchWawaBalanceUseCase>(relaxed = true)
-    private val dispatchers = TestsDispatchers
-
-    @Before
-    fun setup() {
+    beforeTest {
         wawaBalanceViewModel = WawaBalanceViewModel(
             getBalanceUseCase = getBalanceUseCase,
             crashlyticsService = crashlyticsService,
@@ -48,22 +44,19 @@ class WawaBalanceViewModelTest {
         )
     }
 
-    @After
-    fun tearDown() {
+    afterTest {
         clearAllMocks()
     }
 
-    @Test
-    fun `Given initial status it should be empty`() = runTest {
-        assertThat(wawaBalanceViewModel.balanceUiState.value.wawaCards).isEmpty()
-        assertThat(wawaBalanceViewModel.balanceUiState.value.cardNumber).isEmpty()
+    test("Given initial status it should be empty") {
+        wawaBalanceViewModel.balanceUiState.value.wawaCards shouldBe emptyList()
+        wawaBalanceViewModel.balanceUiState.value.cardNumber shouldBe ""
         coVerify(exactly = 0) {
             getBalanceUseCase(any())
         }
     }
 
-    @Test
-    fun `Given a valid search it should populate the list`() = runTest {
+    test("Given a valid search it should populate the list") {
         val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
         coEvery {
             getBalanceUseCase("579997")
@@ -85,20 +78,18 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.balanceUiState.test {
             val latestEmission = awaitItem()
-            assertThat(latestEmission.errorHappened).isFalse()
-            assertThat(latestEmission.wawaCards).isNotEmpty()
-            assertThat(latestEmission.cardNumber).isNotEmpty()
-            assertThat(latestEmission).isEqualTo(
-                BalanceUiState(
-                    wawaCards = listOf(expectedBalance),
-                    cardNumber = "579997"
-                )
+            latestEmission.errorHappened shouldBe false
+
+            latestEmission.wawaCards.shouldHaveSize(1)
+            latestEmission.cardNumber shouldNotBe ""
+            latestEmission shouldBe BalanceUiState(
+                wawaCards = listOf(expectedBalance),
+                cardNumber = "579997"
             )
         }
     }
 
-    @Test
-    fun `Given a card that returns an error it should update the state to error`() = runTest {
+    test("Given a card that returns an error it should update the state to error") {
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Error(DataError.Remote.RequestTimeout)
@@ -112,21 +103,18 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.balanceUiState.test {
             val latestEmission = awaitItem()
-            assertThat(latestEmission.errorHappened).isTrue()
-            assertThat(latestEmission.wawaCards).isEmpty()
-            assertThat(latestEmission.cardNumber).isNotEmpty()
-            assertThat(latestEmission).isEqualTo(
-                BalanceUiState(
-                    wawaCards = emptyList(),
-                    cardNumber = "579997",
-                    errorHappened = true
-                )
+            latestEmission.errorHappened shouldBe true
+            latestEmission.wawaCards shouldBe emptyList()
+            latestEmission.cardNumber shouldNotBe ""
+            latestEmission shouldBe BalanceUiState(
+                wawaCards = emptyList(),
+                cardNumber = "579997",
+                errorHappened = true
             )
         }
     }
 
-    @Test
-    fun `Given the two different inputs it should only verify that it can save both`() = runTest {
+    test("Given the two different inputs it should only verify that it can save both") {
         val expectedBalance = listOf(
             WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"),
             WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51")
@@ -152,11 +140,9 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.balanceUiState.test {
             val lastEmission = awaitItem()
-            assertThat(lastEmission).isEqualTo(
-                BalanceUiState(
-                    wawaCards = expectedBalance,
-                    cardNumber = "579990"
-                )
+            lastEmission shouldBe BalanceUiState(
+                wawaCards = expectedBalance,
+                cardNumber = "579990"
             )
         }
 
@@ -168,8 +154,7 @@ class WawaBalanceViewModelTest {
         }
     }
 
-    @Test
-    fun `Given an empty input it should not call the use case`() = runTest {
+    test("Given an empty input it should not call the use case") {
         wawaBalanceViewModel.getBalance()
 
         coVerify(exactly = 0) {
@@ -178,17 +163,16 @@ class WawaBalanceViewModelTest {
 
         wawaBalanceViewModel.balanceUiState.test {
             val latestEmission = awaitItem()
-            assertThat(latestEmission.wawaCards).isEmpty()
-            assertThat(latestEmission.cardNumber).isEmpty()
+            latestEmission.wawaCards shouldBe emptyList()
+            latestEmission.cardNumber shouldBe ""
         }
     }
 
-    @Test
-    fun `Given a card it should call the use case to delete it`() = runTest {
+    test("Given a card it should call the use case to delete it") {
         val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
         wawaBalanceViewModel.removeCard(expectedBalance)
         coVerifySequence {
             balanceDbUseCases.deleteCard(expectedBalance)
         }
     }
-}
+})

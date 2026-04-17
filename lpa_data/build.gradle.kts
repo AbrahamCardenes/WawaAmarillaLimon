@@ -15,24 +15,35 @@ val localProperties =
         }
     }
 
-val apiParadas: String = localProperties.getProperty("API_PARADAS") ?: ""
-val apiTravellers: String = localProperties.getProperty("API_TRAVELLERS") ?: ""
-val apiStaticApp: String = localProperties.getProperty("API_STATICAPP") ?: ""
+fun getApiParadas(): String {
+    val apiFromEnv = System.getenv("API_WAWAS")
+    return apiFromEnv ?: (localProperties.getProperty("API_PARADAS") ?: "")
+}
+
+fun getApiTravellers(): String {
+    val apiFromEnv = System.getenv("API_TRAVELLERS")
+    return apiFromEnv ?: (localProperties.getProperty("API_TRAVELLERS") ?: "")
+}
+
+fun getApiStaticApp(): String {
+    val apiFromEnv = System.getenv("API_STATICAPP")
+    return apiFromEnv ?: (localProperties.getProperty("API_STATICAPP") ?: "")
+}
 
 configure<LibraryExtension> {
     buildTypes {
         release {
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon"
-            buildConfigField("String", "API_PARADAS", "\"${System.getenv("API_WAWAS")}\"")
-            buildConfigField("String", "API_TRAVELLERS", "\"${System.getenv("API_TRAVELLERS")}\"")
-            buildConfigField("String", "API_STATICAPP", "\"${System.getenv("API_STATICAPP")}\"")
+            buildConfigField("String", "API_PARADAS", "\"${getApiParadas()}\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"${getApiTravellers()}\"")
+            buildConfigField("String", "API_STATICAPP", "\"${getApiStaticApp()}\"")
         }
 
         debug {
             manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
-            buildConfigField("String", "API_PARADAS", "\"$apiParadas\"")
-            buildConfigField("String", "API_TRAVELLERS", "\"$apiTravellers\"")
-            buildConfigField("String", "API_STATICAPP", "\"$apiStaticApp\"")
+            buildConfigField("String", "API_PARADAS", "\"${getApiParadas()}\"")
+            buildConfigField("String", "API_TRAVELLERS", "\"${getApiTravellers()}\"")
+            buildConfigField("String", "API_STATICAPP", "\"${getApiStaticApp()}\"")
         }
     }
 }

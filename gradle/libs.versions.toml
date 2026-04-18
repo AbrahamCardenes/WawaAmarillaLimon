@@ -39,8 +39,9 @@ androidTools = "32.1.1"
 materialIcons = "1.7.8"
 kotest = "6.1.11"
 junitVintage = "6.0.3"
-uiautomator = "2.2.0"
+uiautomator = "2.3.0"
 benchmarkMacroJunit4 = "1.4.1"
+testServices = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -100,6 +101,7 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-test-services = { group = "androidx.test.services", name = "test-services", version.ref = "testServices" }
 
 
 [plugins]

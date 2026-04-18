@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
+    androidTestUtil(libs.androidx.test.services)
 }
 
 androidComponents {

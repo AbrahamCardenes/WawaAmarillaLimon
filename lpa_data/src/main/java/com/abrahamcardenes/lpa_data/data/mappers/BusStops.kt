@@ -31,7 +31,8 @@ fun List<BusLineDto>.linesToDomain(): List<BusLine> = this.map {
 
 fun BusStop.toEntity(): BusStopEntity = BusStopEntity(
     addressName = this.addressName,
-    stopNumber = this.stopNumber
+    stopNumber = this.stopNumber,
+    isFavorite = this.isSavedInDb // TODO
 )
 
 fun BusStopEntity.toDomain(): BusStop = BusStop(

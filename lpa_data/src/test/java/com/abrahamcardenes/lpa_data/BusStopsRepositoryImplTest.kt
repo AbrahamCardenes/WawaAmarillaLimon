@@ -114,7 +114,8 @@ class BusStopsRepositoryImplTest {
             busStopDao.insertBusStop(
                 BusStopEntity(
                     addressName = "TEATRO",
-                    stopNumber = 1
+                    stopNumber = 1,
+                    isFavorite = true
                 )
             )
         }
@@ -135,7 +136,8 @@ class BusStopsRepositoryImplTest {
             busStopDao.deleteBusStop(
                 BusStopEntity(
                     addressName = "TEATRO",
-                    stopNumber = 1
+                    stopNumber = 1,
+                    isFavorite = true
                 )
             )
         }

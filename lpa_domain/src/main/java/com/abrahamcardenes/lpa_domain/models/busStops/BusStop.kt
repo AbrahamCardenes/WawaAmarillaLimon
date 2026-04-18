@@ -6,4 +6,5 @@ data class BusStop(
     val addressName: String,
     val stopNumber: BusStopNumber,
     val isSavedInDb: Boolean
+    // TODO Rename to isFavorite
 )

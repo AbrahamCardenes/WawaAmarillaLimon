@@ -10,7 +10,7 @@ import com.abrahamcardenes.core_db.cards.WawaBalanceEntity
 
 @Database(
     entities = [BusStopEntity::class, WawaBalanceEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 1, to = 2)

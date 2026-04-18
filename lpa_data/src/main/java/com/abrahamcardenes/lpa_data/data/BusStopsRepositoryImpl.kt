@@ -27,6 +27,7 @@ class BusStopsRepositoryImpl(
 ) : BusStopsRepository {
 
     override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
+        println("Buenas tardes!")
         api.getParadas()
     }.map { busStopDto ->
         val originalBusStops = busStopDto.toMutableList()

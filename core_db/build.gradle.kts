@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.LibraryExtension
 import com.google.devtools.ksp.gradle.KspExtension
 
 plugins {
@@ -8,6 +9,12 @@ plugins {
 configure<KspExtension> {
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
+    }
+}
+
+configure<LibraryExtension> {
+    sourceSets {
+        getByName("androidTest").assets.directories += "$projectDir/schemas"
     }
 }
 

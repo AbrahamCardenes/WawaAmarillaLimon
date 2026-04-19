@@ -27,12 +27,13 @@ class BusStopsRepositoryImpl(
 ) : BusStopsRepository {
 
     override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
-        println("Buenas tardes!")
         api.getParadas()
     }.map { busStopDto ->
         val originalBusStops = busStopDto.toMutableList()
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
-        originalBusStops.toDomain()
+        val busStopsFromApi = originalBusStops.toDomain()
+        busStopDao.upsertAll(busStopsFromApi.map { it.toEntity() })
+        busStopsFromApi
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {
@@ -53,10 +54,10 @@ class BusStopsRepositoryImpl(
     }
 
     override suspend fun saveStops(busStop: BusStop) {
-        busStopDao.insertBusStop(busStop.toEntity())
+        busStopDao.updateFavorite(stopNumber = busStop.stopNumber, isFavorite = busStop.isFavorite)
     }
 
-    override fun getAllLocalBusStops(): Flow<List<BusStop>> = busStopDao.getBusStops().map { list ->
+    override fun getAllLocalBusStops(): Flow<List<BusStop>> = busStopDao.getBusStopsFlow().map { list ->
         list.map { entity ->
             entity.toDomain()
         }

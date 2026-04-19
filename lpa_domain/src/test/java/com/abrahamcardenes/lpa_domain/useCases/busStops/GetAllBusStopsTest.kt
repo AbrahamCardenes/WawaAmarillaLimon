@@ -37,17 +37,17 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "C / FRANCISCO GOURIÉ, 103",
                         stopNumber = 2,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = false
+                        isFavorite = false
                     )
                 )
             )
@@ -64,22 +64,22 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "C / FRANCISCO GOURIÉ, 103",
                         stopNumber = 2,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     )
                 )
             )
@@ -96,17 +96,17 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "C / FRANCISCO GOURIÉ, 103",
                         stopNumber = 2,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = false
+                        isFavorite = false
                     )
                 )
             )
@@ -129,22 +129,22 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "C / FRANCISCO GOURIÉ, 103",
                         stopNumber = 2,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     )
                 )
             )
@@ -160,17 +160,17 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "TEATRO",
                         stopNumber = 1,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "C / FRANCISCO GOURIÉ, 103",
                         stopNumber = 2,
-                        isSavedInDb = false
+                        isFavorite = false
                     ),
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = true
+                        isFavorite = true
                     )
                 )
             )
@@ -183,7 +183,7 @@ class GetAllBusStopsTest {
                     BusStop(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                         stopNumber = 79,
-                        isSavedInDb = true
+                        isFavorite = true
                     )
                 )
             )
@@ -196,22 +196,22 @@ class GetAllBusStopsTest {
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1,
-                    isSavedInDb = false
+                    isFavorite = false
                 ),
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,
-                    isSavedInDb = false
+                    isFavorite = false
                 ),
                 BusStop(
                     addressName = "C / FRANCISCO GOURIÉ, 103",
                     stopNumber = 2,
-                    isSavedInDb = false
+                    isFavorite = false
                 ),
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1,
-                    isSavedInDb = false
+                    isFavorite = false
                 )
             )
         )

@@ -9,6 +9,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+@Deprecated("Not in use anymore with offline first approach")
 class GetAllBusStops
 @Inject
 constructor(
@@ -19,14 +20,14 @@ constructor(
     operator fun invoke(): Flow<Result<List<BusStop>, DataError>> {
         val busStopsCombinedWithLocal = repository.getAllLocalBusStops().map { savedStops ->
             if (!::currentBusStops.isInitialized || currentBusStops is Result.Error) {
-                currentBusStops = getNetworkBusStops()
+                currentBusStops = fetchBusStops()
             }
 
-            val savedStopsMap = savedStops.associateBy({ it.stopNumber }, { it.isSavedInDb })
+            val savedStopsMap = savedStops.associateBy({ it.stopNumber }, { it.isFavorite })
 
             currentBusStops.map { currentBusStops ->
                 currentBusStops.map { busStop ->
-                    busStop.copy(isSavedInDb = savedStopsMap[busStop.stopNumber] ?: false)
+                    busStop.copy(isFavorite = savedStopsMap[busStop.stopNumber] ?: false)
                 }
             }
         }
@@ -34,7 +35,7 @@ constructor(
         return busStopsCombinedWithLocal
     }
 
-    private suspend fun getNetworkBusStops() = repository
+    suspend fun fetchBusStops() = repository
         .getBusStops().map { busStop ->
             busStop.distinctBy { it.stopNumber }
                 .sortedBy { it.stopNumber }

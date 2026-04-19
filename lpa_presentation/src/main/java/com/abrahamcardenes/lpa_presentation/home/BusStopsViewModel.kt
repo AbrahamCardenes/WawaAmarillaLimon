@@ -20,7 +20,6 @@ import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
-import com.abrahamcardenes.lpa_presentation.utils.getRandomString
 import com.abrahamcardenes.lpa_presentation.utils.removeNonSpacingMarks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -30,6 +29,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -48,6 +48,12 @@ class BusStopsViewModel
     private val getFavoriteBusStopsUseCase: GetFavoriteBusStopsUseCase
 ) : ViewModel() {
     private val _onlineBusStopsState = MutableStateFlow(BusStopsUiState())
+
+    init {
+        viewModelScope.launch(dispatchers.IO) {
+            getAllBusStopsUseCase.fetchBusStops()
+        }
+    }
     val onlineBusStopsState: StateFlow<BusStopsUiState> = _onlineBusStopsState.onStart {
         getBusStops()
     }.map { currentState ->
@@ -64,7 +70,7 @@ class BusStopsViewModel
 
     private val _favoriteBusStopsUiState = MutableStateFlow(FavoritesUiState())
     val favoriteBusStopsUiState: StateFlow<FavoritesUiState> = _favoriteBusStopsUiState.onStart {
-        getOfflineBusStops()
+        getFavoriteBusStops()
     }.combine(_onlineBusStopsState) { currentState, onlineState ->
         val userInput = onlineState.userInput
         val filteredBusStops = currentState.busStops.filter { busStop ->
@@ -81,25 +87,12 @@ class BusStopsViewModel
 
     fun getBusStops() {
         updateState(BusStopState.Loading)
-        viewModelScope.launch {
-            getAllBusStopsUseCase()
-                .collect { response ->
-                    response
-                        .onSuccess { currentBusStops ->
-                            _onlineBusStopsState.update { state ->
-                                state.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
-                                    .keepCurrentExpandedStatus()
-                            }
-                        }
-                        .onError { error ->
-                            _onlineBusStopsState.update { state ->
-                                state.copy(errorMessage = getRandomString())
-                            }
-                            logErrorIfIsUnknown(error)
-                            updateState(BusStopState.Error)
-                        }
-                }
-        }
+        getFavoriteBusStopsUseCase().onEach { currentBusStops ->
+            _onlineBusStopsState.update { state ->
+                state.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
+                    .keepCurrentExpandedStatus()
+            }
+        }.launchIn(viewModelScope)
     }
 
     private suspend fun logErrorIfIsUnknown(it: DataError) {
@@ -231,15 +224,16 @@ class BusStopsViewModel
     }
 
     // Favorites
-    private fun getOfflineBusStops() {
+    private fun getFavoriteBusStops() {
         _favoriteBusStopsUiState.update {
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
             getFavoriteBusStopsUseCase()
                 .collect { currentBusStops ->
+                    val favoriteBusStops = currentBusStops.filter { it.isFavorite }
                     _favoriteBusStopsUiState.update {
-                        it.copy(busStops = currentBusStops.toUiStopDetail(), isLoading = false)
+                        it.copy(busStops = favoriteBusStops.toUiStopDetail(), isLoading = false)
                             .keepCurrentExpandedStatus()
                     }
                 }

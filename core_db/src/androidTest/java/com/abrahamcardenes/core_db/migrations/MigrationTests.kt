@@ -52,7 +52,7 @@ class MigrationTests {
 
             val migratedDb = MigrationUtils.getMigratedRoomDb(dbName, listOf(MIGRATION_2_3))
 
-            val busStops = migratedDb.busStopDao().getBusStops().first()
+            val busStops = migratedDb.busStopDao().getBusStopsFlow().first()
 
             assertThat(busStops.size).isEqualTo(2)
             assertThat(busStops).isEqualTo(

@@ -19,17 +19,17 @@ fun fakeListBusStopDetail(setFirstToFavorite: Boolean = false): List<BusStop> = 
     BusStop(
         addressName = "TEATRO",
         stopNumber = 1,
-        isSavedInDb = setFirstToFavorite
+        isFavorite = setFirstToFavorite
     ),
     BusStop(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isSavedInDb = false
+        isFavorite = false
     ),
     BusStop(
         addressName = "C / FRANCISCO GOURIÉ, 103",
         stopNumber = 2,
-        isSavedInDb = false
+        isFavorite = false
     )
 )
 
@@ -37,16 +37,16 @@ fun fakeListBusStopDetailOffline(setSecondFavoriteValue: Boolean = true): List<B
     BusStop(
         addressName = "TEATRO",
         stopNumber = 1,
-        isSavedInDb = true
+        isFavorite = true
     ),
     BusStop(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isSavedInDb = setSecondFavoriteValue
+        isFavorite = setSecondFavoriteValue
     ),
     BusStop(
         addressName = "C / FRANCISCO GOURIÉ, 103",
         stopNumber = 2,
-        isSavedInDb = true
+        isFavorite = true
     )
 )

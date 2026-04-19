@@ -309,7 +309,7 @@ class BusStopsViewModelTest {
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1,
-                    isSavedInDb = false
+                    isFavorite = false
                 )
             )
         } returns Unit
@@ -751,7 +751,7 @@ class BusStopsViewModelTest {
                                     BusStop(
                                         addressName = "LEÓN Y CASTILLO, 13",
                                         stopNumber = 6,
-                                        isSavedInDb = false
+                                        isFavorite = false
                                     )
                                 )
                             }
@@ -807,12 +807,12 @@ class BusStopsViewModelTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = true
+                isFavorite = true
             ),
             BusStop(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isSavedInDb = true
+                isFavorite = true
             )
         )
         coEvery {
@@ -820,7 +820,7 @@ class BusStopsViewModelTest {
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,
-                    isSavedInDb = true
+                    isFavorite = true
                 )
             )
         } returns Unit
@@ -861,7 +861,7 @@ class BusStopsViewModelTest {
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,
-                    isSavedInDb = true
+                    isFavorite = true
                 )
             )
         }

@@ -5,5 +5,6 @@ import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 data class BusStop(
     val addressName: String,
     val stopNumber: BusStopNumber,
-    val isSavedInDb: Boolean
+    val isFavorite: Boolean
+    // TODO Rename to isFavorite
 )

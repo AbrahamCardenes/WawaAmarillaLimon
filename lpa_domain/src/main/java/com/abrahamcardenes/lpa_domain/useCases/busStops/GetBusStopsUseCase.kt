@@ -5,6 +5,8 @@ import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class GetFavoriteBusStopsUseCase @Inject constructor(private val busStopRepository: BusStopsRepository) {
+class GetBusStopsUseCase @Inject constructor(
+    private val busStopRepository: BusStopsRepository
+) {
     operator fun invoke(): Flow<List<BusStop>> = busStopRepository.getAllLocalBusStops()
 }

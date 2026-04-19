@@ -39,7 +39,7 @@ class BusStopDaoTest {
         dao.insertBusStop(
             busStopEntity = busStopEntityFake()
         )
-        assertThat(dao.getBusStops().first().size).isEqualTo(1)
+        assertThat(dao.getBusStopsFlow().first().size).isEqualTo(1)
         assertThat(dao.getBusStopByNumber(stopNumber = 79)).isEqualTo(busStopEntityFake())
     }
 
@@ -51,7 +51,7 @@ class BusStopDaoTest {
         dao.insertBusStop(
             busStopEntity = busStopEntityFake()
         )
-        assertThat(dao.getBusStops().first().size).isEqualTo(1)
+        assertThat(dao.getBusStopsFlow().first().size).isEqualTo(1)
         assertThat(dao.getBusStopByNumber(stopNumber = 79)).isEqualTo(busStopEntityFake())
     }
 
@@ -67,7 +67,7 @@ class BusStopDaoTest {
         dao.insertBusStop(
             busStopEntity = busStop1
         )
-        assertThat(dao.getBusStops().first()).isEqualTo(
+        assertThat(dao.getBusStopsFlow().first()).isEqualTo(
             listOf(
                 busStop1,
                 busStop79
@@ -89,7 +89,7 @@ class BusStopDaoTest {
         dao.insertBusStop(
             busStopEntity = busStop1
         )
-        assertThat(dao.getBusStops().first()).isEqualTo(
+        assertThat(dao.getBusStopsFlow().first()).isEqualTo(
             listOf(
                 busStop1,
                 busStop79
@@ -99,7 +99,7 @@ class BusStopDaoTest {
         assertThat(dao.getBusStopByNumber(stopNumber = 1)).isEqualTo(busStop1)
 
         dao.deleteBusStop(busStop79)
-        assertThat(dao.getBusStops().first()).isEqualTo(
+        assertThat(dao.getBusStopsFlow().first()).isEqualTo(
             listOf(
                 busStop1
             )

@@ -73,17 +73,17 @@ class BusStopsRepositoryImplTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = false
+                isFavorite = false
             ),
             BusStop(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isSavedInDb = false
+                isFavorite = false
             ),
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = false
+                isFavorite = false
             )
         )
         ServerMocks.enqueue(
@@ -104,7 +104,7 @@ class BusStopsRepositoryImplTest {
         val busStop = BusStop(
             addressName = "TEATRO",
             stopNumber = 1,
-            isSavedInDb = false
+            isFavorite = false
         )
 
         repository.saveStops(busStop)
@@ -114,7 +114,8 @@ class BusStopsRepositoryImplTest {
             busStopDao.insertBusStop(
                 BusStopEntity(
                     addressName = "TEATRO",
-                    stopNumber = 1
+                    stopNumber = 1,
+                    isFavorite = true
                 )
             )
         }
@@ -125,7 +126,7 @@ class BusStopsRepositoryImplTest {
         val busStop = BusStop(
             addressName = "TEATRO",
             stopNumber = 1,
-            isSavedInDb = false
+            isFavorite = false
         )
 
         repository.deleteBusStop(busStop)
@@ -135,7 +136,8 @@ class BusStopsRepositoryImplTest {
             busStopDao.deleteBusStop(
                 BusStopEntity(
                     addressName = "TEATRO",
-                    stopNumber = 1
+                    stopNumber = 1,
+                    isFavorite = true
                 )
             )
         }
@@ -147,7 +149,7 @@ class BusStopsRepositoryImplTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = true
+                isFavorite = true
             )
         )
 
@@ -155,22 +157,22 @@ class BusStopsRepositoryImplTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = true
+                isFavorite = true
             ),
             BusStop(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isSavedInDb = true
+                isFavorite = true
             ),
             BusStop(
                 addressName = "TEATRO, 99",
                 stopNumber = 99,
-                isSavedInDb = true
+                isFavorite = true
             )
         )
 
         coEvery {
-            busStopDao.getBusStops()
+            busStopDao.getBusStopsFlow()
         } returns flow {
             emit(listOfOneItem.map { it.toEntity() })
             emit(listOfThreeItems.map { it.toEntity() })
@@ -182,7 +184,7 @@ class BusStopsRepositoryImplTest {
             awaitComplete()
         }
         coVerify(exactly = 1) {
-            busStopDao.getBusStops()
+            busStopDao.getBusStopsFlow()
         }
     }
 

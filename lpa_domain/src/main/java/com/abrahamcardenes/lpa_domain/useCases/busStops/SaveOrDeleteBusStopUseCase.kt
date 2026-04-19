@@ -12,18 +12,18 @@ class SaveOrDeleteBusStopUseCase @Inject constructor(
     private val analyticsService: AnalyticsService
 ) {
     suspend operator fun invoke(busStop: BusStop) {
-        if (busStop.isSavedInDb) {
+        if (busStop.isFavorite) {
             sendEvent(
                 event = AnalyticsEvents.UNFAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.deleteBusStop(busStop)
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = false))
         } else {
             sendEvent(
                 event = AnalyticsEvents.FAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.saveStops(busStop)
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = true))
         }
     }
 

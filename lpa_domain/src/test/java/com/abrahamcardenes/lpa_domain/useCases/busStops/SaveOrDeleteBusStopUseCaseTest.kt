@@ -37,7 +37,7 @@ class SaveOrDeleteBusStopUseCaseTest {
         val busStop = BusStop(
             addressName = "TEATRO, 99",
             stopNumber = 99,
-            isSavedInDb = false
+            isFavorite = false
         )
 
         coEvery {
@@ -79,7 +79,7 @@ class SaveOrDeleteBusStopUseCaseTest {
         val busStop = BusStop(
             addressName = "TEATRO, 99",
             stopNumber = 99,
-            isSavedInDb = true
+            isFavorite = true
         )
 
         coEvery {

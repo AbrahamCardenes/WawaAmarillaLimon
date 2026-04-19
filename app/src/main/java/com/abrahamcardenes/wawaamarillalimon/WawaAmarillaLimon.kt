@@ -2,6 +2,7 @@ package com.abrahamcardenes.wawaamarillalimon
 
 import android.app.Application
 import com.abrahamcardenes.core.dispatchers.DispatchersProvider
+import com.abrahamcardenes.core_android.di.ApplicationScope
 import com.abrahamcardenes.core_db.BusStopDao
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

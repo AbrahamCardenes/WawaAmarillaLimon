@@ -1,4 +1,4 @@
-package com.abrahamcardenes.wawaamarillalimon
+package com.abrahamcardenes.core_android.di
 
 import dagger.Module
 import dagger.Provides

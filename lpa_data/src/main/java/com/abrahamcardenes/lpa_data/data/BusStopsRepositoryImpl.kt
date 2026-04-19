@@ -1,8 +1,11 @@
 package com.abrahamcardenes.lpa_data.data
 
+import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core.network.DataError
+import com.abrahamcardenes.core.network.EmptyResult
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
+import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.safecall
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.mappers.toDomain
@@ -14,26 +17,39 @@ import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class BusStopsRepositoryImpl(
     private val api: ApiParadas,
-    private val busStopDao: BusStopDao
+    private val busStopDao: BusStopDao,
+    private val coroutineScope: CoroutineScope,
+    private val dispatchersProvider: DispatchersProvider
 ) : BusStopsRepository {
 
-    override suspend fun getBusStops(): Result<List<BusStop>, DataError> = safecall {
+    init {
+        coroutineScope.launch(dispatchersProvider.IO) {
+            getBusStops()
+        }
+    }
+
+    override suspend fun getBusStops(): EmptyResult<DataError> = safecall {
         api.getParadas()
     }.map { busStopDto ->
         val originalBusStops = busStopDto.toMutableList()
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
         val busStopsFromApi = originalBusStops.toDomain()
-        busStopDao.upsertAll(busStopsFromApi.map { it.toEntity() })
-        busStopsFromApi
+        val uniqueBusStops = busStopsFromApi.distinctBy { it.stopNumber }
+            .sortedBy { it.stopNumber }
+
+        busStopDao.upsertAll(uniqueBusStops.map { it.toEntity() })
+    }.onError { error -> // TODO Log error
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {
@@ -53,7 +69,7 @@ class BusStopsRepositoryImpl(
         }
     }
 
-    override suspend fun saveStops(busStop: BusStop) {
+    override suspend fun updateBusStopInDb(busStop: BusStop) {
         busStopDao.updateFavorite(stopNumber = busStop.stopNumber, isFavorite = busStop.isFavorite)
     }
 
@@ -61,9 +77,5 @@ class BusStopsRepositoryImpl(
         list.map { entity ->
             entity.toDomain()
         }
-    }
-
-    override suspend fun deleteBusStop(busStop: BusStop) {
-        busStopDao.deleteBusStop(busStop.toEntity())
     }
 }

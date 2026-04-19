@@ -17,13 +17,13 @@ class SaveOrDeleteBusStopUseCase @Inject constructor(
                 event = AnalyticsEvents.UNFAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.saveStops(busStop.copy(isFavorite = false))
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = false))
         } else {
             sendEvent(
                 event = AnalyticsEvents.FAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.saveStops(busStop.copy(isFavorite = true))
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = true))
         }
     }
 

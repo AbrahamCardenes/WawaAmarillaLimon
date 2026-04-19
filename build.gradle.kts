@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     id("org.sonarqube") version "7.2.3.7755"
     id("jacoco")
+    alias(libs.plugins.android.test) apply false
 }
 
 buildscript {
@@ -24,7 +25,10 @@ buildscript {
 apply(from = "$rootDir/sonar.gradle")
 
 subprojects {
-    apply(from = "$rootDir/jacoco.gradle")
+    // no need to apply jacoco on macrobenchmark module
+    if (name != "macrobenchmark") {
+        apply(from = "$rootDir/jacoco.gradle")
+    }
     // PmaxForks will set to that cpu forks -> ./gradlew testDebugUnitTest -PmaxForks=4
     tasks.withType<Test>().configureEach {
         maxParallelForks = (

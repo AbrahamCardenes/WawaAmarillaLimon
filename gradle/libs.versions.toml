@@ -39,6 +39,9 @@ androidTools = "32.1.1"
 materialIcons = "1.7.8"
 kotest = "6.1.11"
 junitVintage = "6.0.3"
+uiautomator = "2.3.0"
+benchmarkMacroJunit4 = "1.4.1"
+testServices = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -96,6 +99,9 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-test-services = { group = "androidx.test.services", name = "test-services", version.ref = "testServices" }
 
 
 [plugins]
@@ -112,6 +118,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 convention-android-application = { id = "com.abrahamcardenes.convention.android.application", version = "unspecified" }
 convention-common-android = { id = "com.abrahamcardenes.convention.android.common", version = "unspecified" }
 convention-jacoco = { id = "com.abrahamcardenes.convention.jacoco", version = "unspecified" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 
 
 [bundles]

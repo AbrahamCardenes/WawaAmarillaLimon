@@ -10,7 +10,7 @@ import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusStopsUseCase
-import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.UpdateLocalBusStopUseCase
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopState
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 class BusStopsViewModel
 @Inject constructor(
     private val getBusDetailUseCase: GetBusDetailUseCase,
-    private val saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase,
+    private val updateLocalBusStopUseCase: UpdateLocalBusStopUseCase,
     private val crashlyticsService: CrashlyticsService,
     private val dispatchers: DispatchersProvider,
     private val getBusStopsUseCase: GetBusStopsUseCase
@@ -203,7 +203,7 @@ class BusStopsViewModel
 
     fun saveOrDeleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
         viewModelScope.launch(dispatchers.IO) {
-            saveOrDeleteBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
+            updateLocalBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
         }
     }
 

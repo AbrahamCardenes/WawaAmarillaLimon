@@ -7,7 +7,7 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import javax.inject.Inject
 
-class SaveOrDeleteBusStopUseCase @Inject constructor(
+class UpdateLocalBusStopUseCase @Inject constructor(
     private val busStopsRepository: BusStopsRepository,
     private val analyticsService: AnalyticsService
 ) {

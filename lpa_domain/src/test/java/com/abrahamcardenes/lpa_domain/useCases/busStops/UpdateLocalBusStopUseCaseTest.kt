@@ -7,21 +7,21 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.coVerifySequence
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class SaveOrDeleteBusStopUseCaseTest {
+class UpdateLocalBusStopUseCaseTest {
     private val busStopsRepository = mockk<BusStopsRepository>()
     private val analyticsService = mockk<AnalyticsService>()
-    private lateinit var saveOrDeleteBusStopUseCase: SaveOrDeleteBusStopUseCase
+    private lateinit var updateLocalBusStopUseCase: UpdateLocalBusStopUseCase
 
     @Before
     fun setup() {
-        saveOrDeleteBusStopUseCase = SaveOrDeleteBusStopUseCase(
+        updateLocalBusStopUseCase = UpdateLocalBusStopUseCase(
             busStopsRepository = busStopsRepository,
             analyticsService = analyticsService
         )
@@ -33,49 +33,7 @@ class SaveOrDeleteBusStopUseCaseTest {
     }
 
     @Test
-    fun `When invoking saveOrDeleteBusStopUseCase and the object is mark as not in DB it should save the bus stop`() = runTest {
-        val busStop = BusStop(
-            addressName = "TEATRO, 99",
-            stopNumber = 99,
-            isFavorite = false
-        )
-
-        coEvery {
-            busStopsRepository.saveStops(busStop)
-        } returns Unit
-
-        coEvery {
-            analyticsService.sendLogEvent(
-                event = AnalyticsEvents.FAVORITE_CLICKED,
-                params =
-                arrayOf(
-                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
-                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
-                )
-            )
-        } returns Unit
-
-        saveOrDeleteBusStopUseCase(busStop)
-
-        coVerify(exactly = 1) {
-            busStopsRepository.saveStops(busStop)
-            analyticsService.sendLogEvent(
-                event = AnalyticsEvents.FAVORITE_CLICKED,
-                params =
-                arrayOf(
-                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
-                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
-                )
-            )
-        }
-
-        coVerify(exactly = 0) {
-            busStopsRepository.deleteBusStop(busStop)
-        }
-    }
-
-    @Test
-    fun `When invoking saveOrDeleteBusStopUseCase and the object is mark as is in DB it should delete the bus stop`() = runTest {
+    fun `Given a call to updateLocalBusStop When the stop IS NOT favorite then it should send favorite log and call db with favorite to true value`() = runTest {
         val busStop = BusStop(
             addressName = "TEATRO, 99",
             stopNumber = 99,
@@ -83,35 +41,66 @@ class SaveOrDeleteBusStopUseCaseTest {
         )
 
         coEvery {
-            busStopsRepository.deleteBusStop(busStop)
+            busStopsRepository.updateBusStopInDb(busStop)
+        } returns Unit
+
+        coEvery {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.FAVORITE_CLICKED,
+                params = arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
+        } returns Unit
+
+        updateLocalBusStopUseCase(busStop.copy(isFavorite = false))
+
+        coVerifySequence {
+            analyticsService.sendLogEvent(
+                event = AnalyticsEvents.FAVORITE_CLICKED,
+                params = arrayOf(
+                    Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
+                    Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
+                )
+            )
+            busStopsRepository.updateBusStopInDb(busStop)
+        }
+    }
+
+    @Test
+    fun `Given a call to updateLocalBusStop When the stop IS favorite then it should send unfavorite log and call db with favorite to false value`() = runTest {
+        val busStop = BusStop(
+            addressName = "TEATRO, 99",
+            stopNumber = 99,
+            isFavorite = false
+        )
+
+        coEvery {
+            busStopsRepository.updateBusStopInDb(busStop)
         } returns Unit
 
         coEvery {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.UNFAVORITE_CLICKED,
-                params =
-                arrayOf(
+                params = arrayOf(
                     Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
                     Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
                 )
             )
         } returns Unit
 
-        saveOrDeleteBusStopUseCase(busStop)
+        updateLocalBusStopUseCase(busStop.copy(isFavorite = true))
 
-        coVerify(exactly = 1) {
-            busStopsRepository.deleteBusStop(busStop)
+        coVerifySequence {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.UNFAVORITE_CLICKED,
-                params =
-                arrayOf(
+                params = arrayOf(
                     Pair(AnalyticsParams.STOP_NUMBER, busStop.stopNumber),
                     Pair(AnalyticsParams.STOP_NAME, busStop.addressName)
                 )
             )
-        }
-        coVerify(exactly = 0) {
-            busStopsRepository.saveStops(busStop)
+            busStopsRepository.updateBusStopInDb(busStop)
         }
     }
 }

@@ -11,7 +11,7 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
-import com.abrahamcardenes.lpa_domain.useCases.busStops.SaveOrDeleteBusStopUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.UpdateLocalBusStopUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
 import com.abrahamcardenes.lpa_presentation.fakes.fakeBusStopDetail
@@ -49,7 +49,7 @@ class BusStopsViewModelTest {
 
     private val getAllBusStopsUseCase = mockk<GetAllBusStops>()
     private val getBusDetailUseCase = mockk<GetBusDetailUseCase>()
-    private val saveOrDeleteBusStopUseCase = mockk<SaveOrDeleteBusStopUseCase>()
+    private val updateLocalBusStopUseCase = mockk<UpdateLocalBusStopUseCase>()
     private val getFavoriteBusStopsUseCase = mockk<GetFavoriteBusStopsUseCase>()
 
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
@@ -61,7 +61,7 @@ class BusStopsViewModelTest {
         busStopsViewModel = BusStopsViewModel(
             getAllBusStopsUseCase = getAllBusStopsUseCase,
             getBusDetailUseCase = getBusDetailUseCase,
-            saveOrDeleteBusStopUseCase = saveOrDeleteBusStopUseCase,
+            updateLocalBusStopUseCase = updateLocalBusStopUseCase,
             getFavoriteBusStopsUseCase = getFavoriteBusStopsUseCase,
             crashlyticsService = crashlyticsService,
             dispatchers = dispatchers
@@ -305,7 +305,7 @@ class BusStopsViewModelTest {
         }
 
         coEvery {
-            saveOrDeleteBusStopUseCase(
+            updateLocalBusStopUseCase(
                 BusStop(
                     addressName = "TEATRO",
                     stopNumber = 1,
@@ -344,7 +344,7 @@ class BusStopsViewModelTest {
         }
 
         coVerify(exactly = 1) {
-            saveOrDeleteBusStopUseCase(fakeListBusStopDetail().toUiStopDetail().first().toBusStop())
+            updateLocalBusStopUseCase(fakeListBusStopDetail().toUiStopDetail().first().toBusStop())
         }
     }
 
@@ -816,7 +816,7 @@ class BusStopsViewModelTest {
             )
         )
         coEvery {
-            saveOrDeleteBusStopUseCase(
+            updateLocalBusStopUseCase(
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,
@@ -857,7 +857,7 @@ class BusStopsViewModelTest {
         }
 
         coVerify(exactly = 1) {
-            saveOrDeleteBusStopUseCase(
+            updateLocalBusStopUseCase(
                 BusStop(
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,

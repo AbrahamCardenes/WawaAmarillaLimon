@@ -2,6 +2,7 @@ package com.abrahamcardenes.lpa_data.di.busStops
 
 import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core_android.di.ApplicationScope
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.BusStopsRepositoryImpl
 import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
@@ -22,11 +23,13 @@ object BusStopsRepositoryModule {
         api: ApiParadas,
         dao: BusStopDao,
         @ApplicationScope applicationScope: CoroutineScope,
-        dispatchersProvider: DispatchersProvider
+        dispatchersProvider: DispatchersProvider,
+        crashlyticsService: CrashlyticsService
     ): BusStopsRepository = BusStopsRepositoryImpl(
         api = api,
         busStopDao = dao,
         coroutineScope = applicationScope,
-        dispatchersProvider = dispatchersProvider
+        dispatchersProvider = dispatchersProvider,
+        crashlyticsService = crashlyticsService
     )
 }

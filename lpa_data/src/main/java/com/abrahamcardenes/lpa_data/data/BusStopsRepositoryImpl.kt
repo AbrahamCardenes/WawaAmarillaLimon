@@ -7,6 +7,7 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.safecall
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.mappers.toDomain
 import com.abrahamcardenes.lpa_data.data.mappers.toEntity
@@ -30,7 +31,8 @@ class BusStopsRepositoryImpl(
     private val api: ApiParadas,
     private val busStopDao: BusStopDao,
     private val coroutineScope: CoroutineScope,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val crashlyticsService: CrashlyticsService
 ) : BusStopsRepository {
 
     init {
@@ -49,7 +51,8 @@ class BusStopsRepositoryImpl(
             .sortedBy { it.stopNumber }
 
         busStopDao.upsertAll(uniqueBusStops.map { it.toEntity() })
-    }.onError { error -> // TODO Log error
+    }.onError { error ->
+        crashlyticsService.logException(Exception(error.toString()))
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {

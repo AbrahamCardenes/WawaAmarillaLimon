@@ -7,7 +7,7 @@ import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetConcessionsUseCase
-import com.abrahamcardenes.lpa_presentation.utils.getRandomString
+import com.abrahamcardenes.lpa_presentation.utils.getRandomErrorCatMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +40,7 @@ class ConcessionsViewModel @Inject constructor(
                 }
                 .onError {
                     _concessionUiState.update { state ->
-                        state.copy(errorMessage = getRandomString())
+                        state.copy(errorMessage = getRandomErrorCatMessage())
                     }
                     updateConcessionState(ConcessionState.Error)
                     logErrorIfIsUnknown(it)

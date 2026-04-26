@@ -4,14 +4,19 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.abrahamcardenes.lpa_presentation.components.cat.CatMessage
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
-import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
+import com.abrahamcardenes.lpa_presentation.utils.getRandomEmptyCatMessage
 
 @Composable
 fun FavoriteStops(
@@ -20,16 +25,21 @@ fun FavoriteStops(
     onSaveBusStop: (UiBusStopDetail) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val randomMessage by remember {
+        mutableIntStateOf(getRandomEmptyCatMessage())
+    }
     AnimatedContent(
         targetState = uiState.favoriteBusStops.isEmpty(),
         label = "animation-loading-bus-stops"
     ) { isEmpty ->
         if (isEmpty) {
-            // TODO change to empty ui
-            LoadingCircles(
+            CatMessage(
+                onClick = {},
+                message = stringResource(randomMessage),
+                actionMessage = null,
                 modifier = Modifier
+                    .padding(horizontal = 16.dp)
                     .fillMaxSize()
-                    .padding(16.dp)
             )
         } else {
             BusStopsList(

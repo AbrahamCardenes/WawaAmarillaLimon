@@ -2,7 +2,7 @@ package com.abrahamcardenes.lpa_presentation.utils
 
 import com.abrahamcardenes.lpa_presentation.R
 
-fun getRandomString(): Int {
+fun getRandomErrorCatMessage(): Int {
     val catMessages = listOf(
         R.string.cat_error_1,
         R.string.cat_error_2,

@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_presentation.components.errors
+package com.abrahamcardenes.lpa_presentation.components.cat
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -32,7 +32,12 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-fun CatError(onClick: () -> Unit, modifier: Modifier = Modifier, message: String) {
+fun CatMessage(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    message: String,
+    actionMessage: String? = stringResource(R.string.retry)
+) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(
             R.raw.cat_lottie
@@ -73,22 +78,37 @@ fun CatError(onClick: () -> Unit, modifier: Modifier = Modifier, message: String
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(onClick = onClick) {
-            Text(
-                text = stringResource(R.string.retry),
-                style = MaterialTheme.typography.bodyLarge
-            )
+
+        if (actionMessage != null) {
+            OutlinedButton(onClick = onClick) {
+                Text(
+                    text = actionMessage,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
         }
     }
 }
 
 @Composable
 @PreviewLightDark
-private fun CatErrorPreview() {
+private fun CatMessagePreview() {
     WawaAmarillaLimonTheme {
-        CatError(
+        CatMessage(
             message = stringResource(R.string.cat_error_5),
             onClick = {}
+        )
+    }
+}
+
+@Composable
+@PreviewLightDark
+private fun CatMessagePreviewWithActionMessageNull() {
+    WawaAmarillaLimonTheme {
+        CatMessage(
+            message = stringResource(R.string.cat_error_5),
+            onClick = {},
+            actionMessage = null
         )
     }
 }

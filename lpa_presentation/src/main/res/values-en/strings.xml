@@ -15,6 +15,11 @@
     <string name="cat_error_3">Someone threw the coffee mug</string>
     <string name="cat_error_4">MEOW MEOW MEOW…MEOW</string>
     <string name="cat_error_5">Who put the dog in charge?</string>
+    <string name="cat_empty_1">Empty, just like my bowl</string>
+    <string name="cat_empty_2">No favorite stops. Honestly, I don\'t care</string>
+    <string name="cat_empty_3">Zero stops. Zero treats. Coincidence? I don’t think so.</string>
+    <string name="cat_empty_4">No favourite stops? In this economy? MIAU</string>
+    <string name="cat_empty_5">Me staring at this empty list like 🐱</string>
     <string name="balance_error">The card balance could not be obtained.</string>
     <string name="line">Line: %1$s</string>
     <string name="destination">Destination: %1$s</string>

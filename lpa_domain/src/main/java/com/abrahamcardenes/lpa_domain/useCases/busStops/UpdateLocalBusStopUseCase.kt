@@ -7,23 +7,23 @@ import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import javax.inject.Inject
 
-class SaveOrDeleteBusStopUseCase @Inject constructor(
+class UpdateLocalBusStopUseCase @Inject constructor(
     private val busStopsRepository: BusStopsRepository,
     private val analyticsService: AnalyticsService
 ) {
     suspend operator fun invoke(busStop: BusStop) {
-        if (busStop.isSavedInDb) {
+        if (busStop.isFavorite) {
             sendEvent(
                 event = AnalyticsEvents.UNFAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.deleteBusStop(busStop)
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = false))
         } else {
             sendEvent(
                 event = AnalyticsEvents.FAVORITE_CLICKED,
                 busStop = busStop
             )
-            busStopsRepository.saveStops(busStop)
+            busStopsRepository.updateBusStopInDb(busStop.copy(isFavorite = true))
         }
     }
 

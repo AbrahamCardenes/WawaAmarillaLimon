@@ -3,7 +3,7 @@ package com.abrahamcardenes.lpa_data
 import app.cash.turbine.test
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
-import com.abrahamcardenes.core.network.onSuccess
+import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.core_db.BusStopEntity
 import com.abrahamcardenes.lpa_data.data.BusStopsRepositoryImpl
@@ -11,19 +11,23 @@ import com.abrahamcardenes.lpa_data.data.mappers.toEntity
 import com.abrahamcardenes.lpa_data.fakes.fakeBusStopDetail
 import com.abrahamcardenes.lpa_data.jsons.mockedBusStopDetail
 import com.abrahamcardenes.lpa_data.jsons.mockedBusStopDetailWithLessTime
-import com.abrahamcardenes.lpa_data.jsons.mockedBusStops
-import com.abrahamcardenes.lpa_data.jsons.ogs.originalResponseFromApiParadas
+import com.abrahamcardenes.lpa_data.jsons.ogs.shortOriginalReplication
 import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
 import com.abrahamcardenes.lpa_data.utils.ServerMocks
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.google.common.truth.Truth.assertThat
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
+import io.mockk.just
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -35,15 +39,21 @@ class BusStopsRepositoryImplTest {
     private lateinit var apiParadas: ApiParadas
     private lateinit var repository: BusStopsRepositoryImpl
     private lateinit var busStopDao: BusStopDao
+    private lateinit var crashlyticsService: CrashlyticsService
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         mockWebServer = MockWebServer()
         apiParadas = ServerMocks.buildApiParadasService(mockWebServer = mockWebServer)
         busStopDao = mockk(relaxed = true)
+        crashlyticsService = mockk(relaxed = true)
         repository = BusStopsRepositoryImpl(
             api = apiParadas,
-            busStopDao = busStopDao
+            busStopDao = busStopDao,
+            dispatchersProvider = TestsDispatchers,
+            coroutineScope = CoroutineScope(UnconfinedTestDispatcher()),
+            crashlyticsService = crashlyticsService
         )
     }
 
@@ -54,89 +64,66 @@ class BusStopsRepositoryImplTest {
     }
 
     @Test
-    fun `Given the original response it should remove the incorrect Bus Stop with addressName NOMBRE and number PAR`() = runTest {
+    fun `Given the mocked response it should be mapped correctly to a list of BusStops, avoiding the PAR, NAME bus stop and repetition`() = runTest {
         ServerMocks.enqueue(
             code = 200,
-            body = originalResponseFromApiParadas,
+            body = shortOriginalReplication,
             mockWebServer = mockWebServer
         )
-        val response = repository.getBusStops()
-        response.onSuccess {
-            assertThat(it.size).isEqualTo(3422)
-            assertThat(it.find { it.addressName == "NOMBRE" }).isNull()
-        }
-    }
-
-    @Test
-    fun `Given the mocked response it should be mapped correctly to a list of BusStops`() = runTest {
         val expected = listOf(
-            BusStop(
+            BusStopEntity(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = false
+                isFavorite = false
             ),
-            BusStop(
+            BusStopEntity(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isSavedInDb = false
-            ),
-            BusStop(
-                addressName = "TEATRO",
-                stopNumber = 1,
-                isSavedInDb = false
+                isFavorite = false
             )
         )
+
+        coEvery {
+            busStopDao.upsertAll(expected)
+        } just Runs
+
+        coVerify {
+            busStopDao.upsertAll(expected)
+        }
+    }
+
+    @Test
+    fun `Given a 404 from API the it should log the error and not call db upsert`() = runTest {
         ServerMocks.enqueue(
-            code = 200,
-            body = mockedBusStops,
+            code = 404,
+            body = "",
             mockWebServer = mockWebServer
         )
-        val response = repository.getBusStops()
-        response.onSuccess {
-            assertThat(it.size).isEqualTo(3)
-            assertThat(it).isEqualTo(expected)
-            assertThat(it.find { it.addressName == "NOMBRE" }).isNull()
+
+        coVerify {
+            crashlyticsService.logException(any())
+        }
+
+        coVerify(exactly = 0) {
+            busStopDao.upsertAll(any())
         }
     }
 
     @Test
-    fun `Given a BusStop model it should be saved in the database`() = runTest {
+    fun `Given a BusStop model it should call the update favorite function from db`() = runTest {
         val busStop = BusStop(
             addressName = "TEATRO",
             stopNumber = 1,
-            isSavedInDb = false
+            isFavorite = false
         )
 
-        repository.saveStops(busStop)
+        repository.updateBusStopInDb(busStop)
 
         coVerifySequence {
             busStop.toEntity()
-            busStopDao.insertBusStop(
-                BusStopEntity(
-                    addressName = "TEATRO",
-                    stopNumber = 1
-                )
-            )
-        }
-    }
-
-    @Test
-    fun `Given a BusStop model it should be deleted in the database`() = runTest {
-        val busStop = BusStop(
-            addressName = "TEATRO",
-            stopNumber = 1,
-            isSavedInDb = false
-        )
-
-        repository.deleteBusStop(busStop)
-
-        coVerifySequence {
-            busStop.toEntity()
-            busStopDao.deleteBusStop(
-                BusStopEntity(
-                    addressName = "TEATRO",
-                    stopNumber = 1
-                )
+            busStopDao.updateFavorite(
+                stopNumber = 1,
+                isFavorite = false
             )
         }
     }
@@ -147,7 +134,7 @@ class BusStopsRepositoryImplTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = true
+                isFavorite = true
             )
         )
 
@@ -155,22 +142,22 @@ class BusStopsRepositoryImplTest {
             BusStop(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isSavedInDb = true
+                isFavorite = true
             ),
             BusStop(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isSavedInDb = true
+                isFavorite = true
             ),
             BusStop(
                 addressName = "TEATRO, 99",
                 stopNumber = 99,
-                isSavedInDb = true
+                isFavorite = true
             )
         )
 
         coEvery {
-            busStopDao.getBusStops()
+            busStopDao.getBusStopsFlow()
         } returns flow {
             emit(listOfOneItem.map { it.toEntity() })
             emit(listOfThreeItems.map { it.toEntity() })
@@ -182,12 +169,13 @@ class BusStopsRepositoryImplTest {
             awaitComplete()
         }
         coVerify(exactly = 1) {
-            busStopDao.getBusStops()
+            busStopDao.getBusStopsFlow()
         }
     }
 
     @Test
     fun `Given a busStop number it should return the detail of that stop`() = runTest {
+        firstApiCall()
         val firstExpectedEmission = Result.Success(fakeBusStopDetail())
         val secondExpectedEmission = Result.Success(
             fakeBusStopDetail().copy(
@@ -225,6 +213,7 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a 500 error it should return DataError Remote SERVER`() = runTest {
+        firstApiCall()
         ServerMocks.enqueue(
             code = 500,
             body = "",
@@ -240,6 +229,7 @@ class BusStopsRepositoryImplTest {
 
     @Test
     fun `Given a 400 error it should return null`() = runTest {
+        firstApiCall()
         ServerMocks.enqueue(
             code = 400,
             body = "",
@@ -251,5 +241,13 @@ class BusStopsRepositoryImplTest {
             assertThat(emission).isEqualTo(Result.Error(DataError.Remote.BadRequest))
             cancel()
         }
+    }
+
+    private fun firstApiCall() {
+        ServerMocks.enqueue(
+            code = 200,
+            body = shortOriginalReplication,
+            mockWebServer = mockWebServer
+        )
     }
 }

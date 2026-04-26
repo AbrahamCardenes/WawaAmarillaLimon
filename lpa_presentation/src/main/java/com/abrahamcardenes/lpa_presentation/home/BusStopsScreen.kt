@@ -30,24 +30,21 @@ import com.abrahamcardenes.lpa_presentation.home.components.FavoriteStops
 import com.abrahamcardenes.lpa_presentation.home.components.OnlineBusStops
 import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
-import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import kotlinx.coroutines.launch
 
 @Composable
 fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(), modifier: Modifier = Modifier) {
-    val onlineBusStopsState by busStopsViewModel.onlineBusStopsState.collectAsStateWithLifecycle()
-    val favoriteBusStopsState by busStopsViewModel.favoriteBusStopsUiState.collectAsStateWithLifecycle()
+    val onlineBusStopsState by busStopsViewModel.busStopsState.collectAsStateWithLifecycle()
 
     BusStosScreenWithTabs(
         onlineBusStopsState = onlineBusStopsState,
-        favoriteBusStopsState = favoriteBusStopsState,
         onTabClick = busStopsViewModel::onTabClick,
         onBusStopClick = { stopNumber, origin ->
             busStopsViewModel.getBusStopDetail(stopNumber, origin)
         },
         onUserInput = busStopsViewModel::updateUserInput,
-        onSaveBusStop = busStopsViewModel::saveOrDeleteBusStop,
+        onSaveBusStop = busStopsViewModel::updateLocalBusStopFavoriteStatus,
         refreshBusStops = busStopsViewModel::getBusStops,
         modifier = modifier
     )
@@ -56,7 +53,6 @@ fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusS
 @Composable
 private fun BusStosScreenWithTabs(
     onlineBusStopsState: BusStopsUiState,
-    favoriteBusStopsState: FavoritesUiState,
     onTabClick: (BusStopTabs) -> Unit,
     onBusStopClick: (Int, BusStopOrigin) -> Unit,
     onUserInput: (String) -> Unit,
@@ -129,7 +125,7 @@ private fun BusStosScreenWithTabs(
 
                 if (page == BusStopTabs.Favorites.index) {
                     FavoriteStops(
-                        uiState = favoriteBusStopsState,
+                        uiState = onlineBusStopsState,
                         onBusStopClick = { stopNumber ->
                             onBusStopClick(stopNumber, BusStopOrigin.FAVORITES)
                         },

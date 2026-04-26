@@ -5,6 +5,7 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 data class BusStopsUiState(
     val busStops: List<UiBusStopDetail> = emptyList(),
+    val favoriteBusStops: List<UiBusStopDetail> = emptyList(),
     val userInput: String = "",
     val state: BusStopState = BusStopState.Loading,
     val currentExpandedBusStop: UiBusStopDetail? = null,

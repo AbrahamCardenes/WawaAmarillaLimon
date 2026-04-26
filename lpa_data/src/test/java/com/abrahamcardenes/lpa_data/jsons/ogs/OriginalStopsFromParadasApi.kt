@@ -1,5 +1,26 @@
 package com.abrahamcardenes.lpa_data.jsons.ogs
 
+val shortOriginalReplication = """
+    [
+      {
+        "nombre": "NOMBRE",
+        "numero": "PAR"
+      },
+      {
+        "nombre": "TEATRO",
+        "numero": "1"
+      },
+      {
+        "nombre": "C / FRANCISCO GOURIÉ, 103",
+        "numero": "2"
+      },
+      {
+        "nombre": "TEATRO",
+        "numero": "1"
+      }
+  ]
+""".trimIndent()
+
 val originalResponseFromApiParadas =
     """
     [

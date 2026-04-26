@@ -16,54 +16,44 @@ fun fakeBusStopDetail(): BusStopDetail = BusStopDetail(
     )
 )
 
-fun fakeListBusStopDetail(setFirstToFavorite: Boolean = false): List<BusStop> = listOf(
+fun fakeListBusStopDetail(setSecondToFavorite: Boolean = false): List<BusStop> = listOf(
     BusStop(
         addressName = "TEATRO",
         stopNumber = 1,
-        isSavedInDb = setFirstToFavorite
+        isFavorite = false
     ),
     BusStop(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isSavedInDb = false
+        isFavorite = setSecondToFavorite
     ),
     BusStop(
         addressName = "C / FRANCISCO GOURIÉ, 103",
         stopNumber = 2,
-        isSavedInDb = false
+        isFavorite = false
     )
 )
 
 fun fakeListBusStopDetailOffline(setSecondFavoriteValue: Boolean = true): List<BusStop> = listOf(
     BusStop(
-        addressName = "TEATRO",
-        stopNumber = 1,
-        isSavedInDb = true
-    ),
-    BusStop(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isSavedInDb = setSecondFavoriteValue
-    ),
-    BusStop(
-        addressName = "C / FRANCISCO GOURIÉ, 103",
-        stopNumber = 2,
-        isSavedInDb = true
+        isFavorite = setSecondFavoriteValue
     )
 )
 
-fun fakeListUiBusStopDetail(isFirstFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
+fun fakeListUiBusStopDetail(isSecondFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
     UiBusStopDetail(
         addressName = "TEATRO",
         stopNumber = 1,
-        isFavorite = isFirstFavorite,
+        isFavorite = false,
         isExpanded = false,
         availableBusLines = null
     ),
     UiBusStopDetail(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isFavorite = false,
+        isFavorite = isSecondFavorite,
         isExpanded = isExpanded,
         availableBusLines = lines
     ),
@@ -76,25 +66,25 @@ fun fakeListUiBusStopDetail(isFirstFavorite: Boolean = false, isExpanded: Boolea
     )
 )
 
-fun fakeListUiBusStopDetailOffline(isFirstFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
+fun fakeListUiBusStopDetailOffline(setFavorite: Boolean = false, isExpanded: Boolean = false, lines: List<BusLine>? = null): List<UiBusStopDetail> = listOf(
     UiBusStopDetail(
         addressName = "TEATRO",
         stopNumber = 1,
-        isFavorite = true,
+        isFavorite = false,
         isExpanded = false,
         availableBusLines = null
     ),
     UiBusStopDetail(
         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
         stopNumber = 79,
-        isFavorite = true,
+        isFavorite = setFavorite,
         isExpanded = isExpanded,
         availableBusLines = lines
     ),
     UiBusStopDetail(
         addressName = "C / FRANCISCO GOURIÉ, 103",
         stopNumber = 2,
-        isFavorite = true,
+        isFavorite = false,
         isExpanded = false,
         availableBusLines = null
     )

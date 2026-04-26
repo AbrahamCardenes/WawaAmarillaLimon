@@ -9,6 +9,6 @@ fun List<BusStop>.toUiStopDetail(): List<UiBusStopDetail> = this.map {
         stopNumber = it.stopNumber,
         availableBusLines = null,
         isExpanded = false,
-        isFavorite = it.isSavedInDb
+        isFavorite = it.isFavorite
     )
 }

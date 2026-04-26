@@ -6,5 +6,5 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 fun UiBusStopDetail.toBusStop(): BusStop = BusStop(
     addressName = this.addressName,
     stopNumber = this.stopNumber,
-    isSavedInDb = this.isFavorite
+    isFavorite = this.isFavorite
 )

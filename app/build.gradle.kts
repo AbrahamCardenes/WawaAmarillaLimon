@@ -23,6 +23,7 @@ dependencies {
     // Modules
     implementation(project(Modules.CORE))
     implementation(project(Modules.CORE_DB))
+    implementation(project(Modules.CORE_ANDROID))
     implementation(project(Modules.LPA_DATA))
     implementation(project(Modules.LPA_DOMAIN))
     implementation(project(Modules.LPA_PRESENTATION))

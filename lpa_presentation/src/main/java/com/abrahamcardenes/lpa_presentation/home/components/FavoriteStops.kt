@@ -9,22 +9,23 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
-import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
+import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 
 @Composable
 fun FavoriteStops(
-    uiState: FavoritesUiState,
+    uiState: BusStopsUiState,
     onBusStopClick: (Int) -> Unit,
     onSaveBusStop: (UiBusStopDetail) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AnimatedContent(
-        targetState = uiState.isLoading,
+        targetState = uiState.favoriteBusStops.isEmpty(),
         label = "animation-loading-bus-stops"
-    ) { isLoading ->
-        if (isLoading) {
+    ) { isEmpty ->
+        if (isEmpty) {
+            // TODO change to empty ui
             LoadingCircles(
                 modifier = Modifier
                     .fillMaxSize()
@@ -34,7 +35,7 @@ fun FavoriteStops(
             BusStopsList(
                 onSaveBusStop = onSaveBusStop,
                 onBusStopClick = onBusStopClick,
-                busStops = uiState.busStops,
+                busStops = uiState.favoriteBusStops,
                 modifier = modifier
             )
         }
@@ -47,8 +48,8 @@ fun FavoriteStopsPreview() {
     WawaAmarillaLimonTheme {
         FavoriteStops(
             uiState =
-            FavoritesUiState().copy(
-                busStops =
+            BusStopsUiState().copy(
+                favoriteBusStops =
                 mutableListOf(
                     UiBusStopDetail(
                         addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",

@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class BusStopEntity(
     @PrimaryKey(autoGenerate = false)
     val stopNumber: Int,
-    val addressName: String
+    val addressName: String,
+    val isFavorite: Boolean
 )

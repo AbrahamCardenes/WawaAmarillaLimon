@@ -8,9 +8,8 @@ import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStopDetail
-import com.abrahamcardenes.lpa_domain.useCases.busStops.GetAllBusStops
 import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusDetailUseCase
-import com.abrahamcardenes.lpa_domain.useCases.busStops.GetFavoriteBusStopsUseCase
+import com.abrahamcardenes.lpa_domain.useCases.busStops.GetBusStopsUseCase
 import com.abrahamcardenes.lpa_domain.useCases.busStops.UpdateLocalBusStopUseCase
 import com.abrahamcardenes.lpa_presentation.coroutineRules.MainCoroutineRule
 import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
@@ -27,14 +26,14 @@ import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
 import com.google.common.truth.Truth.assertThat
+import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -47,10 +46,9 @@ class BusStopsViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
 
-    private val getAllBusStopsUseCase = mockk<GetAllBusStops>()
     private val getBusDetailUseCase = mockk<GetBusDetailUseCase>()
     private val updateLocalBusStopUseCase = mockk<UpdateLocalBusStopUseCase>()
-    private val getFavoriteBusStopsUseCase = mockk<GetFavoriteBusStopsUseCase>()
+    private val getBusStopsUseCase = mockk<GetBusStopsUseCase>()
 
     private val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
     private lateinit var busStopsViewModel: BusStopsViewModel
@@ -59,19 +57,12 @@ class BusStopsViewModelTest {
     @Before
     fun setup() {
         busStopsViewModel = BusStopsViewModel(
-            getAllBusStopsUseCase = getAllBusStopsUseCase,
+            getBusStopsUseCase = getBusStopsUseCase,
             getBusDetailUseCase = getBusDetailUseCase,
             updateLocalBusStopUseCase = updateLocalBusStopUseCase,
-            getFavoriteBusStopsUseCase = getFavoriteBusStopsUseCase,
             crashlyticsService = crashlyticsService,
             dispatchers = dispatchers
         )
-
-        coEvery {
-            getFavoriteBusStopsUseCase()
-        } returns flow {
-            emit(fakeListBusStopDetailOffline())
-        }
     }
 
     @After
@@ -87,90 +78,67 @@ class BusStopsViewModelTest {
                 Result.Success(fakeBusStopDetail())
             )
         }
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                Result.Success(fakeListBusStopDetail())
-            )
-        }
     }
 
-    private fun firstGetDetailSetup(): Pair<Result<List<BusStop>, DataError>, List<UiBusStopDetail>> {
-        val emissionExpected = Result.Success(fakeListBusStopDetail())
-        val expectedList = fakeListUiBusStopDetail(isExpanded = true, lines = fakeBusStopDetail().availableBusLines)
-        return Pair(emissionExpected, expectedList)
-    }
-
-    private fun firstGetDetailSetupOffline(): Pair<List<BusStop>, List<UiBusStopDetail>> {
-        val emissionExpected = fakeListBusStopDetailOffline()
-        val expectedList = fakeListUiBusStopDetailOffline(
-            isExpanded = true,
-            lines = fakeBusStopDetail().availableBusLines
-        )
+    private fun firstGetDetailSetup(isSecondFavorite: Boolean = false): Pair<Result<List<BusStop>, DataError>, List<UiBusStopDetail>> {
+        val emissionExpected = Result.Success(fakeListBusStopDetail(setSecondToFavorite = isSecondFavorite))
+        val expectedList = fakeListUiBusStopDetail(isExpanded = true, lines = fakeBusStopDetail().availableBusLines, isSecondFavorite = isSecondFavorite)
         return Pair(emissionExpected, expectedList)
     }
 
     @Test
     fun `When starting viewModel it should be loading and no busStops`() = runTest {
-        coEvery {
-            getFavoriteBusStopsUseCase()
-        } returns flow {
-            emit(emptyList())
-        }
-
-        assertThat(busStopsViewModel.onlineBusStopsState.value.selectedTab).isEqualTo(BusStopTabs.All)
-        assertThat(busStopsViewModel.onlineBusStopsState.value.state).isEqualTo(BusStopState.Loading)
-        assertThat(busStopsViewModel.onlineBusStopsState.value.busStops).isEmpty()
-        assertThat(busStopsViewModel.favoriteBusStopsUiState.value.busStops).isEmpty()
-        assertThat(busStopsViewModel.favoriteBusStopsUiState.value.isLoading).isTrue()
+        busStopsViewModel.busStopsState.value.selectedTab shouldBe BusStopTabs.All
+        busStopsViewModel.busStopsState.value.state shouldBe BusStopState.Loading
+        busStopsViewModel.busStopsState.value.busStops shouldBe emptyList<BusStop>()
+        busStopsViewModel.busStopsState.value.favoriteBusStops shouldBe emptyList<BusStop>()
     }
 
     @Test
-    fun `Given getAllBusStops and favoritesUseCase emits data and Then it should update both states`() = runTest {
-        val listToEmit = fakeListBusStopDetail()
+    fun `Given getAllBusStops emits data and Then it should update both lists`() = runTest {
+        val listToEmit = fakeListBusStopDetail(setSecondToFavorite = true)
         val expected = listToEmit.toUiStopDetail()
 
         coEvery {
-            getAllBusStopsUseCase()
+            getBusStopsUseCase()
         } returns flow {
-            emit(
-                Result.Success(fakeListBusStopDetail())
-            )
+            emit(listToEmit)
         }
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            assertThat(itemProduced.busStops).isEqualTo(expected)
-        }
-
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(fakeListBusStopDetailOffline().toUiStopDetail())
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.busStops shouldBe expected
+            itemProduced.favoriteBusStops shouldBe fakeListBusStopDetailOffline().toUiStopDetail()
         }
     }
 
     @Test
-    fun `When getAllBusStops emits data error it should show error state`() = runTest {
+    fun `When getAllBusStops emits empty list Then it should be success without data`() = runTest {
         coEvery {
-            getAllBusStopsUseCase()
+            getBusStopsUseCase()
         } returns flow {
             emit(
-                Result.Error(DataError.Remote.ServerFailure)
+                emptyList()
             )
         }
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Error)
-            assertThat(itemProduced.busStops).isEmpty()
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.busStops shouldBe emptyList()
+            itemProduced.favoriteBusStops shouldBe emptyList()
         }
     }
 
     @Test
-    fun `When user inputs some text it should return only the ones that contains that text`() = runTest {
+    fun `Given a list without favorites When user inputs some text it should return the one with that in online list`() = runTest {
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail())
+        }
+
         val expected = listOf(
             UiBusStopDetail(
                 addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
@@ -181,7 +149,26 @@ class BusStopsViewModelTest {
             )
         )
 
-        val expectedOflline = listOf(
+        busStopsViewModel.updateUserInput("PASEO DE SAN")
+
+        busStopsViewModel.busStopsState.test {
+            val itemProduced = awaitItem()
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.userInput shouldBe "PASEO DE SAN"
+            itemProduced.busStops shouldBe expected
+            itemProduced.favoriteBusStops shouldBe emptyList()
+        }
+    }
+
+    @Test
+    fun `Given a list with favorites When user inputs stopNumber it should return the one with that in both lists`() = runTest {
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
+        }
+
+        val expected = listOf(
             UiBusStopDetail(
                 addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                 stopNumber = 79,
@@ -191,118 +178,58 @@ class BusStopsViewModelTest {
             )
         )
 
-        val listToEmit = Result.Success(fakeListBusStopDetail())
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                listToEmit
-            )
-        }
+        busStopsViewModel.updateUserInput("79")
 
-        busStopsViewModel.updateUserInput("PASEO DE SAN")
-
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            assertThat(itemProduced.userInput).isEqualTo("PASEO DE SAN")
-            assertThat(itemProduced.busStops).isEqualTo(
-                expected
-            )
-        }
-
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                expectedOflline
-            )
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.userInput shouldBe "79"
+            itemProduced.busStops shouldBe expected
+            itemProduced.favoriteBusStops shouldBe expected
         }
     }
 
     @Test
     fun `When user inputs some text and there is not matches it should return empty`() = runTest {
-        val listToEmit = Result.Success(fakeListBusStopDetail())
         coEvery {
-            getAllBusStopsUseCase()
+            getBusStopsUseCase()
         } returns flow {
-            emit(
-                listToEmit
-            )
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
         }
 
         busStopsViewModel.updateUserInput("Some random text")
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            assertThat(itemProduced.userInput).isEqualTo("Some random text")
-            assertThat(itemProduced.busStops).isEmpty()
-        }
-
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEmpty()
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.userInput shouldBe "Some random text"
+            itemProduced.busStops shouldBe emptyList()
+            itemProduced.favoriteBusStops shouldBe emptyList()
         }
     }
 
     @Test
-    fun `When user inputs is the number of the bus stop it should return that bus stop`() = runTest {
-        val expected = listOf(
-            UiBusStopDetail(
+    fun `When the user clicks favorite icon Then it should call update use case`() = runTest {
+        val fakeFlow = MutableSharedFlow<List<BusStop>>()
+        coEvery { getBusStopsUseCase() } returns fakeFlow
+        val firstBusStopsToEmit = fakeListBusStopDetail(setSecondToFavorite = true)
+
+        val expectedLastEmission = listOf(
+            BusStop(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isFavorite = true
+            ),
+            BusStop(
                 addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                 stopNumber = 79,
-                isFavorite = false,
-                isExpanded = false,
-                availableBusLines = null
+                isFavorite = true
+            ),
+            BusStop(
+                addressName = "C / FRANCISCO GOURIÉ, 103",
+                stopNumber = 2,
+                isFavorite = false
             )
         )
-
-        val expectedOffline = listOf(
-            UiBusStopDetail(
-                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                stopNumber = 79,
-                isFavorite = true,
-                isExpanded = false,
-                availableBusLines = null
-            )
-        )
-
-        val listToEmit = Result.Success(fakeListBusStopDetail())
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                listToEmit
-            )
-        }
-
-        busStopsViewModel.updateUserInput("79")
-
-        busStopsViewModel.onlineBusStopsState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            assertThat(itemProduced.userInput).isEqualTo("79")
-            assertThat(itemProduced.busStops).isEqualTo(
-                expected
-            )
-        }
-
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                expectedOffline
-            )
-        }
-    }
-
-    @Test
-    fun `When user save into favorites it should be saved`() = runTest {
-        val savedBusStop = MutableStateFlow<BusStop?>(null)
-        val emissionExpected = Result.Success(fakeListBusStopDetail(setFirstToFavorite = true)).onSuccess {
-            it
-        }
 
         coEvery {
             updateLocalBusStopUseCase(
@@ -314,33 +241,28 @@ class BusStopsViewModelTest {
             )
         } returns Unit
 
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                Result.Success(fakeListBusStopDetail())
-            )
-            savedBusStop.collect {
-                if (savedBusStop.value != null) {
-                    emit(Result.Success(fakeListBusStopDetail(setFirstToFavorite = true)))
-                }
-            }
-        }
+        val busStopToSetFavorite = UiBusStopDetail(
+            addressName = "TEATRO",
+            stopNumber = 1,
+            availableBusLines = null,
+            isExpanded = false,
+            isFavorite = false
+        )
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
+            val loadingEmission = awaitItem()
+            loadingEmission.state shouldBe BusStopState.Loading
+
+            fakeFlow.emit(firstBusStopsToEmit)
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            emissionExpected.onSuccess {
-                assertThat(itemProduced.busStops).isEqualTo(fakeListBusStopDetail().toUiStopDetail())
-            }
-            savedBusStop.value = fakeListBusStopDetail().toUiStopDetail().first().toBusStop()
-            busStopsViewModel.saveOrDeleteBusStop(fakeListBusStopDetail().toUiStopDetail().first())
+            itemProduced.state shouldBe BusStopState.Success
+            itemProduced.busStops shouldBe firstBusStopsToEmit.toUiStopDetail()
+
+            busStopsViewModel.updateLocalBusStopFavoriteStatus(busStopToSetFavorite)
+            fakeFlow.emit(expectedLastEmission)
+
             val secondEmission = awaitItem()
-            emissionExpected.onSuccess {
-                assertThat(secondEmission.busStops).isEqualTo(
-                    it.toUiStopDetail()
-                )
-            }
+            secondEmission.busStops shouldBe expectedLastEmission.toUiStopDetail()
         }
 
         coVerify(exactly = 1) {
@@ -350,27 +272,28 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user expands an Online bus stop Then it should be set as expanded`() = runTest {
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail())
+        }
+
         val (emissionExpected, expectedList) = firstGetDetailSetup()
 
         useCasesMocksToTestDetails()
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
+            itemProduced.state shouldBe BusStopState.Success
             emissionExpected.onSuccess {
-                assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
+                itemProduced.busStops shouldBe it.toUiStopDetail()
             }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
 
             val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.busStops shouldBe expectedList
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedList.find { it.stopNumber == 79 }
         }
 
         coVerify(exactly = 1) {
@@ -380,7 +303,25 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user expands a Favorite card bus stop it should be set as expanded`() = runTest {
-        val (emissionExpected, expectedList) = firstGetDetailSetupOffline()
+        val expectedFavorite = listOf(
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true,
+                isExpanded = true,
+                availableBusLines = fakeBusStopDetail().availableBusLines
+            )
+        )
+
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
+        }
+
+        val emissionExpected = Result.Success(fakeListBusStopDetail(setSecondToFavorite = true))
+
+        useCasesMocksToTestDetails()
 
         coEvery {
             getBusDetailUseCase(stopNumber = 79)
@@ -390,23 +331,19 @@ class BusStopsViewModelTest {
             )
         }
 
-        busStopsViewModel.favoriteBusStopsUiState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
+            itemProduced.state shouldBe BusStopState.Success
+            emissionExpected.onSuccess {
+                itemProduced.busStops shouldBe it.toUiStopDetail()
+            }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.FAVORITES)
 
             val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.busStops shouldBe fakeListBusStopDetail(setSecondToFavorite = true).toUiStopDetail()
+            itemProducedAfterExpansion.favoriteBusStops shouldBe expectedFavorite
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedFavorite.first()
         }
 
         coVerify(exactly = 1) {
@@ -416,136 +353,56 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user collapse a Favorite card bus stop it should be set as not expanded`() = runTest {
-        val (emissionExpected, expectedList) = firstGetDetailSetupOffline()
-
-        val expectedCollapsedList = fakeListUiBusStopDetailOffline(
-            lines = listOf(
-                BusLine(
-                    number = "13",
-                    destination = "TRESPALMAS",
-                    arrivalTimeIn = "15min"
-                )
+        val expectedFavorite = listOf(
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true,
+                isExpanded = true,
+                availableBusLines = fakeBusStopDetail().availableBusLines
             )
         )
+
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
+        }
+
         useCasesMocksToTestDetails()
 
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
+        val emissionExpected = Result.Success(fakeListBusStopDetail(setSecondToFavorite = true))
+
+        val expectedCollapsedList = listOf(
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true,
+                isExpanded = false,
+                availableBusLines = fakeBusStopDetail().availableBusLines
             )
+        )
+
+        busStopsViewModel.busStopsState.test {
+            val itemProduced = awaitItem()
+            itemProduced.state shouldBe BusStopState.Success
+            emissionExpected.onSuccess {
+                itemProduced.busStops shouldBe it.toUiStopDetail()
+            }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.FAVORITES)
 
             val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.busStops shouldBe fakeListBusStopDetail(setSecondToFavorite = true).toUiStopDetail()
+            itemProducedAfterExpansion.favoriteBusStops shouldBe expectedFavorite
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedFavorite.first()
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.FAVORITES)
 
             val itemProducedAfterCollapsing = awaitItem()
-            assertThat(itemProducedAfterCollapsing.busStops).isEqualTo(
-                expectedCollapsedList
-            )
-            assertThat(itemProducedAfterCollapsing.currentExpandedBusStop).isNull()
-        }
+            itemProducedAfterCollapsing.favoriteBusStops shouldBe expectedCollapsedList
 
-        coVerify(exactly = 1) {
-            getBusDetailUseCase(stopNumber = 79)
-        }
-    }
-
-    @Test
-    fun `When fetching details for a bus stop fails it should show the empty list with the bus stop expanded`() = runTest {
-        val (emissionExpected, _) = firstGetDetailSetup()
-
-        val expected = fakeListUiBusStopDetail(isExpanded = true, lines = emptyList())
-
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                Result.Success(fakeListBusStopDetail())
-            )
-        }
-
-        coEvery {
-            getBusDetailUseCase(stopNumber = 79)
-        } returns flow {
-            emit(
-                Result.Error(DataError.Remote.ServerFailure)
-            )
-        }
-
-        busStopsViewModel.onlineBusStopsState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-            emissionExpected.onSuccess {
-                assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
-            }
-
-            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
-
-            val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(expected)
-
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expected.find { it.stopNumber == 79 }
-            )
-        }
-
-        coVerify(exactly = 1) {
-            getBusDetailUseCase(stopNumber = 79)
-        }
-    }
-
-    @Test
-    fun `When user collapse a card bus stop it should be set as not expanded`() = runTest {
-        val (emissionExpected, expectedList) = firstGetDetailSetup()
-        val expectedCollapsedList = fakeListUiBusStopDetail(
-            lines = listOf(
-                BusLine(
-                    number = "13",
-                    destination = "TRESPALMAS",
-                    arrivalTimeIn = "15min"
-                )
-            )
-        )
-        useCasesMocksToTestDetails()
-
-        busStopsViewModel.onlineBusStopsState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
-
-            emissionExpected.onSuccess {
-                assertThat(itemProduced.busStops).isEqualTo(it.toUiStopDetail())
-            }
-
-            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
-
-            val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
-
-            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
-
-            val itemProducedAfterCollapsing = awaitItem()
-            assertThat(itemProducedAfterCollapsing.busStops).isEqualTo(
-                expectedCollapsedList
-            )
-            assertThat(itemProducedAfterCollapsing.currentExpandedBusStop).isNull()
+            itemProducedAfterCollapsing.currentExpandedBusStop shouldBe null
         }
 
         coVerify(exactly = 1) {
@@ -555,6 +412,12 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user selects a different Online card it should collapse the old one and expand the new`() = runTest {
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail())
+        }
+
         val (emissionExpected, expectedList) = firstGetDetailSetup()
         val expectedUpdatedList = listOf(
             UiBusStopDetail(
@@ -601,35 +464,27 @@ class BusStopsViewModelTest {
             )
         }
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.state).isEqualTo(BusStopState.Success)
+            itemProduced.state shouldBe BusStopState.Success
             emissionExpected.onSuccess {
-                assertThat(itemProduced.busStops).isEqualTo(
-                    it.toUiStopDetail()
-                )
+                itemProduced.busStops shouldBe it.toUiStopDetail()
             }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
 
             val itemProducedAfterExpansion = awaitItem()
 
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.busStops shouldBe expectedList
+
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedList.find { it.stopNumber == 79 }
 
             busStopsViewModel.getBusStopDetail(stopNumber = 1, origin = BusStopOrigin.ONLINE)
 
             val itemProducedAfterCollapsing = awaitItem()
-            assertThat(itemProducedAfterCollapsing.busStops).isEqualTo(
-                expectedUpdatedList
-            )
-            assertThat(itemProducedAfterCollapsing.currentExpandedBusStop).isEqualTo(
-                expectedUpdatedList.find { it.stopNumber == 1 }
-            )
+            itemProducedAfterCollapsing.busStops shouldBe expectedUpdatedList
+
+            itemProducedAfterCollapsing.currentExpandedBusStop shouldBe expectedUpdatedList.find { it.stopNumber == 1 }
         }
 
         coVerify(exactly = 1) {
@@ -640,8 +495,57 @@ class BusStopsViewModelTest {
 
     @Test
     fun `When user selects a different Favorite card it should collapse the old one and expand the new`() = runTest {
-        val (emissionExpected, expectedList) = firstGetDetailSetupOffline()
-        val expectedUpdatedList = listOf(
+        val expectedFirstExpandedBusStop = UiBusStopDetail(
+            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+            stopNumber = 79,
+            isFavorite = true,
+            isExpanded = true,
+            availableBusLines = listOf(
+                BusLine(
+                    number = "13",
+                    destination = "TRESPALMAS",
+                    arrivalTimeIn = "15min"
+                )
+            )
+        )
+
+        val emissionExpected = listOf(
+            BusStop(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isFavorite = true
+            ),
+            BusStop(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true
+            )
+        )
+
+        val expectedFirstExpansion = listOf(
+            UiBusStopDetail(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isFavorite = true,
+                isExpanded = false,
+                availableBusLines = null
+            ),
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true,
+                isExpanded = true,
+                availableBusLines = listOf(
+                    BusLine(
+                        number = "13",
+                        destination = "TRESPALMAS",
+                        arrivalTimeIn = "15min"
+                    )
+                )
+            )
+        )
+
+        val expectedSecondEmission = listOf(
             UiBusStopDetail(
                 addressName = "TEATRO",
                 stopNumber = 1,
@@ -661,15 +565,40 @@ class BusStopsViewModelTest {
                         arrivalTimeIn = "15min"
                     )
                 )
-            ),
-            UiBusStopDetail(
-                addressName = "C / FRANCISCO GOURIÉ, 103",
-                stopNumber = 2,
-                isFavorite = true,
-                isExpanded = false,
-                availableBusLines = null
             )
         )
+
+        val expectedSecondExpandedCard = UiBusStopDetail(
+            addressName = "TEATRO",
+            stopNumber = 1,
+            isFavorite = true,
+            isExpanded = true,
+            availableBusLines = emptyList()
+        )
+
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(
+                listOf(
+                    BusStop(
+                        addressName = "TEATRO",
+                        stopNumber = 1,
+                        isFavorite = true
+                    ),
+                    BusStop(
+                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                        stopNumber = 79,
+                        isFavorite = true
+                    ),
+                    BusStop(
+                        addressName = "C / FRANCISCO GOURIÉ, 103",
+                        stopNumber = 2,
+                        isFavorite = false
+                    )
+                )
+            )
+        }
 
         useCasesMocksToTestDetails()
 
@@ -686,33 +615,22 @@ class BusStopsViewModelTest {
             )
         }
 
-        busStopsViewModel.favoriteBusStopsUiState.test {
+        busStopsViewModel.busStopsState.test {
             val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
+
+            itemProduced.favoriteBusStops shouldBe emissionExpected.toUiStopDetail()
 
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.FAVORITES)
-
             val itemProducedAfterExpansion = awaitItem()
 
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.favoriteBusStops shouldBe expectedFirstExpansion
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedFirstExpandedBusStop
 
             busStopsViewModel.getBusStopDetail(stopNumber = 1, origin = BusStopOrigin.FAVORITES)
 
             val itemProducedAfterCollapsing = awaitItem()
-            assertThat(itemProducedAfterCollapsing.busStops).isEqualTo(
-                expectedUpdatedList
-            )
-            assertThat(itemProducedAfterCollapsing.currentExpandedBusStop).isEqualTo(
-                expectedUpdatedList.find { it.stopNumber == 1 }
-            )
+            itemProducedAfterCollapsing.favoriteBusStops shouldBe expectedSecondEmission
+            itemProducedAfterCollapsing.currentExpandedBusStop shouldBe expectedSecondExpandedCard
         }
 
         coVerify(exactly = 1) {
@@ -722,76 +640,51 @@ class BusStopsViewModelTest {
     }
 
     @Test
-    fun `When a card is expanded and getAllBusStops emits again it should keep the current set as expanded`() = runTest {
-        val (_, expectedList) = firstGetDetailSetup()
-        val emitAgain = MutableStateFlow<Boolean>(false)
+    fun `When fetching details for a bus stop fails it should show the empty list with the bus stop expanded`() = runTest {
+        val expectedExpanded = UiBusStopDetail(
+            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+            stopNumber = 79,
+            isFavorite = true,
+            isExpanded = true,
+            availableBusLines = emptyList()
+        )
+
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
+        }
+
+        useCasesMocksToTestDetails()
+
+        val emissionExpected = Result.Success(fakeListBusStopDetail(setSecondToFavorite = true))
+
+        val expected = fakeListUiBusStopDetailOffline(
+            isExpanded = true,
+            lines = emptyList(),
+            setFavorite = true
+        )
 
         coEvery {
             getBusDetailUseCase(stopNumber = 79)
         } returns flow {
             emit(
-                Result.Success(fakeBusStopDetail())
+                Result.Error(DataError.Remote.ServerFailure)
             )
         }
-        coEvery {
-            getAllBusStopsUseCase()
-        } returns flow {
-            emit(
-                Result.Success(
-                    fakeListBusStopDetail()
-                )
-            )
+
+        busStopsViewModel.busStopsState.test {
+            val itemProduced = awaitItem()
+            itemProduced.state shouldBe BusStopState.Success
+            emissionExpected.onSuccess {
+                itemProduced.busStops shouldBe it.toUiStopDetail()
+            }
+
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
-            emitAgain.collect {
-                if (it) {
-                    emit(
-                        Result.Success(
-                            fakeListBusStopDetail().toMutableList().apply {
-                                add(
-                                    BusStop(
-                                        addressName = "LEÓN Y CASTILLO, 13",
-                                        stopNumber = 6,
-                                        isFavorite = false
-                                    )
-                                )
-                            }
-                        )
-                    )
-                }
-            }
-        }
 
-        busStopsViewModel.onlineBusStopsState.test {
             val itemProducedAfterExpansion = awaitItem()
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedList
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
-
-            emitAgain.update {
-                true
-            }
-            val itemProducedAfterSecondGetAllEmission = awaitItem()
-
-            assertThat(itemProducedAfterSecondGetAllEmission.busStops).isEqualTo(
-                fakeListUiBusStopDetail(isExpanded = true, lines = fakeBusStopDetail().availableBusLines).toMutableList().apply {
-                    add(
-                        UiBusStopDetail(
-                            addressName = "LEÓN Y CASTILLO, 13",
-                            stopNumber = 6,
-                            isFavorite = false,
-                            isExpanded = false,
-                            availableBusLines = null
-                        )
-                    )
-                }
-            )
-
-            assertThat(itemProducedAfterSecondGetAllEmission.currentExpandedBusStop).isEqualTo(
-                expectedList.find { it.stopNumber == 79 }
-            )
+            itemProducedAfterExpansion.busStops shouldBe expected
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe expectedExpanded
         }
 
         coVerify(exactly = 1) {
@@ -800,86 +693,96 @@ class BusStopsViewModelTest {
     }
 
     @Test
-    fun `When user calls delete bus stop it should not be available in the busStops list`() = runTest {
-        val deletedStop = MutableStateFlow<BusStop?>(null)
-
-        val expected = listOf(
-            BusStop(
+    fun `When user collapse a card bus stop it should be set as not expanded`() = runTest {
+        val expectedList = listOf(
+            UiBusStopDetail(
                 addressName = "TEATRO",
                 stopNumber = 1,
-                isFavorite = true
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = null
             ),
-            BusStop(
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = fakeBusStopDetail().availableBusLines
+            ),
+            UiBusStopDetail(
                 addressName = "C / FRANCISCO GOURIÉ, 103",
                 stopNumber = 2,
-                isFavorite = true
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = null
             )
         )
         coEvery {
-            updateLocalBusStopUseCase(
-                BusStop(
-                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79,
-                    isFavorite = true
-                )
-            )
-        } returns Unit
-
-        coEvery {
-            getFavoriteBusStopsUseCase()
+            getBusStopsUseCase()
         } returns flow {
-            emit(
-                fakeListBusStopDetailOffline()
-            )
-            deletedStop.collect { deletedBusStop ->
-                if (deletedBusStop != null) {
-                    val updatedList =
-                        fakeListBusStopDetailOffline().filterNot { it.stopNumber == deletedBusStop.stopNumber }
-                    emit(updatedList) // Emit updated list only when a stop is deleted
-                }
-            }
+            emit(fakeListBusStopDetail())
         }
 
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.busStops).isEqualTo(
-                fakeListBusStopDetailOffline().toUiStopDetail()
-            )
+        useCasesMocksToTestDetails()
 
-            deletedStop.value = fakeListBusStopDetailOffline()[1]
-            busStopsViewModel.saveOrDeleteBusStop(
-                busStopUiBusStopDetail = fakeListBusStopDetailOffline().toUiStopDetail()[1]
-            )
-            val itemProducedAfterDelete = awaitItem()
-            assertThat(itemProducedAfterDelete.busStops).isEqualTo(
-                expected.toUiStopDetail()
-            )
+        busStopsViewModel.busStopsState.test {
+            skipItems(1)
+            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
+            skipItems(1)
+            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
+
+            val itemProducedAfterExpansion = awaitItem()
+            itemProducedAfterExpansion.busStops shouldBe expectedList
+            itemProducedAfterExpansion.currentExpandedBusStop shouldBe null
         }
 
         coVerify(exactly = 1) {
-            updateLocalBusStopUseCase(
-                BusStop(
-                    addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                    stopNumber = 79,
-                    isFavorite = true
-                )
-            )
+            getBusDetailUseCase(stopNumber = 79)
         }
     }
 
     @Test
     fun `Given an open card online When user switches to Favorite tab it should collapse the card`() = runTest {
-        val expectedList = fakeListUiBusStopDetail(isExpanded = false, lines = fakeBusStopDetail().availableBusLines)
+        val expectedList = listOf(
+            UiBusStopDetail(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = null
+            ),
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = fakeBusStopDetail().availableBusLines
+            ),
+            UiBusStopDetail(
+                addressName = "C / FRANCISCO GOURIÉ, 103",
+                stopNumber = 2,
+                isFavorite = false,
+                isExpanded = false,
+                availableBusLines = null
+            )
+        )
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail())
+        }
+
         useCasesMocksToTestDetails()
 
-        busStopsViewModel.onlineBusStopsState.test {
+        busStopsViewModel.busStopsState.test {
+            skipItems(1)
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
-            skipItems(2)
+            skipItems(1)
             busStopsViewModel.onTabClick(busStopTab = BusStopTabs.Favorites)
 
             val itemAfterSwitchingTab = awaitItem()
             assertThat(itemAfterSwitchingTab.busStops).isEqualTo(
-                expectedList
+                expectedList.map { it.copy(isExpanded = false) }
             )
             assertThat(itemAfterSwitchingTab.currentExpandedBusStop).isNull()
 
@@ -896,7 +799,20 @@ class BusStopsViewModelTest {
 
     @Test
     fun `Given an open card Favorite When user switches to Online tab it should collapse the card`() = runTest {
-        val (emissionExpected, expectedListOffline) = firstGetDetailSetupOffline()
+        val expectedList = listOf(
+            UiBusStopDetail(
+                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                stopNumber = 79,
+                isFavorite = true,
+                isExpanded = false,
+                availableBusLines = fakeBusStopDetail().availableBusLines
+            )
+        )
+        coEvery {
+            getBusStopsUseCase()
+        } returns flow {
+            emit(fakeListBusStopDetail(setSecondToFavorite = true))
+        }
 
         useCasesMocksToTestDetails()
 
@@ -908,54 +824,94 @@ class BusStopsViewModelTest {
             )
         }
 
-        busStopsViewModel.onlineBusStopsState.test {
-            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
+        busStopsViewModel.busStopsState.test {
+            skipItems(1)
             busStopsViewModel.onTabClick(busStopTab = BusStopTabs.Favorites)
-            skipItems(3)
-
-            val emissionTabChanged = awaitItem()
-            assertThat(emissionTabChanged.selectedTab).isEqualTo(
-                BusStopTabs.Favorites
-            )
-        }
-
-        busStopsViewModel.favoriteBusStopsUiState.test {
-            val itemProduced = awaitItem()
-            assertThat(itemProduced.isLoading).isFalse()
-            assertThat(itemProduced.busStops).isEqualTo(
-                emissionExpected.toUiStopDetail()
-            )
-
+            val firstTapSwitch = awaitItem()
+            firstTapSwitch.selectedTab shouldBe BusStopTabs.Favorites
             busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.FAVORITES)
-
-            val itemProducedAfterExpansion = awaitItem()
-
-            assertThat(itemProducedAfterExpansion.busStops).isEqualTo(
-                expectedListOffline
-            )
-            assertThat(itemProducedAfterExpansion.currentExpandedBusStop).isEqualTo(
-                expectedListOffline.find { it.stopNumber == 79 }
-            )
+            skipItems(1)
 
             busStopsViewModel.onTabClick(busStopTab = BusStopTabs.All)
-
             val itemAfterSwitchingTab = awaitItem()
-            assertThat(itemAfterSwitchingTab.busStops).isEqualTo(
-                fakeListUiBusStopDetailOffline(
+            itemAfterSwitchingTab.favoriteBusStops shouldBe expectedList
+            itemAfterSwitchingTab.currentExpandedBusStop shouldBe null
+
+            val emissionTabChanged = awaitItem()
+            emissionTabChanged.selectedTab shouldBe BusStopTabs.All
+        }
+
+        coVerify(exactly = 1) {
+            getBusDetailUseCase(stopNumber = 79)
+        }
+    }
+
+    @Test
+    fun `When a card is expanded and getAllBusStops emits again it should keep the current set as expanded`() = runTest {
+        val expectedResult = fakeListUiBusStopDetail(isExpanded = true, lines = fakeBusStopDetail().availableBusLines).toMutableList().apply {
+            add(
+                UiBusStopDetail(
+                    addressName = "LEÓN Y CASTILLO, 13",
+                    stopNumber = 6,
+                    isFavorite = false,
                     isExpanded = false,
-                    lines = fakeBusStopDetail().availableBusLines
+                    availableBusLines = null
                 )
             )
-            assertThat(itemAfterSwitchingTab.currentExpandedBusStop).isNull()
-        }
-        busStopsViewModel.onlineBusStopsState.test {
-            val emissionTabChanged = awaitItem()
-            assertThat(emissionTabChanged.selectedTab).isEqualTo(
-                BusStopTabs.All
-            )
         }
 
-        coVerify(exactly = 2) {
+        val expectedExpanded = UiBusStopDetail(
+            addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+            stopNumber = 79,
+            isFavorite = false,
+            isExpanded = true,
+            availableBusLines = fakeBusStopDetail().availableBusLines
+        )
+
+        val fakeFlow = MutableSharedFlow<List<BusStop>>()
+        coEvery { getBusStopsUseCase() } returns fakeFlow
+
+        coEvery {
+            getBusDetailUseCase(stopNumber = 79)
+        } returns flow {
+            emit(
+                Result.Success(fakeBusStopDetail())
+            )
+        }
+        coEvery {
+            getBusStopsUseCase()
+        } returns fakeFlow
+
+        busStopsViewModel.busStopsState.test {
+            skipItems(1)
+            fakeFlow.emit(
+                fakeListBusStopDetail()
+            )
+            val firstItemProduced = awaitItem()
+            firstItemProduced.busStops shouldBe fakeListBusStopDetail().toUiStopDetail()
+
+            busStopsViewModel.getBusStopDetail(stopNumber = 79, origin = BusStopOrigin.ONLINE)
+
+            val secondItemProduced = awaitItem()
+            secondItemProduced.currentExpandedBusStop shouldBe expectedExpanded
+
+            fakeFlow.emit(
+                fakeListBusStopDetail().toMutableList().apply {
+                    add(
+                        BusStop(
+                            addressName = "LEÓN Y CASTILLO, 13",
+                            stopNumber = 6,
+                            isFavorite = false
+                        )
+                    )
+                }
+            )
+            val itemProducedAfterSecondGetAllEmission = awaitItem()
+            itemProducedAfterSecondGetAllEmission.busStops shouldBe expectedResult
+            itemProducedAfterSecondGetAllEmission.currentExpandedBusStop shouldBe expectedExpanded
+        }
+
+        coVerify(exactly = 1) {
             getBusDetailUseCase(stopNumber = 79)
         }
     }

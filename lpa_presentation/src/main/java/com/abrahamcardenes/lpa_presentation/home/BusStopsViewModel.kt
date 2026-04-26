@@ -15,11 +15,10 @@ import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import com.abrahamcardenes.lpa_presentation.home.enums.BusStopOrigin
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopState
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopsUiState
-import com.abrahamcardenes.lpa_presentation.home.states.FavoritesUiState
 import com.abrahamcardenes.lpa_presentation.mappers.toUiStopDetail
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
+import com.abrahamcardenes.lpa_presentation.uiModels.filterByStopNumberOrAddressName
 import com.abrahamcardenes.lpa_presentation.uiModels.mappers.toBusStop
-import com.abrahamcardenes.lpa_presentation.utils.removeNonSpacingMarks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -45,49 +43,33 @@ class BusStopsViewModel
     private val dispatchers: DispatchersProvider,
     private val getBusStopsUseCase: GetBusStopsUseCase
 ) : ViewModel() {
-    private val _onlineBusStopsState = MutableStateFlow(BusStopsUiState())
+    private val _busStopsState = MutableStateFlow(BusStopsUiState())
 
-    val onlineBusStopsState: StateFlow<BusStopsUiState> = _onlineBusStopsState.onStart {
+    val busStopsState: StateFlow<BusStopsUiState> = _busStopsState.onStart {
         getBusStops()
     }.map { currentState ->
-        val userInput = _onlineBusStopsState.value.userInput
-        val filteredBusStops = currentState.busStops.filter { busStop ->
-            busStop.stopNumber.toString().contains(other = userInput, ignoreCase = true) || busStop.addressName.removeNonSpacingMarks()
-                .contains(
-                    other = userInput,
-                    ignoreCase = true
-                )
-        }
-        currentState.copy(busStops = filteredBusStops)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
+        val userInput = _busStopsState.value.userInput
+        val filteredBusStops = currentState.busStops.filterByStopNumberOrAddressName(input = userInput)
+        val filteredFavoriteBusStops = currentState.favoriteBusStops.filterByStopNumberOrAddressName(input = userInput)
 
-    private val _favoriteBusStopsUiState = MutableStateFlow(FavoritesUiState())
-    val favoriteBusStopsUiState: StateFlow<FavoritesUiState> = _favoriteBusStopsUiState
-        .combine(_onlineBusStopsState) { currentState, onlineState ->
-            val userInput = onlineState.userInput
-            val filteredBusStops = currentState.busStops.filter { busStop ->
-                busStop.stopNumber.toString().contains(other = userInput, ignoreCase = true) || busStop.addressName.removeNonSpacingMarks()
-                    .contains(
-                        other = userInput,
-                        ignoreCase = true
-                    )
-            }
-            currentState.copy(busStops = filteredBusStops)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), FavoritesUiState())
+        currentState.copy(busStops = filteredBusStops, favoriteBusStops = filteredFavoriteBusStops)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), BusStopsUiState())
 
     private var detailJob: Job? = null
 
     fun getBusStops() {
-        updateState(BusStopState.Loading)
+        _busStopsState.update {
+            it.copy(state = BusStopState.Loading)
+        }
         getBusStopsUseCase().onEach { currentBusStops ->
-            _onlineBusStopsState.update { state ->
+            _busStopsState.update { state ->
                 state.copy(busStops = currentBusStops.toUiStopDetail(), state = BusStopState.Success)
                     .keepCurrentExpandedStatus()
             }
 
             val favoriteBusStops = currentBusStops.filter { it.isFavorite }
-            _favoriteBusStopsUiState.update {
-                it.copy(busStops = favoriteBusStops.toUiStopDetail(), isLoading = false)
+            _busStopsState.update {
+                it.copy(favoriteBusStops = favoriteBusStops.toUiStopDetail())
                     .keepCurrentExpandedStatus()
             }
         }.launchIn(viewModelScope)
@@ -104,9 +86,10 @@ class BusStopsViewModel
         detailJob = viewModelScope.launch {
             closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber, origin = origin)
             val fetchedStop = when (origin) {
-                BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.find { it.stopNumber == stopNumber }
-                BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.find { it.stopNumber == stopNumber }
+                BusStopOrigin.ONLINE -> _busStopsState.value.busStops.find { it.stopNumber == stopNumber }
+                BusStopOrigin.FAVORITES -> _busStopsState.value.favoriteBusStops.find { it.stopNumber == stopNumber }
             }
+
             if (fetchedStop == null) {
                 crashlyticsService.logException(Exception("Could not find bus stop with number $stopNumber"))
                 return@launch
@@ -145,8 +128,8 @@ class BusStopsViewModel
 
     private fun closeOtherExpandedBusStopsExceptCurrentOneSelected(stopNumber: BusStopNumber, origin: BusStopOrigin) {
         val expandedBusStops = when (origin) {
-            BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
-            BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+            BusStopOrigin.ONLINE -> _busStopsState.value.busStops.filter { it.isExpanded && it.stopNumber != stopNumber }
+            BusStopOrigin.FAVORITES -> _busStopsState.value.favoriteBusStops.filter { it.isExpanded && it.stopNumber != stopNumber }
         }
         expandedBusStops.forEach { busStop ->
             updateBusStopDetail(
@@ -165,11 +148,15 @@ class BusStopsViewModel
         origin: BusStopOrigin
     ) {
         val updatedList = when (origin) {
-            BusStopOrigin.ONLINE -> _onlineBusStopsState.value.busStops.toMutableList()
-            BusStopOrigin.FAVORITES -> _favoriteBusStopsUiState.value.busStops.toMutableList()
+            BusStopOrigin.ONLINE -> _busStopsState.value.busStops.toMutableList()
+            BusStopOrigin.FAVORITES -> _busStopsState.value.favoriteBusStops.toMutableList()
         }
 
         val index = updatedList.indexOfFirst { originalBusStop.stopNumber == it.stopNumber }
+        if (index == -1) return
+        // if the expanded state from the listToUpdate is the same as the targetValue then skip
+        if (updatedList[index].isExpanded == isExpanded) return
+
         updatedList[index] = originalBusStop.copy(
             isExpanded = isExpanded,
             availableBusLines = availableBusLines
@@ -182,48 +169,41 @@ class BusStopsViewModel
 
         when (origin) {
             BusStopOrigin.ONLINE -> {
-                _onlineBusStopsState.update { state ->
+                _busStopsState.update { state ->
                     state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
                 }
             }
 
             BusStopOrigin.FAVORITES -> {
-                _favoriteBusStopsUiState.update { state ->
-                    state.copy(busStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
+                _busStopsState.update { state ->
+                    state.copy(favoriteBusStops = updatedList, currentExpandedBusStop = currentExpandedBusStop)
                 }
             }
         }
     }
 
     fun updateUserInput(value: String) {
-        _onlineBusStopsState.update {
+        _busStopsState.update {
             it.copy(userInput = value)
         }
     }
 
-    fun saveOrDeleteBusStop(busStopUiBusStopDetail: UiBusStopDetail) {
+    fun updateLocalBusStopFavoriteStatus(busStopUiBusStopDetail: UiBusStopDetail) {
         viewModelScope.launch(dispatchers.IO) {
             updateLocalBusStopUseCase.invoke(busStopUiBusStopDetail.toBusStop())
         }
     }
 
-    fun updateState(state: BusStopState) {
-        if (_onlineBusStopsState.value.state == state) return
-        _onlineBusStopsState.update {
-            it.copy(state = state)
-        }
-    }
-
     fun onTabClick(busStopTab: BusStopTabs) {
         closeExpandedBusStops()
-        _onlineBusStopsState.update { state ->
+        _busStopsState.update { state ->
             state.copy(selectedTab = busStopTab)
         }
     }
 
     private fun closeExpandedBusStops() {
         detailJob?.cancel()
-        val onlineBusStopSelected = _onlineBusStopsState.value.currentExpandedBusStop
+        val onlineBusStopSelected = _busStopsState.value.currentExpandedBusStop
         if (onlineBusStopSelected != null) {
             updateBusStopDetail(
                 originalBusStop = onlineBusStopSelected,
@@ -231,13 +211,9 @@ class BusStopsViewModel
                 isExpanded = false,
                 origin = BusStopOrigin.ONLINE
             )
-        }
-
-        val favoriteBusStopSelected = _favoriteBusStopsUiState.value.currentExpandedBusStop
-        if (favoriteBusStopSelected != null) {
             updateBusStopDetail(
-                originalBusStop = favoriteBusStopSelected,
-                availableBusLines = favoriteBusStopSelected.availableBusLines,
+                originalBusStop = onlineBusStopSelected,
+                availableBusLines = onlineBusStopSelected.availableBusLines,
                 isExpanded = false,
                 origin = BusStopOrigin.FAVORITES
             )

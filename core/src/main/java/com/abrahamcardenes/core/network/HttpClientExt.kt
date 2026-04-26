@@ -14,7 +14,6 @@ suspend inline fun <reified T> safecall(execute: () -> Response<T>): Result<T, D
         } catch (_: UnresolvedAddressException) {
             return Result.Error(DataError.Remote.NoInternet)
         } catch (e: SerializationException) {
-            println(e.stackTraceToString())
             return Result.Error(DataError.Remote.Serialization)
         } catch (e: Exception) {
             return Result.Error(DataError.Remote.UnknownError(e))

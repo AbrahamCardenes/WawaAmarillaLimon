@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.abrahamcardenes.lpa_presentation.components.errors.CatError
+import com.abrahamcardenes.lpa_presentation.components.cat.CatMessage
 import com.abrahamcardenes.lpa_presentation.components.lists.BusStopsList
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.home.states.BusStopState
@@ -31,7 +31,7 @@ fun OnlineBusStops(
     ) { currentState ->
         when (currentState) {
             BusStopState.Error -> {
-                CatError(
+                CatMessage(
                     onClick = {
                         refreshBusStops()
                     },

@@ -41,7 +41,7 @@ import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.ConcessionNodesTabRow
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.components.StopsPager
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
-import com.abrahamcardenes.lpa_presentation.components.errors.CatError
+import com.abrahamcardenes.lpa_presentation.components.cat.CatMessage
 import com.abrahamcardenes.lpa_presentation.components.loaders.LoadingCircles
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import kotlinx.coroutines.launch
@@ -126,7 +126,7 @@ fun BusRouteUi(
     ) { state ->
         when (state) {
             BusRouteState.Error -> {
-                CatError(
+                CatMessage(
                     onClick = onRetry,
                     message = stringResource(uiState.errorMessage),
                     modifier = Modifier

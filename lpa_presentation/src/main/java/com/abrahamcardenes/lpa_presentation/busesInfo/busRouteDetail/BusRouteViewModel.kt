@@ -12,7 +12,7 @@ import com.abrahamcardenes.lpa_domain.models.travellers.ConcessionStop
 import com.abrahamcardenes.lpa_domain.useCases.concessions.GetBusRouteUseCase
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.ScheduleUi
 import com.abrahamcardenes.lpa_presentation.busesInfo.busRouteDetail.uiModels.TimeUi
-import com.abrahamcardenes.lpa_presentation.utils.getRandomString
+import com.abrahamcardenes.lpa_presentation.utils.getRandomErrorCatMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -105,7 +105,7 @@ class BusRouteViewModel @Inject constructor(
                 }
                 .onError {
                     _uiState.update { state ->
-                        state.copy(errorMessage = getRandomString())
+                        state.copy(errorMessage = getRandomErrorCatMessage())
                     }
                     updateUiState(BusRouteState.Error)
                     logErrorIfIsUnknown(it)

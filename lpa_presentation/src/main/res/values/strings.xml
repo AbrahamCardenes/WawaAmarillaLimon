@@ -14,6 +14,12 @@
     <string name="cat_error_3">Alguien tiro la taza de café</string>
     <string name="cat_error_4">MIAU MIAU MIAU…MIAU</string>
     <string name="cat_error_5">¿Quién ha puesto al perro al mando?</string>
+    <string name="cat_empty_1">Vacío, como mi cuenco</string>
+    <string name="cat_empty_2">No hay paradas favoritas. Sinceramente me da igual</string>
+    <string name="cat_empty_3">Cero paradas. Cero pienso. Coincidencia? No lo creo.</string>
+    <string name="cat_empty_4">Sin paradas favoritas? En esta economía? MIAU</string>
+    <string name="cat_empty_5">Yo mirando a esta lista vacía en plan 🐱</string>
+
     <string name="balance_error">No se ha podido obtener el saldo de la tarjeta</string>
     <string name="line">Línea: %1$s</string>
     <string name="destination">Destino: %1$s</string>

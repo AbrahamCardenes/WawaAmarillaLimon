@@ -1,12 +1,14 @@
 package com.abrahamcardenes.lpa_domain.useCases.busStops
 
 import app.cash.turbine.test
+import com.abrahamcardenes.lpa_domain.TestsDispatchers
 import com.abrahamcardenes.lpa_domain.fakes.fakeListBusStopDetailOffline
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit4.FunSpec
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 
@@ -18,7 +20,8 @@ class GetBusStopsUseCaseTest : FunSpec({
 
     beforeTest {
         getBusStopsUseCase = GetBusStopsUseCase(
-            busStopRepository = busStopRepository
+            busStopRepository = busStopRepository,
+            dispatchersProvider = TestsDispatchers
         )
     }
 
@@ -39,6 +42,10 @@ class GetBusStopsUseCaseTest : FunSpec({
             awaitItem() shouldBe fakeListBusStopDetailOffline(setSecondFavoriteValue = false)
 
             awaitComplete()
+        }
+
+        coVerify(exactly = 1) {
+            busStopRepository.getBusStops()
         }
     }
 })

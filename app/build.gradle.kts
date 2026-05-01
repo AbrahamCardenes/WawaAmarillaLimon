@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.performance)
     alias(libs.plugins.convention.jacoco)
 }
 
@@ -43,6 +44,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.performance)
     // HILT
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

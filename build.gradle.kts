@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp) version "2.3.4"
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.performance) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
     id("org.sonarqube") version "7.2.3.7755"

@@ -44,6 +44,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro"
                         )
+                        manifestPlaceholders["firebasePerfLog"] = "false"
 
                         signingConfig = signingConfigs.getByName("release")
 
@@ -58,6 +59,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         manifestPlaceholders["appLabel"] = "Wawa Amarilla Limon Dev"
                         applicationIdSuffix = ".dev"
                         enableUnitTestCoverage = true
+                        manifestPlaceholders["firebasePerfLog"] = "true"
                     }
                 }
 

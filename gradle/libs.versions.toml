@@ -43,6 +43,7 @@ junitVintage = "6.0.3"
 uiautomator = "2.3.0"
 benchmarkMacroJunit4 = "1.4.1"
 testServices = "1.6.0"
+dataStoreVersion = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -96,6 +97,7 @@ firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintage" }
+data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStoreVersion" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }

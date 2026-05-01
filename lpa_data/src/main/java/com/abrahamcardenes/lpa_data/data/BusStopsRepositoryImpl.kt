@@ -7,6 +7,7 @@ import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.onError
 import com.abrahamcardenes.core.network.safecall
+import com.abrahamcardenes.core_android.dataStore.WawaSettings
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.mappers.toDomain
@@ -26,13 +27,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import okhttp3.Headers
 
 class BusStopsRepositoryImpl(
     private val api: ApiParadas,
     private val busStopDao: BusStopDao,
     private val coroutineScope: CoroutineScope,
     private val dispatchersProvider: DispatchersProvider,
-    private val crashlyticsService: CrashlyticsService
+    private val crashlyticsService: CrashlyticsService,
+    private val wawaSettings: WawaSettings
+
 ) : BusStopsRepository {
 
     init {
@@ -42,7 +46,10 @@ class BusStopsRepositoryImpl(
     }
 
     override suspend fun getBusStops(): EmptyResult<DataError> = safecall {
-        api.getParadas()
+        val paradasResponse = api.getParadas(etag = wawaSettings.getEtag())
+        if (paradasResponse.code() == 304) return Result.Success(Unit)
+        saveEtag(headers = paradasResponse.headers())
+        paradasResponse
     }.map { busStopDto ->
         val originalBusStops = busStopDto.toMutableList()
         originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
@@ -53,6 +60,11 @@ class BusStopsRepositoryImpl(
         busStopDao.upsertAll(uniqueBusStops.map { it.toEntity() })
     }.onError { error ->
         crashlyticsService.logException(Exception(error.toString()))
+    }
+
+    private suspend fun saveEtag(headers: Headers) {
+        val eTagHeader = headers.find { it.first == "etag" } ?: return
+        wawaSettings.saveEtag(eTagHeader.second)
     }
 
     override fun getBusDetailStop(stopNumber: BusStopNumber): Flow<Result<BusStopDetail?, DataError>> = flow {

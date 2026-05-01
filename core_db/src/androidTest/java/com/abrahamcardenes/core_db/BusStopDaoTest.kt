@@ -7,6 +7,7 @@ import androidx.test.filters.SmallTest
 import com.abrahamcardenes.core_db.fakes.busStopEntityFake
 import com.abrahamcardenes.core_db.roomDb.WawaDatabase
 import com.google.common.truth.Truth.assertThat
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -36,8 +37,8 @@ class BusStopDaoTest {
 
     @Test
     fun givenAnInsertionItShouldReturnIt() = runTest {
-        dao.insertBusStop(
-            busStopEntity = busStopEntityFake()
+        dao.upsertAll(
+            busStops = listOf(busStopEntityFake())
         )
         assertThat(dao.getBusStopsFlow().first().size).isEqualTo(1)
         assertThat(dao.getBusStopByNumber(stopNumber = 79)).isEqualTo(busStopEntityFake())
@@ -45,11 +46,11 @@ class BusStopDaoTest {
 
     @Test
     fun givenADoubleInsertionItShouldReturnOnlyOne() = runTest {
-        dao.insertBusStop(
-            busStopEntity = busStopEntityFake()
+        dao.upsertAll(
+            busStops = listOf(busStopEntityFake())
         )
-        dao.insertBusStop(
-            busStopEntity = busStopEntityFake()
+        dao.upsertAll(
+            busStops = listOf(busStopEntityFake())
         )
         assertThat(dao.getBusStopsFlow().first().size).isEqualTo(1)
         assertThat(dao.getBusStopByNumber(stopNumber = 79)).isEqualTo(busStopEntityFake())
@@ -60,13 +61,14 @@ class BusStopDaoTest {
         val busStop79 = busStopEntityFake()
         val busStop1 = busStopEntityFake(stopNumber = 1, addressName = "TEATRO")
 
-        dao.insertBusStop(
-            busStopEntity = busStop79
+        dao.upsertAll(
+            busStops = listOf(busStop79)
         )
 
-        dao.insertBusStop(
-            busStopEntity = busStop1
+        dao.upsertAll(
+            busStops = listOf(busStop1)
         )
+
         assertThat(dao.getBusStopsFlow().first()).isEqualTo(
             listOf(
                 busStop1,
@@ -82,12 +84,12 @@ class BusStopDaoTest {
         val busStop79 = busStopEntityFake()
         val busStop1 = busStopEntityFake(stopNumber = 1, addressName = "TEATRO")
 
-        dao.insertBusStop(
-            busStopEntity = busStop79
+        dao.upsertAll(
+            busStops = listOf(busStop79)
         )
 
-        dao.insertBusStop(
-            busStopEntity = busStop1
+        dao.upsertAll(
+            busStops = listOf(busStop1)
         )
         assertThat(dao.getBusStopsFlow().first()).isEqualTo(
             listOf(
@@ -106,5 +108,24 @@ class BusStopDaoTest {
         )
 
         assertThat(dao.getBusStopByNumber(stopNumber = 79)).isNull()
+    }
+
+    @Test
+    fun givenTwoStopsWhenAddingUpdatingItShouldNotChangeFavoriteValue() = runTest {
+        val busStop79 = busStopEntityFake()
+        val busStop1 = busStopEntityFake(stopNumber = 1, addressName = "TEATRO")
+        val expected = listOf(busStop1, busStop79.copy(isFavorite = true))
+
+        dao.upsertAll(
+            busStops = listOf(busStop79.copy(isFavorite = true), busStop1)
+        )
+
+        dao.getBusStopsFlow().first() shouldBe expected
+
+        dao.upsertAll(
+            busStops = listOf(busStop79, busStop1)
+        )
+
+        dao.getBusStopsFlow().first() shouldBe expected
     }
 }

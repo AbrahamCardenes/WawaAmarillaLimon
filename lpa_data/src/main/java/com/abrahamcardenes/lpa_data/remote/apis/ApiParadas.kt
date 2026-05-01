@@ -5,11 +5,12 @@ import com.abrahamcardenes.lpa_data.remote.dtos.stops.BusStopDto
 import com.abrahamcardenes.lpa_domain.valueObjects.BusStopNumber
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface ApiParadas {
     @GET("paradas")
-    suspend fun getParadas(): Response<List<BusStopDto>>
+    suspend fun getParadas(@Header("If-None-Match") etag: String? = null): Response<List<BusStopDto>>
 
     @GET("parada/{busStopNumber}")
     suspend fun getBusStopDetail(@Path("busStopNumber") busStopNumber: BusStopNumber): Response<BusStopDetailDto>

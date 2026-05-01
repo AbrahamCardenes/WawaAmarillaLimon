@@ -1,7 +1,6 @@
 package com.abrahamcardenes.lpa_data.di.busStops
 
-import com.abrahamcardenes.core.dispatchers.DispatchersProvider
-import com.abrahamcardenes.core_android.di.ApplicationScope
+import com.abrahamcardenes.core_android.dataStore.WawaSettings
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
 import com.abrahamcardenes.lpa_data.data.BusStopsRepositoryImpl
@@ -12,7 +11,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import kotlinx.coroutines.CoroutineScope
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,14 +20,12 @@ object BusStopsRepositoryModule {
     fun provideBusStopsRepository(
         api: ApiParadas,
         dao: BusStopDao,
-        @ApplicationScope applicationScope: CoroutineScope,
-        dispatchersProvider: DispatchersProvider,
-        crashlyticsService: CrashlyticsService
+        crashlyticsService: CrashlyticsService,
+        wawaSettings: WawaSettings
     ): BusStopsRepository = BusStopsRepositoryImpl(
         api = api,
         busStopDao = dao,
-        coroutineScope = applicationScope,
-        dispatchersProvider = dispatchersProvider,
-        crashlyticsService = crashlyticsService
+        crashlyticsService = crashlyticsService,
+        wawaSettings = wawaSettings
     )
 }

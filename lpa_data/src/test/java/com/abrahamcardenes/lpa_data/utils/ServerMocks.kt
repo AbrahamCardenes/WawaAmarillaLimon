@@ -32,6 +32,15 @@ object ServerMocks {
         )
     }
 
+    fun enqueueWithEtagValueTo(mockWebServer: MockWebServer, code: Int, body: String, value: String = "") {
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(code)
+                .setHeader("etag", value = value)
+                .setBody(body)
+        )
+    }
+
     fun buildApiParadasService(mockWebServer: MockWebServer): ApiParadas = Retrofit
         .Builder()
         .addConverterFactory(converterFactory)

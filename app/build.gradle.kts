@@ -17,6 +17,16 @@ configure<ApplicationExtension> {
         compose = true
         buildConfig = true
     }
+
+    buildTypes {
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+            manifestPlaceholders["firebasePerfLog"] = "false"
+        }
+    }
 }
 
 dependencies {
@@ -67,15 +77,4 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     testRuntimeOnly(libs.junit.platform.launcher)
     testRuntimeOnly(libs.junit.vintage.engine)
-}
-
-android {
-    buildTypes {
-        create("benchmark") {
-            initWith(buildTypes.getByName("release"))
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
-        }
-    }
 }

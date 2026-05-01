@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_data
+package com.abrahamcardenes.lpa_domain
 
 import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import kotlinx.coroutines.CoroutineDispatcher

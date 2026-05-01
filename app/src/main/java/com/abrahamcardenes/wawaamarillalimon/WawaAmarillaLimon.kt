@@ -2,6 +2,7 @@ package com.abrahamcardenes.wawaamarillalimon
 
 import android.app.Application
 import com.abrahamcardenes.core.dispatchers.DispatchersProvider
+import com.abrahamcardenes.core_android.dataStore.WawaSettingsDataStore
 import com.abrahamcardenes.core_android.di.ApplicationScope
 import com.abrahamcardenes.core_db.BusStopDao
 import dagger.hilt.android.HiltAndroidApp
@@ -21,11 +22,15 @@ class WawaAmarillaLimon : Application() {
     @ApplicationScope
     lateinit var applicationScope: CoroutineScope
 
+    @Inject
+    lateinit var dataStore: WawaSettingsDataStore
+
     override fun onCreate() {
         super.onCreate()
         // pre-warm Room
         applicationScope.launch(dispatchersProvider.IO) {
             busStopDao.getBusStops()
+            dataStore.getEtag()
         }
     }
 }

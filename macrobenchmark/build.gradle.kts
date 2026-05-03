@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.test)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -9,11 +10,11 @@ android {
             minorApiLevel = 1
         }
     }
-
+    targetProjectPath = ":app"
     defaultConfig {
         minSdk = 24
         targetSdk = 36
-
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,6 +31,18 @@ android {
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
+
+    testOptions {
+        managedDevices {
+            localDevices {
+                create("pixel6Api36") {
+                    device = "Pixel 6 Pro"
+                    apiLevel = 36
+                    systemImageSource = "aosp"
+                }
+            }
+        }
+    }
 }
 
 dependencies {

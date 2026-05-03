@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.performance)
     alias(libs.plugins.convention.jacoco)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 configure<ApplicationExtension> {
@@ -77,4 +78,10 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     testRuntimeOnly(libs.junit.platform.launcher)
     testRuntimeOnly(libs.junit.vintage.engine)
+    implementation(libs.androidx.profileinstaller)
+    baselineProfile(project(Modules.MACROBENCHMARK))
+}
+
+baselineProfile {
+    baselineProfileOutputDir = "src/main"
 }

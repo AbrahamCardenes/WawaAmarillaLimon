@@ -28,7 +28,7 @@ apply(from = "$rootDir/sonar.gradle")
 
 subprojects {
     // no need to apply jacoco on macrobenchmark and baselineprofile module
-    if (name != "macrobenchmark" || name != "baselineprofile") {
+    if (name in listOf("macrobenchmark", "baselineprofile")) {
         apply(from = "$rootDir/jacoco.gradle")
     }
     // PmaxForks will set to that cpu forks -> ./gradlew testDebugUnitTest -PmaxForks=4

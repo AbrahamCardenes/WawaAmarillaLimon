@@ -121,6 +121,13 @@ Principalmente, aprendizaje y ocio sobre el proceso de creación de una aplicaci
 ##### - Check performance
 - adb logcat -s FirebasePerformance
 
+#### Misc:
+
+##### List available tasks
+`./gradlew :{module_name}:tasks`
+
 ##### Pre-commit.
 - To allow the pre-commit to be executable you have to type into your terminal the following command:
   - chmod +x .git/hooks/pre-commit
+
+    

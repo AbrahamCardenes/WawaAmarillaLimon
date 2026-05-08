@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,54 +42,61 @@ class MainActivity : ComponentActivity() {
             val currentDestination = navBackStackEntry?.destination?.route?.substringBefore("/")
 
             WawaAmarillaLimonTheme {
-                Scaffold(
-                    bottomBar = {
-                        WawaBottomBar(currentDestination = currentDestination.toString(), navController = navController)
-                    },
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = BusStops,
-                        modifier =
-                        Modifier
-                            .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding)
-                    ) {
-                        composable<BusStops> {
-                            BusStopsScreenRoot(
-                                modifier =
-                                Modifier
-                                    .fillMaxSize()
-                            )
-                        }
+                Box(
+                    modifier = Modifier.semantics {
+                        testTagsAsResourceId = true
+                    }
+                ) {
+                    Scaffold(
+                        bottomBar = {
+                            WawaBottomBar(currentDestination = currentDestination.toString(), navController = navController)
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) { innerPadding ->
+                        NavHost(
+                            navController = navController,
+                            startDestination = BusStops,
+                            modifier =
+                            Modifier
+                                .padding(innerPadding)
+                                .consumeWindowInsets(innerPadding)
+                        ) {
+                            composable<BusStops> {
+                                BusStopsScreenRoot(
+                                    modifier =
+                                    Modifier
+                                        .fillMaxSize()
+                                )
+                            }
 
-                        composable<Concessions> {
-                            ConcessionsScreen(
-                                onNavigateToTimeTable = { busNumber, rgbaColor ->
-                                    navController.navigate(
-                                        BusTimetable(
-                                            busNumber = busNumber,
-                                            rgbColorString = rgbaColor.toRgbString()
+                            composable<Concessions> {
+                                ConcessionsScreen(
+                                    onNavigateToTimeTable = { busNumber, rgbaColor ->
+                                        navController.navigate(
+                                            BusTimetable(
+                                                busNumber = busNumber,
+                                                rgbColorString = rgbaColor.toRgbString()
+                                            )
                                         )
-                                    )
-                                }
-                            )
-                        }
+                                    }
+                                )
+                            }
 
-                        composable<BusTimetable> { navBackstackEntry ->
-                            val busTimetable = navBackstackEntry.toRoute<BusTimetable>()
-                            val busNumber = busTimetable.busNumber
-                            val rgbColorString = busTimetable.rgbColorString
-                            BusRouteScreen(
-                                busNumber = busNumber,
-                                wawaColor = buildWawaColorFrom(rgbColorString),
-                                onNavigateBack = navController::navigateUp
-                            )
-                        }
+                            composable<BusTimetable> { navBackstackEntry ->
+                                val busTimetable = navBackstackEntry.toRoute<BusTimetable>()
+                                val busNumber = busTimetable.busNumber
+                                val rgbColorString = busTimetable.rgbColorString
+                                BusRouteScreen(
+                                    busNumber = busNumber,
+                                    wawaColor = buildWawaColorFrom(rgbColorString),
+                                    onNavigateBack = navController::navigateUp
+                                )
+                            }
 
-                        composable<WawaBalance> {
-                            WawaBalanceScreenRoot()
+                            composable<WawaBalance> {
+                                WawaBalanceScreenRoot()
+                            }
                         }
                     }
                 }

@@ -44,11 +44,14 @@ uiautomator = "2.3.0"
 benchmarkMacroJunit4 = "1.4.1"
 testServices = "1.6.0"
 dataStoreVersion = "1.2.1"
+profileinstaller = "1.4.1"
+baselineprofile = "1.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
@@ -124,6 +127,7 @@ convention-android-application = { id = "com.abrahamcardenes.convention.android.
 convention-common-android = { id = "com.abrahamcardenes.convention.android.common", version = "unspecified" }
 convention-jacoco = { id = "com.abrahamcardenes.convention.jacoco", version = "unspecified" }
 android-test = { id = "com.android.test", version.ref = "agp" }
+androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
 
 
 [bundles]

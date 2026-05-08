@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import com.abrahamcardenes.lpa_presentation.components.cards.BusStopCard
 import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
@@ -31,7 +33,8 @@ fun BusStopsList(
         LazyColumn(
             state = lazyListState,
             modifier = Modifier
-                .weight(1f),
+                .weight(1f)
+                .testTag("bus_stops_list"),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {

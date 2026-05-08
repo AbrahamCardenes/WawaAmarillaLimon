@@ -1,12 +1,20 @@
 import com.abrahamcardenes.wawaamarillalimon.convention.configureCommonGradle
 import com.abrahamcardenes.wawaamarillalimon.convention.utils.libs
 import com.android.build.api.dsl.ApplicationExtension
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val localProperties =
+            Properties().apply {
+                val localPropertiesFile = target.rootProject.file("local.properties")
+                if (localPropertiesFile.exists()) {
+                    load(localPropertiesFile.inputStream())
+                }
+            }
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
@@ -30,9 +38,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 signingConfigs {
                     create("release") {
                         storeFile = file("wawa-amarilla-key.jks")
-                        storePassword = System.getenv("KEY_PASS") ?: ""
-                        keyAlias = System.getenv("KEY_ALIAS") ?: ""
-                        keyPassword = System.getenv("KEY_PASS") ?: ""
+                        storePassword = System.getenv("KEY_PASS") ?: localProperties.getProperty("KEY_PASS")
+                        keyAlias = System.getenv("KEY_ALIAS") ?: localProperties.getProperty("KEY_ALIAS")
+                        keyPassword = System.getenv("KEY_PASS") ?: localProperties.getProperty("KEY_PASS")
                     }
                 }
 

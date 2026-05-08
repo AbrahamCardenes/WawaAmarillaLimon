@@ -6,4 +6,5 @@ object Modules {
     const val LPA_DOMAIN = ":lpa_domain"
     const val LPA_PRESENTATION = ":lpa_presentation"
     const val MACROBENCHMARK = ":macrobenchmark"
+    const val BASELINE_PROFILE = ":baselineprofile"
 }

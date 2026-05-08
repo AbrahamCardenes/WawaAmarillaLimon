@@ -39,6 +39,7 @@ dependencies {
     implementation(project(Modules.LPA_DATA))
     implementation(project(Modules.LPA_DOMAIN))
     implementation(project(Modules.LPA_PRESENTATION))
+    "baselineProfile"(project(Modules.BASELINE_PROFILE))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -79,9 +80,4 @@ dependencies {
     testRuntimeOnly(libs.junit.platform.launcher)
     testRuntimeOnly(libs.junit.vintage.engine)
     implementation(libs.androidx.profileinstaller)
-    baselineProfile(project(Modules.MACROBENCHMARK))
-}
-
-baselineProfile {
-    baselineProfileOutputDir = "src/main"
 }

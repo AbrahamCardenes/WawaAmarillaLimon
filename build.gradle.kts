@@ -12,6 +12,7 @@ plugins {
     id("org.sonarqube") version "7.2.3.7755"
     id("jacoco")
     alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.androidx.baselineprofile) apply false
 }
 
 buildscript {

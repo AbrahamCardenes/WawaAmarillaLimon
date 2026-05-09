@@ -1,6 +1,8 @@
 ext.sonar = [
         ignoreModules: [
                 "core",
+                "baselineprofile",
+                "macrobenchmark",
         ],
         excludeFilter: [
                 // add here any regex you want to ignore
@@ -59,7 +61,7 @@ sonar {
         property "sonar.projectName", sonarProjectName
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.java.binaries", "${rootDir}/**/build/tmp/kotlin-classes/debug")
+        property("sonar.java.binaries", "${rootDir}/**/build/intermediates/classes/debug/transformDebugClassesWithAsm/dirs")
         property("sonar.coverage.exclusions", rootProject.ext.sonar.excludeFilter)
         property "sonar.coverage.jacoco.xmlReportPaths", "${rootDir}/**/build/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
         property "sonar.tests", ["src/test/java"]

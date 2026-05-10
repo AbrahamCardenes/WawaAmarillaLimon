@@ -15,7 +15,7 @@ class GetBusStopsUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<List<BusStop>> {
         val coroutine = CoroutineScope(SupervisorJob() + dispatchersProvider.IO)
-        coroutine.launch(dispatchersProvider.IO) {
+        coroutine.launch {
             busStopRepository.getBusStops()
         }
 

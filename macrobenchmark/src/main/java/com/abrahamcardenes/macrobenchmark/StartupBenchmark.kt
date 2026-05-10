@@ -10,6 +10,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val PACKAGE_NAME = "com.abrahamcardenes.wawaamarillalimon"
+
 /**
  * This is an example startup benchmark.
  *
@@ -29,7 +31,7 @@ class StartupBenchmark {
 
     @Test
     fun coldStartup() = benchmarkRule.measureRepeated(
-        packageName = "com.abrahamcardenes.wawaamarillalimon",
+        packageName = PACKAGE_NAME,
         metrics = listOf(StartupTimingMetric(), FrameTimingMetric()),
         iterations = 5,
         startupMode = StartupMode.COLD,
@@ -41,7 +43,7 @@ class StartupBenchmark {
 
     @Test
     fun warnStartup() = benchmarkRule.measureRepeated(
-        packageName = "com.abrahamcardenes.wawaamarillalimon",
+        packageName = PACKAGE_NAME,
         metrics = listOf(StartupTimingMetric(), FrameTimingMetric()),
         iterations = 5,
         startupMode = StartupMode.WARM,
@@ -53,7 +55,7 @@ class StartupBenchmark {
 
     @Test
     fun hotStartup() = benchmarkRule.measureRepeated(
-        packageName = "com.abrahamcardenes.wawaamarillalimon",
+        packageName = PACKAGE_NAME,
         metrics = listOf(StartupTimingMetric(), FrameTimingMetric()),
         iterations = 5,
         startupMode = StartupMode.HOT,

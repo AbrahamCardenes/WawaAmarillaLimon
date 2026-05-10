@@ -49,7 +49,7 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
 
             classDirectories.setFrom(files([
                     fileTree(
-                            dir: "${buildDir}/tmp/kotlin-classes/debug",
+                            dir: "${buildDir}/intermediates/classes/debug/transformDebugClassesWithAsm/dirs",
                             excludes: rootProject.ext.sonar.excludeFilter
                     )
             ]))
@@ -60,7 +60,6 @@ if (!rootProject.ext.sonar.ignoreModules.contains(name)) {
         properties {
             property "sonar.junit.reportPaths", "${buildDir}/test-results/${testTask}"
             property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/JacocoReports/jacocoTestReport/jacocoTestReport.xml"
-            property "sonar.sources", sources
         }
     }
 }

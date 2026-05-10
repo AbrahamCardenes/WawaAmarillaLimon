@@ -34,7 +34,7 @@ import com.abrahamcardenes.lpa_presentation.uiModels.UiBusStopDetail
 import kotlinx.coroutines.launch
 
 @Composable
-fun BusStopsScreenRoot(busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>(), modifier: Modifier = Modifier) {
+fun BusStopsScreenRoot(modifier: Modifier = Modifier, busStopsViewModel: BusStopsViewModel = hiltViewModel<BusStopsViewModel>()) {
     val onlineBusStopsState by busStopsViewModel.busStopsState.collectAsStateWithLifecycle()
 
     BusStosScreenWithTabs(

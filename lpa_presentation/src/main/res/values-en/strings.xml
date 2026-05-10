@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WawaAmarillaLimon</string>
     <string name="search_bus_stop_textfield">Stop number or name</string>
     <string name="no_buses_available">There are no buses available at this time.</string>
     <string name="check_your_balance">Check your card balance</string>

@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.performance)
     alias(libs.plugins.convention.jacoco)
-    alias(libs.plugins.androidx.baselineprofile)
+    // alias(libs.plugins.androidx.baselineprofile)
 }
 
 configure<ApplicationExtension> {
@@ -39,7 +39,7 @@ dependencies {
     implementation(project(Modules.LPA_DATA))
     implementation(project(Modules.LPA_DOMAIN))
     implementation(project(Modules.LPA_PRESENTATION))
-    "baselineProfile"(project(Modules.BASELINE_PROFILE))
+    // "baselineProfile"(project(Modules.BASELINE_PROFILE)) // Check baseline build.gradle for more info.
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

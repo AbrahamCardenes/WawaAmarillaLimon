@@ -2,7 +2,12 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 
 plugins {
     alias(libs.plugins.android.test)
-    alias(libs.plugins.androidx.baselineprofile)
+    /*
+     The performance gains will be conserved,
+     this plugin is used to generate the baseline-prof.txt file and not to use it per se.
+     I'm commenting this due to no support for AGP 9 newDsl=true is not supported right now.
+     */
+    // alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -41,10 +46,10 @@ android {
 
 // This is the configuration block for the Baseline Profile plugin.
 // You can specify to run the generators on a managed devices or connected devices.
-baselineProfile {
-    managedDevices += "pixel6Api34"
-    useConnectedDevices = false
-}
+// baselineProfile {
+//     managedDevices += "pixel6Api34"
+//     useConnectedDevices = false
+// }
 
 dependencies {
     implementation(libs.androidx.benchmark.macro.junit4)

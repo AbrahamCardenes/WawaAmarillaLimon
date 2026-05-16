@@ -32,6 +32,7 @@ ext.sonar = [
                 "**/WawaAmarillaLimon/build-logic/**",
                 "**/WawaAmarillaLimon.kt",
                 "**/wawaamarillalimon/ui/**",
+                "**/wawaamarillalimon/initializers/**",
                 "**/MainActivity.kt",
         ]
 ]

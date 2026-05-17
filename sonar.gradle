@@ -28,12 +28,14 @@ ext.sonar = [
                 "**/lpa_presentation/**/navigation/**",
                 "**/lpa_presentation/**/GetComposeColorFrom.kt",
                 "**/lpa_presentation/**/GetRandomErrorMessage.kt",
+                "**/lpa_presentation/**/GetRandomEmptyMessage.kt",
                 "**/lpa_presentation/**/NotificationType.kt",
                 "**/WawaAmarillaLimon/build-logic/**",
                 "**/WawaAmarillaLimon.kt",
                 "**/wawaamarillalimon/ui/**",
                 "**/wawaamarillalimon/initializers/**",
                 "**/MainActivity.kt",
+                "**/lpa_data/remote/apis/**",
         ]
 ]
 

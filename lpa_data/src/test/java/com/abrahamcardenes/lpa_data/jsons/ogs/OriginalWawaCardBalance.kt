@@ -7,3 +7,11 @@ val ogWawaCardBalanceJson = """
       "fecha": "03-02-2025 11:30:21"
     }
 """.trimIndent()
+
+val wawaCardBalanceJsonWithoutInfo = """
+    {
+      "codigo": "5294",
+      "saldo": "-",
+      "fecha": "-"
+    }
+""".trimIndent()

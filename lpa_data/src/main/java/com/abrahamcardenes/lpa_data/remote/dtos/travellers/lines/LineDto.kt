@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_data.remote.dtos.travellers
+package com.abrahamcardenes.lpa_data.remote.dtos.travellers.lines
 
 import com.abrahamcardenes.core.serializationUtils.FlexibleStringSerializer
 import com.abrahamcardenes.lpa_domain.models.travellers.Concession

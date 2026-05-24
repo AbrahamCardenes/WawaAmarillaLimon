@@ -1,5 +1,33 @@
+package com.abrahamcardenes.lpa_data.jsons.staticapp
 
-val shortStaticAppBusLine13 = """
+object StaticAppJsons {
+    val listResponse200 = """
+    {
+      "Respuesta": {
+        "Concesiones": {
+          "Concesion": [
+            {
+              "Nombre": "Puerto - Hoya de La Plata",
+              "Comercial": "12",
+              "Color": "rgb(226, 0, 26)"
+            },
+            {
+              "Nombre": "Mercado de Vegueta - Tres Palmas",
+              "Comercial": "13",
+              "Color": "rgb(185, 102, 161)"
+            },
+            {
+              "Nombre": "Teatro - Tamaraceite",
+              "Comercial": "L3",
+              "Color": "rgb(188, 228, 246)"
+            }
+          ]
+        }
+      }
+    }
+    """.trimIndent()
+
+    val detailResponse200 = """
     {
     "line": "13",
     "name": "Mercado de Vegueta - Tres Palmas",
@@ -104,9 +132,9 @@ val shortStaticAppBusLine13 = """
       }
     ]
   }
-""".trimIndent()
+    """.trimIndent()
 
-val emptyLatitudeAndLongitude = """
+    val detailResponse200WithEmptyLatituteLongitude = """
     {
     "line": "13",
     "name": "Mercado de Vegueta - Tres Palmas",
@@ -141,4 +169,5 @@ val emptyLatitudeAndLongitude = """
     ],
     "schedule": []
   }
-""".trimIndent()
+    """.trimIndent()
+}

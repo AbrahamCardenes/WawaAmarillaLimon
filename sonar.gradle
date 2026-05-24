@@ -18,6 +18,8 @@ ext.sonar = [
                 "**/lpa_presentation/**/**Screen.kt",
                 "**/lpa_presentation/**/components/**",
                 "**/lpa_data/**/di/**",
+                "**/lpa_data/remote/dtos/travellers/lines/*", // Deprecated packages!
+                "**/lpa_data/remote/dtos/travellers/timetable/*", // Deprecated packages!
                 "**/lpa_domain/**/di/**",
                 "**/core_android/**/di/**",
                 "**/core_android/date/**",

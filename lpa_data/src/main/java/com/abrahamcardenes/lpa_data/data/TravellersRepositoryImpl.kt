@@ -8,8 +8,8 @@ import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toDomain
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toEntity
 import com.abrahamcardenes.lpa_data.remote.apis.ApiTravellers
+import com.abrahamcardenes.lpa_data.remote.dtos.travellers.lines.toDomain
 import com.abrahamcardenes.lpa_data.remote.dtos.travellers.timetable.mappers.toDomain
-import com.abrahamcardenes.lpa_data.remote.dtos.travellers.toDomain
 import com.abrahamcardenes.lpa_domain.models.travellers.BusTimetables
 import com.abrahamcardenes.lpa_domain.models.travellers.Concession
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance

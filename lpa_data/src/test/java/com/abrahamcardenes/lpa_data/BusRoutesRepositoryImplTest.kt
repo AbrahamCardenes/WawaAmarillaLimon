@@ -3,7 +3,7 @@ package com.abrahamcardenes.lpa_data
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.onSuccess
 import com.abrahamcardenes.lpa_data.data.BusRoutesRepositoryImpl
-import com.abrahamcardenes.lpa_data.jsons.shortStaticAppLinesJson
+import com.abrahamcardenes.lpa_data.jsons.staticapp.StaticAppJsons
 import com.abrahamcardenes.lpa_data.remote.apis.ApiStaticApp
 import com.abrahamcardenes.lpa_data.utils.ServerMocks
 import com.abrahamcardenes.lpa_domain.models.common.GpsCoordinates
@@ -14,14 +14,12 @@ import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.RouteStop
 import com.abrahamcardenes.lpa_domain.models.staticApp.busRoutes.Variants
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.ConcessionDetails
 import com.abrahamcardenes.lpa_domain.models.staticApp.concessions.Concessions
-import emptyLatitudeAndLongitude
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit4.FunSpec
 import io.mockk.clearAllMocks
 import okhttp3.mockwebserver.MockWebServer
-import shortStaticAppBusLine13
 
 class BusRoutesRepositoryImplTest : FunSpec(
     {
@@ -82,7 +80,7 @@ class BusRoutesRepositoryImplTest : FunSpec(
             )
             ServerMocks.enqueue(
                 code = 200,
-                body = shortStaticAppLinesJson,
+                body = StaticAppJsons.listResponse200,
                 mockWebServer = mockWebServer
             )
 
@@ -248,7 +246,7 @@ class BusRoutesRepositoryImplTest : FunSpec(
             )
             ServerMocks.enqueue(
                 code = 200,
-                body = shortStaticAppBusLine13,
+                body = StaticAppJsons.detailResponse200,
                 mockWebServer = mockWebServer
             )
 
@@ -291,7 +289,7 @@ class BusRoutesRepositoryImplTest : FunSpec(
 
             ServerMocks.enqueue(
                 code = 200,
-                body = emptyLatitudeAndLongitude,
+                body = StaticAppJsons.detailResponse200WithEmptyLatituteLongitude,
                 mockWebServer = mockWebServer
             )
             repository.getBusRoutes(busNumber = "13") shouldBe expected

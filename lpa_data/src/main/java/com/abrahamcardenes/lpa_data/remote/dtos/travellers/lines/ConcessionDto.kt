@@ -1,4 +1,4 @@
-package com.abrahamcardenes.lpa_data.remote.dtos.travellers
+package com.abrahamcardenes.lpa_data.remote.dtos.travellers.lines
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

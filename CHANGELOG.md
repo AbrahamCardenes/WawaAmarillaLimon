@@ -1,3 +1,13 @@
+#### 24/05/2026 - v0.1.6
+- feat: offline first approach to stops screens.
+- feat: new empty messages in favorite stops tab.
+- chore: baseline profile to increase startup time.
+- chore: firebase lazy initialization.
+- chore: firebase performance.
+- chore: AGP 9 compatibility.
+- chore: migration from moshi to kotlin serialization.
+- update: sonar.
+
 #### 02/02/2026 - v0.1.4
 - feat: conventional plugins.
 

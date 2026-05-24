@@ -250,7 +250,7 @@ class BusRoutesRepositoryImplTest : FunSpec(
                 mockWebServer = mockWebServer
             )
 
-            repository.getBusRoutes(busNumber = "13") shouldBe expected
+            repository.getBusRoutes(concessionId = "13") shouldBe expected
         }
 
         test("Given given a null latitude or longitude it should return BusRouteLine with gps coordinates null") {
@@ -292,7 +292,7 @@ class BusRoutesRepositoryImplTest : FunSpec(
                 body = StaticAppJsons.detailResponse200WithEmptyLatituteLongitude,
                 mockWebServer = mockWebServer
             )
-            repository.getBusRoutes(busNumber = "13") shouldBe expected
+            repository.getBusRoutes(concessionId = "13") shouldBe expected
         }
     }
 )

@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.test.platform.app.InstrumentationRegistry
 import com.abrahamcardenes.core_db.BusStopEntity
+import com.abrahamcardenes.core_db.cards.WawaBalanceEntity
 import com.abrahamcardenes.core_db.roomDb.WawaDatabase
 
 object MigrationUtils {
@@ -23,6 +24,14 @@ object MigrationUtils {
         val values = ContentValues()
         values.put("stopNumber", this.stopNumber)
         values.put("addressName", this.addressName)
+        return values
+    }
+
+    fun WawaBalanceEntity.toContentValue(): ContentValues {
+        val values = ContentValues()
+        values.put("code", this.code)
+        values.put("balance", this.balance)
+        values.put("date", this.date)
         return values
     }
 }

@@ -3,6 +3,8 @@ package com.abrahamcardenes.lpa_data.fakes
 import com.abrahamcardenes.core_db.cards.WawaBalanceEntity
 import com.abrahamcardenes.lpa_domain.models.travellers.Concession
 import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 fun mockedConcessions() = listOf(
     Concession(
@@ -19,14 +21,20 @@ fun mockedConcessions() = listOf(
     )
 )
 
+@OptIn(ExperimentalUuidApi::class)
 fun mockedWawaCardBalance(): WawaCardBalance = WawaCardBalance(
     code = "529491",
     balance = 6.60,
-    date = "03-02-2025 11:30:21"
+    date = "03-02-2025 11:30:21",
+    uuid = Uuid.parse(uuidStringHardcoded())
 )
 
+@OptIn(ExperimentalUuidApi::class)
 fun mockedWawaCardBalanceEntity(): WawaBalanceEntity = WawaBalanceEntity(
     code = "529491",
     balance = 6.60,
-    date = "03-02-2025 11:30:21"
+    date = "03-02-2025 11:30:21",
+    uuidV4 = uuidStringHardcoded()
 )
+
+fun uuidStringHardcoded() = "0b01fb6f-f01d-4657-b51a-35372320045f"

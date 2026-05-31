@@ -1,11 +1,13 @@
 package com.abrahamcardenes.lpa_data
 
 import com.abrahamcardenes.core.network.Result
+import com.abrahamcardenes.core.uuid.UuidGenerator
 import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.TravellersRepositoryImpl
 import com.abrahamcardenes.lpa_data.fakes.mockedConcessions
 import com.abrahamcardenes.lpa_data.fakes.mockedWawaCardBalance
 import com.abrahamcardenes.lpa_data.fakes.mockedWawaCardBalanceEntity
+import com.abrahamcardenes.lpa_data.fakes.uuidStringHardcoded
 import com.abrahamcardenes.lpa_data.jsons.concessionsResponse
 import com.abrahamcardenes.lpa_data.jsons.ogs.ogWawaCardBalanceJson
 import com.abrahamcardenes.lpa_data.jsons.shortLine10Timetable
@@ -22,6 +24,8 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
@@ -37,14 +41,16 @@ class TravellersRepositoryImplTest {
     private val wawaBalanceDao = mockk<WawaBalanceDao>(relaxed = true)
     private lateinit var repository: TravellersRepositoryImpl
 
+    private val uuidGenerator = mockk<UuidGenerator>()
+
     @Before
     fun setup() {
         mockWebServer = MockWebServer()
         apiTravellers = ServerMocks.buildApiTravellersService(mockWebServer = mockWebServer)
         repository = TravellersRepositoryImpl(
             api = apiTravellers,
-            wawaBalanceDao = wawaBalanceDao
-
+            wawaBalanceDao = wawaBalanceDao,
+            uuidGenerator = uuidGenerator
         )
     }
 
@@ -168,8 +174,13 @@ class TravellersRepositoryImplTest {
         assertThat(result).isEqualTo(expected)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `Given a wawa card number it should return the balance`() = runTest {
+        coEvery {
+            uuidGenerator.getRandomUuidV4()
+        } returns Uuid.parse(uuidStringHardcoded())
+
         val expected = Result.Success(
             mockedWawaCardBalance()
         )

@@ -21,9 +21,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.mockk
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 
+@ExperimentalUuidApi
 class WawaBalanceViewModelTest : FunSpec({
     lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
@@ -57,7 +60,7 @@ class WawaBalanceViewModelTest : FunSpec({
     }
 
     test("Given a valid search it should populate the list") {
-        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320045f"))
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Success(expectedBalance)
@@ -116,16 +119,16 @@ class WawaBalanceViewModelTest : FunSpec({
 
     test("Given the two different inputs it should only verify that it can save both") {
         val expectedBalance = listOf(
-            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"),
-            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51")
+            WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320045f")),
+            WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320043a"))
         )
         coEvery {
             getBalanceUseCase("579997")
-        } returns Result.Success(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"))
+        } returns Result.Success(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320045f")))
 
         coEvery {
             getBalanceUseCase("579990")
-        } returns Result.Success(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"))
+        } returns Result.Success(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320043a")))
 
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()
@@ -148,9 +151,9 @@ class WawaBalanceViewModelTest : FunSpec({
 
         coVerify {
             getBalanceUseCase("579997")
-            balanceDbUseCases.saveCard(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21"))
+            balanceDbUseCases.saveCard(WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320045f")))
             getBalanceUseCase("579990")
-            balanceDbUseCases.saveCard(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51"))
+            balanceDbUseCases.saveCard(WawaCardBalance(code = "579990", balance = 4.2, date = "04-01-2023 13:52:51", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320043a")))
         }
     }
 
@@ -169,7 +172,7 @@ class WawaBalanceViewModelTest : FunSpec({
     }
 
     test("Given a card it should call the use case to delete it") {
-        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21")
+        val expectedBalance = WawaCardBalance(code = "579997", balance = 6.60, date = "03-02-2025 17:18:21", uuid = Uuid.parse("0b01fb6f-f01d-4657-b51a-35372320045f"))
         wawaBalanceViewModel.removeCard(expectedBalance)
         coVerifySequence {
             balanceDbUseCases.deleteCard(expectedBalance)

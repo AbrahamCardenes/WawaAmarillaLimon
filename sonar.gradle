@@ -24,6 +24,7 @@ ext.sonar = [
                 "**/core_android/**/di/**",
                 "**/core_android/date/**",
                 "**/core_db/src/main/java/com/abrahamcardenes/core_db/**",
+                "**/core/src/main/java/com/abrahamcardenes/core/uuid/**",
                 "**/DispatchersModule.kt",
                 "**/lpa_presentation/**/busesInfo/busRouteDetail/SchedulesDialog.kt",
                 "**/lpa_presentation/**/theme/**",

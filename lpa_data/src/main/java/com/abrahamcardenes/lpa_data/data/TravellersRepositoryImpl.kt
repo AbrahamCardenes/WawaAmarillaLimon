@@ -4,6 +4,7 @@ import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.core.network.map
 import com.abrahamcardenes.core.network.safecall
+import com.abrahamcardenes.core.uuid.UuidGenerator
 import com.abrahamcardenes.core_db.cards.WawaBalanceDao
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toDomain
 import com.abrahamcardenes.lpa_data.data.mappers.wawaBalance.toEntity
@@ -17,12 +18,14 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.repositories.TravellersRepository
 import com.abrahamcardenes.lpa_domain.valueObjects.BusIdNumber
 import com.abrahamcardenes.lpa_domain.valueObjects.WawaCardNumber
+import kotlin.uuid.ExperimentalUuidApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class TravellersRepositoryImpl(
     private val api: ApiTravellers,
-    private val wawaBalanceDao: WawaBalanceDao
+    private val wawaBalanceDao: WawaBalanceDao,
+    private val uuidGenerator: UuidGenerator
 ) : TravellersRepository {
     @Deprecated("Use BusRoutesRepository instead")
     override suspend fun getConcessions(): Result<List<Concession>, DataError> = safecall {
@@ -38,10 +41,11 @@ class TravellersRepositoryImpl(
         it.toDomain()
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun getBalance(cardNumber: WawaCardNumber): Result<WawaCardBalance, DataError> = safecall {
         api.getBalance(cardNumber = cardNumber)
     }.map {
-        it.toDomain()
+        it.toDomain(uuid = uuidGenerator.getRandomUuidV4())
     }
 
     override suspend fun saveCard(wawaCard: WawaCardBalance) {
@@ -52,7 +56,15 @@ class TravellersRepositoryImpl(
         wawaBalanceDao.deleteWawaBalanceByCode(code = wawaCard.code)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     override fun getAllCardsFromDb(): Flow<List<WawaCardBalance>> = wawaBalanceDao.getAllWawaBalances().map { entityCard ->
-        entityCard.map { it.toDomain() }
+        entityCard
+            .map {
+                if (it.uuidV4.isEmpty()) {
+                    it.toDomain(uuid = uuidGenerator.getRandomUuidV4())
+                } else {
+                    it.toDomain()
+                }
+            }
     }
 }

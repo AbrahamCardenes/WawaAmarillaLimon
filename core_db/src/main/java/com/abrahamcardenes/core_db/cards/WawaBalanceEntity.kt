@@ -8,5 +8,6 @@ data class WawaBalanceEntity(
     @PrimaryKey(autoGenerate = false)
     val code: String,
     val balance: Double,
-    val date: String
+    val date: String,
+    val uuidV4: String
 )

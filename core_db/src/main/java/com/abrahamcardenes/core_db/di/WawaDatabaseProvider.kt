@@ -3,6 +3,7 @@ package com.abrahamcardenes.core_db.di
 import android.content.Context
 import androidx.room.Room
 import com.abrahamcardenes.core_db.roomDb.RoomMigrations.MIGRATION_2_3
+import com.abrahamcardenes.core_db.roomDb.RoomMigrations.MIGRATION_3_4
 import com.abrahamcardenes.core_db.roomDb.WawaDatabase
 import dagger.Module
 import dagger.Provides
@@ -22,6 +23,7 @@ object WawaDatabaseProvider {
         name = "wawa_database"
     )
         .addMigrations(MIGRATION_2_3)
+        .addMigrations(MIGRATION_3_4)
         .build()
 
     @Provides

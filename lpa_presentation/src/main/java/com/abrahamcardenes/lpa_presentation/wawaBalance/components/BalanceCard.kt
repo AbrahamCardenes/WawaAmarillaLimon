@@ -36,6 +36,8 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_presentation.R
 import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.utils.toLocalCurrency
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @Composable
 fun BalanceCard(wawaCardBalance: WawaCardBalance, onDeleteAction: (WawaCardBalance) -> Unit, modifier: Modifier = Modifier) {
@@ -125,6 +127,7 @@ fun BalanceCard(wawaCardBalance: WawaCardBalance, onDeleteAction: (WawaCardBalan
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 @PreviewLightDark
 fun BalanceCardPreview() {
@@ -133,7 +136,8 @@ fun BalanceCardPreview() {
             wawaCardBalance = WawaCardBalance(
                 code = "579997",
                 balance = 6.60,
-                date = "03-02-2025 17:18:21"
+                date = "03-02-2025 17:18:21",
+                uuid = Uuid.random()
             ),
             onDeleteAction = {},
             modifier = Modifier

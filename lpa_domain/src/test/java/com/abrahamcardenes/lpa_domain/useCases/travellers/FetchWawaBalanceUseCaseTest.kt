@@ -10,11 +10,13 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.uuid.ExperimentalUuidApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@ExperimentalUuidApi
 class FetchWawaBalanceUseCaseTest {
     private val repository = mockk<TravellersRepository>()
     private val crashlyticsService = mockk<CrashlyticsService>()

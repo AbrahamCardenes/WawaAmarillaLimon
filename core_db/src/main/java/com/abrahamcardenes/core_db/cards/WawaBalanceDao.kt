@@ -20,6 +20,9 @@ interface WawaBalanceDao {
     @Query("SELECT * FROM wawa_balance_table")
     fun getAllWawaBalances(): Flow<List<WawaBalanceEntity>>
 
+    @Query("SELECT * FROM wawa_balance_table")
+    suspend fun getAll(): List<WawaBalanceEntity>
+
     @Query("UPDATE wawa_balance_table SET balance = :balance WHERE code = :code")
     fun updateWawaBalanceByCode(code: String, balance: Double)
 

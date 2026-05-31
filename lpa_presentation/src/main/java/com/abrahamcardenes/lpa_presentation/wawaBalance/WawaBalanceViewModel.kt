@@ -41,11 +41,11 @@ class WawaBalanceViewModel @Inject constructor(
     }
 
     fun getBalance() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.IO) {
             if (_balanceUiState.value.cardNumber.isEmpty()) return@launch
             getBalanceUseCase(_balanceUiState.value.cardNumber)
                 .onSuccess { wawaBalance ->
-                    saveCard(wawaCard = wawaBalance)
+                    balanceDbUseCases.saveCard(wawaCard = wawaBalance)
                 }
                 .onError {
                     logErrorIfIsUnknown(it)
@@ -66,12 +66,6 @@ class WawaBalanceViewModel @Inject constructor(
         }
     }
 
-    private fun saveCard(wawaCard: WawaCardBalance) {
-        viewModelScope.launch(dispatchers.IO) {
-            balanceDbUseCases.saveCard(wawaCard)
-        }
-    }
-
     fun removeCard(wawaCard: WawaCardBalance) {
         viewModelScope.launch {
             balanceDbUseCases.deleteCard(wawaCard)
@@ -79,7 +73,7 @@ class WawaBalanceViewModel @Inject constructor(
     }
 
     fun getCardsFromDb() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.IO) {
             balanceDbUseCases.getAllCards().collect { cards ->
                 _balanceUiState.update { state ->
                     state

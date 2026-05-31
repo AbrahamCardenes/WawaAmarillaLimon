@@ -1,0 +1,79 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "7ddb3148c85cd39f93a2cdedfa760a36",
+    "entities": [
+      {
+        "tableName": "bus_stop_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`stopNumber` INTEGER NOT NULL, `addressName` TEXT NOT NULL, `isFavorite` INTEGER NOT NULL, PRIMARY KEY(`stopNumber`))",
+        "fields": [
+          {
+            "fieldPath": "stopNumber",
+            "columnName": "stopNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addressName",
+            "columnName": "addressName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFavorite",
+            "columnName": "isFavorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "stopNumber"
+          ]
+        }
+      },
+      {
+        "tableName": "wawa_balance_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `balance` REAL NOT NULL, `date` TEXT NOT NULL, `uuidV4` TEXT NOT NULL, PRIMARY KEY(`code`))",
+        "fields": [
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "balance",
+            "columnName": "balance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uuidV4",
+            "columnName": "uuidV4",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "code"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ddb3148c85cd39f93a2cdedfa760a36')"
+    ]
+  }
+}

@@ -15,4 +15,10 @@ object RoomMigrations {
             )
         }
     }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE wawa_balance_table ADD COLUMN uuidV4 TEXT NOT NULL DEFAULT ''")
+        }
+    }
 }

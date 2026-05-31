@@ -57,6 +57,8 @@ import com.abrahamcardenes.lpa_presentation.theme.WawaAmarillaLimonTheme
 import com.abrahamcardenes.lpa_presentation.uiModels.NotificationType
 import com.abrahamcardenes.lpa_presentation.wawaBalance.components.BalanceCard
 import kotlin.time.Duration.Companion.seconds
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.delay
 
 @Composable
@@ -78,7 +80,7 @@ fun WawaBalanceScreenRoot(wawaBalanceViewModel: WawaBalanceViewModel = hiltViewM
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalUuidApi::class)
 @Composable
 fun WawaBalanceContent(
     uiState: BalanceUiState,
@@ -150,7 +152,7 @@ fun WawaBalanceContent(
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                items(uiState.wawaCards, key = { item: WawaCardBalance -> item.code }) {
+                items(uiState.wawaCards, key = { item: WawaCardBalance -> item.uuid.toString() }) {
                     Box(
                         modifier = Modifier.animateItem()
                     ) {
@@ -221,6 +223,7 @@ fun WawaBalanceContent(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 @PreviewLightDark()
 fun WawaBalancePreview() {
@@ -231,7 +234,8 @@ fun WawaBalancePreview() {
                     WawaCardBalance(
                         code = "579997",
                         balance = 6.60,
-                        date = "03-02-2025 17:18:21"
+                        date = "03-02-2025 17:18:21",
+                        uuid = Uuid.random()
                     )
                 )
             ),

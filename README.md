@@ -61,7 +61,7 @@ estándares más conocidos y usados a día de hoy (02/2025).
         <img src="images/favs_light.png" width="200" alt="Light mode"/>
     </td>
     <td align="center">
-        <img src="images/favs_light.png" width="200" alt="Dart mode"/>
+        <img src="images/favs_dark.png" width="200" alt="Dart mode"/>
     </td>
   </tr>
 </table>
@@ -74,7 +74,7 @@ estándares más conocidos y usados a día de hoy (02/2025).
         <img src="images/lines_light.png" width="200" alt="Light mode"/>
     </td>
     <td align="center">
-        <img src="images/lines_light.png" width="200" alt="Dart mode"/>
+        <img src="images/lines_dark.png" width="200" alt="Dart mode"/>
     </td>
   </tr>
   <tr>
@@ -82,7 +82,7 @@ estándares más conocidos y usados a día de hoy (02/2025).
         <<img src="images/line_detail_light.png" width="200" alt="Light mode"/>
     </td>
     <td align="center">
-        <img src="images/line_detail_light.png" width="200" alt="Dart mode"/>
+        <img src="images/line_detail_dark.png" width="200" alt="Dart mode"/>
     </td>
   </tr>
 </table>

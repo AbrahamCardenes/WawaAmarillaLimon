@@ -34,6 +34,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@ExperimentalUuidApi
 class TravellersRepositoryImplTest {
 
     private lateinit var mockWebServer: MockWebServer
@@ -227,6 +228,28 @@ class TravellersRepositoryImplTest {
 
         coVerify {
             wawaBalanceDao.getAllWawaBalances()
+        }
+    }
+
+    @Test
+    fun `Given a card with Uuid EMPTY Then it should call uuid generator and return that wawa card`() = runTest {
+        coEvery {
+            uuidGenerator.getRandomUuidV4()
+        } returns Uuid.parse(uuidStringHardcoded())
+
+        coEvery {
+            wawaBalanceDao.getAllWawaBalances()
+        } returns flow {
+            emit(listOf(mockedWawaCardBalanceEntity().copy(uuidV4 = "")))
+        }
+
+        val resultDbConvertedToSingle = repository.getAllCardsFromDb().single()
+
+        assertThat(resultDbConvertedToSingle).isEqualTo(listOf(mockedWawaCardBalance()))
+
+        coVerify {
+            wawaBalanceDao.getAllWawaBalances()
+            uuidGenerator.getRandomUuidV4()
         }
     }
 }

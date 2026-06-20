@@ -47,7 +47,7 @@ testServices = "1.6.0"
 dataStoreVersion = "1.2.1"
 profileinstaller = "1.4.1"
 baselineprofile = "1.4.1"
-sonarqube = "7.3.0.8198"
+sonarqube = "7.3.1.8318"
 startupRuntime = "1.2.0"
 
 [libraries]

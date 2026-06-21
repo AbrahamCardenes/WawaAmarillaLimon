@@ -3,7 +3,7 @@ projectTargetSdkVersion = "37"
 projectCompileSdkVersion = "37"
 projectMinSdkVersion = "24"
 projectVersionCode = "12"
-projectVersionName = "0.1.6"
+projectVersionName = "0.1.7"
 projectApplicationId = "com.abrahamcardenes.wawaamarillalimon"
 
 agp = "9.2.1"

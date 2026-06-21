@@ -1,3 +1,8 @@
+#### 21/06/2026 - v0.1.7
+- fix: balance list deleted card leaded to not being able to re-add the same card.
+- update: ktlint version.
+- update: dependencies.
+
 #### 24/05/2026 - v0.1.6
 - feat: offline first approach to stops screens.
 - feat: new empty messages in favorite stops tab.

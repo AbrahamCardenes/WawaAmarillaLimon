@@ -63,7 +63,7 @@ private fun BusStosScreenWithTabs(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
-        BusStopTabs.Metadata().totalTabs
+        BusStopTabs.entries.size
     })
 
     LaunchedEffect(pagerState) {

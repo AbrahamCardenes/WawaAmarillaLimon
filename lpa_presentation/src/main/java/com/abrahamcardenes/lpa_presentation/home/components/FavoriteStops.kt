@@ -60,18 +60,18 @@ fun FavoriteStopsPreview() {
     WawaAmarillaLimonTheme {
         FavoriteStops(
             uiState =
-            BusStopsUiState().copy(
-                favoriteBusStops =
-                mutableListOf(
-                    UiBusStopDetail(
-                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                        stopNumber = 79,
-                        availableBusLines = emptyList(),
-                        isExpanded = false,
-                        isFavorite = false
-                    )
-                )
-            ),
+                BusStopsUiState().copy(
+                    favoriteBusStops =
+                        mutableListOf(
+                            UiBusStopDetail(
+                                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                                stopNumber = 79,
+                                availableBusLines = emptyList(),
+                                isExpanded = false,
+                                isFavorite = false
+                            )
+                        )
+                ),
             onBusStopClick = {},
             onSaveBusStop = {}
         )

@@ -58,15 +58,15 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = BusStops,
                             modifier =
-                            Modifier
-                                .padding(innerPadding)
-                                .consumeWindowInsets(innerPadding)
+                                Modifier
+                                    .padding(innerPadding)
+                                    .consumeWindowInsets(innerPadding)
                         ) {
                             composable<BusStops> {
                                 BusStopsScreenRoot(
                                     modifier =
-                                    Modifier
-                                        .fillMaxSize()
+                                        Modifier
+                                            .fillMaxSize()
                                 )
                             }
 

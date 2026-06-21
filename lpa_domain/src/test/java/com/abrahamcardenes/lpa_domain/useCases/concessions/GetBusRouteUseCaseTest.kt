@@ -45,9 +45,9 @@ class GetBusRouteUseCaseTest {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.CONCESSION_LOOK_UP,
                 params =
-                arrayOf(
-                    Pair(AnalyticsParams.CONCESSION_ID, "50")
-                )
+                    arrayOf(
+                        Pair(AnalyticsParams.CONCESSION_ID, "50")
+                    )
             )
         } returns Unit
 
@@ -56,9 +56,9 @@ class GetBusRouteUseCaseTest {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.CONCESSION_LOOK_UP,
                 params =
-                arrayOf(
-                    Pair(AnalyticsParams.CONCESSION_ID, "50")
-                )
+                    arrayOf(
+                        Pair(AnalyticsParams.CONCESSION_ID, "50")
+                    )
             )
             repository.getBusRoutes("50")
         }
@@ -76,9 +76,9 @@ class GetBusRouteUseCaseTest {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.CONCESSION_LOOK_UP,
                 params =
-                arrayOf(
-                    Pair(AnalyticsParams.CONCESSION_ID, "x47")
-                )
+                    arrayOf(
+                        Pair(AnalyticsParams.CONCESSION_ID, "x47")
+                    )
             )
         } returns Unit
 
@@ -87,9 +87,9 @@ class GetBusRouteUseCaseTest {
             analyticsService.sendLogEvent(
                 event = AnalyticsEvents.CONCESSION_LOOK_UP,
                 params =
-                arrayOf(
-                    Pair(AnalyticsParams.CONCESSION_ID, "x47")
-                )
+                    arrayOf(
+                        Pair(AnalyticsParams.CONCESSION_ID, "x47")
+                    )
             )
             repository.getBusRoutes("x47")
         }

@@ -68,18 +68,18 @@ fun OnlineBusStopsPreview() {
     WawaAmarillaLimonTheme {
         OnlineBusStops(
             state =
-            BusStopsUiState().copy(
-                busStops =
-                listOf(
-                    UiBusStopDetail(
-                        addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
-                        stopNumber = 79,
-                        availableBusLines = emptyList(),
-                        isExpanded = false,
-                        isFavorite = false
-                    )
-                )
-            ),
+                BusStopsUiState().copy(
+                    busStops =
+                        listOf(
+                            UiBusStopDetail(
+                                addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
+                                stopNumber = 79,
+                                availableBusLines = emptyList(),
+                                isExpanded = false,
+                                isFavorite = false
+                            )
+                        )
+                ),
             errorMessage = -1,
             onBusStopClick = {},
             onSaveBusStop = {},

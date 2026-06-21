@@ -278,6 +278,7 @@ fun WawaAmarillaLimonTheme(
             }
 
             darkTheme -> darkScheme
+
             else -> lightScheme
         }
 

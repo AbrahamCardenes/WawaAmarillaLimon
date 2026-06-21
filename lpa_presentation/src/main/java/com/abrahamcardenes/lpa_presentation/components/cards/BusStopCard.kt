@@ -59,28 +59,28 @@ fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiB
     ) {
         Column(
             modifier =
-            Modifier
-                .wrapContentSize()
-                .padding(12.dp)
+                Modifier
+                    .wrapContentSize()
+                    .padding(12.dp)
         ) {
             Row(
                 horizontalArrangement =
-                Arrangement.spacedBy(
-                    space = 6.dp
-                ),
+                    Arrangement.spacedBy(
+                        space = 6.dp
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
                     horizontalArrangement =
-                    Arrangement.spacedBy(
-                        space = 6.dp,
-                        alignment = Alignment.Start
-                    ),
+                        Arrangement.spacedBy(
+                            space = 6.dp,
+                            alignment = Alignment.Start
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
-                    Modifier
-                        .weight(1f)
+                        Modifier
+                            .weight(1f)
                 ) {
                     Text(
                         text = busStop.stopNumber.toString() + " - ",
@@ -123,14 +123,14 @@ fun BusStopCard(busStop: UiBusStopDetail, onClick: () -> Unit, onIconClick: (UiB
                         busStop.availableBusLines?.forEach {
                             Box(
                                 modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .border(
-                                        width = 1.5.dp,
-                                        color = MaterialTheme.colorScheme.outline,
-                                        shape = MaterialTheme.shapes.medium
-                                    )
-                                    .padding(12.dp)
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .border(
+                                            width = 1.5.dp,
+                                            color = MaterialTheme.colorScheme.outline,
+                                            shape = MaterialTheme.shapes.medium
+                                        )
+                                        .padding(12.dp)
                             ) {
                                 Column {
                                     Text(stringResource(R.string.line, it.number))
@@ -168,15 +168,15 @@ private fun PreviewBusStopCard() {
                     addressName = "PASEO DE SAN JOSÉ (IGLESIA SAN JOSÉ)",
                     stopNumber = 79,
                     availableBusLines =
-                    listOf(
-                        BusLine(number = "13", arrivalTimeIn = "10min", destination = "TRES PALMAS"),
-                        BusLine(number = "13", arrivalTimeIn = "20min", destination = "TRES PALMAS"),
-                        BusLine(
-                            number = "64",
-                            arrivalTimeIn = "20min",
-                            destination = "HOYA DE LA PLATA"
-                        )
-                    ),
+                        listOf(
+                            BusLine(number = "13", arrivalTimeIn = "10min", destination = "TRES PALMAS"),
+                            BusLine(number = "13", arrivalTimeIn = "20min", destination = "TRES PALMAS"),
+                            BusLine(
+                                number = "64",
+                                arrivalTimeIn = "20min",
+                                destination = "HOYA DE LA PLATA"
+                            )
+                        ),
                     isExpanded = true,
                     isFavorite = true
                 )

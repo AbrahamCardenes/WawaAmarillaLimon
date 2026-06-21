@@ -43,9 +43,9 @@ fun BusTextField(
         keyboardOptions = KeyboardOptions(keyboardType = busTextFieldConfig.keyboardType),
         keyboardActions = busTextFieldConfig.keyboardActions,
         modifier =
-        modifier
-            .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.ime)
+            modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.ime)
     )
 }
 

@@ -32,10 +32,15 @@ suspend inline fun <reified T> responseToResult(response: Response<T>): Result<T
     }
 
     400 -> Result.Error(DataError.Remote.BadRequest)
+
     401 -> Result.Error(DataError.Remote.Unauthorized)
+
     404 -> Result.Error(DataError.Remote.NotFound)
+
     408 -> Result.Error(DataError.Remote.RequestTimeout)
+
     429 -> Result.Error(DataError.Remote.TooManyRequests)
+
     in 500..599 -> Result.Error(DataError.Remote.ServerFailure)
 
     else -> Result.Error(DataError.Remote.UnknownError(Exception("Unknown error code ${response.code()}")))

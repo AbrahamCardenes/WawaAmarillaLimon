@@ -1,7 +1,7 @@
 package com.abrahamcardenes.lpa_domain.useCases.busStops
 
 import app.cash.turbine.test
-import com.abrahamcardenes.lpa_domain.TestsDispatchers
+import com.abrahamcardenes.core.network.Result
 import com.abrahamcardenes.lpa_domain.fakes.fakeListBusStopDetailOffline
 import com.abrahamcardenes.lpa_domain.repositories.BusStopsRepository
 import io.kotest.matchers.shouldBe
@@ -20,8 +20,7 @@ class GetBusStopsUseCaseTest : FunSpec({
 
     beforeTest {
         getBusStopsUseCase = GetBusStopsUseCase(
-            busStopRepository = busStopRepository,
-            dispatchersProvider = TestsDispatchers
+            busStopRepository = busStopRepository
         )
     }
 
@@ -36,6 +35,10 @@ class GetBusStopsUseCaseTest : FunSpec({
             emit(fakeListBusStopDetailOffline())
             emit(fakeListBusStopDetailOffline(setSecondFavoriteValue = false))
         }
+
+        coEvery {
+            busStopRepository.getBusStops()
+        } returns Result.Success(Unit)
 
         getBusStopsUseCase().test {
             awaitItem() shouldBe fakeListBusStopDetailOffline()

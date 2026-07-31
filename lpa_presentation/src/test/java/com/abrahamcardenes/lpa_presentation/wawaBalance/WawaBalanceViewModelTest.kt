@@ -10,8 +10,8 @@ import com.abrahamcardenes.lpa_domain.models.travellers.WawaCardBalance
 import com.abrahamcardenes.lpa_domain.useCases.cardBalance.BalanceDbUseCases
 import com.abrahamcardenes.lpa_domain.useCases.travellers.FetchWawaBalanceUseCase
 import com.abrahamcardenes.lpa_domain.useCases.travellers.GetBalanceUseCase
-import com.abrahamcardenes.lpa_presentation.coroutineRules.CoroutineTestExtension
 import com.abrahamcardenes.lpa_presentation.fakes.TestsDispatchers
+import io.kotest.core.spec.IsolationMode
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -23,21 +23,35 @@ import io.mockk.coVerifySequence
 import io.mockk.mockk
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 
 @ExperimentalUuidApi
 class WawaBalanceViewModelTest : FunSpec({
+
+    isolationMode = IsolationMode.InstancePerLeaf
+
     lateinit var wawaBalanceViewModel: WawaBalanceViewModel
     val getBalanceUseCase = mockk<GetBalanceUseCase>(relaxed = true)
     val crashlyticsService = mockk<CrashlyticsService>(relaxed = true)
-    val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true) // TODO: fake emitting class for DB getAll.
+    val balanceDbUseCases = mockk<BalanceDbUseCases>(relaxed = true)
     val fetchWawaBalanceUseCase = mockk<FetchWawaBalanceUseCase>(relaxed = true)
     val dispatchers = TestsDispatchers
-
-    extensions(CoroutineTestExtension())
+    lateinit var stateScope: CoroutineScope
 
     beforeTest {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+        stateScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
         wawaBalanceViewModel = WawaBalanceViewModel(
             getBalanceUseCase = getBalanceUseCase,
             crashlyticsService = crashlyticsService,
@@ -48,8 +62,16 @@ class WawaBalanceViewModelTest : FunSpec({
     }
 
     afterTest {
+        stateScope.cancel()
+        Dispatchers.resetMain()
         clearAllMocks()
     }
+
+    // stateIn(WhileSubscribed(5000)) — onStart only fires while there's
+    // an active subscriber.
+    // Keep the upstream alive so vm.stateClass.value reflects
+    // _stateClass after each action, without each test reaching for Turbine.
+    fun keepStateActive(target: WawaBalanceViewModel): Job = stateScope.launch { target.balanceUiState.collect { } }
 
     test("Given initial status it should be empty") {
         wawaBalanceViewModel.balanceUiState.value.wawaCards shouldBe emptyList()
@@ -64,7 +86,6 @@ class WawaBalanceViewModelTest : FunSpec({
         coEvery {
             getBalanceUseCase("579997")
         } returns Result.Success(expectedBalance)
-
         wawaBalanceViewModel.onCardNumberChange("579997")
         wawaBalanceViewModel.getBalance()
 
@@ -79,17 +100,15 @@ class WawaBalanceViewModelTest : FunSpec({
             getBalanceUseCase("579997")
         }
 
-        wawaBalanceViewModel.balanceUiState.test {
-            val latestEmission = awaitItem()
-            latestEmission.errorHappened shouldBe false
-
-            latestEmission.wawaCards.shouldHaveSize(1)
-            latestEmission.cardNumber shouldNotBe ""
-            latestEmission shouldBe BalanceUiState(
-                wawaCards = listOf(expectedBalance),
-                cardNumber = "579997"
-            )
-        }
+        keepStateActive(wawaBalanceViewModel)
+        val balance = wawaBalanceViewModel.balanceUiState.value
+        balance.errorHappened shouldBe false
+        balance.wawaCards.shouldHaveSize(1)
+        balance.cardNumber shouldNotBe ""
+        balance shouldBe BalanceUiState(
+            wawaCards = listOf(expectedBalance),
+            cardNumber = "579997"
+        )
     }
 
     test("Given a card that returns an error it should update the state to error") {

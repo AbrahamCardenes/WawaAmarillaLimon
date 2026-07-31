@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
@@ -31,7 +32,7 @@ fun AvailableStopsByVariant(availableRouteStops: List<RouteStop>, modifier: Modi
         state = scrollState,
         modifier = modifier
     ) {
-        items(items = availableRouteStops, key = { availableRouteStops -> availableRouteStops.number }) { routeStop ->
+        itemsIndexed(items = availableRouteStops, key = { index, _ -> index }) { _, routeStop ->
             Card(
                 shape = RectangleShape,
                 modifier = Modifier

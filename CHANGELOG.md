@@ -1,3 +1,7 @@
+#### 31/07/2026 - v0.1.8
+- hotfix: adaptation to line 27.
+- update: dependencies.
+
 #### 21/06/2026 - v0.1.7
 - fix: balance list deleted card leaded to not being able to re-add the same card.
 - update: ktlint version.

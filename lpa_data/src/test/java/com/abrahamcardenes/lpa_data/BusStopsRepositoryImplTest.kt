@@ -15,6 +15,7 @@ import com.abrahamcardenes.lpa_data.jsons.mockedBusStopDetailWithLessTime
 import com.abrahamcardenes.lpa_data.jsons.ogs.shortOriginalReplication
 import com.abrahamcardenes.lpa_data.remote.apis.ApiParadas
 import com.abrahamcardenes.lpa_data.utils.ServerMocks
+import com.abrahamcardenes.lpa_data.utils.TestsDispatchers
 import com.abrahamcardenes.lpa_domain.models.busStops.BusLine
 import com.abrahamcardenes.lpa_domain.models.busStops.BusStop
 import com.google.common.truth.Truth.assertThat
@@ -55,7 +56,8 @@ class BusStopsRepositoryImplTest {
             api = apiParadas,
             busStopDao = busStopDao,
             crashlyticsService = crashlyticsService,
-            wawaSettings = wawaSettings
+            wawaSettings = wawaSettings,
+            dispatchersProvider = TestsDispatchers
         )
     }
 

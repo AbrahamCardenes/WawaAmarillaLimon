@@ -1,5 +1,6 @@
 package com.abrahamcardenes.lpa_data.di.busStops
 
+import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core_android.dataStore.WawaSettings
 import com.abrahamcardenes.core_android.firebase.CrashlyticsService
 import com.abrahamcardenes.core_db.BusStopDao
@@ -21,11 +22,13 @@ object BusStopsRepositoryModule {
         api: ApiParadas,
         dao: BusStopDao,
         crashlyticsService: CrashlyticsService,
-        wawaSettings: WawaSettings
+        wawaSettings: WawaSettings,
+        dispatchersProvider: DispatchersProvider
     ): BusStopsRepository = BusStopsRepositoryImpl(
         api = api,
         busStopDao = dao,
         crashlyticsService = crashlyticsService,
-        wawaSettings = wawaSettings
+        wawaSettings = wawaSettings,
+        dispatchersProvider = dispatchersProvider
     )
 }

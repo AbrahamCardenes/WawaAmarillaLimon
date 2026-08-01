@@ -1,5 +1,6 @@
 package com.abrahamcardenes.lpa_data.data
 
+import com.abrahamcardenes.core.dispatchers.DispatchersProvider
 import com.abrahamcardenes.core.network.DataError
 import com.abrahamcardenes.core.network.EmptyResult
 import com.abrahamcardenes.core.network.Result
@@ -24,29 +25,35 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import okhttp3.Headers
 
 class BusStopsRepositoryImpl(
     private val api: ApiParadas,
     private val busStopDao: BusStopDao,
     private val crashlyticsService: CrashlyticsService,
-    private val wawaSettings: WawaSettings
+    private val wawaSettings: WawaSettings,
+    private val dispatchersProvider: DispatchersProvider
 ) : BusStopsRepository {
 
-    override suspend fun getBusStops(): EmptyResult<DataError> = safecall {
-        val paradasResponse = api.getParadas(etag = wawaSettings.getEtag() ?: "")
-        if (paradasResponse.code() == 304) return Result.Success(Unit)
-        saveEtag(headers = paradasResponse.headers())
-        paradasResponse
-    }.map { busStopDto ->
-        val originalBusStops = busStopDto.toMutableList()
-        originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
-        val busStopsFromApi = originalBusStops.toDomain()
-        val uniqueBusStops = busStopsFromApi.distinctBy { it.stopNumber }
-            .sortedBy { it.stopNumber }
-        busStopDao.upsertAll(uniqueBusStops.map { it.toEntity() })
-    }.onError { error ->
-        crashlyticsService.logException(Exception(error.toString()))
+    override suspend fun getBusStops(): EmptyResult<DataError> = withContext(
+        dispatchersProvider.IO
+    ) {
+        safecall {
+            val paradasResponse = api.getParadas(etag = wawaSettings.getEtag() ?: "")
+            if (paradasResponse.code() == 304) return@withContext Result.Success(Unit)
+            saveEtag(headers = paradasResponse.headers())
+            paradasResponse
+        }.map { busStopDto ->
+            val originalBusStops = busStopDto.toMutableList()
+            originalBusStops.removeIf { it.stopNumber == "PAR" || it.addressName == "NOMBRE" }
+            val busStopsFromApi = originalBusStops.toDomain()
+            val uniqueBusStops = busStopsFromApi.distinctBy { it.stopNumber }
+                .sortedBy { it.stopNumber }
+            busStopDao.upsertAll(uniqueBusStops.map { it.toEntity() })
+        }.onError { error ->
+            crashlyticsService.logException(Exception(error.toString()))
+        }
     }
 
     private suspend fun saveEtag(headers: Headers) {

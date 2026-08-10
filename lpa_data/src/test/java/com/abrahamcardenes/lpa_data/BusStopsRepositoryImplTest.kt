@@ -336,10 +336,20 @@ class BusStopsRepositoryImplTest {
     }
 
     @Test
-    fun `Given an etag When the response is 304 Then it should handle no content response`() = runTest {
+    fun `Given an etag When the response is 304 and db has data Then it should handle no content response`() = runTest {
         coEvery {
             wawaSettings.getEtag()
         } returns "e-tag-value"
+
+        coEvery {
+            busStopDao.getBusStops()
+        } returns listOf(
+            BusStopEntity(
+                addressName = "TEATRO",
+                stopNumber = 1,
+                isFavorite = false
+            )
+        )
 
         ServerMocks.enqueueWithEtagValueTo(
             code = 304,
@@ -354,6 +364,51 @@ class BusStopsRepositoryImplTest {
 
         coVerify(exactly = 0) {
             busStopDao.upsertAll(any())
+        }
+    }
+
+    @Test
+    fun `Given a saved etag When the response is 304 and db is empty Then it should refetch without etag`() = runTest {
+        coEvery {
+            wawaSettings.getEtag()
+        } returns "e-tag-value"
+
+        coEvery {
+            busStopDao.getBusStops()
+        } returns emptyList()
+
+        coEvery {
+            busStopDao.upsertAll(any())
+        } just Runs
+
+        coEvery {
+            wawaSettings.saveEtag(any())
+        } just Runs
+
+        ServerMocks.enqueueWithEtagValueTo(
+            code = 304,
+            body = "",
+            mockWebServer = mockWebServer,
+            value = "e-tag-value"
+        )
+        ServerMocks.enqueueWithEtagValueTo(
+            code = 200,
+            body = shortOriginalReplication,
+            mockWebServer = mockWebServer,
+            value = "e-tag-value-from-refetch"
+        )
+
+        repository.getBusStops()
+
+        val firstRequest = mockWebServer.takeRequest()
+        firstRequest.headers["If-None-Match"] shouldBe "e-tag-value"
+
+        val secondRequest = mockWebServer.takeRequest()
+        secondRequest.headers["If-None-Match"] shouldBe ""
+
+        coVerify {
+            busStopDao.upsertAll(any())
+            wawaSettings.saveEtag("e-tag-value-from-refetch")
         }
     }
 

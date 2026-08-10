@@ -40,8 +40,13 @@ class BusStopsRepositoryImpl(
         dispatchersProvider.IO
     ) {
         safecall {
-            val paradasResponse = api.getParadas(etag = wawaSettings.getEtag() ?: "")
-            if (paradasResponse.code() == 304) return@withContext Result.Success(Unit)
+            var paradasResponse = api.getParadas(etag = wawaSettings.getEtag() ?: "")
+            if (paradasResponse.code() == 304 && busStopDao.getBusStops().isNotEmpty()) {
+                return@withContext Result.Success(Unit)
+            }
+            if (paradasResponse.code() == 304) {
+                paradasResponse = api.getParadas(etag = "")
+            }
             saveEtag(headers = paradasResponse.headers())
             paradasResponse
         }.map { busStopDto ->

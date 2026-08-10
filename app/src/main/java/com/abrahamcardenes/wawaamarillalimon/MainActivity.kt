@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -60,7 +64,27 @@ class MainActivity : ComponentActivity() {
                             modifier =
                                 Modifier
                                     .padding(innerPadding)
-                                    .consumeWindowInsets(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
+                            enterTransition = {
+                                val fromIndex = initialState.destination.route.toBottomBarIndex()
+                                val toIndex = targetState.destination.route.toBottomBarIndex()
+                                when {
+                                    toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
+                                    toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
+                                    else -> fadeIn()
+                                }
+                            },
+                            exitTransition = {
+                                val fromIndex = initialState.destination.route.toBottomBarIndex()
+                                val toIndex = targetState.destination.route.toBottomBarIndex()
+                                when {
+                                    toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
+                                    toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
+                                    else -> fadeOut()
+                                }
+                            },
+                            popEnterTransition = { fadeIn() },
+                            popExitTransition = { fadeOut() }
                         ) {
                             composable<BusStops> {
                                 BusStopsScreenRoot(
@@ -103,4 +127,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+private fun String?.toBottomBarIndex(): Int = when (this) {
+    BusStops::class.java.name -> 0
+    Concessions::class.java.name -> 1
+    WawaBalance::class.java.name -> 2
+    else -> -1
 }

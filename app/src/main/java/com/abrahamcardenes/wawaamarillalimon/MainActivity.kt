@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
@@ -66,21 +68,33 @@ class MainActivity : ComponentActivity() {
                                     .padding(innerPadding)
                                     .consumeWindowInsets(innerPadding),
                             enterTransition = {
-                                val fromIndex = initialState.destination.route.toBottomBarIndex()
-                                val toIndex = targetState.destination.route.toBottomBarIndex()
-                                when {
-                                    toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
-                                    toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
-                                    else -> fadeIn()
+                                val fromRoute = initialState.destination.route
+                                val toRoute = targetState.destination.route
+                                if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+                                    scaleIn(initialScale = 0.9f) + fadeIn()
+                                } else {
+                                    val fromIndex = fromRoute.toBottomBarIndex()
+                                    val toIndex = toRoute.toBottomBarIndex()
+                                    when {
+                                        toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
+                                        toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
+                                        else -> fadeIn()
+                                    }
                                 }
                             },
                             exitTransition = {
-                                val fromIndex = initialState.destination.route.toBottomBarIndex()
-                                val toIndex = targetState.destination.route.toBottomBarIndex()
-                                when {
-                                    toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
-                                    toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
-                                    else -> fadeOut()
+                                val fromRoute = initialState.destination.route
+                                val toRoute = targetState.destination.route
+                                if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+                                    scaleOut(targetScale = 0.9f) + fadeOut()
+                                } else {
+                                    val fromIndex = fromRoute.toBottomBarIndex()
+                                    val toIndex = toRoute.toBottomBarIndex()
+                                    when {
+                                        toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
+                                        toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
+                                        else -> fadeOut()
+                                    }
                                 }
                             },
                             popEnterTransition = { fadeIn() },
@@ -135,3 +149,5 @@ private fun String?.toBottomBarIndex(): Int = when (this) {
     WawaBalance::class.java.name -> 2
     else -> -1
 }
+
+private fun String?.isTimetableRoute(): Boolean = this?.substringBefore("/") == BusTimetable::class.java.name

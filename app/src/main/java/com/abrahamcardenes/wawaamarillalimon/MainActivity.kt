@@ -4,6 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -60,7 +68,21 @@ class MainActivity : ComponentActivity() {
                             modifier =
                                 Modifier
                                     .padding(innerPadding)
-                                    .consumeWindowInsets(innerPadding)
+                                    .consumeWindowInsets(innerPadding),
+                            enterTransition = {
+                                showEnterTransition(
+                                    fromRoute = initialState.destination.route,
+                                    toRoute = targetState.destination.route
+                                )
+                            },
+                            exitTransition = {
+                                showExitTransition(
+                                    fromRoute = initialState.destination.route,
+                                    toRoute = targetState.destination.route
+                                )
+                            },
+                            popEnterTransition = { fadeIn() },
+                            popExitTransition = { fadeOut() }
                         ) {
                             composable<BusStops> {
                                 BusStopsScreenRoot(
@@ -104,3 +126,40 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun showEnterTransition(fromRoute: String?, toRoute: String?): EnterTransition {
+    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+        return scaleIn(initialScale = 0.9f) + fadeIn()
+    }
+
+    val fromIndex = fromRoute.toBottomBarIndex()
+    val toIndex = toRoute.toBottomBarIndex()
+    return when {
+        toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
+        toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
+        else -> fadeIn()
+    }
+}
+
+private fun showExitTransition(fromRoute: String?, toRoute: String?): ExitTransition {
+    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+        return scaleOut(targetScale = 0.9f) + fadeOut()
+    }
+
+    val fromIndex = fromRoute.toBottomBarIndex()
+    val toIndex = toRoute.toBottomBarIndex()
+    return when {
+        toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
+        toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
+        else -> fadeOut()
+    }
+}
+
+private fun String?.toBottomBarIndex(): Int = when (this) {
+    BusStops::class.java.name -> 0
+    Concessions::class.java.name -> 1
+    WawaBalance::class.java.name -> 2
+    else -> -1
+}
+
+private fun String?.isTimetableRoute(): Boolean = this?.substringBefore("/") == BusTimetable::class.java.name

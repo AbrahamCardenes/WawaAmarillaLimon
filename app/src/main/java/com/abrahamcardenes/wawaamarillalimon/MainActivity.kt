@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -68,34 +70,16 @@ class MainActivity : ComponentActivity() {
                                     .padding(innerPadding)
                                     .consumeWindowInsets(innerPadding),
                             enterTransition = {
-                                val fromRoute = initialState.destination.route
-                                val toRoute = targetState.destination.route
-                                if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
-                                    scaleIn(initialScale = 0.9f) + fadeIn()
-                                } else {
-                                    val fromIndex = fromRoute.toBottomBarIndex()
-                                    val toIndex = toRoute.toBottomBarIndex()
-                                    when {
-                                        toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
-                                        toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
-                                        else -> fadeIn()
-                                    }
-                                }
+                                showEnterTransition(
+                                    fromRoute = initialState.destination.route,
+                                    toRoute = targetState.destination.route
+                                )
                             },
                             exitTransition = {
-                                val fromRoute = initialState.destination.route
-                                val toRoute = targetState.destination.route
-                                if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
-                                    scaleOut(targetScale = 0.9f) + fadeOut()
-                                } else {
-                                    val fromIndex = fromRoute.toBottomBarIndex()
-                                    val toIndex = toRoute.toBottomBarIndex()
-                                    when {
-                                        toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
-                                        toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
-                                        else -> fadeOut()
-                                    }
-                                }
+                                showExitTransition(
+                                    fromRoute = initialState.destination.route,
+                                    toRoute = targetState.destination.route
+                                )
                             },
                             popEnterTransition = { fadeIn() },
                             popExitTransition = { fadeOut() }
@@ -142,6 +126,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun showEnterTransition(fromRoute: String?, toRoute: String?): EnterTransition =
+    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+        scaleIn(initialScale = 0.9f) + fadeIn()
+    } else {
+        val fromIndex = fromRoute.toBottomBarIndex()
+        val toIndex = toRoute.toBottomBarIndex()
+        when {
+            toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
+            toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
+            else -> fadeIn()
+        }
+    }
+
+private fun showExitTransition(fromRoute: String?, toRoute: String?): ExitTransition =
+    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+        scaleOut(targetScale = 0.9f) + fadeOut()
+    } else {
+        val fromIndex = fromRoute.toBottomBarIndex()
+        val toIndex = toRoute.toBottomBarIndex()
+        when {
+            toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
+            toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
+            else -> fadeOut()
+        }
+    }
 
 private fun String?.toBottomBarIndex(): Int = when (this) {
     BusStops::class.java.name -> 0

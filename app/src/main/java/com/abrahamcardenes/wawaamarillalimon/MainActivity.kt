@@ -127,31 +127,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun showEnterTransition(fromRoute: String?, toRoute: String?): EnterTransition =
+private fun showEnterTransition(fromRoute: String?, toRoute: String?): EnterTransition {
     if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
-        scaleIn(initialScale = 0.9f) + fadeIn()
-    } else {
-        val fromIndex = fromRoute.toBottomBarIndex()
-        val toIndex = toRoute.toBottomBarIndex()
-        when {
-            toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
-            toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
-            else -> fadeIn()
-        }
+        return scaleIn(initialScale = 0.9f) + fadeIn()
     }
 
-private fun showExitTransition(fromRoute: String?, toRoute: String?): ExitTransition =
-    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
-        scaleOut(targetScale = 0.9f) + fadeOut()
-    } else {
-        val fromIndex = fromRoute.toBottomBarIndex()
-        val toIndex = toRoute.toBottomBarIndex()
-        when {
-            toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
-            toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
-            else -> fadeOut()
-        }
+    val fromIndex = fromRoute.toBottomBarIndex()
+    val toIndex = toRoute.toBottomBarIndex()
+    return when {
+        toIndex > fromIndex -> slideInHorizontally { it } + fadeIn()
+        toIndex < fromIndex -> slideInHorizontally { -it } + fadeIn()
+        else -> fadeIn()
     }
+}
+
+private fun showExitTransition(fromRoute: String?, toRoute: String?): ExitTransition {
+    if (fromRoute.isTimetableRoute() || toRoute.isTimetableRoute()) {
+        return scaleOut(targetScale = 0.9f) + fadeOut()
+    }
+
+    val fromIndex = fromRoute.toBottomBarIndex()
+    val toIndex = toRoute.toBottomBarIndex()
+    return when {
+        toIndex > fromIndex -> slideOutHorizontally { -it } + fadeOut()
+        toIndex < fromIndex -> slideOutHorizontally { it } + fadeOut()
+        else -> fadeOut()
+    }
+}
 
 private fun String?.toBottomBarIndex(): Int = when (this) {
     BusStops::class.java.name -> 0

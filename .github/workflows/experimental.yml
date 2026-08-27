@@ -1,0 +1,39 @@
+name: Experimental CI
+
+on:
+  pull_request:
+    branches: [ master ]
+
+env:
+  GRADLE_OPTS: "-Xmx3g -Dfile.encoding=UTF-8 -XX:+UseG1GC -XX:MaxMetaspaceSize=768m"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Ktlint Check
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.gradle-cache.outputs.cache-key }}
+
+    steps:
+      - name: CheckoutRepository
+        uses: actions/checkout@v5
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Setup Gradle
+        run: gradle/actions/setup-gradle@v5
+
+      - name: Set execute permissions for Gradle
+        run: chmod a+x
+
+      - name: Run KtlintCheck
+        run: ./gradlew ktlintCheck
